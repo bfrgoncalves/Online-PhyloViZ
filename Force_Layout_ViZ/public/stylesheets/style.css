@@ -1,0 +1,49 @@
+body {
+  padding: 20px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: white;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.navbar{
+	background-color: grey;
+}
+
+.actionButton{
+	width:100%;
+	background-color: grey;
+}
+
+.modal {
+	background-color: white;
+   width: 50%;
+   height: 50%;
+   position: absolute;
+   left: 50%;
+   top: 50%; 
+   margin-left: -25%;
+   margin-top: -25%;
+}
+
+.dropNameNodes{
+	text-align: center;
+}
+
+#col_visual{
+	border: 4px solid;
+	border-color: black;
+}
+
+#col_actions{
+	padding: 30px;
+	text-align: right;
+}
+
+#col_toolbar{
+	padding: 30px;
+	text-align: left;
+}
+

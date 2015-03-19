@@ -1,0 +1,66 @@
+extends layout
+
+block navbar
+	div.navbar.navbar-static-top
+		div.navbar-header
+			h1.navbar-brand #{title}
+
+
+block toolBar
+	h1= title
+	p Welcome to #{title}
+	br
+
+	p Upload a JSON file
+	div
+		input(id='addJSON')
+		button(type='button', onclick='addJSON()') Upload
+
+
+block visualization
+	div(id='visual',oncontextmenu='return false;')
+
+block actions
+	ul.nav.nav-stacked
+		li
+			div(class='ui-widget')
+					input(id='search')
+					button(type='button', onclick='searchNode()') Search
+		
+		li
+			div
+				a.btn.btn-primary.actionButton(data-toggle='collapse', href='#collapseColor', aria-expanded="false", aria-controls="collapseExample") Assign Colors
+				div.collapse(id='collapseColor')
+					div.well(id='colorAttributes')
+
+		li
+			div
+				a.btn.btn-primary.actionButton(data-toggle='collapse', href='#collapseNodeSize', aria-expanded="false", aria-controls="collapseExample") Change Node Size and Distance
+				div.collapse(id='collapseNodeSize')
+					div.well(id='SizeAttributes')
+						h5 Node Sizes
+							input(type='range',id='NodeSizeSlider', name='points1', value = 5, min='5', max='30', onchange='NodeSize(this.value)')
+						h5 Link Distance
+							input(type='range',id='LinkDistanceSlider', name='points2', value = 50, min='10', max='500', onchange='ChangeDistance(this.value)')
+
+		li
+			div
+				a.btn.btn-primary.actionButton(data-toggle='collapse', href='#collapseLinkTresh', aria-expanded="false", aria-controls="collapseExample") Change Link Threshold and Charge
+				div.collapse(id='collapseLinkTresh')
+					div.well(id='LinkThresh')
+						h5 Link threshold
+							input(type='range',id='thersholdSlider', name='points3', value = 0, min='0', max='10', onchange='threshold(this.value)')
+						h5 Charge
+							input(type='range',id='ChargeSlider', name='points4', value = -120, min='-600', max='100', onchange='ChangeCharge(this.value)')
+
+
+block modals
+	div.modal.fade(id='mainModal',role="dialog" ,aria-labelledby="myModalLabel" ,aria-hidden="true")
+		div.modal-header(id='headModal')
+			button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+			h3 Modal header
+		div.modal-body(id='bodyModal')
+			p Body
+		div.modal-footer(id='footModal')
+			a.btn Close
+			a.btn.btn-primary Save changes
