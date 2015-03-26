@@ -17,6 +17,10 @@ a {
 	background-color: grey;
 }
 
+.node text {
+  font: 9px helvetica;
+}
+
 .modal {
 	background-color: white;
    width: 50%;

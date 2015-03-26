@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Force Layout' });
+  res.render('index', { title: 'PhyloViZ Online' });
 });
 
 module.exports = router;

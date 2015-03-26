@@ -2,22 +2,113 @@
 var colorAttributes = function(graph){
 
 	for (var property in graph.nodes[0]){
-		var parent = $('#colorAttributes');
-		if (property != 'name' && property != 'id'){
+		var parent = $('#colorAttributesScheme');
+		if (property != 'isolates'){
 
-			parent.append('<div><input type="checkbox" onclick="changeNodeColor('+property+')" id="'+property+'"/>By ' + property +'</div>');
+			equal = 'yes';
+			pNoSpaces = property.replace(/ /g,'');
+			if (pNoSpaces != property) equal = 'no';
+
+			parent.append('<div><input type="checkbox" onclick=changeNodeColorByScheme("'+pNoSpaces+'") property= "'+property+'--'+equal+'" id="'+pNoSpaces+'"/>By ' + property +'</div>');
 		}
 	}
+
+	for (var Nnodes in graph.metadata){
+		//console.log(graph.nodes[Nnodes]);
+		var parent = $('#colorAttributesMetadata');
+		property = graph.metadata[Nnodes];
+		equal = 'yes';
+		pNoSpaces = property.replace(/ /g,'');
+		if (pNoSpaces != property) equal = 'no';
+
+		parent.append('<div><input type="checkbox" onclick=changeNodeColorByMetadata("'+pNoSpaces+'") property= "'+property+'--'+equal+'" id="'+pNoSpaces+'"/>By ' + property +'</div>');
+
+	}
+
+
 }
 
-var changeNodeColor = function(property){
+var changeNodeColorByScheme = function(property){
+	//console.log(property);
 
-	var ch = $('#colorAttributes').children();
+	var ch = $('#colorAttributesScheme').children();
+	var elem = $('#'+property);
+	var propAttribute = elem.attr('property');
+	var id = propAttribute.split('--');
+	var isEqual = id[1];
+	var pID = id[0];
+
+	if (elem[0].checked) currentProperty = pID;
+	else currentProperty = 'null';
 
 	for (var i=0; i<ch.length;i++){
-		if(ch[i].firstChild.id != property['id']){
+		if(ch[i].firstChild.getAttribute('property') != propAttribute){
 			ch[i].firstChild.checked = false;
 		}
 	}
-	svg.selectAll(".node").style("fill", function(d) { return color(d[property['id']]); })
+	currentDomain = [];
+
+	if (currentProperty == 'profile'){
+		svg.selectAll('.node').each(function(d){
+			currentDomain.push(d[currentProperty].toString());
+		})
+	}
+
+	else{
+		svg.selectAll('.node').each(function(d){
+			currentDomain.push(String(d[currentProperty]));
+		})
+	}
+
+	color.domain(currentDomain).range(ArrayOfColors);
+
+	svg.selectAll(".node").style("fill", function(d) { return color(d[currentProperty]); });
+	force.start();
+}
+
+var changeNodeColorByMetadata = function(property){
+
+
+	var ch = $('#colorAttributesMetadata').children();
+	var elem = $('#'+property);
+	var propAttribute = elem.attr('property');
+	var id = propAttribute.split('--');
+	var isEqual = id[1];
+	var pID = id[0];
+	//var ObjectOfvalues = {};
+
+	var indexToCheck;
+
+	if (elem[0].checked) currentProperty = pID;
+	else currentProperty = 'null';
+
+	for (var i=0; i<ch.length;i++){
+		if(ch[i].firstChild.getAttribute('property') != propAttribute){
+			ch[i].firstChild.checked = false;
+		}
+	}
+	currentDomain = [];
+
+	//console.log(currentProperty);
+
+
+	createPie(currentProperty);
+
+	// svg.selectAll('.node').each(function(d){
+	// 	for (var params in d.metadata){
+	// 		currentDomain.push(String(d.metadata[params][currentProperty]));
+	// 	}
+	// 	//currentDomain.push(String(d[currentProperty]));
+	// })
+
+
+	color.domain(currentDomain).range(ArrayOfColors);
+
+	force.start();
+
+	// svg.selectAll(".node").style("fill", function(d) { 
+	// 	for (var params in d.metadata) return color(d.metadata[params][currentProperty]); })
+
+	//console.log(pID);
+
 }

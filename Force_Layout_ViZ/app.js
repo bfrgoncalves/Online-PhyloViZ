@@ -5,12 +5,17 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var fs = require('fs');
+
+var parseGoe = require('goeBURSTparser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 // var inputData = require('./routes/inputData');
 
 var app = express();
+
+ var AllNodes = new Array();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -59,8 +64,10 @@ app.use(function(err, req, res, next) {
   });
 });
 
-app. listen(3000, function(){
+app.listen(3000, function(){
+  parseGoe('sampleAPfile.txt','links.txt', 'sampleADfile.txt', 'ST');
   console.log('Server Running');
 });
+
 
 module.exports = app;
