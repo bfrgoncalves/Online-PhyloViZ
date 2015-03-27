@@ -65,7 +65,7 @@ app.use(function(err, req, res, next) {
 });
 
 app.listen(3000, function(){
-  parseGoe('sampleAPfile.txt','links.txt', 'sampleADfile.txt', 'ST');
+  parseGoe('staureusST.txt','staureusLinks.txt', 'sampleADfile.txt', 'ST');
   console.log('Server Running');
 });
 

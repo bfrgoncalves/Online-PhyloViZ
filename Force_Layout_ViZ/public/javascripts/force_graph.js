@@ -14,6 +14,10 @@ var graphRec;
 var linkDist = 50, nodeRadius = 5, currentCharge=-800, maxWeight=null, currentGravity=0.1, currentLinkStrength = 10;
 var currentProperty = 'null', currentLabelSize = 10, currentLinkThickness = 1;
 
+var baseColor = '#868282';
+
+var GlobalPieProperties;
+
 var ArrayOfColors = [], NumberOfColors, currentDomain = [];
 
 function getRandomColor() {
@@ -138,7 +142,7 @@ function createGraph(typeOfDrag){
       .attr("r", function(d){ return (parseInt(d.isolates.length) + parseInt(nodeRadius));})
       .attr('name', function(d){ return d.key;})
       .attr('id', function(d){ return ('C'+d.key);})
-      .style("fill", function(d) { return color(d[currentProperty]); });
+      .style("fill", function(d) { return baseColor; });
        // See only neighbour links and nodes. highlight_nodes.js
 
   // node.append("title")

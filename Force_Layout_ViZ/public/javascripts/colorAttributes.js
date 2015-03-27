@@ -1,7 +1,8 @@
 
 var colorAttributes = function(graph){
 
-	for (var property in graph.nodes[0]){
+	for (var index in graph.schemeGenes){
+		var property = graph.schemeGenes[index];
 		var parent = $('#colorAttributesScheme');
 		if (property != 'isolates'){
 
@@ -29,7 +30,6 @@ var colorAttributes = function(graph){
 }
 
 var changeNodeColorByScheme = function(property){
-	//console.log(property);
 
 	var ch = $('#colorAttributesScheme').children();
 	var elem = $('#'+property);
@@ -37,6 +37,7 @@ var changeNodeColorByScheme = function(property){
 	var id = propAttribute.split('--');
 	var isEqual = id[1];
 	var pID = id[0];
+	console.log(pID);
 
 	if (elem[0].checked) currentProperty = pID;
 	else currentProperty = 'null';
@@ -48,21 +49,17 @@ var changeNodeColorByScheme = function(property){
 	}
 	currentDomain = [];
 
-	if (currentProperty == 'profile'){
-		svg.selectAll('.node').each(function(d){
-			currentDomain.push(d[currentProperty].toString());
-		})
-	}
+	var indexToCheck = totalGraph.schemeGenes.indexOf(pID);
 
-	else{
-		svg.selectAll('.node').each(function(d){
-			currentDomain.push(String(d[currentProperty]));
-		})
-	}
+	svg.selectAll('.node').each(function(d){
+		if (currentDomain.indexOf(d.profile[indexToCheck]) == -1) currentDomain.push(String(d.profile[indexToCheck]));
+	})
 
 	color.domain(currentDomain).range(ArrayOfColors);
 
-	svg.selectAll(".node").style("fill", function(d) { return color(d[currentProperty]); });
+	if (currentProperty == 'null') svg.selectAll(".node").style("fill", function(d) { return baseColor; });
+	else svg.selectAll(".node").style("fill", function(d) { return color(d.profile[indexToCheck]); });
+
 	force.start();
 }
 
@@ -91,8 +88,11 @@ var changeNodeColorByMetadata = function(property){
 
 	//console.log(currentProperty);
 
-
-	createPie(currentProperty);
+	if (currentProperty == 'null') destroyPie();
+	else{ 
+		createNodePie(currentProperty);
+		GlobalPieProperties = createGlobalPieIsolates(currentProperty);
+	}
 
 	// svg.selectAll('.node').each(function(d){
 	// 	for (var params in d.metadata){
