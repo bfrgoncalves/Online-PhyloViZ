@@ -1,0 +1,61 @@
+{
+  "name": "pathgl",
+  "version": "0.1.0",
+  "description": "Pathgl sits between d3 and the dom and lets you draw to webgl instead of svg.",
+  "keywords": [
+    "pathgl",
+    "path",
+    "d3",
+    "visualization",
+    "svg",
+    "animation",
+    "webgl",
+    "rendering",
+    "motiongraphics"
+  ],
+
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ],
+
+  "author":  [
+    {
+      "name": "adnan wahab",
+      "url": "http://adnanwahab.com"
+    },
+    {
+      "name": "Patrick Stapleton",
+      "email": "github@gdi2290.com",
+      "url": "www.gdi2290.com"
+    }
+  ],
+
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "example",
+    "lib",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adnan-wahab/pathgl"
+  },
+
+  "bugs": {
+    "url": "https://github.com/adnan-wahab/pathgl/issues"
+  },
+
+  "dependencies" : {
+    "d3": "3.3.13"
+  },
+
+  "devDependencies": {
+    "uglify-js": "2.4.0"
+  }
+}

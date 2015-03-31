@@ -22,7 +22,7 @@ function NodeSize(newSize){
 	nodeRadius = newSize;
     console.log(currentProperty);
 	svg.selectAll('.Gnodes').selectAll('circle').attr("r", function(d){ return (parseInt(d.isolates.length) + parseInt(nodeRadius));});
-    createPie(currentProperty);
+    createNodePie(currentProperty);
     force.start();
 }
 
@@ -47,6 +47,7 @@ function ChangeTextOpacity(checkboxElement){
     else newOpacity = 0;
     svg.selectAll('text').style('opacity',newOpacity);
     force.start();
+    force.stop();
 }
 
 function ChangeLinkStrength(newLinkStrength){

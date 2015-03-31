@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+  <meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>WebGL Library for Data Visualization and Simulation - PathGL</title>
+	
+	<script src="/lib/d3.js"></script>
+	<script src="/lib/topojson.v1.min.js"></script>
+	<script src="/lib/projection.js"></script>
+	<script src="/lib/tip.js"></script>
+	<script src="../heatmap.js"></script>
+	
+	<script src="/dist/pathgl.js"></script>
+	<link rel="stylesheet" href="/lib/bootstrap.min.css">
+  <link rel="stylesheet" href="/lib/adnan.css">
+</head>
+
+<body class=" documentation">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-3">
+				<div class="no-scroll">
+					<a class="btn btn-default" href="http://github.com/adnan-wahab/pathgl">Github Repo</a>
+					<a class="btn btn-default" href="/dist/pathgl.zip">Download</a>
+
+					<h6>Examples</h6>
+					<ul class="examples list-group">
+						<li class="list-group-item">
+							<a href="/examples/physics.html">Particle Simulation</a>
+							<li class="list-group-item">
+								<a href="/examples/map.html">Map of History</a>
+								<li class="list-group-item">
+									<a href="/examples/music.html">Music Visualizer</a>
+					</ul>
+					
+					<h6>Documentation</h6>
+					<ul class="docs list-group">
+						<li class="list-group-item"><a href="/documentation/start.html">Getting Started</a>
+						<li class="list-group-item"><a href="/documentation/api.html">API Reference</a>
+						<li class="list-group-item"><a href="/documentation/webgl.html">The Graphics Pipeline</a>
+						<li class="list-group-item"><a href="/documentation/svg.html">SVG Differences</a>
+						<li class="list-group-item"><a href="/documentation/gpgpu.html">GPGPU</a>
+					</ul>
+					<img class="t" src="data/test.png" style="display:none">
+					<img class="l" src="data/leaves.jpg" style="display:none">
+				</div>
+			</div>
+			
+			<div class="right col-xs-12 col-sm-9">
+				<div class="blurb"><!--blurb--></div>
+				<canvas width="760" height="500"></canvas>
+				<h1 id="pathgl">PathGL</h1>
+<p>Pathgl is a library for data visualization and simulation using d3.</p>
+<h2 id="getting-started">Getting Started</h2>
+<p>To link directly the latest release, copy this snippet:</p>
+<pre><code class="lang-html">&lt;script src=&quot;http://adnanwahab.com/pathgl/dist/pathgl.min.js&quot;
+charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
+</code></pre>
+<p>Or download the <a href="http://adnanwahab.org/pathgl/dist/pathgl.zip">latest release</a> and
+include in your html.</p>
+<p>If you want to use pathGL within a module system, <code>npm install pathgl --save</code>.</p>
+<h2 id="your-ultimate-creation">Your ultimate creation</h2>
+<pre><code class="lang-html">&lt;script src=&quot;http://d3js.org/d3.v3.min.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;http://pathgl.com/dist/pathgl.js&quot;&gt;&lt;/script&gt;
+&lt;canvas height=&quot;600px&quot; width=&quot;600px&quot;&gt;&lt;/canvas&gt;
+&lt;script&gt;
+  d3.select(&#39;canvas&#39;).append(&#39;circle&#39;)
+    .attr(&#39;r&#39;, 100)
+    .attr(&#39;cx&#39;, 50)
+    .attr(&#39;cy&#39;, 50)
+    .attr(&#39;fill&#39;, &#39;pink&#39;)
+&lt;/script&gt;
+</code></pre>
+<h2 id="next-steps">Next Steps</h2>
+<p>Check out the examples to learn more.
+Tutorials on creating your own data tiles and simulation textures coming soon!</p>
+
+			</div>
+		</div>
+	</div>
+</body>

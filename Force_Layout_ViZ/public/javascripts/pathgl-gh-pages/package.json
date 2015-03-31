@@ -1,0 +1,58 @@
+{
+  "name": "pathgl",
+  "version": "0.1.1",
+  "description": "A webgl renderer for data visualization, motion graphics and explorable explanations.",
+  "scripts": {
+    "start": "node lib/build.js",
+    "build": "node lib/build.js 'build'",
+    "publish": "sh lib/zip.sh",
+    "test": "karma run"
+  },
+  "keywords": [
+    "simulation",
+    "visualization",
+    "webgl",
+    "d3",
+    "motiongraphics"
+  ],
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ],
+  "author": [
+    {
+      "name": "adnan wahab",
+      "url": "http://adnanwahab.com"
+    },
+    {
+      "name": "Patrick Stapleton",
+      "email": "github@gdi2290.com",
+      "url": "www.gdi2290.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adnan-wahab/pathgl"
+  },
+  "bugs": {
+    "url": "https://github.com/adnan-wahab/pathgl/issues"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "uglify-js": "2.4.0",
+    "glsl-unit": "0.0.7",
+    "marked": "0.3.1",
+    "express": "~3.4.8",
+
+    "qunit": "~0.5.8",
+    "karma": "~0.10.9",
+    "karma-qunit": "~0.1",
+    "karma-sinon-chai": "~0.1.4",
+    "karma-script-launcher": "~0.1.0",
+    "karma-chrome-launcher": "~0.1.2",
+    "karma-firefox-launcher": "~0.1.3",
+    "karma-html2js-preprocessor": "~0.1.0",
+    "karma-phantomjs-launcher": "~0.1.1"
+  }
+}

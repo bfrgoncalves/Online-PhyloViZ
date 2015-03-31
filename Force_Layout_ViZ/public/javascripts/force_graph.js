@@ -11,12 +11,13 @@ var node;
 var link;
 var totalGraph;
 var graphRec;
-var linkDist = 50, nodeRadius = 5, currentCharge=-800, maxWeight=null, currentGravity=0.1, currentLinkStrength = 10;
-var currentProperty = 'null', currentLabelSize = 10, currentLinkThickness = 1;
+var linkDist = 50, nodeRadius = 5, currentCharge=-500, maxWeight=null, currentGravity=0.01, currentLinkStrength = 1;
+var currentProperty = 'null', currentLabelSize = 10, currentLinkThickness = 1, times = 10;
 
 var baseColor = '#868282';
 
 var GlobalPieProperties;
+
 
 var ArrayOfColors = [], NumberOfColors, currentDomain = [];
 
@@ -31,7 +32,7 @@ var color = d3.scale.ordinal().domain(currentDomain).range(ArrayOfColors);
 
 var force = d3.layout.force()
     .gravity(currentGravity)
-    .charge(currentCharge)
+    //.charge(currentCharge)
     //.alpha(0.1) controls the temperature. more stable layouts have lower values
     .linkDistance(linkDist)
     .size([width, height]);
@@ -43,17 +44,45 @@ var zoom = d3.behavior.zoom().on("zoom", rescale);
 var svg = d3.select("#visual")
     .call(zoom)
     .on("dblclick.zoom", null)
-    .append("svg")
+    .append("svg").attr('id','graphSVG')
     .attr("width", width)
     .attr("height", height)
     //.on('mousedown', removeZoom)
     .on('dblclick', connectedNodes)
-    .append("svg:g");
+    .append("svg:g").attr('id','globalGraph');
+
+
+$('#globalGraph').css({opacity:0});
+
+    // .attr("x", width / 2)
+    // .attr("y", height / 2)
+    // .attr("dy", ".35em")
+    // .style("text-anchor", "middle")
+    // .text("Simulating. One moment please…");
+
+    var imgs = d3.select('#graphSVG').selectAll("image").data([0]);
+                imgs.enter()
+                .append("svg:image")
+                .attr("xlink:href", "/images/waiting.gif")
+                .attr("x", "50%")
+                .attr("y", "50%")
+                .attr("width", "200")
+                .attr("height", "200");
+
+// var loading = svg.append('text').attr("x", width / 2)
+//      .attr("y", height / 2)
+//      .attr("dy", ".35em")
+//      .style("text-anchor", "middle")
+//      .text("Loading graph. One moment please…");
+
 
 
 d3.json("./data/goeData.json", function(error, graph) {
+
   
   totalGraph=graph;
+  ReDoGraph = graph;
+
   console.log(graph);
 
   NumberOfColors = graph.nodes.length;
@@ -66,32 +95,112 @@ d3.json("./data/goeData.json", function(error, graph) {
   
   colorAttributes(graph); // Get attributes to be used in the possible color assignment. colorAttributes.js
 
+
   force
       .nodes(graph.nodes)
       .links(graph.links);
 
   createGraph(typeOfDrag);
 
-  force.on("tick", function() {
-    link.attr("x1", function(d) { return d.source.x; })
-        .attr("y1", function(d) { return d.source.y; })
-        .attr("x2", function(d) { return d.target.x; })
-        .attr("y2", function(d) { return d.target.y; });
+  var arrayOfNodes = [];
 
-    svg.selectAll(".Gnodes").attr("transform", function (d) { return 'translate(' + d.x + ',' + d.y + ')';});
-                          //.attr("y", function (d) { return d.y;});
+  var k = 0;
 
-    // d3.selectAll("text").attr("x", function (d) { return d.x;})
-    //                     .attr("y", function (d) { return d.y;});
 
-    node.each(collide(0.5)); //Added
-  });
+//if (totalGraph.nodes.length<300){
 
-  force.linkStrength(currentLinkStrength).start();
+
+      force.on("tick", function(d) {
+
+        link.attr("x1", function(d) { return d.source.x; })
+            .attr("y1", function(d) { return d.source.y; })
+            .attr("x2", function(d) { return d.target.x; })
+            .attr("y2", function(d) { return d.target.y; });
+
+// //       setTimeout(1);
+
+// //       if (k == 99)  {
+// //         console.log('AQUI');
+          svg.selectAll(".Gnodes").attr("transform", function (d) { return 'translate(' + d.x + ',' + d.y + ')';});
+          node.each(collide(0.5)); //Added
+
+// //       }
+// // //console.log(arrayOfNodes);
+      
+
+// //       //svg.select(rootNodeID).attr("transform", function (d) { return 'translate(' + width/2 + ',' + height/2 + ')';});
+
+// //                             //.attr("y", function (d) { return d.y;});
+
+// //    //   // d3.selectAll("text").attr("x", function (d) { return d.x;})
+// //    //  //                     .attr("y", function (d) { return d.y;});
+
+// //       setTimeout(1);
+//       node.each(collide(0.5));
+
+       });
+
+     imgs.remove();
+     $('#globalGraph').css({opacity:1});
+
+
+
+ //}
+//  else{
+
+//    var k = 0;
+
+//    force.on('tick', function(){
+//      totalGraph.nodes[4].x = width / 2;
+//      totalGraph.nodes[4].y = height / 2;
+//    })
+
+//    function doWork() {  
+//      force.tick(); 
+//      k = k + 1;
+
+//      if (k < 80) { 
+//        setTimeout(doWork, 1); 
+//      } 
+//      else {
+
+//        link.attr("x1", function(d) { return d.source.x; })
+//            .attr("y1", function(d) { return d.source.y; })
+//            .attr("x2", function(d) { return d.target.x; })
+//            .attr("y2", function(d) { return d.target.y; });
+
+// //         //console.log('AQUI');
+//          svg.selectAll(".Gnodes").attr("transform", function (d) { d.fixed = true;return 'translate(' + d.x + ',' + d.y + ')';});
+// //         node.each(collide(0.5)); //Added
+
+    
+//        //force.stop();
+//        imgs.remove();
+//        $('#globalGraph').css({opacity:1});
+//      }
+//    }; 
+//    setTimeout(doWork, 1);
+
+//  }
+force.linkStrength(currentLinkStrength).start();
+
+  // while ((force.alpha() > 1e-2)) {
+  //   setTimeout(force.tick(), 1);
+  //      force.tick(),
+  //      k = k + 1;
+  //  }
+
+
+
+  // // while(!stop){
+  // //   force.tick();
+  // // } 
+  // force.stop();
 
   //fish_eye(force, link); // Necessary to get the fish eye view
-  highlight_nodes(graph); //highlight_nodes.js
-  search_nodes(graph); //search_nodes.js
+   highlight_nodes(graph); //highlight_nodes.js
+   search_nodes(graph); //search_nodes.js
+
 });
 
 
@@ -105,6 +214,7 @@ $('#global').css({opacity:1});
 
 // });
 //.on('contextmenu', function(d){ return showMenu(d);})
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -122,6 +232,7 @@ function createGraph(typeOfDrag){
     .attr("class", function(d){
        if (maxWeight<d.value) maxWeight=d.value;
        return "link";})
+    //.attr('class', function(d){ return 'L' + d.target;})
     .style("stroke-width", function(d) { return Math.sqrt(currentLinkThickness); });
 
   node = svg.selectAll('g','g').remove();
@@ -188,7 +299,7 @@ function addZoom(){
 
 //COLLISION DETECTION
 
-var padding = 1, // separation between circles
+var padding = 5, // separation between circles
     radius=8;
 function collide(alpha) {
   var quadtree = d3.geom.quadtree(totalGraph.nodes);

@@ -1,0 +1,285 @@
+body,html {
+    height: 100%;
+}
+
+body {
+    padding-top: 100px;
+    -webkit-font-smoothing: antialiased;
+    font-family: OpenSans!important;
+}
+
+svg {
+height: 250px;
+}
+
+@media (max-width:769px) {
+    h1 {
+        font-size: 28px;
+    };
+}
+
+.footer {
+    height: 50px;
+    background-color: #f0f0f0;
+    line-height: 50px;
+    text-align: right;
+    padding-right: 30px;
+}
+
+.footer p {
+    margin: 0;
+}
+
+.footer p a.footer-link {
+    color: #919191;
+}
+
+.main-content {
+    padding: 48px;
+}
+
+@media (max-width:769px) {
+    .main-content {
+        padding: 20px 15px;
+    };
+}
+
+.fill {
+    height: 100%;
+}
+
+.navbar-default {
+    font-size: 18px;
+    height: 100px;
+    background-color: #da262e;
+    color: #878785;
+    border-bottom: 0;
+}
+
+.navbar-default .navbar-brand img {
+    height: 50px;
+    margin-top: 10px;
+}
+
+.navbar-default a {
+    color: #fff!important;
+}
+
+.navbar-default a.selected {
+    color: $selected-link-color !important;
+}
+
+.navbar-default .navbar-nav {
+    padding-top: 25px;
+}
+
+.navbar-default .navbar-nav .btn-group {
+    padding-top: 6px;
+    padding-left: 15px;
+}
+
+.navbar-default .navbar-nav .btn-group .btn {
+    border: 1px solid #fff;
+    background-color: #da262e;
+}
+
+.navbar-default .navbar-nav .btn-group a {
+    color: #fff !important;
+    font-size: 16px;
+    padding: 8px;
+}
+
+.navbar-default .navbar-nav .btn-group a.famous-link {
+    color: #f7f7f7 !important;
+}
+
+@media (max-width:769px) {
+    .side-nav {
+        position: static!important;
+        padding-bottom: 20px!important;
+    };
+}
+
+@media (min-width:769px) {
+    .side-nav {
+        top: 100px;
+        bottom: 0;
+        position: fixed;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    };
+}
+
+.side-nav {
+    background-color: #f7f7f7;
+    padding: 30px 0 30px 50px;
+}
+
+.side-nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+.side-nav ul li {
+    padding-bottom: 4px;
+}
+
+.side-nav ul .api-section {
+    padding: 0;
+    font-size: 20px;
+    margin: 20px 0 10px;
+}
+
+.side-nav a {
+    color: #404040;
+}
+
+.side-nav a.selected {
+    color: #fa5c4f;
+}
+
+.side-nav .nav li a:hover {
+    background-color: transparent;
+}
+
+.home .introduction {
+    padding-top: 50px;
+    text-align: center;
+    margin-bottom: 100px;
+}
+
+.home .introduction .home-logo {
+    height: 200px;
+}
+
+@media (max-width:769px) {
+    .home .introduction .home-logo {
+        height: 100%;
+        width: 100%;
+    };
+}
+
+.home .introduction .slogan {
+    font-size: 48px;
+}
+
+.home .introduction .sub-text {
+    font-size: 16px;
+}
+
+.home .introduction .button-links {
+    padding-top: 25px;
+}
+
+.home .introduction .button-links .btn {
+    margin: 0 10px;
+}
+
+.home .introduction .button-links .btn-outline-inverse {
+    color: #da262e;
+    border: 1px solid #da262e;
+    background-color: #fff;
+}
+
+.home .description {
+    margin-bottom: 25px;
+}
+
+.home .examples {
+    background-color: #f7f7f7;
+}
+
+@media (min-width:1200px) {
+    .home .examples .container {
+        width: 1000px;
+    };
+}
+
+.home .examples .example-block input {
+    margin-bottom: 20px;
+}
+
+.home .examples .square {
+    background-color: #da262e;
+    position: absolute;
+}
+
+.faq-page {
+    background-color: #f7f7f7;
+}
+
+@media (min-width:1200px) {
+    .faq-page .faq-content {
+        width: 800px;
+    };
+}
+
+.faq-page .faq-content {
+    margin-top: 50px;
+    padding-bottom: 100px;
+}
+
+.faq-page .faq-content code {
+    background-color: transparent;
+}
+
+.faq-page .faq-content .index {
+    background-color: #fff;
+    padding: 10px 30px;
+    box-shadow: 5px 5px 5px #ddd;
+    margin-bottom: 50px;
+}
+
+.faq-page .faq-content .index ul {
+    list-style: none;
+}
+
+.faq-page .faq-content .answer-block {
+    margin-bottom: 75px;
+}
+
+.faq-page .faq-content .answer-block h3 {
+    color: #428bca;
+    position: rela\
+tive;
+    border-bottom: 1px solid #cecbcb;
+}
+
+.faq-page .faq-content .answer-block h3 span {
+    position: absolute;
+    top: -120px;
+}
+
+.faq-page .faq-content .answer-block .answer {
+    padding-left: 15px;
+}
+
+.faq-page .faq-content .answer-block .answer ol, .faq-page .faq-content .answer-block .answer ul {
+    padding-left: 20px;
+}
+
+.faq-page .faq-content .answer-block .answer .inline,.faq-page .faq-content .answer-block .answer .inline .highlight {
+    display: inline;
+}
+
+.faq-page .faq-content .answer-block .answer .inline .highlight pre {
+    display: inline;
+    padding: 0;
+    border: 0;
+}
+
+.faq-page .faq-content .answer-block .answer .inline .highlight pre code {
+    display: inline;
+    padding: 0;
+}
+
+.faq-page .faq-content hr {
+    margin: 30px 0;
+    border-top: 3px solid #eee;
+}                                                                                                                                                                                                                   
+                     
+
+canvas {
+    width: 400px;
+    height: 300px;
+}

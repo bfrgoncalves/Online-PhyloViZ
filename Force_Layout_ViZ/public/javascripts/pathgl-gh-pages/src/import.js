@@ -1,0 +1,3 @@
+function import(svg) {
+
+}x

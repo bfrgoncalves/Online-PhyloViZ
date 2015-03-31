@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+  <meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>WebGL Library for Data Visualization and Simulation - PathGL</title>
+	
+	<script src="/lib/d3.js"></script>
+	<script src="/lib/topojson.v1.min.js"></script>
+	<script src="/lib/projection.js"></script>
+	<script src="/lib/tip.js"></script>
+	<script src="../heatmap.js"></script>
+	
+	<script src="/dist/pathgl.js"></script>
+	<link rel="stylesheet" href="/lib/bootstrap.min.css">
+  <link rel="stylesheet" href="/lib/adnan.css">
+</head>
+
+<body class=" documentation">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-3">
+				<div class="no-scroll">
+					<a class="btn btn-default" href="http://github.com/adnan-wahab/pathgl">Github Repo</a>
+					<a class="btn btn-default" href="/dist/pathgl.zip">Download</a>
+
+					<h6>Examples</h6>
+					<ul class="examples list-group">
+						<li class="list-group-item">
+							<a href="/examples/physics.html">Particle Simulation</a>
+							<li class="list-group-item">
+								<a href="/examples/map.html">Map of History</a>
+								<li class="list-group-item">
+									<a href="/examples/music.html">Music Visualizer</a>
+					</ul>
+					
+					<h6>Documentation</h6>
+					<ul class="docs list-group">
+						<li class="list-group-item"><a href="/documentation/start.html">Getting Started</a>
+						<li class="list-group-item"><a href="/documentation/api.html">API Reference</a>
+						<li class="list-group-item"><a href="/documentation/webgl.html">The Graphics Pipeline</a>
+						<li class="list-group-item"><a href="/documentation/svg.html">SVG Differences</a>
+						<li class="list-group-item"><a href="/documentation/gpgpu.html">GPGPU</a>
+					</ul>
+					<img class="t" src="data/test.png" style="display:none">
+					<img class="l" src="data/leaves.jpg" style="display:none">
+				</div>
+			</div>
+			
+			<div class="right col-xs-12 col-sm-9">
+				<div class="blurb"><!--blurb--></div>
+				<canvas width="760" height="500"></canvas>
+				<p>WebGL has a pipeline architecture, like the assembly line used to build a car.</p>
+<ol>
+<li>javascript sends list of points to GPU</li>
+<li>vertex shader places points</li>
+<li>points are assembeled into triangles</li>
+<li>triangles are chopped up into fragments</li>
+<li>fragment shader colors fragments</li>
+<li>framebuffer is drawn to screen </li>
+</ol>
+<p>Stages 2 and 5 are programmable using GLSL.
+We want to offload as much work as we can to them, so that your cpu is free to do
+other things, like handle user input.</p>
+<h2 id="1-geometry-specifications">1. Geometry Specifications</h2>
+<p>  PathGL converts your selections into WebGL accessible memory locations called
+  buffers. These buffers are then sent to the GPU every frame to be drawn.</p>
+<p>  If no atttributes have changed, the draw is effectively cached and happens
+  extremely quickly. That means, every time you call .attr on a selection, you
+  are wiping out the gpu cache. Instead, try to move as much logic as possible
+  to shaders. This will let you mostly bypass the overhead of javascript, the web
+  browser and the numerous layers of security checks.</p>
+<h2 id="2-vertex-shading">2. Vertex Shading</h2>
+<p>  A program written in GLSL is used to process the points.
+  The vertex shader takes vertex Attributes &quot;.attr(cx, 10)&quot; and uniforms as input,
+  and must output a vector describing location [x, y, depth, clip]</p>
+<h2 id="3-triangle-assembly">3 Triangle Assembly</h2>
+<p>  The points are converted to triangles, and projected from objectspace to screenspace.</p>
+<h2 id="4-rasterization">4. Rasterization</h2>
+<p>  The rasterizer converts each triangle, into a list of fragments for each pixel that
+  it covers. A fragment is like a pixel that hasn&#39;t been born. A single pixel might
+  have many fragments, which are then blended, or culled.</p>
+<p>  At this stage, varying attributes sent from the vertex shader to the fragment shader
+  are interpolated by the fragments distance to that vertex. </p>
+<h2 id="5-fragment-shading">5. Fragment Shading</h2>
+<p>  A program written in GLSL is used to process the fragments.
+  The fragmentShader takes as input both uniform and varying varyables, and must
+  output a vector describing color [R, G, B, Opacity]</p>
+<h2 id="6-framebuffers">6. Framebuffers</h2>
+<p>  By default, the frameBuffer is draw directly to the screen. However, pathGL lets you
+  create offscreen rendering targets, or render into a texture. This is useful for
+  allowing post processing effects like blurs, color filters, and FXAA.</p>
+<p>Further reading</p>
+
+			</div>
+		</div>
+	</div>
+</body>
