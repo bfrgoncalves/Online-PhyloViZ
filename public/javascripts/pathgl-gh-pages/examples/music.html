@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+  <meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>WebGL Library for Data Visualization and Simulation - PathGL</title>
+	
+	<script src="/lib/d3.js"></script>
+	<script src="/lib/topojson.v1.min.js"></script>
+	<script src="/lib/projection.js"></script>
+	<script src="/lib/tip.js"></script>
+	<script src="../heatmap.js"></script>
+	
+	<script src="/dist/pathgl.js"></script>
+	<link rel="stylesheet" href="/lib/bootstrap.min.css">
+  <link rel="stylesheet" href="/lib/adnan.css">
+</head>
+
+<body class="music examples">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-3">
+				<div class="no-scroll">
+					<a class="btn btn-default" href="http://github.com/adnan-wahab/pathgl">Github Repo</a>
+					<a class="btn btn-default" href="/dist/pathgl.zip">Download</a>
+
+					<h6>Examples</h6>
+					<ul class="examples list-group">
+						<li class="list-group-item">
+							<a href="/examples/physics.html">Particle Simulation</a>
+							<li class="list-group-item">
+								<a href="/examples/map.html">Map of History</a>
+								<li class="list-group-item">
+									<a href="/examples/music.html">Music Visualizer</a>
+					</ul>
+					
+					<h6>Documentation</h6>
+					<ul class="docs list-group">
+						<li class="list-group-item"><a href="/documentation/start.html">Getting Started</a>
+						<li class="list-group-item"><a href="/documentation/api.html">API Reference</a>
+						<li class="list-group-item"><a href="/documentation/webgl.html">The Graphics Pipeline</a>
+						<li class="list-group-item"><a href="/documentation/svg.html">SVG Differences</a>
+						<li class="list-group-item"><a href="/documentation/gpgpu.html">GPGPU</a>
+					</ul>
+					<img class="t" src="data/test.png" style="display:none">
+					<img class="l" src="data/leaves.jpg" style="display:none">
+				</div>
+			</div>
+			
+			<div class="right col-xs-12 col-sm-9">
+				<div class="blurb"><!--blurb--></div>
+				<canvas width="760" height="500"></canvas>
+				<script src="js/music.js"></script><p>A waveform visualization of a song. 
+</p><pre><code>d3.select('.blurb')
+.append('a')
+.attr('href', '#')
+.text('click to play Overture by Beats Antique')
+.on('click', play)
+
+var size = { width: 960, height: 500 }
+
+var Audio = window.AudioContext || window.webkitAudioContext
+  , numLines = 5e2
+  , midX = size.width / 2
+  , midY = size.height / 2
+  , analyzer
+  , promise
+
+var audio = d3.select('.right').append('audio')
+            .attr('src', 'data/overture.mp3')
+            .attr('preload', 'auto')
+            .attr('loop', true)
+
+var node = audio.on('loadeddata', function () { promise = true}).node()
+
+function play () {
+  var s = d3.select('canvas')
+
+  var scale = Math.PI * 2 / numLines
+  var texture
+
+  promise ? initAudio.call(audio.node()) : audio.on('loadeddata', initAudio)
+
+  var lines = s.selectAll('line').data(d3.range(numLines).map(function () { return {a: 0}}))
+              .enter()
+              .append('line')
+              .attr({
+                x1: midX
+              , y1: midY
+              , stroke: function () { return "hsl(" + Math.random() * 360 + ",100%, 50%)" }
+              , x2: function (d, i) { return Math.cos(i * 2) * 300 }
+              , y2: function (d, i) { return Math.sin(i * 2) * 300 }
+              })
+
+  d3.timer(function () {
+    if (! analyzer) return
+
+    freqData = new Uint8Array(analyzer.fftSize)
+    //pathgl.texture(freqData)
+    //timeData = new Uint8Array(analyzer.fftSize)
+
+    //analyzer.getByteTimeDomainData(timeData)
+    analyzer.getByteFrequencyData(freqData)
+    var dMax = 0
+    lines.each(function (d, i) {
+      var freq  = freqData[i % 1024] * 3
+      if(dMax < (d.diff = d.v - freq)) dMax = d.diff
+      d.v = freq
+      d.a = freq + d.diff
+    })
+    .attr('stroke', function (d, i) { return  i % 2 ? 'pink':'red'})
+//"hsl(" + Math.abs(d.diff / dMax * 10 + 240) + ",100%, 50%)"
+    .attr('x2', function (d, i) { return midX + (Math.cos(i) * d.a) })
+    .attr('y2', function (d, i) { return midY + (Math.sin(i) * d.a)})
+    d3.select('canvas').node().gl.lineWidth(2)
+  })
+  d3.select('.play').on('click', null)
+}
+
+
+function initAudio() {
+  var audioContext = new Audio();
+  window.analyzer = audioContext.createAnalyser();
+  var source = audioContext.createMediaElementSource(this);
+  source.connect(analyzer);
+  analyzer.connect(audioContext.destination);
+  this.play()
+  this.currentTime = 83
+  this.volume = .1
+  this.playbackRate = 1
+}
+</code></pre>
+			</div>
+		</div>
+	</div>
+</body>

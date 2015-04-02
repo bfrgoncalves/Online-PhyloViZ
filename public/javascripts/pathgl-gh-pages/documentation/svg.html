@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+  <meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>WebGL Library for Data Visualization and Simulation - PathGL</title>
+	
+	<script src="/lib/d3.js"></script>
+	<script src="/lib/topojson.v1.min.js"></script>
+	<script src="/lib/projection.js"></script>
+	<script src="/lib/tip.js"></script>
+	<script src="../heatmap.js"></script>
+	
+	<script src="/dist/pathgl.js"></script>
+	<link rel="stylesheet" href="/lib/bootstrap.min.css">
+  <link rel="stylesheet" href="/lib/adnan.css">
+</head>
+
+<body class=" documentation">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-3">
+				<div class="no-scroll">
+					<a class="btn btn-default" href="http://github.com/adnan-wahab/pathgl">Github Repo</a>
+					<a class="btn btn-default" href="/dist/pathgl.zip">Download</a>
+
+					<h6>Examples</h6>
+					<ul class="examples list-group">
+						<li class="list-group-item">
+							<a href="/examples/physics.html">Particle Simulation</a>
+							<li class="list-group-item">
+								<a href="/examples/map.html">Map of History</a>
+								<li class="list-group-item">
+									<a href="/examples/music.html">Music Visualizer</a>
+					</ul>
+					
+					<h6>Documentation</h6>
+					<ul class="docs list-group">
+						<li class="list-group-item"><a href="/documentation/start.html">Getting Started</a>
+						<li class="list-group-item"><a href="/documentation/api.html">API Reference</a>
+						<li class="list-group-item"><a href="/documentation/webgl.html">The Graphics Pipeline</a>
+						<li class="list-group-item"><a href="/documentation/svg.html">SVG Differences</a>
+						<li class="list-group-item"><a href="/documentation/gpgpu.html">GPGPU</a>
+					</ul>
+					<img class="t" src="data/test.png" style="display:none">
+					<img class="l" src="data/leaves.jpg" style="display:none">
+				</div>
+			</div>
+			
+			<div class="right col-xs-12 col-sm-9">
+				<div class="blurb"><!--blurb--></div>
+				<canvas width="760" height="500"></canvas>
+				<p>Pathgl implements a scenegraph with svg semantics.
+Documented here is a list of discrepancies between the pathGL virtualDOM
+and the <a href="http://www.w3.org/TR/SVG/">SVG 1.1 Specification</a>.
+Expect this list to get shorter and eventually disappear completely.</p>
+<ul>
+<li>Document Structure<blockquote>
+<p>defs are not yet implemented.
+descriptions and symbols are not yet implemented
+use, image, and switch elements are not yet implemented</p>
+</blockquote>
+</li>
+<li>Styling<blockquote>
+<p>styling is not currently supported except via <code>pathgl.applyCSSRules()</code></p>
+</blockquote>
+</li>
+<li>Coordinate Systems, Transformations and Units<blockquote>
+<p>numeric attributes must have a value equal to or greater than zero.
+transform attributes are not yet implemented</p>
+</blockquote>
+</li>
+<li>Paths<blockquote>
+<p>curve, cubic bezier, quadratic bezier, and elliptical arc commands are not yet
+implemented.</p>
+</blockquote>
+</li>
+<li>Basic Shapes<blockquote>
+<p>polyline and polygon elements are not yet implemented</p>
+</blockquote>
+</li>
+<li>Text<blockquote>
+<p>text is not yet implemented</p>
+</blockquote>
+</li>
+<li>Painting: Filling, Stroking and Marker Symbols<blockquote>
+<p>marker symbols are not yet implemented
+rendering hints are not yet implemented</p>
+</blockquote>
+</li>
+<li>Color<blockquote>
+<p>color profiles are not yet implemented</p>
+</blockquote>
+</li>
+<li>Gradients and Patterns<blockquote>
+<p>gradients and patterns are not yet implemented</p>
+</blockquote>
+</li>
+<li>Clipping, Masking and Compositing<blockquote>
+<p>clipping and masking are not yet implemented</p>
+</blockquote>
+</li>
+<li>Filter Effects<blockquote>
+<p>filter effects are not yet implemented</p>
+</blockquote>
+</li>
+<li>Interactivity<blockquote>
+<p>pointer-events are not stylable yet
+cursor property is not yet implemented</p>
+</blockquote>
+</li>
+<li>Linking<blockquote>
+<p>linking is not yet implemented</p>
+</blockquote>
+</li>
+<li>Scripting<blockquote>
+<p>eventlisteners must be added with the AddEventListener method. eventListeners
+cannot be defined as attributes such as &quot;onclick&quot;</p>
+</blockquote>
+</li>
+<li>Animation<blockquote>
+<p>animation attributes are not yet implemented</p>
+</blockquote>
+</li>
+<li>Extensibility<blockquote>
+<p>foreign namespaces and private data are not yet implemented</p>
+</blockquote>
+</li>
+<li>Metadata<blockquote>
+<p>Metadata elements are not yet implemented</p>
+</blockquote>
+</li>
+</ul>
+
+			</div>
+		</div>
+	</div>
+</body>

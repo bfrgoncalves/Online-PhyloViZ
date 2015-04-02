@@ -1,0 +1,22 @@
+extends layout
+
+block normalBody
+
+	div.navbar.navbar-static-top(id='navbarWebgl')
+		div.navbar-header
+			h1.navbar-brand(onclick="javascript:location.href='./'") #{title}
+
+	div(id='visual',oncontextmenu='return false;')
+
+	
+
+block scripts
+	script(type='text/javascript', src='http://d3js.org/d3.v3.min.js')
+	script(type='text/javascript', src="/javascripts/pathgl-gh-pages/dist/pathgl.js")
+	script(type='text/javascript', src="/javascripts/Three.js")
+	script(type='text/javascript', src='/javascripts/VivaGraphJS-master/dist/vivagraph.js')
+	script(type='text/javascript', src='/javascripts/nv.d3.min.js')
+	script(type='text/javascript', src='http://code.jquery.com/jquery-2.1.3.min.js')
+	script(type='text/javascript', src='http://code.jquery.com/ui/1.11.0/jquery-ui.min.js')
+	script(type='text/javascript', src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js')
+	script(type='text/javascript', src='/javascripts/vivaG.js')

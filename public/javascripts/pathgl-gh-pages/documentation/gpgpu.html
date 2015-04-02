@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+  <meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>WebGL Library for Data Visualization and Simulation - PathGL</title>
+	
+	<script src="/lib/d3.js"></script>
+	<script src="/lib/topojson.v1.min.js"></script>
+	<script src="/lib/projection.js"></script>
+	<script src="/lib/tip.js"></script>
+	<script src="../heatmap.js"></script>
+	
+	<script src="/dist/pathgl.js"></script>
+	<link rel="stylesheet" href="/lib/bootstrap.min.css">
+  <link rel="stylesheet" href="/lib/adnan.css">
+</head>
+
+<body class=" documentation">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-3">
+				<div class="no-scroll">
+					<a class="btn btn-default" href="http://github.com/adnan-wahab/pathgl">Github Repo</a>
+					<a class="btn btn-default" href="/dist/pathgl.zip">Download</a>
+
+					<h6>Examples</h6>
+					<ul class="examples list-group">
+						<li class="list-group-item">
+							<a href="/examples/physics.html">Particle Simulation</a>
+							<li class="list-group-item">
+								<a href="/examples/map.html">Map of History</a>
+								<li class="list-group-item">
+									<a href="/examples/music.html">Music Visualizer</a>
+					</ul>
+					
+					<h6>Documentation</h6>
+					<ul class="docs list-group">
+						<li class="list-group-item"><a href="/documentation/start.html">Getting Started</a>
+						<li class="list-group-item"><a href="/documentation/api.html">API Reference</a>
+						<li class="list-group-item"><a href="/documentation/webgl.html">The Graphics Pipeline</a>
+						<li class="list-group-item"><a href="/documentation/svg.html">SVG Differences</a>
+						<li class="list-group-item"><a href="/documentation/gpgpu.html">GPGPU</a>
+					</ul>
+					<img class="t" src="data/test.png" style="display:none">
+					<img class="l" src="data/leaves.jpg" style="display:none">
+				</div>
+			</div>
+			
+			<div class="right col-xs-12 col-sm-9">
+				<div class="blurb"><!--blurb--></div>
+				<canvas width="760" height="500"></canvas>
+				<p>GPGPU is a technique for offloading heavy computation to the graphics card.</p>
+<p>Characteristics of graphics programming. Your task may benefit from gpgpu if it has similar characteristics</p>
+<ol>
+<li>high arithmetic intensity</li>
+<li>large data sets</li>
+<li>long latencies ok</li>
+<li>deep, feed forward pipelines. data flows one way</li>
+<li>hacks are ok - can tolerate lack of accuracy</li>
+<li>decomposes cleanly to map, reduce, filter, scatter, gather, sort, and search operations</li>
+<li>has minimal dependency between data elements</li>
+</ol>
+<p>CPUs address a completely different application space, scalar programming
+with no data parallellism. Most of the sillicon in a cpu is devoted to
+storage and complex control structures. Very little of it is designed
+for doing actual computation. Furthermore, processor scaling is slowing
+because as it gets more difficult to maintain the current gates / clock ratio,
+inter process communication increases.</p>
+<h1 id="how">How</h1>
+<p>GPGPU programs are written as fragment shaders in GLSL, a statically typed
+javascript-like language with specialized support for vector manipulation.</p>
+<p>In webGL, a pixel is a vector with 4 floats. Typically these
+elements represent RGBA color channels, but we can use them for anything.
+For example, by thinking of each pixel as a vector containing
+<code>(positionX, positionY, velocityX, velocityY)</code>, we can simulate a particle by
+integrating velocity into position on every frame.</p>
+<p>Drawing a square with dimensions 1000x1000 spawns 1 million
+threads. The output of these threads can be written to a texture,
+which is then sampled as input on the next cycle, allowing state to be
+passed between frames.</p>
+<p>The main storage for gpgpu programs is texture memory. This is a &#39;stream register
+file&#39; that tracks producer-consumer relationships. It is not like a cpu cache, and does
+not store real data, but pointers to where new data will come from.</p>
+<p>Examples include fft, image processing, simulating physical models like weather and
+cosmology, neural networks, cryptography, and so on. </p>
+<p>The cpu-gpu relationship is similar to the request-response cycle in webbrowsers.
+The cpu can send send and request data, while the gpu can only respond to requests,
+and compute kernels. Unlike webservers, kernels are launched by the client. In the
+future, advanced versions of webCL may allow gpus to launch kernels, which would be
+like forking off a child process. </p>
+<p>Kernels are meant to look like serial programs, even if they may be running on a
+thousand threads in parallel.</p>
+
+			</div>
+		</div>
+	</div>
+</body>

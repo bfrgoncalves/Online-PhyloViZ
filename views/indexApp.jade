@@ -1,0 +1,24 @@
+extends layout
+
+block moreStyle
+	link(rel='stylesheet', href='/stylesheets/indexAppStyle.css')
+
+block navbar
+	div.navbar.navbar-static-top
+		div.navbar-header
+			h1.navbar-brand #{title}
+
+block visualization
+	br
+	div(id='svgApp')
+		label Choose one of the rendering engines
+		li
+			a(href='/svg') SVG engine (has more features but not recommended for large datasets)
+		li
+			a(href='/webgl') WebGl engine (less features but great for large datasets)
+	br
+
+block scripts
+	script(type='text/javascript', src='http://code.jquery.com/jquery-2.1.3.min.js')
+	script(type='text/javascript', src='http://code.jquery.com/ui/1.11.0/jquery-ui.min.js')
+	script(type='text/javascript', src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js')

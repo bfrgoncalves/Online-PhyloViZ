@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+  <meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>WebGL Library for Data Visualization and Simulation - PathGL</title>
+	
+	<script src="/lib/d3.js"></script>
+	<script src="/lib/topojson.v1.min.js"></script>
+	<script src="/lib/projection.js"></script>
+	<script src="/lib/tip.js"></script>
+	<script src="../heatmap.js"></script>
+	
+	<script src="/dist/pathgl.js"></script>
+	<link rel="stylesheet" href="/lib/bootstrap.min.css">
+  <link rel="stylesheet" href="/lib/adnan.css">
+</head>
+
+<body class=" documentation">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-3">
+				<div class="no-scroll">
+					<a class="btn btn-default" href="http://github.com/adnan-wahab/pathgl">Github Repo</a>
+					<a class="btn btn-default" href="/dist/pathgl.zip">Download</a>
+
+					<h6>Examples</h6>
+					<ul class="examples list-group">
+						<li class="list-group-item">
+							<a href="/examples/physics.html">Particle Simulation</a>
+							<li class="list-group-item">
+								<a href="/examples/map.html">Map of History</a>
+								<li class="list-group-item">
+									<a href="/examples/music.html">Music Visualizer</a>
+					</ul>
+					
+					<h6>Documentation</h6>
+					<ul class="docs list-group">
+						<li class="list-group-item"><a href="/documentation/start.html">Getting Started</a>
+						<li class="list-group-item"><a href="/documentation/api.html">API Reference</a>
+						<li class="list-group-item"><a href="/documentation/webgl.html">The Graphics Pipeline</a>
+						<li class="list-group-item"><a href="/documentation/svg.html">SVG Differences</a>
+						<li class="list-group-item"><a href="/documentation/gpgpu.html">GPGPU</a>
+					</ul>
+					<img class="t" src="data/test.png" style="display:none">
+					<img class="l" src="data/leaves.jpg" style="display:none">
+				</div>
+			</div>
+			
+			<div class="right col-xs-12 col-sm-9">
+				<div class="blurb"><!--blurb--></div>
+				<canvas width="760" height="500"></canvas>
+				<h2 id="api-reference">API Reference</h2>
+<h4 id="pathgl-context-">pathgl.context()</h4>
+<blockquote>
+<p>returns the WebGL context, or null if webgl was not available</p>
+</blockquote>
+<h4 id="pathgl-uniform-name-value-">pathgl.uniform(name, [value])</h4>
+<blockquote>
+<p>Set a variable that is global to all shader contexts.
+If called without a value, will return previously set value.
+Default uniforms include mouse, resolution, and clock.</p>
+</blockquote>
+<h4 id="pathgl-applycssrules-">pathgl.applyCSSRules()</h4>
+<blockquote>
+<p>Parses all css rules on the page and applies them to all webgl context.</p>
+</blockquote>
+<h4 id="pathgl-texture-image-options-">pathgl.texture(image, options)</h4>
+<blockquote>
+<p>Loads an image into video memory and returns a reference which can be bound
+to the attribute of any selection.
+Image can be an image or video DOMelement, image or video url, typed array, a
+fragment shader, or a canvas element.</p>
+</blockquote>
+<h4 id="texture-update-">texture.update()</h4>
+<blockquote>
+<p>Resamples the source data and rewrites the contents of the texture, if needed.</p>
+</blockquote>
+<h4 id="texture-repeat-">texture.repeat()</h4>
+<blockquote>
+<p>Calls texture.update on every frame until stop is called.</p>
+</blockquote>
+<h4 id="texture-stop-">texture.stop()</h4>
+<blockquote>
+<p>Calls texture.update on every frame until stop is called.</p>
+</blockquote>
+<h4 id="texture-unwrap-">texture.unwrap()</h4>
+<blockquote>
+<p>generates an array of objects that contain coordinates
+can be used to join a texture to a selection</p>
+</blockquote>
+<h4 id="texture-pipe-destinationtexture-">texture.pipe(destinationTexture)</h4>
+<blockquote>
+<p>Pulls the data out of a texture, and writes it to the supplied destination.</p>
+</blockquote>
+
+			</div>
+		</div>
+	</div>
+</body>

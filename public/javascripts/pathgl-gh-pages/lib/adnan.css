@@ -1,0 +1,94 @@
+body {
+    color: white;
+    margin: 0;
+    padding: 0;
+    font-family: "HelveticaNeue",Helvetica,Arial,sans-serif;
+    /* background: transparent; */
+    /* background: -webkit-linear-gradient(rgba(255,255,255,0.3),rgba(255,255,255,0)); */
+    /* background: -moz-linear-gradient(rgba(255,255,255,0.3),rgba(255,255,255,0)); */
+    /* background: -ms-linear-gradient(rgba(255,255,255,0.3),rgba(255,255,255,0)); */
+    /* background: -o-linear-gradient(rgba(255,255,255,0.3),rgba(255,255,255,0)); */
+    /* background: linear-gradient(rgba(255,255,255,0.3),rgba(255,255,255,0)); */
+    background-color: #333;
+    background-repeat: no-repeat;
+}
+
+
+.documentation canvas, .documentation svg {
+    display: none
+}
+
+.no-scroll {
+    padding-top: 5px;
+    position: fixed;
+}
+
+
+.no-scroll ul {
+    border-bottom: white 1px solid;
+}
+
+.list-group-item {
+    border: none;
+    background: none;
+}
+
+.list-group-item a {
+    color: white;
+}
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  position: absolute;
+  pointer-events: none;
+}
+
+/* Northward tooltips */
+.d3-tip.n:after {
+  content: "\25BC";
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+  text-align: center;
+}
+
+/* Eastward tooltips */
+.d3-tip.e:after {
+  content: "\25C0";
+  margin: -4px 0 0 0;
+  top: 50%;
+  left: -8px;
+}
+
+/* Southward tooltips */
+.d3-tip.s:after {
+  content: "\25B2";
+  margin: 0 0 1px 0;
+  top: -8px;
+  left: 0;
+  text-align: center;
+}
+
+/* Westward tooltips */
+.d3-tip.w:after {
+  content: "\25B6";
+  margin: -4px 0 0 -1px;
+  top: 50%;
+  left: 100%;
+}
