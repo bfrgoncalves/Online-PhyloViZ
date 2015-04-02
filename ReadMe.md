@@ -1,6 +1,6 @@
 #Online PhyloViZ
 
-This web application allows you to choose between two layout rendering engines (SVG and WebGl) and display 4 different MLST datasets.
+This web application allows you to choose between two layout rendering engines (SVG and WebGl) and display 4 different MLST datasets using minimum spanning trees.
 
 Node.js is required.
 
