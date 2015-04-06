@@ -22,7 +22,17 @@ function NodeSize(newSize){
 	nodeRadius = newSize;
     console.log(currentProperty);
 	svg.selectAll('.Gnodes').selectAll('circle').attr("r", function(d){ return (parseInt(d.isolates.length) + parseInt(nodeRadius));});
-    createNodePie(currentProperty);
+
+    var ch = $('#colorAttributesMetadata').children();
+    haspie = false;
+    for (var i=0; i<ch.length;i++){
+        if(ch[i].firstChild.checked){
+            haspie=true;
+            break;
+        }
+    }
+
+    if (haspie) createNodePie(currentProperty);
     force.start();
 }
 
@@ -47,7 +57,6 @@ function ChangeTextOpacity(checkboxElement){
     else newOpacity = 0;
     svg.selectAll('text').style('opacity',newOpacity);
     force.start();
-    force.stop();
 }
 
 function ChangeLinkStrength(newLinkStrength){
