@@ -69,7 +69,6 @@ app.use(function(err, req, res, next) {
 });
 
 app.listen(3000, function(){
-  parseGoe('data/staureusST.txt','data/staureusLinks.txt', 'data/sampleADfile.txt', 'ST');
   console.log('Server Running');
 });
 
