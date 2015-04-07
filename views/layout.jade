@@ -4,13 +4,13 @@ html
 		title= title
 		link(rel='stylesheet', href='/stylesheets/force_style.css')
 		link(rel='stylesheet', href='http://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css')
-		link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css')
+		link(rel='stylesheet', href='/stylesheets/bootstrap.css')
 		link(rel='stylesheet', href='/stylesheets/nv.d3.min.css')
 		link(rel='stylesheet', href='/stylesheets/style.css')
 
 		block moreStyle
 		
-	body
+	body(onload='onLoad()' style='background-color:black')
 		block normalBody
 			div(id='global')
 				div(id="contextMenu")

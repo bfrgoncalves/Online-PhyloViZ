@@ -15,7 +15,7 @@ var i,
 var width = $('#col_visual').width(),
     height = $(document).height() - $('#col_toolbar').height();
 
-$('#graph-container').css({width: width, height: height});
+$('#visual').css({width: width, height: height});
 
 d3.json("./data/goeData.json", function(error, graph) {
 
@@ -66,7 +66,7 @@ for (i = 0; i < graph.nodes.length; i++) {
 
 s = new sigma({
   graph: g,
-  container: 'graph-container',
+  container: 'visual',
   settings: {
      drawEdges: true
  }

@@ -13,6 +13,7 @@ var routes = require('./routes/index');
 var webgl = require('./routes/webgl');
 var svg = require('./routes/svg');
 var users = require('./routes/users');
+var sigma = require('./routes/sigma');
 // var inputData = require('./routes/inputData');
 
 var app = express();
@@ -35,6 +36,7 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/webgl', webgl);
 app.use('/svg', svg);
+app.use('/sigma', sigma);
 // app.use('/inputData',inputData);
 
 // catch 404 and forward to error handler
