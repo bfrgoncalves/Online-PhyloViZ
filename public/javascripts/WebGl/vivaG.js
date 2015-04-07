@@ -121,7 +121,6 @@ function constructGraph(data){
 
     $('#pauseLayout').click(function(e) {
                     e.preventDefault();
-                    console.log($('#pauseLayout'));
                     if($('#pauseLayout')[0].innerHTML == "Pause Layout"){
                       renderer.pause();
                       $('#pauseLayout')[0].innerHTML = "Resume Layout";
