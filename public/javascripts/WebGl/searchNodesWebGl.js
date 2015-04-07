@@ -15,7 +15,7 @@ $(function () {
 
 var centerNode = function(nodeId,graph,layout,renderer,graphics){
 	if (graph.getNode(nodeId)) {
-			$( "#pauseLayout" ).trigger( "click" );
+			if ($('#pauseLayout')[0].innerHTML == "Pause Layout") $( "#pauseLayout" ).trigger( "click" );
             var pos = layout.getNodePosition(nodeId);
             renderer.moveTo(pos.x, pos.y);
             node = graph.getNode(nodeId);
