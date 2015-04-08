@@ -3,12 +3,13 @@ extends layout
 block moreStyle
 	link(rel='stylesheet', href='/stylesheets/indexAppStyle.css')
 
-block navbar
+
+block normalBody
+
 	div.navbar.navbar-static-top
 		div.navbar-header
 			h1.navbar-brand #{title}
 
-block visualization
 	br
 	div(id='svgApp')
 		label Choose one of the rendering engines

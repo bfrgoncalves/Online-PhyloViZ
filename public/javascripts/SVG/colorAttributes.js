@@ -37,7 +37,6 @@ var changeNodeColorByScheme = function(property){
 	var id = propAttribute.split('--');
 	var isEqual = id[1];
 	var pID = id[0];
-	console.log(pID);
 
 	if (elem[0].checked) currentProperty = pID;
 	else currentProperty = 'null';

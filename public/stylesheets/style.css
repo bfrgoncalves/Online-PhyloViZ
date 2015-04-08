@@ -44,11 +44,16 @@ a {
 #col_actions{
 	padding: 30px;
 	text-align: right;
+  position: absolute;
+  top: 15%;
+  left: 82%; 
 }
 
 #col_toolbar{
 	padding: 30px;
 	text-align: left;
+  position: absolute;
+  top: 15%; 
 }
 
 #SVPieArea{
@@ -86,6 +91,14 @@ a {
     }
 
 
-#toggleLayout { position: absolute; bottom: 3%; margin-left: 50%; cursor: pointer; font-size: 15px; color: white;}
+#toggleLayout { position: absolute; bottom: 3%; margin-left: 50%; cursor: pointer; font-size: 15px; color: black;}
+
+#toggleLayoutSVG { position: absolute; bottom: 3%; margin-left: 50%; cursor: pointer; font-size: 15px; color: black;}
+
+
+#visual{
+  position: relative;
+}
+
     
     

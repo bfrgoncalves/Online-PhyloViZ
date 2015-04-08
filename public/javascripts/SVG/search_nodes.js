@@ -9,7 +9,7 @@ var search_nodes = function(graph){
 }
 
 $(function () {
-    $("#search").autocomplete({
+    $("#nodeid").autocomplete({
         source: optArray
     });
 });

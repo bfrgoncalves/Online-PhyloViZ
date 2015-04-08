@@ -80,7 +80,6 @@ function createGlobalPieIsolates(currentProperty){
 
     }
 
-    console.log(dataTopie);
 
     GlobalPie("Globalpie", dataTopie, 0, 0, 100,'PieArea', labels);
 

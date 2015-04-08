@@ -17,11 +17,10 @@ On the main page there is a choice between `SVG` and `WebGL`. You can also selec
 Choose a dataset
 ================
 
-Select between 4 datasets:
+Select between 3 datasets:
 
-* `:3000/webgl?data=saureus` - a dataset with MLST data of `S.aureus`
-* `:3000/webgl?data=pyogenes` - a dataset with MLST data of `S.pyogenes`
-* `:3000/webgl?data=spneumo` - a dataset with MLST data of `S.pneumoniae`
-* `:3000/webgl?data=sample` - a dataset with sample data
+* `:3000/webgl?data=pyogenes` - a dataset with MLST data of `S.pyogenes` (647 nodes)
+* `:3000/webgl?data=saureus` - a dataset with MLST data of `S.aureus` (2960 nodes)
+* `:3000/webgl?data=spneumo` - a dataset with MLST data of `S.pneumoniae` (10261)
 
 * webgl can be changed by svg

@@ -14,14 +14,11 @@ router.get('/', function(req, res, next) {
    else if (req.query['data'] == 'pyogenes'){
     	parseGoe('data/pyogenesST.txt','data/pyogenesLinks.txt', 'data/sampleADfile.txt', 'ST');
    }
-   else if (req.query['data'] == 'sample'){
-    	parseGoe('data/sampleAPfile.txt','data/links.txt', 'data/sampleADfile.txt', 'ST');
-   }
    else if (req.query['data'] == 'dataset'){
       parseGoe('data/clean_output_filtered.txt','data/linksDataset.txt', 'data/info_dataset.txt', 'file');
    }
    else{
-   		parseGoe('data/sampleAPfile.txt','data/links.txt', 'data/sampleADfile.txt', 'ST');
+   		parseGoe('data/pyogenesST.txt','data/pyogenesLinks.txt', 'data/sampleADfile.txt', 'ST');
    }
 
   setTimeout(function(){

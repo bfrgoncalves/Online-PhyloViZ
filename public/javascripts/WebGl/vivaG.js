@@ -24,13 +24,14 @@ function onLoad(){
 function constructGraph(data){
 
     d3.json(data, function(error, graph) {
+      console.log(graph);
 
     	var arrayOfNodesID = [];
 
     	var graphGL = Viva.Graph.graph();
 
     	for (i in graph.nodes){
-    		graphGL.addNode(i, graph.nodes[i]);
+    		graphGL.addNode(graph.nodes[i].key, graph.nodes[i]);
     	}
 
     	for (j in graph.links){
@@ -51,9 +52,9 @@ function constructGraph(data){
         var graphicsOptions = {
             clearColor: true, // we want to avoid rendering artifacts
             clearColorValue: { // use black color to erase background
-              r: 0,
-              g: 0,
-              b: 0,
+              r: 255,
+              g: 255,
+              b: 255,
               a: 1
             }
           };
@@ -68,8 +69,8 @@ function constructGraph(data){
 
     // second, change the node ui model, which can be understood
     // by the custom shader:
-    graphics.node(function (node) {
 
+    graphics.node(function (node) {
        return new WebglCircle(DefaultnodeSize+node.data.isolates.length, nodeColor);
     });
 

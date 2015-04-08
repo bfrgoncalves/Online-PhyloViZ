@@ -1,220 +1,148 @@
 
+$('body').css('background-color','white');
 
-$('#global').css({opacity:0});
 
 var width = $('#col_visual').width(),
     height = $(document).height() - $('#col_toolbar').height();
 
+  //Initialize globally to be used in functions from other files
+  var node; 
+  var link;
+  var totalGraph;
+  var linksByKey;
+  var graphRec;
+  var linkDist = 50, nodeRadius = 5, currentCharge=-500, maxWeight=null, currentGravity=0.01, currentLinkStrength = 1;
+  var currentProperty = 'null', currentLabelSize = 10, currentLinkThickness = 1, times = 10;
 
-//Initialize globally to be used in functions from other files
-var node; 
-var link;
-var totalGraph;
-var graphRec;
-var linkDist = 50, nodeRadius = 5, currentCharge=-500, maxWeight=null, currentGravity=0.01, currentLinkStrength = 1;
-var currentProperty = 'null', currentLabelSize = 10, currentLinkThickness = 1, times = 10;
+  var baseColor = '#868282';
 
-var baseColor = '#868282';
-
-var GlobalPieProperties;
+  var GlobalPieProperties;
 
 
-var ArrayOfColors = [], NumberOfColors, currentDomain = [];
+  var ArrayOfColors = [], NumberOfColors, currentDomain = [];
 
-function getRandomColor() {
-  var color = '#' + Math.random().toString(16).substring(2, 8);
-  return color;
+  var color = d3.scale.ordinal().domain(currentDomain).range(ArrayOfColors);
+
+  var force = d3.layout.force()
+      .gravity(currentGravity)
+      //.charge(currentCharge)
+      //.alpha(0.1) controls the temperature. more stable layouts have lower values
+      .linkDistance(linkDist)
+      .size([width, height]);
+
+  var typeOfDrag = force.drag;
+
+  var zoom = d3.behavior.zoom();
+
+  var result = $("#myDiv").height();
+
+  var svg = d3.select("#visual")
+      .call(zoom)
+      .on("dblclick.zoom", null)
+      .append("svg").attr('id','graphSVG')
+      .attr("width", width)
+      .attr("height", height)
+      //.on('mousedown', removeZoom)
+      .on('dblclick', connectedNodes)
+      .append("svg:g").attr('id','globalGraph');
+
+  var svgWidth = $("#graphSVG").width();
+
+  zoom.translate([svgWidth/2,0]).on("zoom", rescale);
+
+  svg.attr('transform', "translate("+svgWidth/2+","+0+")")
+
+function onLoad(){
+
+
+  $('#globalGraph').css({opacity:0});
+
+  GetGraphData("./data/goeData.json");
+
+  $('#pauseLayout').click(function(e) {
+                    e.preventDefault();
+                    if($('#pauseLayout')[0].innerHTML == "Pause Layout"){
+                      force.stop();
+                      $('#pauseLayout')[0].innerHTML = "Resume Layout";
+                      $('#iconPauseLayout').toggleClass('glyphicon glyphicon-pause',false);
+                      $('#iconPauseLayout').toggleClass('glyphicon glyphicon-play',true);
+                    }
+                    else{ 
+                      force.resume();
+                      $('#pauseLayout')[0].innerHTML = "Pause Layout";
+                      $('#iconPauseLayout').toggleClass('glyphicon glyphicon-play',false);
+                      $('#iconPauseLayout').toggleClass('glyphicon glyphicon-pause',true);
+                      
+                    }
+                });
+
+
 }
 
-//////////////////////////////////////////////////////////////
-
-var color = d3.scale.ordinal().domain(currentDomain).range(ArrayOfColors);
-
-var force = d3.layout.force()
-    .gravity(currentGravity)
-    //.charge(currentCharge)
-    //.alpha(0.1) controls the temperature. more stable layouts have lower values
-    .linkDistance(linkDist)
-    .size([width, height]);
-
-var typeOfDrag = force.drag;
-
-var zoom = d3.behavior.zoom().on("zoom", rescale);
-
-var svg = d3.select("#visual")
-    .call(zoom)
-    .on("dblclick.zoom", null)
-    .append("svg").attr('id','graphSVG')
-    .attr("width", width)
-    .attr("height", height)
-    //.on('mousedown', removeZoom)
-    .on('dblclick', connectedNodes)
-    .append("svg:g").attr('id','globalGraph');
 
 
-$('#globalGraph').css({opacity:0});
-
-    // .attr("x", width / 2)
-    // .attr("y", height / 2)
-    // .attr("dy", ".35em")
-    // .style("text-anchor", "middle")
-    // .text("Simulating. One moment please…");
-
-    var imgs = d3.select('#graphSVG').selectAll("image").data([0]);
-                imgs.enter()
-                .append("svg:image")
-                .attr("xlink:href", "/images/waiting.gif")
-                .attr("x", "50%")
-                .attr("y", "50%")
-                .attr("width", "200")
-                .attr("height", "200");
-
-// var loading = svg.append('text').attr("x", width / 2)
-//      .attr("y", height / 2)
-//      .attr("dy", ".35em")
-//      .style("text-anchor", "middle")
-//      .text("Loading graph. One moment please…");
+function getRandomColor() {
+    var color = '#' + Math.random().toString(16).substring(2, 8);
+    return color;
+}
 
 
+function GetGraphData(data){
 
-d3.json("./data/goeData.json", function(error, graph) {
-
-  
-  totalGraph=graph;
-  ReDoGraph = graph;
-
-  console.log(graph);
-
-  NumberOfColors = graph.nodes.length;
-
-  for (var i=0;i<NumberOfColors;i++){
-    ArrayOfColors.push(getRandomColor());
-  }
-
-  graphRec=JSON.parse(JSON.stringify(graph)); //Add this line
-  
-  colorAttributes(graph); // Get attributes to be used in the possible color assignment. colorAttributes.js
-
-
-  force
-      .nodes(graph.nodes)
-      .links(graph.links);
-
-  createGraph(typeOfDrag);
-
-  var arrayOfNodes = [];
-
-  var k = 0;
-
-
-//if (totalGraph.nodes.length<300){
-
-
-      force.on("tick", function(d) {
-
-        link.attr("x1", function(d) { return d.source.x; })
-            .attr("y1", function(d) { return d.source.y; })
-            .attr("x2", function(d) { return d.target.x; })
-            .attr("y2", function(d) { return d.target.y; });
-
-// //       setTimeout(1);
-
-// //       if (k == 99)  {
-// //         console.log('AQUI');
-          svg.selectAll(".Gnodes").attr("transform", function (d) { return 'translate(' + d.x + ',' + d.y + ')';});
-          node.each(collide(0.5)); //Added
-
-// //       }
-// // //console.log(arrayOfNodes);
-      
-
-// //       //svg.select(rootNodeID).attr("transform", function (d) { return 'translate(' + width/2 + ',' + height/2 + ')';});
-
-// //                             //.attr("y", function (d) { return d.y;});
-
-// //    //   // d3.selectAll("text").attr("x", function (d) { return d.x;})
-// //    //  //                     .attr("y", function (d) { return d.y;});
-
-// //       setTimeout(1);
-//       node.each(collide(0.5));
-
-       });
-
-     imgs.remove();
-     $('#globalGraph').css({opacity:1});
-
-
-
- //}
-//  else{
-
-//    var k = 0;
-
-//    force.on('tick', function(){
-//      totalGraph.nodes[4].x = width / 2;
-//      totalGraph.nodes[4].y = height / 2;
-//    })
-
-//    function doWork() {  
-//      force.tick(); 
-//      k = k + 1;
-
-//      if (k < 80) { 
-//        setTimeout(doWork, 1); 
-//      } 
-//      else {
-
-//        link.attr("x1", function(d) { return d.source.x; })
-//            .attr("y1", function(d) { return d.source.y; })
-//            .attr("x2", function(d) { return d.target.x; })
-//            .attr("y2", function(d) { return d.target.y; });
-
-// //         //console.log('AQUI');
-//          svg.selectAll(".Gnodes").attr("transform", function (d) { d.fixed = true;return 'translate(' + d.x + ',' + d.y + ')';});
-// //         node.each(collide(0.5)); //Added
+  d3.json(data, function(error, graph) {
 
     
-//        //force.stop();
-//        imgs.remove();
-//        $('#globalGraph').css({opacity:1});
-//      }
-//    }; 
-//    setTimeout(doWork, 1);
+    totalGraph=graph;
+    ReDoGraph = graph;
 
-//  }
-force.linkStrength(currentLinkStrength).start();
+    console.log(graph);
 
-  // while ((force.alpha() > 1e-2)) {
-  //   setTimeout(force.tick(), 1);
-  //      force.tick(),
-  //      k = k + 1;
-  //  }
+    NumberOfColors = graph.nodes.length;
 
+    for (var i=0;i<NumberOfColors;i++){
+      ArrayOfColors.push(getRandomColor());
+    }
 
+    graphRec=JSON.parse(JSON.stringify(graph)); 
+    
+    colorAttributes(graph); 
 
-  // // while(!stop){
-  // //   force.tick();
-  // // } 
-  // force.stop();
-
-  //fish_eye(force, link); // Necessary to get the fish eye view
-   highlight_nodes(graph); //highlight_nodes.js
-   search_nodes(graph); //search_nodes.js
-
-});
+    linksByKey = IDasIndexEdges(totalGraph); //Convert links by index to index by key
 
 
-$('#global').css({opacity:1});
+    force
+        .nodes(graph.nodes)
+        .links(linksByKey);
+
+    createGraph(typeOfDrag);
+
+    var arrayOfNodes = [];
+
+    var k = 0;
+
+    force.on("tick", function(d) {
+
+    link.attr("x1", function(d) { return d.source.x; })
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; });
 
 
-// $("#visual").on("contextmenu", ".node", function (e) {
-//   var name = this.getAttribute('name');
-//   var id = this.getAttribute('id');
-//   showMenu(name,id);
+    svg.selectAll(".Gnodes").attr("transform", function (d) {return 'translate(' + d.x + ',' + d.y + ')';});
+    node.each(collide(0.5)); //Added
 
-// });
-//.on('contextmenu', function(d){ return showMenu(d);})
+    });
 
+    $('#globalGraph').css({opacity:1});
+
+    force.linkStrength(currentLinkStrength).start();
+
+    highlight_nodes(graph); //highlight_nodes.js
+    search_nodes(graph); //search_nodes.js
+
+  });
+
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -224,8 +152,12 @@ function createGraph(typeOfDrag){
 
   //console.log(totalGraph.nodes);
 
+  linksByKey = IDasIndexEdges(totalGraph); //Convert links by index to index by key
+
+  console.log(totalGraph.nodes.length);
+
   link = svg.selectAll('.link').remove()
-  link = svg.selectAll('.link').data(totalGraph.links);
+  link = svg.selectAll('.link').data(linksByKey);
   link.exit().remove();
 
   link.enter().append("line")
@@ -270,6 +202,27 @@ function createGraph(typeOfDrag){
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
+function IDasIndexEdges(graph){
+  var edges = [];
+  graph.links.forEach(function(e) {
+      var sourceNode = graph.nodes.filter(function(n) {
+          return n.key === e.source;
+      })[0],
+          targetNode = graph.nodes.filter(function(n) {
+              return n.key === e.target;
+          })[0];
+
+      edges.push({
+          source: sourceNode,
+          target: targetNode,
+          value: e.value
+      });
+  });
+  return edges;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
 function rescale() {
   trans=d3.event.translate;
   scale=d3.event.scale;
@@ -288,12 +241,6 @@ function addZoom(){
 	zoom = d3.behavior.zoom().on("zoom", rescale);
   d3.select("#visual").call(zoom);
 }
-
-
-// function setLinkStrength(link){
-//   return link.value/maxWeight;
-// }
-
 
 ////////////////////////////////////////////////////////////////////////////////////////
 

@@ -20,7 +20,6 @@ function ChangeDistance(newDistance){
 //adjust Node Size
 function NodeSize(newSize){
 	nodeRadius = newSize;
-    console.log(currentProperty);
 	svg.selectAll('.Gnodes').selectAll('circle').attr("r", function(d){ return (parseInt(d.isolates.length) + parseInt(nodeRadius));});
 
     var ch = $('#colorAttributesMetadata').children();

@@ -7,14 +7,6 @@ block navbar
 
 
 block toolBar
-	h1= title
-	p Welcome to #{title}
-	br
-
-	p Upload a JSON file
-	div
-		input(id='addJSON')
-		button(type='button', onclick='addJSON()') Upload
 	ul.nav.nav-stacked
 		li
 			div
@@ -34,9 +26,10 @@ block visualization
 block actions
 	ul.nav.nav-stacked
 		li
-			div(class='ui-widget')
-					input(id='search')
-					button(type='button', onclick='searchNode()') Search
+			div(style="color: black;")
+				form(id='searchForm') 
+					input(type='text' id='nodeid' style='color:black')
+					input(type='submit' value='Search')
 		
 		li
 			div
@@ -86,6 +79,11 @@ block actions
 			//div
 				//input(type='checkbox', onclick='changeDragEvent(this)',id='ChangeDragMove')
 				//label(id='labelDragEvent') Allow drag and drop nodes
+
+block LayoutPause
+	div(id='toggleLayoutSVG')
+		i.glyphicon.glyphicon-pause(id='iconPauseLayout') 
+		i(id='pauseLayout') Pause Layout
 
 block scripts
 	script(type='text/javascript', src='/javascripts/d3.min.js')

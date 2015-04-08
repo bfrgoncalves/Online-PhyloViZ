@@ -9,8 +9,9 @@ html
 		link(rel='stylesheet', href='/stylesheets/style.css')
 
 		block moreStyle
-		
-	body(onload='onLoad()' style='background-color:black')
+
+	
+	body(onload='onLoad()' style='background-color:white')
 		block normalBody
 			div(id='global')
 				div(id="contextMenu")
@@ -18,16 +19,18 @@ html
 				div.col-lg-12(id="col_navbar")
 					block navbar
 
+				div(id='visualization')
+					block visualization
+
 				div.col-lg-2(id="col_toolbar")
 					nav.navbar-default(role='navigation')
 						block actions
 
-				div.col-lg-8(id="col_visual")
-					block visualization
-
 				div.col-lg-2(id="col_actions")
 					nav.navbar-default(role='navigation')
 						block toolBar
+
+				block LayoutPause
 
 				div(id="modals")
 					block modals
