@@ -9,7 +9,6 @@ var width = $('#col_visual').width(),
   var node; 
   var link;
   var totalGraph;
-  var linksByKey;
   var graphRec;
   var linkDist = 50, nodeRadius = 5, currentCharge=-500, maxWeight=null, currentGravity=0.01, currentLinkStrength = 1;
   var currentProperty = 'null', currentLabelSize = 10, currentLinkThickness = 1, times = 10;
@@ -52,12 +51,14 @@ var width = $('#col_visual').width(),
 
   svg.attr('transform', "translate("+svgWidth/2+","+0+")")
 
+
 function onLoad(){
 
 
   $('#globalGraph').css({opacity:0});
 
   GetGraphData("./data/goeData.json");
+
 
   $('#pauseLayout').click(function(e) {
                     e.preventDefault();
@@ -75,8 +76,6 @@ function onLoad(){
                       
                     }
                 });
-
-
 }
 
 
@@ -91,30 +90,26 @@ function GetGraphData(data){
 
   d3.json(data, function(error, graph) {
 
-    
     totalGraph=graph;
     ReDoGraph = graph;
 
-    console.log(graph);
-
     NumberOfColors = graph.nodes.length;
+
+    createGraph(typeOfDrag);
 
     for (var i=0;i<NumberOfColors;i++){
       ArrayOfColors.push(getRandomColor());
     }
 
     graphRec=JSON.parse(JSON.stringify(graph)); 
+
+    linksByKey = IDasIndexEdges(totalGraph); //Convert links by index to index by key
     
     colorAttributes(graph); 
 
-    linksByKey = IDasIndexEdges(totalGraph); //Convert links by index to index by key
-
-
     force
-        .nodes(graph.nodes)
+        .nodes(totalGraph.nodes)
         .links(linksByKey);
-
-    createGraph(typeOfDrag);
 
     var arrayOfNodes = [];
 
@@ -122,14 +117,14 @@ function GetGraphData(data){
 
     force.on("tick", function(d) {
 
-    link.attr("x1", function(d) { return d.source.x; })
-        .attr("y1", function(d) { return d.source.y; })
-        .attr("x2", function(d) { return d.target.x; })
-        .attr("y2", function(d) { return d.target.y; });
+      link.attr("x1", function(d) { return d.source.x; })
+          .attr("y1", function(d) { return d.source.y; })
+          .attr("x2", function(d) { return d.target.x; })
+          .attr("y2", function(d) { return d.target.y; });
 
 
-    svg.selectAll(".Gnodes").attr("transform", function (d) {return 'translate(' + d.x + ',' + d.y + ')';});
-    node.each(collide(0.5)); //Added
+      svg.selectAll(".Gnodes").attr("transform", function (d) {return 'translate(' + d.x + ',' + d.y + ')';});
+      node.each(collide(0.5)); //Added
 
     });
 
@@ -150,13 +145,11 @@ function GetGraphData(data){
 
 function createGraph(typeOfDrag){
 
-  //console.log(totalGraph.nodes);
-
   linksByKey = IDasIndexEdges(totalGraph); //Convert links by index to index by key
 
-  console.log(totalGraph.nodes.length);
+  console.log(linksByKey.length);
 
-  $('#numberOfNodes').append('<div style ="text-align: left"> Number of nodes: ' + totalGraph.nodes.length + '</div>');
+  $('#numberOfNodes').append('<div style ="text-align:"> Number of nodes: ' + totalGraph.nodes.length + '</div>');
 
   link = svg.selectAll('.link').remove()
   link = svg.selectAll('.link').data(linksByKey);
@@ -204,13 +197,13 @@ function createGraph(typeOfDrag){
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-function IDasIndexEdges(graph){
+function IDasIndexEdges(graphToUse){
   var edges = [];
-  graph.links.forEach(function(e) {
-      var sourceNode = graph.nodes.filter(function(n) {
+  graphToUse.links.forEach(function(e) {
+      var sourceNode = graphToUse.nodes.filter(function(n) {
           return n.key === e.source;
       })[0],
-          targetNode = graph.nodes.filter(function(n) {
+          targetNode = graphToUse.nodes.filter(function(n) {
               return n.key === e.target;
           })[0];
 
