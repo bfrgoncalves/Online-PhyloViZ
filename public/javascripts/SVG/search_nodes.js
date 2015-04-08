@@ -16,7 +16,7 @@ $(function () {
 
 function searchNode() {
     //find the node
-    var selectedVal = document.getElementById('search').value;
+    var selectedVal = document.getElementById('nodeid').value;
     var node = svg.selectAll(".node");
     if (selectedVal == "none") {
         node.style("stroke", "white").style("stroke-width", "1");

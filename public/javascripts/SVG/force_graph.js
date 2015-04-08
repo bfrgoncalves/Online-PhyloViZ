@@ -76,6 +76,11 @@ function onLoad(){
                       
                     }
                 });
+
+  $('#searchForm').submit(function(e) {
+                    e.preventDefault();
+                    searchNode();
+                });
 }
 
 
@@ -124,7 +129,7 @@ function GetGraphData(data){
 
 
       svg.selectAll(".Gnodes").attr("transform", function (d) {return 'translate(' + d.x + ',' + d.y + ')';});
-      node.each(collide(0.5)); //Added
+      //node.each(collide(0.5)); //Added
 
     });
 
@@ -147,8 +152,6 @@ function createGraph(typeOfDrag){
 
   linksByKey = IDasIndexEdges(totalGraph); //Convert links by index to index by key
 
-  console.log(linksByKey.length);
-
   $('#numberOfNodes').append('<div style ="text-align:"> Number of nodes: ' + totalGraph.nodes.length + '</div>');
 
   link = svg.selectAll('.link').remove()
@@ -166,7 +169,7 @@ function createGraph(typeOfDrag){
   node = svg.selectAll(".node").data(totalGraph.nodes);
 
 
-  node.exit().remove;
+  //node.exit().remove;
   node.enter().append('g').attr('class','Gnodes').attr('id', function(d){ return ('S'+d.key);})
       .on('mousedown', removeZoom)
       .on('mouseup', addZoom)
@@ -241,30 +244,30 @@ function addZoom(){
 
 //COLLISION DETECTION
 
-var padding = 5, // separation between circles
-    radius=8;
-function collide(alpha) {
-  var quadtree = d3.geom.quadtree(totalGraph.nodes);
-  return function(d) {
-    var rb = 2*radius + padding,
-        nx1 = d.x - rb,
-        nx2 = d.x + rb,
-        ny1 = d.y - rb,
-        ny2 = d.y + rb;
-    quadtree.visit(function(quad, x1, y1, x2, y2) {
-      if (quad.point && (quad.point !== d)) {
-        var x = d.x - quad.point.x,
-            y = d.y - quad.point.y,
-            l = Math.sqrt(x * x + y * y);
-          if (l < rb) {
-          l = (l - rb) / l * alpha;
-          d.x -= x *= l;
-          d.y -= y *= l;
-          quad.point.x += x;
-          quad.point.y += y;
-        }
-      }
-      return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
-    });
-  };
-}
+// var padding = 1, // separation between circles
+//     radius=5;
+// function collide(alpha) {
+//   var quadtree = d3.geom.quadtree(totalGraph.nodes);
+//   return function(d) {
+//     var rb = 2*radius + padding,
+//         nx1 = d.x - rb,
+//         nx2 = d.x + rb,
+//         ny1 = d.y - rb,
+//         ny2 = d.y + rb;
+//     quadtree.visit(function(quad, x1, y1, x2, y2) {
+//       if (quad.point && (quad.point !== d)) {
+//         var x = d.x - quad.point.x,
+//             y = d.y - quad.point.y,
+//             l = Math.sqrt(x * x + y * y);
+//           if (l < rb) {
+//           l = (l - rb) / l * alpha;
+//           d.x -= x *= l;
+//           d.y -= y *= l;
+//           quad.point.x += x;
+//           quad.point.y += y;
+//         }
+//       }
+//       return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
+//     });
+//   };
+// }
