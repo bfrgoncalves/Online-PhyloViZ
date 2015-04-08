@@ -120,6 +120,8 @@ function constructGraph(data){
                     centerNode(nodeId,graphGL,layout,renderer,graphics)
                 });
 
+    $('#numberOfNodes').append(' '+ graph.nodes.length);
+
     $('#pauseLayout').click(function(e) {
                     e.preventDefault();
                     if($('#pauseLayout')[0].innerHTML == "Pause Layout"){

@@ -156,6 +156,8 @@ function createGraph(typeOfDrag){
 
   console.log(totalGraph.nodes.length);
 
+  $('#numberOfNodes').append('<div style ="text-align: left"> Number of nodes: ' + totalGraph.nodes.length + '</div>');
+
   link = svg.selectAll('.link').remove()
   link = svg.selectAll('.link').data(linksByKey);
   link.exit().remove();
