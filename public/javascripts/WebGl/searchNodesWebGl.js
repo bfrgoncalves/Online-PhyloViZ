@@ -17,12 +17,11 @@ var centerNode = function(nodeId,graph,layout,renderer,graphics){
 	if (graph.getNode(nodeId)) {
 			if ($('#pauseLayout')[0].innerHTML == "Pause Layout") $( "#pauseLayout" ).trigger( "click" );
             var pos = layout.getNodePosition(nodeId);
-            renderer.moveTo(pos.x, pos.y);
             node = graph.getNode(nodeId);
             changeColor(graphics,node,renderer);
             //layout.pinNode(node, !layout.isNodePinned(node));
             var currentScale = String(renderer.zoomIn());
-            zoomToNode(1, currentScale,renderer);
+            zoomToNode(1, currentScale,renderer,pos);
     }
 	};
 
@@ -31,15 +30,35 @@ var centerNode = function(nodeId,graph,layout,renderer,graphics){
 // screen. Let's zoom out to fit it into the view:
 
 
-function zoomToNode(desiredScale, currentScale,renderer) {
+function zoomToNode(desiredScale, currentScale,renderer,pos) {
 // zoom API in vivagraph 0.5.x is silly. There is no way to pass transform
 // directly. Maybe it will be fixed in future, for now this is the best I could do:
 if (desiredScale < currentScale) {
-  zoomOut(desiredScale, currentScale,renderer);
+  zoomOutNode(desiredScale, currentScale,renderer,pos);
 }
 if (desiredScale > currentScale) {
-  zoomIn(desiredScale, currentScale,renderer);
+  zoomInNode(desiredScale, currentScale,renderer,pos);
 }
+}
+
+function zoomOutNode(desiredScale, currentScale,renderer,pos){
+	currentScale = renderer.zoomOut();
+	renderer.moveTo(pos.x, pos.y);
+	if (desiredScale < currentScale) {
+	  	setTimeout(function () {
+	      zoomOutNode(desiredScale, currentScale,renderer,pos);
+	  	}, 1);
+  	}
+}
+
+function zoomInNode(desiredScale, currentScale,renderer,pos){
+	currentScale = renderer.zoomIn();
+	renderer.moveTo(pos.x, pos.y);
+	if (desiredScale > currentScale) {
+	  	setTimeout(function () {
+	      zoomInNode(desiredScale, currentScale,renderer,pos);
+	  	}, 1);
+  	}
 }
 
 function zoomOut(desiredScale, currentScale,renderer){
@@ -47,15 +66,6 @@ function zoomOut(desiredScale, currentScale,renderer){
 	if (desiredScale < currentScale) {
 	  	setTimeout(function () {
 	      zoomOut(desiredScale, currentScale,renderer);
-	  	}, 1);
-  	}
-}
-
-function zoomIn(desiredScale, currentScale,renderer){
-	currentScale = renderer.zoomIn();
-	if (desiredScale > currentScale) {
-	  	setTimeout(function () {
-	      zoomIn(desiredScale, currentScale,renderer);
 	  	}, 1);
   	}
 }

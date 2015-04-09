@@ -27,7 +27,8 @@ router.get('/', function(req, res, next) {
    }
 
   setTimeout(function(){
-  	res.render('indexWebGl', { title: 'PhyloViZ WebGl', precompute: req.query['precompute'] });
+    if (req.query['precompute'] != undefined) res.render('indexWebGl', { title: 'PhyloViZ WebGl', precompute: req.query['precompute'] });
+    else res.render('indexWebGl', { title: 'PhyloViZ WebGl', precompute: false });
 
   },500);
 

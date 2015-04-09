@@ -1,6 +1,7 @@
 
 var width = $(document).width(),
-    height = $(document).height() - $('#col_toolbar').height();
+    height = $(document).height() - $('#navbarWebgl').height();
+
 
 function onLoad(){
 
@@ -68,7 +69,7 @@ function constructGraph(data){
       function precompute(iterations, callback) {
         // let's run 10 iterations per event loop cycle:
         var i = 0;
-        while (iterations > 0 && i < 10) {
+        while (iterations > 0 && i < 1) {
           layout.step();
           iterations--;
           i++;
@@ -109,6 +110,7 @@ function constructGraph(data){
                   container  : document.getElementById( 'visual' ),
                   layout : layout,
                   graphics : graphics
+
               });
 
           renderer.run();
@@ -116,11 +118,12 @@ function constructGraph(data){
 
         // Final bit: most likely graph will take more space than available
         // screen. Let's zoom out to fit it into the view:
-        var graphRect = layout.getGraphRect();
-        var graphSize = Math.min(graphRect.x2 - graphRect.x1, graphRect.y2 - graphRect.y1);
-        var screenSize = Math.min(document.body.clientWidth, document.body.clientHeight);
+          var graphRect = layout.getGraphRect();
+          var graphSize = Math.min(graphRect.x2 - graphRect.x1, graphRect.y2 - graphRect.y1);
+          var screenSize = Math.min(document.body.clientWidth, document.body.clientHeight);
 
-        var desiredScale = screenSize / graphSize;
+          var desiredScale = screenSize / graphSize;
+        //  console.log(graphRect);
         zoomOut(desiredScale, 1, renderer);
 
 
