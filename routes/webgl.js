@@ -5,6 +5,8 @@ var parseGoe = require('goeBURSTparser');
 /* GET home page. */
 router.get('/', function(req, res, next) {
 
+  console.log(req.query);
+
   if (req.query['data'] == 'saureus'){
     	parseGoe('data/staureusST.txt','data/staureusLinks.txt', 'data/sampleADfile.txt', 'ST');
    }
@@ -25,7 +27,7 @@ router.get('/', function(req, res, next) {
    }
 
   setTimeout(function(){
-  	res.render('indexWebGl', { title: 'PhyloViZ WebGl' });
+  	res.render('indexWebGl', { title: 'PhyloViZ WebGl', precompute: req.query['precompute'] });
 
   },500);
 

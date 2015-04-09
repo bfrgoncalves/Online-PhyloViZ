@@ -2,7 +2,6 @@
 var width = $(document).width(),
     height = $(document).height() - $('#col_toolbar').height();
 
-
 function onLoad(){
 
     $('#visual').css({width:width, height: height, position: "relative"});
@@ -63,7 +62,8 @@ function constructGraph(data){
 
 
       // we need to compute layout, but we don't want to freeze the browser
-      precompute(500, renderGraph);
+      if (compute) precompute(parseInt(compute), renderGraph);
+      else renderGraph();
 
       function precompute(iterations, callback) {
         // let's run 10 iterations per event loop cycle:
