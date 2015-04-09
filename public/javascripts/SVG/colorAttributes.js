@@ -25,8 +25,6 @@ var colorAttributes = function(graph){
 		parent.append('<div><input type="checkbox" onclick=changeNodeColorByMetadata("'+pNoSpaces+'") property= "'+property+'--'+equal+'" id="'+pNoSpaces+'"/>By ' + property +'</div>');
 
 	}
-
-
 }
 
 var changeNodeColorByScheme = function(property){

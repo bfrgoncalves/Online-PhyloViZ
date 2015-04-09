@@ -1,25 +1,27 @@
 
 var width = $(document).width(),
-    height = $(document).height() - $('#navbarWebgl').height();
+    height = $(document).height() - $('#col_toolbar').height();
+
 
 function onLoad(){
 
     $('#visual').css({width:width, height: height, position: "relative"});
 
-    labels = d3.select('#visual').append('svg').attr('id','labels').attr('width',width).attr('height',height);
+    // labels = d3.select('#visual').append('svg').attr('id','labels').attr('width',width).attr('height',height);
 
-    // var zoom = d3.behavior.zoom().on("zoom", rescale(labels));
+    // // var zoom = d3.behavior.zoom().on("zoom", rescale(labels));
 
-    // labels.call(zoom);
+    // // labels.call(zoom);
 
 
-    $('#labels').bind('click', addLabels);
+    // $('#labels').bind('click', addLabels);
 
-    $('#labels').css({position: "absolute", "z-index": 2, "pointer-events": "none"});
+    // $('#labels').css({position: "absolute", "z-index": 2, "pointer-events": "none"});
 
     constructGraph("./data/goeData.json");
 
 }
+
 
 function constructGraph(data){
 
@@ -49,104 +51,144 @@ function constructGraph(data){
     	    theta: 0.8
       	});
 
-        var graphicsOptions = {
-            clearColor: true, // we want to avoid rendering artifacts
-            clearColorValue: { // use black color to erase background
-              r: 255,
-              g: 255,
-              b: 255,
-              a: 1
-            }
-          };
+      var graphicsOptions = {
+          clearColor: true, // we want to avoid rendering artifacts
+          clearColorValue: { // use black color to erase background
+            r: 255,
+            g: 255,
+            b: 255,
+            a: 1
+          }
+        };
 
 
-    	var graphics = Viva.Graph.View.webglGraphics(graphicsOptions);
+      // we need to compute layout, but we don't want to freeze the browser
+      precompute(500, renderGraph);
 
-	// first, tell webgl graphics we want to use custom shader
-    // to render nodes:
-    var circleNode = buildCircleNodeShader();
-    graphics.setNodeProgram(circleNode);
+      function precompute(iterations, callback) {
+        // let's run 10 iterations per event loop cycle:
+        var i = 0;
+        while (iterations > 0 && i < 10) {
+          layout.step();
+          iterations--;
+          i++;
+        }
+        $('#processingElement').children().remove();
+        $('#processingElement').append('<div><h3>Layout precompute: ' + iterations+'</h3></div>');
+        if (iterations > 0) {
+          setTimeout(function () {
+              precompute(iterations, callback);
+          }, 0); // keep going in next even cycle
+        } else {
+          // we are done!
+          $('#processingElement').children().remove();
+          callback();
+        }
+      }
 
-    // second, change the node ui model, which can be understood
-    // by the custom shader:
 
-    graphics.node(function (node) {
-       return new WebglCircle(DefaultnodeSize+node.data.isolates.length, nodeColor);
-    });
+      function renderGraph(){
+
+          var graphics = Viva.Graph.View.webglGraphics(graphicsOptions);
+
+        // first, tell webgl graphics we want to use custom shader
+          // to render nodes:
+          var circleNode = buildCircleNodeShader();
+          graphics.setNodeProgram(circleNode);
+
+          // second, change the node ui model, which can be understood
+          // by the custom shader:
+
+          graphics.node(function (node) {
+             return new WebglCircle(DefaultnodeSize+node.data.isolates.length, nodeColor);
+          });
 
 
-  var renderer = Viva.Graph.View.renderer(graphGL,
-        {
-            container  : document.getElementById( 'visual' ),
-            layout : layout,
-            graphics : graphics
+        var renderer = Viva.Graph.View.renderer(graphGL,
+              {
+                  container  : document.getElementById( 'visual' ),
+                  layout : layout,
+                  graphics : graphics
+              });
+
+          renderer.run();
+
+
+        // Final bit: most likely graph will take more space than available
+        // screen. Let's zoom out to fit it into the view:
+        var graphRect = layout.getGraphRect();
+        var graphSize = Math.min(graphRect.x2 - graphRect.x1, graphRect.y2 - graphRect.y1);
+        var screenSize = Math.min(document.body.clientWidth, document.body.clientHeight);
+
+        var desiredScale = screenSize / graphSize;
+        zoomOut(desiredScale, 1, renderer);
+
+
+        var events = Viva.Graph.webglInputEvents(graphics, graphGL);
+
+        events.mouseEnter(function (node) {
+             //console.log('Mouse entered node: ' + node.id);
+         }).mouseLeave(function (node) {
+             //console.log('Mouse left node: ' + node.id);
+         })
+        events.dblClick(function (node) {
+          //
+        }).click(function (node, e) {
+            //console.log('Single click on node: ' + node.id);
+              //renderer.pause();
+              //addLabels(graphics, node);
+              changeColor(graphics, node,renderer);
         });
 
-    renderer.run();
+          var multiSelectOverlay;
 
-	var events = Viva.Graph.webglInputEvents(graphics, graphGL);
+          document.addEventListener('keydown', function(e) {
+          if (e.which === 16 && !multiSelectOverlay) { // shift key
+            multiSelectOverlay = startMultiSelect(graphGL, renderer, layout);
+          }
+          });
+            document.addEventListener('keyup', function(e) {
+              if (e.which === 16 && multiSelectOverlay) {
+                multiSelectOverlay.destroy();
+                multiSelectOverlay = null;
+              }
+            });
 
-	events.mouseEnter(function (node) {
-	     //console.log('Mouse entered node: ' + node.id);
-	 }).mouseLeave(function (node) {
-	     //console.log('Mouse left node: ' + node.id);
-	 })
-	events.dblClick(function (node) {
-    //
-	}).click(function (node, e) {
-	    //console.log('Single click on node: ' + node.id);
-        //renderer.pause();
-        //addLabels(graphics, node);
-        changeColor(graphics, node,renderer);
-	});
+          $('#searchForm').submit(function(e) {
+                          e.preventDefault();
+                          var nodeId = $('#nodeid').val();
+                          centerNode(nodeId,graphGL,layout,renderer,graphics)
+                      });
 
-    var multiSelectOverlay;
+          $('#numberOfNodes').append(' '+ graph.nodes.length);
 
-    document.addEventListener('keydown', function(e) {
-    if (e.which === 16 && !multiSelectOverlay) { // shift key
-      multiSelectOverlay = startMultiSelect(graphGL, renderer, layout);
-    }
-    });
-      document.addEventListener('keyup', function(e) {
-        if (e.which === 16 && multiSelectOverlay) {
-          multiSelectOverlay.destroy();
-          multiSelectOverlay = null;
-        }
-      });
-
-    $('#searchForm').submit(function(e) {
-                    e.preventDefault();
-                    var nodeId = $('#nodeid').val();
-                    centerNode(nodeId,graphGL,layout,renderer,graphics)
-                });
-
-    $('#numberOfNodes').append(' '+ graph.nodes.length);
-
-    $('#pauseLayout').click(function(e) {
-                    e.preventDefault();
-                    if($('#pauseLayout')[0].innerHTML == "Pause Layout"){
-                      renderer.pause();
-                      $('#pauseLayout')[0].innerHTML = "Resume Layout";
-                      $('#iconPauseLayout').toggleClass('glyphicon glyphicon-pause',false);
-                      $('#iconPauseLayout').toggleClass('glyphicon glyphicon-play',true);
-                    }
-                    else{ 
-                      renderer.resume();
-                      $('#pauseLayout')[0].innerHTML = "Pause Layout";
-                      $('#iconPauseLayout').toggleClass('glyphicon glyphicon-play',false);
-                      $('#iconPauseLayout').toggleClass('glyphicon glyphicon-pause',true);
-                      
-                    }
-                    // var nodeId = $('#pauseLayout').val();
-                    // centerNode(nodeId,graphGL,layout,renderer,graphics)
-                });
+          $('#pauseLayout').click(function(e) {
+                          e.preventDefault();
+                          if($('#pauseLayout')[0].innerHTML == "Pause Layout"){
+                            renderer.pause();
+                            $('#pauseLayout')[0].innerHTML = "Resume Layout";
+                            $('#iconPauseLayout').toggleClass('glyphicon glyphicon-pause',false);
+                            $('#iconPauseLayout').toggleClass('glyphicon glyphicon-play',true);
+                          }
+                          else{ 
+                            renderer.resume();
+                            $('#pauseLayout')[0].innerHTML = "Pause Layout";
+                            $('#iconPauseLayout').toggleClass('glyphicon glyphicon-play',false);
+                            $('#iconPauseLayout').toggleClass('glyphicon glyphicon-pause',true);
+                            
+                          }
+                          // var nodeId = $('#pauseLayout').val();
+                          // centerNode(nodeId,graphGL,layout,renderer,graphics)
+                      });
 
 
-    search_nodes(graph);
+          search_nodes(graph);
+      }
 
     });
 
 }
+
 
     function changeColor(graphics,node,renderer) {
       var nodeUI = graphics.getNodeUI(node.id);
