@@ -18,6 +18,7 @@ var centerNode = function(nodeId,graph,layout,renderer,graphics){
 			if ($('#pauseLayout')[0].innerHTML == "Pause Layout") $( "#pauseLayout" ).trigger( "click" );
             var pos = layout.getNodePosition(nodeId);
             node = graph.getNode(nodeId);
+            renderer.moveTo(pos.x, pos.y);
             changeColor(graphics,node,renderer);
             //layout.pinNode(node, !layout.isNodePinned(node));
             var currentScale = String(renderer.zoomIn());
@@ -42,8 +43,8 @@ if (desiredScale > currentScale) {
 }
 
 function zoomOutNode(desiredScale, currentScale,renderer,pos){
-	currentScale = renderer.zoomOut();
 	renderer.moveTo(pos.x, pos.y);
+	currentScale = renderer.zoomOut();
 	if (desiredScale < currentScale) {
 	  	setTimeout(function () {
 	      zoomOutNode(desiredScale, currentScale,renderer,pos);
@@ -52,8 +53,8 @@ function zoomOutNode(desiredScale, currentScale,renderer,pos){
 }
 
 function zoomInNode(desiredScale, currentScale,renderer,pos){
-	currentScale = renderer.zoomIn();
 	renderer.moveTo(pos.x, pos.y);
+	currentScale = renderer.zoomIn();
 	if (desiredScale > currentScale) {
 	  	setTimeout(function () {
 	      zoomInNode(desiredScale, currentScale,renderer,pos);
