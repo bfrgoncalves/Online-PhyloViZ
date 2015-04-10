@@ -69,6 +69,3 @@ function zoomOut(desiredScale, currentScale,renderer){
 	  	}, 1);
   	}
 }
-
-
-        

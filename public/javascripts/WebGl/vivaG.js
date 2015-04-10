@@ -27,6 +27,7 @@ function constructGraph(data){
 
     d3.json(data, function(error, graph) {
       console.log(graph);
+      colorAttributes(graph); 
 
     	var arrayOfNodesID = [];
 
