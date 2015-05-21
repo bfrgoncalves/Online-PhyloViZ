@@ -1,47 +1,20 @@
-
-
 function WebglCircle(size, color, data) {
             this.size = size;
             this.color = color;
-            // this.data = [];
-            // var total = 0;
-            
-            // $.each(data,function() {
-            //     total += this;
-            // });
-
-            // for (i = 0; i<data.length; i++){
-            //     this.data.push({ percentage: data[i]/total, absNumber: data[i] , pieAngle: (data[i]/total) * 360});
-
-            // }
+            this.data = data;
 }
 
 
 function buildCircleNodeShader() {
-            // For each primitive we need 4 attributes: x, y, color and size.
-            var ATTRIBUTES_PER_PRIMITIVE = 4,
+            // For each primitive we need 5 attributes: x, y, color, size and data.
+            var ATTRIBUTES_PER_PRIMITIVE = 5,
                 nodesFS = [
                 'precision mediump float;',
                 'varying vec4 color;',
-                'int numberOfParts = 4;',
+
                 'void main(void) {',
                 '   if ((gl_PointCoord.x - 0.5) * (gl_PointCoord.x - 0.5) + (gl_PointCoord.y - 0.5) * (gl_PointCoord.y - 0.5) < 0.25) {',
-                        'if (gl_PointCoord.y/2.0 <= 0.25){',
-                            'if (gl_PointCoord.x/2.0 <= 0.25){',
-                                'gl_FragColor = vec4(1, 1, 0, 1);',
-                            '}',
-                            'else{',
-                                'gl_FragColor = vec4(1, 0, 0, 1);',
-                            '}',
-                        '}',
-                        'else{',
-                            'if (gl_PointCoord.x/2.0 <= 0.25){',
-                                'gl_FragColor = vec4(1, 0, 1, 1);',
-                            '}',
-                            'else{',
-                                'gl_FragColor = vec4(0, 0, 1, 1);',
-                            '}',
-                        '}',
+                '     gl_FragColor = color;',
                 '   } else {',
                 '     gl_FragColor = vec4(0);',
                 '   }',

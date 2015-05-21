@@ -28,6 +28,18 @@ block normalBody
 						div.collapse(id='MetadataColor')
 							div.well(id='colorAttributesMetadata')
 
+			li
+				div
+					a.btn.btn-primary.actionButton(data-toggle='collapse', href='#collapseNodeSize', aria-expanded="false", aria-controls="collapseExample") Change Graphic Properties
+					div.collapse(id='collapseNodeSize')
+						div.well(id='SizeAttributes')
+							label Node Sizes
+							input(type='range',id='NodeSizeSlider', name='points1', value = 30, min='15', max='100')
+							label Link Thickness
+							input(type='range',id='LinkThickSlider', name='points1', value = 1, min='1', max='30', onchange='ChangeLinkThickness(this.value)')
+							label Link Distance
+							input(type='range',id='LinkDistanceSlider', name='points2', value = 50, min='10', max='100', step='0.01', onchange='ChangeDistance(this.value)')
+
 	div(id='processingElement')
 
 	div(id='visual',oncontextmenu='return false;')
@@ -43,6 +55,7 @@ block scripts
 	script(type='text/javascript').
 		var compute = !{JSON.stringify(precompute)};
 	script(type='text/javascript', src='/javascripts/d3.min.js')
+	script(type='text/javascript', src='/javascripts/seedrandom.js')
 	script(type='text/javascript', src="/javascripts/pathgl-gh-pages/dist/pathgl.js")
 	script(type='text/javascript', src="/javascripts/Three.js")
 	script(type='text/javascript', src='/javascripts/VivaGraphJS-master/dist/vivagraph.js')
@@ -51,8 +64,11 @@ block scripts
 	script(type='text/javascript', src='/javascripts/jquery-ui.min.js')
 	script(type='text/javascript', src='/javascripts/bootstrap.js')
 	script(type='text/javascript', src='/javascripts/bootstrap-select.js')
+	script(type='text/javascript', src='/javascripts/Chart.js')
 	script(type='text/javascript', src='/javascripts/WebGl/customNodeWebGl.js')
 	script(type='text/javascript', src='/javascripts/WebGl/searchNodesWebGl.js')
 	script(type='text/javascript', src='/javascripts/WebGl/multiSelectionWebGl.js')
 	script(type='text/javascript', src='/javascripts/WebGl/assignColors_Webgl.js')
+	script(type='text/javascript', src='/javascripts/WebGl/change_Render_Properties_Webgl.js')
+	script(type='text/javascript', src='/javascripts/WebGl/change_Layout_Properties_Webgl.js')
 	script(type='text/javascript', src='/javascripts/WebGl/vivaG.js')

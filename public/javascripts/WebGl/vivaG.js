@@ -1,25 +1,32 @@
 
+Math.seedrandom(1);
+
 var width = $(document).width(),
     height = $(document).height() - $('#navbarWebgl').height();
 
+var ArrayOfColors = [], NumberOfColors, currentDomain = [];
+var color = d3.scale.ordinal().domain(currentDomain).range(ArrayOfColors);
 
 function onLoad(){
 
     $('#visual').css({width:width, height: height, position: "relative"});
 
-    // labels = d3.select('#visual').append('svg').attr('id','labels').attr('width',width).attr('height',height);
+    labels = d3.select('#visual').append('svg').attr('id','labels').attr('width',width).attr('height',height);
 
     // // var zoom = d3.behavior.zoom().on("zoom", rescale(labels));
 
     // // labels.call(zoom);
 
 
-    // $('#labels').bind('click', addLabels);
-
-    // $('#labels').css({position: "absolute", "z-index": 2, "pointer-events": "none"});
+     $('#labels').css({position: "absolute", "z-index": 1, "pointer-events": "none"});
 
     constructGraph("./data/goeData.json");
 
+}
+
+function getRandomColor() {
+    var color = (0x1000000+(Math.random())*0xffffff);
+    return color;
 }
 
 
@@ -27,22 +34,27 @@ function constructGraph(data){
 
     d3.json(data, function(error, graph) {
       console.log(graph);
-      colorAttributes(graph); 
+
+      NumberOfColors = graph.nodes.length;
+
+      for (var i=0;i<NumberOfColors;i++){
+        ArrayOfColors.push(getRandomColor());
+      }
 
     	var arrayOfNodesID = [];
 
     	var graphGL = Viva.Graph.graph();
 
     	for (i in graph.nodes){
-    		graphGL.addNode(graph.nodes[i].key, graph.nodes[i]);
+    	 	graphGL.addNode(graph.nodes[i].key, graph.nodes[i]);
     	}
 
     	for (j in graph.links){
-    		graphGL.addLink(graph.links[j].source,graph.links[j].target);
+    	 	graphGL.addLink(graph.links[j].source,graph.links[j].target);
     	}
 
     	var nodeColor = 0x009ee8; // hex rrggbb
-           DefaultnodeSize = 12;
+           DefaultnodeSize = 30;
 
     	var layout = Viva.Graph.Layout.forceDirected(graphGL, {
     	    springLength : 30,
@@ -61,6 +73,7 @@ function constructGraph(data){
             a: 1
           }
         };
+
 
 
       // we need to compute layout, but we don't want to freeze the browser
@@ -93,16 +106,20 @@ function constructGraph(data){
 
           var graphics = Viva.Graph.View.webglGraphics(graphicsOptions);
 
+          console.log(graphics);
+
         // first, tell webgl graphics we want to use custom shader
           // to render nodes:
+
           var circleNode = buildCircleNodeShader();
           graphics.setNodeProgram(circleNode);
 
           // second, change the node ui model, which can be understood
           // by the custom shader:
 
+
           graphics.node(function (node) {
-             return new WebglCircle(DefaultnodeSize+node.data.isolates.length, nodeColor);
+             return new WebglCircle(DefaultnodeSize+node.data.isolates.length, nodeColor, [1,2,3]);
           });
 
 
@@ -141,7 +158,7 @@ function constructGraph(data){
             //console.log('Single click on node: ' + node.id);
               //renderer.pause();
               //addLabels(graphics, node);
-              changeColor(graphics, node,renderer);
+              //changeColor(graphics, node,renderer);
         });
 
           var multiSelectOverlay;
@@ -185,8 +202,13 @@ function constructGraph(data){
                           // centerNode(nodeId,graphGL,layout,renderer,graphics)
                       });
 
+          $('#NodeSizeSlider').change(function(e){
+            NodeSize(this.value, renderer, graph, graphics)
+          });
+
 
           search_nodes(graph);
+          colorAttributes(graph,graphics, renderer); 
       }
 
     });
@@ -198,7 +220,7 @@ function constructGraph(data){
       var nodeUI = graphics.getNodeUI(node.id);
       //if (isInside(node.id, topLeft, bottomRight)) {
         nodeUI.color = 0xFFA500ff;
-        nodeUI.size = 20;
+        nodeUI.size = 30;
         renderer.rerender();
       // } else {
       //   nodeUI.color = 0x009ee8ff;
@@ -215,18 +237,20 @@ function constructGraph(data){
 function addLabels(graphics, node){
     var nodeUI = graphics.getNodeUI(node.id);
     pos = transformGraphToClient(nodeUI.position);
+    //console.log(pos);
 
     d3.select('#labels').append('g').attr('class','labels').append('text').text(function(){
              return node.id;
-         }).attr('x', pos.x).attr('y', pos.y).attr('fill', 'white');
+         }).attr('x', nodeUI.position.x).attr('y', nodeUI.position.y).attr('fill', 'black');
 
 }
 
 
 function transformGraphToClient(nodePos) {
             //change graph coordinates to container coordinates
+            console.log(nodePos);
             nodePos.x = width /2 + nodePos.x;
-            nodePos.y = height / 2 + nodePos.y;
+            nodePos.y = height / 2 + nodePos.y + 400;
 
             return nodePos;
 }

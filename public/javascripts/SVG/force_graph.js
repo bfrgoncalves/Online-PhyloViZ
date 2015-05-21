@@ -1,6 +1,7 @@
 
 $('body').css('background-color','white');
 
+Math.seedrandom(1);
 
 var width = $('#col_visual').width(),
     height = $(document).height() - $('#col_toolbar').height();

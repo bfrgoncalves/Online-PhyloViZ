@@ -19,7 +19,7 @@ var centerNode = function(nodeId,graph,layout,renderer,graphics){
             var pos = layout.getNodePosition(nodeId);
             node = graph.getNode(nodeId);
             renderer.moveTo(pos.x, pos.y);
-            changeColor(graphics,node,renderer);
+            //changeColor(graphics,node,renderer);
             //layout.pinNode(node, !layout.isNodePinned(node));
             var currentScale = String(renderer.zoomIn());
             zoomToNode(1, currentScale,renderer,pos);

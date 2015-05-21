@@ -6,7 +6,7 @@
 
 module.exports = renderer;
 
-var eventify = require('ngraph.graph');
+var eventify = require('ngraph.events');
 var forceDirected = require('ngraph.forcelayout');
 var svgGraphics = require('./svgGraphics.js');
 var windowEvents = require('../Utils/windowEvents.js');
@@ -73,11 +73,6 @@ function renderer(graph, settings) {
     userInteraction = false,
     isPaused = false,
 
-    viewPortOffset = {
-      x: 0,
-      y: 0
-    },
-
     transform = {
       offsetX: 0,
       offsetY: 0,
@@ -103,8 +98,8 @@ function renderer(graph, settings) {
         prepareSettings();
         prerender();
 
-        updateCenter();
         initDom();
+        updateCenter();
         listenToEvents();
 
         rendererInitialized = true;
@@ -167,12 +162,12 @@ function renderer(graph, settings) {
     },
 
     on: function(eventName, callback) {
-      publicEvents.addEventListener(eventName, callback);
+      publicEvents.on(eventName, callback);
       return this;
     },
 
     off: function(eventName, callback) {
-      publicEvents.removeEventListener(eventName, callback);
+      publicEvents.off(eventName, callback);
       return this;
     }
   };
@@ -267,9 +262,10 @@ function renderer(graph, settings) {
     var graphRect = layout.getGraphRect(),
       containerSize = getDimension(container);
 
-    viewPortOffset.x = viewPortOffset.y = 0;
-    transform.offsetX = containerSize.width / 2 - (graphRect.x2 + graphRect.x1) / 2;
-    transform.offsetY = containerSize.height / 2 - (graphRect.y2 + graphRect.y1) / 2;
+    var cx = (graphRect.x2 + graphRect.x1) / 2;
+    var cy = (graphRect.y2 + graphRect.y1) / 2;
+    transform.offsetX = containerSize.width / 2 - (cx * transform.scale - cx);
+    transform.offsetY = containerSize.height / 2 - (cy * transform.scale - cy);
     graphics.graphCenterChanged(transform.offsetX, transform.offsetY);
 
     updateCenterRequired = false;
@@ -436,8 +432,6 @@ function renderer(graph, settings) {
     if (isInteractive('drag')) {
       containerDrag = dragndrop(container);
       containerDrag.onDrag(function(e, offset) {
-        viewPortOffset.x += offset.x;
-        viewPortOffset.y += offset.y;
         graphics.translateRel(offset.x, offset.y);
 
         renderGraph();

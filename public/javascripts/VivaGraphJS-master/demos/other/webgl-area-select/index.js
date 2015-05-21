@@ -60,7 +60,6 @@ function startMultiSelect(graph, renderer, layout) {
 
     function higlightIfInside(node) {
       var nodeUI = graphics.getNodeUI(node.id);
-      console.log(nodeUI);
       if (isInside(node.id, topLeft, bottomRight)) {
         nodeUI.color = 0xFFA500ff;
         nodeUI.size = 20;

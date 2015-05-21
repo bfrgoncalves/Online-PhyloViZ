@@ -41,6 +41,7 @@ function webgl(gl) {
     gl.linkProgram(program);
 
     if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+      console.log(program);
       var msg = gl.getShaderInfoLog(program);
       window.alert(msg);
       throw msg;

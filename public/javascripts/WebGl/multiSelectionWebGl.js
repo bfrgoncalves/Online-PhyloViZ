@@ -30,10 +30,10 @@ function startMultiSelect(graph, renderer, layout) {
       var nodeUI = graphics.getNodeUI(node.id);
       if (isInside(node.id, topLeft, bottomRight)) {
         nodeUI.color = 0xFFA500ff;
-        nodeUI.size = 20;
+        nodeUI.size = 30;
       } else {
-        nodeUI.color = 0x009ee8ff;
-        nodeUI.size = 10;
+        nodeUI.color = 0x009ee8;
+        nodeUI.size = 30;
       }
     }
 
