@@ -1,0 +1,121 @@
+body {
+  padding: 20px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: white;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.navbar{
+	background-color: grey;
+}
+
+.actionButton{
+	width:100%;
+	background-color: grey;
+}
+
+.node text {
+  font: 9px helvetica;
+}
+
+.modal {
+	background-color: white;
+   width: 50%;
+   height: 50%;
+   position: absolute;
+   left: 50%;
+   top: 50%; 
+   margin-left: -25%;
+   margin-top: -25%;
+}
+
+.dropNameNodes{
+	text-align: center;
+}
+
+#col_visual{
+	border: 4px solid;
+	border-color: black;
+}
+
+#col_actions{
+	padding: 30px;
+	text-align: right;
+  position: absolute;
+  top: 15%;
+  left: 82%; 
+}
+
+#col_toolbar{
+	padding: 30px;
+	text-align: left;
+  position: absolute;
+  top: 15%; 
+}
+
+#col_webgl{
+  padding: 30px;
+  text-align: left;
+  position: absolute;
+  top: 12%; 
+  z-index: 2;
+}
+
+#SVPieArea{
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
+
+#graph-container {
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      position: absolute;
+    }
+
+#graph-container {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      overflow: hidden;
+      margin: 0px;
+    }
+    .graph-overlay {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+    }
+    .graph-selection-indicator {
+      position: absolute;
+      background: transparent;
+      border: 1px solid orange;
+    }
+
+
+#toggleLayout { position: absolute; bottom: 3%; margin-left: 50%; cursor: pointer; font-size: 15px; color: black;}
+
+#toggleLayoutSVG { position: absolute; bottom: 3%; margin-left: 50%; cursor: pointer; font-size: 15px; color: black;}
+
+
+#visual{
+  position: relative;
+}
+
+#processingElement{
+  margin-left: 47%;
+  margin-top: 15%;
+  position: absolute;
+  z-index:2;
+  text-align: center;
+}
+
+
+    
+    
