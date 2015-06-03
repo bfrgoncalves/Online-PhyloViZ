@@ -7,15 +7,6 @@ var colorAttributes = function(graph, graphics, renderer){
 	for (var index in graph.schemeGenes){
 		var property = graph.schemeGenes[index];
 		options += '<option>'+property+'</option>';
-
-		// if (property != 'isolates'){
-
-		// 	equal = 'yes';
-		// 	pNoSpaces = property.replace(/ /g,'');
-		// 	if (pNoSpaces != property) equal = 'no';
-
-		// 	parent.append('<div><input type="checkbox" onclick=changeNodeColorByScheme("'+pNoSpaces+'") property= "'+property+'--'+equal+'" id="'+pNoSpaces+'"/>By ' + property +'</div>');
-		// }
 	}
 	parent.append('<select class="selectpicker" id="selectByScheme" data-live-search="true">'+options+'</select>');
 
@@ -25,12 +16,6 @@ var colorAttributes = function(graph, graphics, renderer){
 	 	var parent = $('#colorAttributesMetadata');
 	 	property = graph.metadata[Nnodes];
 		options += '<option>'+property+'</option>';
-	// 	equal = 'yes';
-	// 	pNoSpaces = property.replace(/ /g,'');
-	// 	if (pNoSpaces != property) equal = 'no';
-
-	// 	parent.append('<div><input type="checkbox" onclick=changeNodeColorByMetadata("'+pNoSpaces+'") property= "'+property+'--'+equal+'" id="'+pNoSpaces+'"/>By ' + property +'</div>');
-
 	}
 	parent.append('<select class="selectpicker" id="selectByMetadata" data-live-search="true">'+options+'</select>');
 
@@ -42,49 +27,30 @@ $('.selectpicker').selectpicker();
 
 $('#selectByScheme').change(function(d){
 	element = $('#selectByScheme');
-	currentDomain = [];
 	//console.log(element);
 	propertyToCheck = element.find(":selected").text();
-	//console.log(element.find(":selected").text());
 
-  if (propertyToCheck == 'All'){
-    graph.nodes.forEach(function(node){
+  gatherSchemeData(graph, propertyToCheck, function(objectOfTotal, objectOfType, propertyIndexes, maxDiffProperties, countProperties){
+       changePieData(graphics, maxDiffProperties, countProperties); //First change shaders
+       renderer.run(); //Restart nodes
+       changeNodeUIData(objectOfType, graphics, propertyIndexes, maxDiffProperties);
+  });
 
-        if (currentDomain.indexOf(String(node.profile)) == -1) currentDomain.push(String(node.profile));
-        color.domain(currentDomain).range(ArrayOfColors);
-        assignColorAllProfile(node, graphics);
-        renderer.rerender();
-    })
-  }
-  else{
-    propertyIndex = graph.schemeGenes.indexOf(propertyToCheck);
-    graph.nodes.forEach(function(node){
-      if (currentDomain.indexOf(node.profile[propertyIndex]) == -1) currentDomain.push(String(node.profile[propertyIndex]));
-      color.domain(currentDomain).range(ArrayOfColors);
-      assignColor(node, propertyIndex, graphics);
-      renderer.rerender();
-    })
-  }
-})
+});
 
-// $('#selectByMetadata').change(function(d){
-//   element = $('#selectByScheme');
-//   currentDomain = [];
-//   //console.log(element);
-//   propertyToCheck = element.find(":selected").text();
-//   //console.log(element.find(":selected").text());
+ $('#selectByMetadata').change(function(d){
+  element = $('#selectByMetadata');
+ 	propertyToCheck = element.find(":selected").text();
+  propertyIndex = graph.metadata.indexOf(propertyToCheck);
 
-//   propertyIndex = graph.metadata.indexOf(propertyToCheck);
-//   graph.nodes.forEach(function(node){
-//     lengthIsolates = node.isolates.length;
-//     if (currentDomain.indexOf(node.profile[propertyIndex]) == -1) currentDomain.push(String(node.profile[propertyIndex]));
-//     color.domain(currentDomain).range(ArrayOfColors);
-//     assignColor(node, propertyIndex, graphics);
-//     renderer.rerender();
-//   })
-  
-// })
 
+  gatherMetadata(graph, propertyIndex, function(objectOfTotal, objectOfType, propertyIndexes, maxDiffProperties, countProperties){
+       changePieData(graphics, maxDiffProperties, countProperties); //First change shaders
+       renderer.run(); //Restart nodes
+       changeNodeUIData(objectOfType, graphics, propertyIndexes, maxDiffProperties);
+  });
+
+});
 
 }
 
@@ -94,6 +60,13 @@ function assignColor(node, propertyIndex, graphics) {
       nodeUI.color = color(node.profile[propertyIndex]);
 
     }
+
+function changePieData(graphics, dataLength, totalTypes) {
+
+	  var circleNode = buildCircleNodeShader(dataLength, totalTypes);
+    graphics.setNodeProgram(circleNode);
+  
+}
 
 function assignColorAllProfile(node, graphics, renderer) {
       var nodeUI = graphics.getNodeUI(node.key);

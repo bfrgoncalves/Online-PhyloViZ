@@ -7,9 +7,7 @@ function NodeSize(newSize, renderer, graph, graphics){
     })
 
     graph.links.forEach(function(link){
-    	console.log(link);
         var nodeUI = graphics.getLinkUI();
-        console.log(nodeUI);
         // nodeUI.size = newSize;
     })
 }
