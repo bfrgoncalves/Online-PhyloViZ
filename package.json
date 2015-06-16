@@ -1,0 +1,30 @@
+{
+  "name": "Force_Layout_ViZ",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "~1.12.0",
+    "busboy": "^0.2.9",
+    "connect-busboy": "0.0.2",
+    "cookie-parser": "~1.3.4",
+    "csv-parser": "^1.5.0",
+    "csv-streamer": "^0.1.1",
+    "debug": "~2.1.1",
+    "express": "~4.12.0",
+    "fast-csv": "^0.6.0",
+    "formidable": "^1.0.17",
+    "jade": "~1.9.2",
+    "jquery": "^2.1.4",
+    "l": "0.0.1",
+    "mongoose": "^3.8.25",
+    "morgan": "~1.5.1",
+    "multer": "^0.1.8",
+    "nvd3": "^1.1.15-beta2",
+    "request": "^2.57.0",
+    "serve-favicon": "~2.2.0",
+    "simple-ajax": "^2.1.0"
+  }
+}

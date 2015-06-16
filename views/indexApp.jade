@@ -1,0 +1,86 @@
+extends layout
+
+block moreStyle
+	link(rel='stylesheet', href='/stylesheets/indexAppStyle.css')
+
+
+block normalBody
+	div(id="imageDiv" style = "position: fixed; bottom: 0px; right: 0px;")
+		img(src = '/images/phyloviz1.png', width = "800", height = "500")
+
+	div(id='inputDiv')
+		img(src = '/images/logo.png', width = "120", height = "120")
+		label(style = 'font-size: 250%;') #{title}
+
+		br
+
+		div(id="useDataset")
+			label Upload your own data
+		
+		div(id="profileButton")
+			div.input-group.input-group-lg
+				input.form-control.justVisual(id = 'textProfile', type="text", placeholder="Upload Profile Data", aria-describedby="sizing-addon1")
+				span.input-group-addon(id="Profile", onclick="getFile(this.id)") Browse
+
+
+		div(id="metadataButton")
+			div.input-group.input-group-lg
+				input.form-control.justVisual(id = 'textMetadata', type="text", placeholder="Upload Metadata", aria-describedby="sizing-addon1")
+				span.input-group-addon(id="Metadata", onclick="getFile(this.id)") Browse
+
+
+		form(id ='inputForm')
+			input.form-control(id="datasetName", type="text", placeholder="Select a name for the dataset", required)
+			div(style='height: 0px;width:0px; overflow:hidden;')
+				input(id="uploadProfile", type="file", value="upload", onchange = 'getFileName(this.id)' )
+				input(id="uploadMetadata", type="file", value="upload", onchange = 'getFileName(this.id)' )
+		
+		br
+
+		br
+
+		div(id="useDataset")
+			label Or use an existing dataset	
+			div(id='existingDatasets')
+
+		br
+
+		div(id="LaunchButton", style="text-align:center;")
+			br
+			button.btn.btn-lg.btn-primary(id="submitForm", onclick= 'submitTree()') Launch Tree
+
+
+		br
+
+		div(id = 'waitingGif')
+			img(id = 'GIFimage')
+		
+		br
+
+		span(id ='status')
+
+		br
+
+	div.footerDiv(id="socialButtons")
+		ul.soc
+			li
+				a.soc-twitter
+			li
+				a.soc-facebook
+			li
+				a.soc-google
+			li
+				a.soc-linkedin
+
+
+
+block scripts
+	script(type='text/javascript', src='/javascripts/dependencies/jquery-2.1.3.min.js')
+	script(type='text/javascript', src='/javascripts/dependencies/jquery.form.js')
+	script(type='text/javascript', src='/javascripts/dependencies/jquery-ui.min.js')
+	script(type='text/javascript', src='/javascripts/dependencies/bootstrap.js')
+	script(type='text/javascript', src='/javascripts/dependencies/bootstrap-select.js')
+	script(type='text/javascript', src='/javascripts/App/indexApp/checkDatasets.js')
+	script(type='text/javascript', src='/javascripts/App/indexApp/uploadfiles.js')
+	script(type='text/javascript', src='/javascripts/App/indexApp/inputButton.js')
+	script(type='text/javascript', src='/javascripts/App/indexApp/index.js')

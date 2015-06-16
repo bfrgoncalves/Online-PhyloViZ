@@ -1,0 +1,101 @@
+extends layout
+
+block normalBody
+
+	div.phylovizNavbar
+		div(onclick="javascript:location.href='./'")
+			img(src = '/images/logo.png', width = "80", height = "80")
+			label(style = 'font-size: 200%;') #{title}
+
+	div
+		ul.nav.nav-tabs.tabs-up
+			li.active
+				a(data-target="#treeContent", data-toggle="mainTab") Tree 
+			li
+				a(data-target="#isolateContent", data-toggle="mainTab") Isolates
+			li
+				a(data-target="#profileContent", data-toggle="mainTab") Profiles
+
+
+	div.tab-content
+		
+		div.tab-pane.active(id="treeContent")
+			div.col-lg-2(id="col_webgl")
+				ul.nav.nav-stacked
+					li
+						div
+							form(id='searchForm')
+								div.input-group
+									input.form-control(type='text' id='nodeid' style='color:black' placehorder="Search")
+									span.input-group-btn
+										button.btn.btn-default(type='submit') Search
+							br
+							h5(id='numberOfNodes') Number of nodes: 
+					li
+						div
+							a.btn.btn-primary.actionButton(data-toggle='collapse', href='#collapseColor', aria-expanded="false", aria-controls="collapseExample") Assign Colors
+							div.collapse(id='collapseColor')
+								a.btn.btn-primary.actionButton(data-toggle='collapse', href='#SchemeColor', aria-expanded="false", aria-controls="collapseExample") By Scheme
+								div.collapse(id='SchemeColor')
+									div.well(id='colorAttributesScheme')
+								a.btn.btn-primary.actionButton(data-toggle='collapse', href='#MetadataColor', aria-expanded="false", aria-controls="collapseExample") By Isolate
+								div.collapse(id='MetadataColor')
+									div.well(id='colorAttributesMetadata')
+
+					li
+						div
+							a.btn.btn-primary.actionButton(data-toggle='collapse', href='#collapseNodeSize', aria-expanded="false", aria-controls="collapseExample") Change Graphic Properties
+							div.collapse(id='collapseNodeSize')
+								div.well(id='SizeAttributes')
+									label Node Sizes
+									input(type='range',id='NodeSizeSlider', name='points1', value = 30, min='15', max='100')
+									label Link Thickness
+									input(type='range',id='LinkThickSlider', name='points1', value = 1, min='1', max='30', onchange='ChangeLinkThickness(this.value)')
+									label Link Distance
+									input(type='range',id='LinkDistanceSlider', name='points2', value = 50, min='10', max='100', step='0.01', onchange='ChangeDistance(this.value)')
+			
+			div.col-lg-2(id="col_info")
+
+
+			div(id='processingElement')
+
+			div(id='visual',oncontextmenu='return false;')
+				div.graph-overlay
+
+			div(id='toggleLayout')
+				i.glyphicon.glyphicon-pause(id='iconPauseLayout') 
+				i(id='pauseLayout') Pause Layout
+		
+		div.tab-pane(id="isolateContent")
+			div(id="divisolates")
+
+		div.tab-pane(id="profileContent")
+			div(id="divprofiles")
+
+
+	
+
+block scripts
+	script(type='text/javascript').
+		var compute = !{JSON.stringify(precompute)};
+		var datasetName = !{JSON.stringify(datasetName)};
+	script(type='text/javascript', src='/javascripts/dependencies/d3.min.js')
+	script(type='text/javascript', src='/javascripts/dependencies/seedrandom.js')
+	script(type='text/javascript', src='/javascripts/dependencies/vivagraph.js')
+	script(type='text/javascript', src='/javascripts/dependencies/nv.d3.min.js')
+	script(type='text/javascript', src='/javascripts/dependencies/jquery-2.1.3.min.js')
+	script(type='text/javascript', src='/javascripts/dependencies/jquery-ui.min.js')
+	script(type='text/javascript', src='/javascripts/dependencies/bootstrap.js')
+	script(type='text/javascript', src='/javascripts/dependencies/bootstrap-select.js')
+	script(type='text/javascript', src='/javascripts/dependencies/jquery.dataTables.js')
+	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/pieNodeWebGl.js')
+	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/CustomLinkProgram.js')
+	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/searchNodesWebGl.js')
+	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/multiSelectionWebGl.js')
+	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/assignColors_Webgl.js')
+	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/change_Render_Properties_Webgl.js')
+	script(type='text/javascript', src='/javascripts/App/main/Table/tableFunctions.js')
+	script(type='text/javascript', src='/javascripts/App/main/getPieData.js')
+	script(type='text/javascript', src='/javascripts/App/main/showInfo.js')
+	script(type='text/javascript', src='/javascripts/App/main/constructGraph.js')
+	script(type='text/javascript', src='/javascripts/App/main/index.js')

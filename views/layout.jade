@@ -1,0 +1,42 @@
+doctype html
+html
+	head
+		title= title
+		link(rel='stylesheet', href='/stylesheets/force_style.css')
+		link(rel='stylesheet', href='/stylesheets/jquery-ui.css')
+		link(rel='stylesheet', href='/stylesheets/bootstrap.css')
+		link(rel='stylesheet', href='/stylesheets/nv.d3.min.css')
+		link(rel='stylesheet', href='/stylesheets/style.css')
+		link(rel='stylesheet', href='/stylesheets/bootstrap-select.css')
+		link(rel='stylesheet', href='/stylesheets/social_buttons.css')
+		link(rel='stylesheet', href='/stylesheets/jquery.dataTables.css')
+
+		block moreStyle
+
+	
+	body(onload= 'onLoad()',style='background-color:white')
+		block normalBody
+			div(id='global')
+				div(id="contextMenu")
+
+				div.col-lg-12(id="col_navbar")
+					block navbar
+
+				block visualization
+
+				div.col-lg-2(id="col_toolbar")
+					block actions
+
+				div.col-lg-2(id="col_actions")
+					block toolBar
+
+				block LayoutPause
+
+				div(id="modals")
+					block modals
+
+			div(id='waiting')
+
+	block scripts
+
+

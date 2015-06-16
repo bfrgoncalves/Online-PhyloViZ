@@ -1,0 +1,150 @@
+body {
+  padding: 20px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: white;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.phylovizNavbar{
+	background-color: white;
+  border-bottom: 2px black solid;
+}
+
+.actionButton{
+	width:100%;
+	background-color: grey;
+}
+
+.node text {
+  font: 9px helvetica;
+}
+
+.modal {
+	background-color: white;
+   width: 50%;
+   height: 50%;
+   position: absolute;
+   left: 50%;
+   top: 50%; 
+   margin-left: -25%;
+   margin-top: -25%;
+}
+
+.dropNameNodes{
+	text-align: center;
+}
+
+.footerDiv{
+  left: 50%;
+  top: 100%;
+  width:500px;
+  height:200px;
+  position: absolute;
+  margin:-10% 0 0 -12%;
+  text-align:center;
+}
+
+.nav-tabs > li, .nav-pills > li {
+    float:none;
+    display:inline-block;
+    *display:inline; /* ie7 fix */
+     zoom:1; /* hasLayout ie7 trigger */
+}
+
+.nav-tabs, .nav-pills {
+    text-align:center;
+}
+
+
+#inputDiv {
+  left: 50%;
+  top: 40%;
+  width:500px;
+  height:200px;
+  position: absolute;
+  margin:-10% 0 0 -12%;
+  text-align:center;
+}
+
+
+#col_visual{
+	border: 4px solid;
+	border-color: black;
+}
+
+#col_actions{
+	padding: 30px;
+	text-align: right;
+  position: absolute;
+  top: 15%;
+  left: 82%; 
+}
+
+#col_toolbar{
+	padding: 30px;
+	text-align: left;
+  position: absolute;
+  top: 15%; 
+}
+
+#col_webgl{
+  padding: 30px;
+  text-align: left;
+  position: absolute;
+  top: 15%; 
+  z-index: 2;
+}
+
+#col_info{
+  padding: 30px;
+  text-align: left;
+  position: absolute;
+  top: 15%;
+  left: 82%; 
+  height: 20%;
+  background-color: white;
+  z-index: 2;
+  border: 2px solid black;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+
+.graph-overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+.graph-selection-indicator {
+  position: absolute;
+  background: transparent;
+  border: 1px solid orange;
+}
+
+
+#toggleLayout { position: absolute; bottom: 3%; margin-left: 50%; cursor: pointer; font-size: 15px; color: black;}
+
+#toggleLayoutSVG { position: absolute; bottom: 3%; margin-left: 50%; cursor: pointer; font-size: 15px; color: black;}
+
+
+#visual{
+  position: relative;
+}
+
+#processingElement{
+  margin-left: 47%;
+  margin-top: 15%;
+  position: absolute;
+  z-index:2;
+  text-align: center;
+}
+
+
+    
+    

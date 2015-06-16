@@ -1,0 +1,187 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'install', 'request', '--save' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.36
+4 verbose node symlink /usr/bin/node
+5 verbose readDependencies using package.json deps
+6 verbose cache add [ 'request', null ]
+7 verbose cache add name=undefined spec="request" args=["request",null]
+8 verbose parsed url { protocol: null,
+8 verbose parsed url   slashes: null,
+8 verbose parsed url   auth: null,
+8 verbose parsed url   host: null,
+8 verbose parsed url   port: null,
+8 verbose parsed url   hostname: null,
+8 verbose parsed url   hash: null,
+8 verbose parsed url   search: null,
+8 verbose parsed url   query: null,
+8 verbose parsed url   pathname: 'request',
+8 verbose parsed url   path: 'request',
+8 verbose parsed url   href: 'request' }
+9 silly lockFile 088e29b0-request request
+10 verbose lock request /home/bruno/.npm/088e29b0-request.lock
+11 silly lockFile 088e29b0-request request
+12 silly lockFile 088e29b0-request request
+13 verbose addNamed [ 'request', '' ]
+14 verbose addNamed [ null, '*' ]
+15 silly lockFile 9d461bcf-request request@
+16 verbose lock request@ /home/bruno/.npm/9d461bcf-request.lock
+17 silly addNameRange { name: 'request', range: '*', hasData: false }
+18 verbose request where is /request
+19 verbose request registry https://registry.npmjs.org/
+20 verbose request id 0de6b7ff2dec87bf
+21 verbose url raw /request
+22 verbose url resolving [ 'https://registry.npmjs.org/', './request' ]
+23 verbose url resolved https://registry.npmjs.org/request
+24 verbose request where is https://registry.npmjs.org/request
+25 info trying registry request attempt 1 at 18:37:02
+26 verbose etag "BG4VBJG6OQYWPB2TRE96OYKN4"
+27 http GET https://registry.npmjs.org/request
+28 http 200 https://registry.npmjs.org/request
+29 silly registry.get cb [ 200,
+29 silly registry.get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+29 silly registry.get     etag: '"MTQQORJZ4VMFV8WKXD86OD7L"',
+29 silly registry.get     'content-type': 'application/json',
+29 silly registry.get     'cache-control': 'max-age=60',
+29 silly registry.get     'content-length': '152626',
+29 silly registry.get     'accept-ranges': 'bytes',
+29 silly registry.get     date: 'Thu, 11 Jun 2015 17:37:03 GMT',
+29 silly registry.get     via: '1.1 varnish',
+29 silly registry.get     age: '28',
+29 silly registry.get     connection: 'keep-alive',
+29 silly registry.get     'x-served-by': 'cache-ams4132-AMS',
+29 silly registry.get     'x-cache': 'HIT',
+29 silly registry.get     'x-cache-hits': '1',
+29 silly registry.get     'x-timer': 'S1434044223.119526,VS0,VE1',
+29 silly registry.get     vary: 'Accept' } ]
+30 silly addNameRange number 2 { name: 'request', range: '*', hasData: true }
+31 silly addNameRange versions [ 'request',
+31 silly addNameRange   [ '0.10.0',
+31 silly addNameRange     '0.8.3',
+31 silly addNameRange     '0.9.0',
+31 silly addNameRange     '0.9.1',
+31 silly addNameRange     '0.9.5',
+31 silly addNameRange     '1.0.0',
+31 silly addNameRange     '1.1.0',
+31 silly addNameRange     '1.1.1',
+31 silly addNameRange     '1.2.0',
+31 silly addNameRange     '1.9.0',
+31 silly addNameRange     '1.9.1',
+31 silly addNameRange     '1.9.2',
+31 silly addNameRange     '1.9.3',
+31 silly addNameRange     '1.9.5',
+31 silly addNameRange     '1.9.7',
+31 silly addNameRange     '1.9.8',
+31 silly addNameRange     '1.9.9',
+31 silly addNameRange     '2.0.0',
+31 silly addNameRange     '2.0.1',
+31 silly addNameRange     '2.0.2',
+31 silly addNameRange     '2.0.3',
+31 silly addNameRange     '2.0.4',
+31 silly addNameRange     '2.0.5',
+31 silly addNameRange     '2.1.0',
+31 silly addNameRange     '2.1.1',
+31 silly addNameRange     '2.2.0',
+31 silly addNameRange     '2.2.5',
+31 silly addNameRange     '2.2.6',
+31 silly addNameRange     '2.2.9',
+31 silly addNameRange     '2.9.0',
+31 silly addNameRange     '2.9.1',
+31 silly addNameRange     '2.9.2',
+31 silly addNameRange     '2.9.3',
+31 silly addNameRange     '2.9.100',
+31 silly addNameRange     '2.9.150',
+31 silly addNameRange     '2.9.151',
+31 silly addNameRange     '2.9.152',
+31 silly addNameRange     '2.9.153',
+31 silly addNameRange     '2.9.200',
+31 silly addNameRange     '2.9.201',
+31 silly addNameRange     '2.9.202',
+31 silly addNameRange     '2.9.203',
+31 silly addNameRange     '2.10.0',
+31 silly addNameRange     '2.11.0',
+31 silly addNameRange     '2.11.1',
+31 silly addNameRange     '2.11.2',
+31 silly addNameRange     '2.11.3',
+31 silly addNameRange     '2.11.4',
+31 silly addNameRange     '2.12.0',
+31 silly addNameRange     '2.14.0',
+31 silly addNameRange     '2.16.0',
+31 silly addNameRange     '2.16.2',
+31 silly addNameRange     '2.16.4',
+31 silly addNameRange     '2.16.6',
+31 silly addNameRange     '2.18.0',
+31 silly addNameRange     '2.19.0',
+31 silly addNameRange     '2.20.0',
+31 silly addNameRange     '2.21.0',
+31 silly addNameRange     '2.22.0',
+31 silly addNameRange     '2.23.0',
+31 silly addNameRange     '2.24.0',
+31 silly addNameRange     '2.25.0',
+31 silly addNameRange     '2.26.0',
+31 silly addNameRange     '2.27.0',
+31 silly addNameRange     '2.28.0',
+31 silly addNameRange     '2.29.0',
+31 silly addNameRange     '2.30.0',
+31 silly addNameRange     '2.31.0',
+31 silly addNameRange     '2.32.0',
+31 silly addNameRange     '2.33.0',
+31 silly addNameRange     '2.34.0',
+31 silly addNameRange     '2.35.0',
+31 silly addNameRange     '2.36.0',
+31 silly addNameRange     '2.37.0',
+31 silly addNameRange     '2.38.0',
+31 silly addNameRange     '2.39.0',
+31 silly addNameRange     '2.40.0',
+31 silly addNameRange     '2.41.0',
+31 silly addNameRange     '2.42.0',
+31 silly addNameRange     '2.43.0',
+31 silly addNameRange     '2.44.0',
+31 silly addNameRange     '2.45.0',
+31 silly addNameRange     '2.46.0',
+31 silly addNameRange     '2.47.0',
+31 silly addNameRange     '2.48.0',
+31 silly addNameRange     '2.49.0',
+31 silly addNameRange     '2.50.0',
+31 silly addNameRange     '2.51.0',
+31 silly addNameRange     '2.52.0',
+31 silly addNameRange     '2.53.0',
+31 silly addNameRange     '2.54.0',
+31 silly addNameRange     '2.55.0',
+31 silly addNameRange     '2.56.0',
+31 silly addNameRange     '2.57.0' ] ]
+32 verbose addNamed [ 'request', '2.57.0' ]
+33 verbose addNamed [ '2.57.0', '2.57.0' ]
+34 silly lockFile 1b48ba8d-request-2-57-0 request@2.57.0
+35 verbose lock request@2.57.0 /home/bruno/.npm/1b48ba8d-request-2-57-0.lock
+36 silly lockFile 6cbf56ad-s-org-request-request-2-57-0-tgz https://registry.npmjs.org/request/-/request-2.57.0.tgz
+37 verbose lock https://registry.npmjs.org/request/-/request-2.57.0.tgz /home/bruno/.npm/6cbf56ad-s-org-request-request-2-57-0-tgz.lock
+38 verbose addRemoteTarball [ 'https://registry.npmjs.org/request/-/request-2.57.0.tgz',
+38 verbose addRemoteTarball   'd445105a42d009b9d724289633b449a6d723d989' ]
+39 info retry fetch attempt 1 at 18:37:03
+40 verbose fetch to= /tmp/npm-25947-VbzumrkS/registry.npmjs.org/request/-/request-2.57.0.tgz
+41 http GET https://registry.npmjs.org/request/-/request-2.57.0.tgz
+42 http 200 https://registry.npmjs.org/request/-/request-2.57.0.tgz
+43 silly lockFile 6cbf56ad-s-org-request-request-2-57-0-tgz https://registry.npmjs.org/request/-/request-2.57.0.tgz
+44 silly lockFile 6cbf56ad-s-org-request-request-2-57-0-tgz https://registry.npmjs.org/request/-/request-2.57.0.tgz
+45 silly lockFile 1b48ba8d-request-2-57-0 request@2.57.0
+46 silly lockFile 1b48ba8d-request-2-57-0 request@2.57.0
+47 silly lockFile 9d461bcf-request request@
+48 silly lockFile 9d461bcf-request request@
+49 error Error: EACCES, mkdir '/home/bruno/.npm/request/2.57.0'
+49 error  { [Error: EACCES, mkdir '/home/bruno/.npm/request/2.57.0']
+49 error   errno: 3,
+49 error   code: 'EACCES',
+49 error   path: '/home/bruno/.npm/request/2.57.0',
+49 error   parent: 'Force_Layout_ViZ' }
+50 error Please try running this command again as root/Administrator.
+51 error System Linux 3.11.0-26-generic
+52 error command "/usr/bin/node" "/usr/bin/npm" "install" "request" "--save"
+53 error cwd /home/bruno/repos/Online_PhyloviZ_current
+54 error node -v v0.10.36
+55 error npm -v 1.4.28
+56 error path /home/bruno/.npm/request/2.57.0
+57 error code EACCES
+58 error errno 3
+59 error stack Error: EACCES, mkdir '/home/bruno/.npm/request/2.57.0'
+60 verbose exit [ 3, true ]
