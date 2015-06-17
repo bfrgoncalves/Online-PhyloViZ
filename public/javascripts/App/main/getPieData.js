@@ -4,7 +4,7 @@ function gatherMetadata(graph, propertyIndex, callback){
 
 	var objectOfTotal = {};
 	var objectOfType = {};
-	var propertyIndexes = {};
+	//var propertyIndexes = {};
 	var countProperties = 0;
 	var maxDiffProperties = 1;
 
@@ -20,7 +20,7 @@ function gatherMetadata(graph, propertyIndex, callback){
 		      if(objectOfTotal[String(node.isolates[i][propertyIndex])]) objectOfTotal[String(node.isolates[i][propertyIndex])] += 1;
 		      else{
 		        objectOfTotal[String(node.isolates[i][propertyIndex])] = 1;
-		        propertyIndexes[String(node.isolates[i][propertyIndex])] = countProperties;
+		        //propertyIndexes[String(node.isolates[i][propertyIndex])] = countProperties;
 		        countProperties += 1;
 		      } 
 
@@ -36,7 +36,7 @@ function gatherMetadata(graph, propertyIndex, callback){
 
   	});
 
-  	callback(objectOfTotal, objectOfType, propertyIndexes, maxDiffProperties, countProperties);
+  	callback(objectOfTotal, objectOfType, maxDiffProperties, countProperties);
 
 }
 
@@ -45,7 +45,7 @@ function gatherSchemeData(graph, propertyToCheck, callback){
 
 	var objectOfTotal = {};
 	var objectOfProfile = {};
-	var propertyIndexes = {};
+	//var propertyIndexes = {};
 	var countProperties = 0;
 	var maxDiffProperties = 1;
 
@@ -61,7 +61,7 @@ function gatherSchemeData(graph, propertyToCheck, callback){
 	        if(objectOfTotal[String(node.profile)]) objectOfTotal[String(node.profile)] += 1;
 	        else{
 	            objectOfTotal[String(node.profile)] = 1;
-	            propertyIndexes[String(node.profile)] = countProperties;
+	            //propertyIndexes[String(node.profile)] = countProperties;
 	            countProperties += 1;
 	          }
 
@@ -78,7 +78,7 @@ function gatherSchemeData(graph, propertyToCheck, callback){
 	        if(objectOfTotal[String(node.profile[propertyIndex])]) objectOfTotal[String(node.profile[propertyIndex])] += 1;
 	        else{
 	            objectOfTotal[String(node.profile[propertyIndex])] = 1;
-	            propertyIndexes[String(node.profile[propertyIndex])] = countProperties;
+	            //propertyIndexes[String(node.profile[propertyIndex])] = countProperties;
 	            countProperties += 1;
 	          }
 
@@ -92,13 +92,13 @@ function gatherSchemeData(graph, propertyToCheck, callback){
 
 	});
 
-	callback(objectOfTotal, objectOfProfile, propertyIndexes, maxDiffProperties, countProperties);
+	callback(objectOfTotal, objectOfProfile, maxDiffProperties, countProperties);
 
 }
 
 
 
-function changeNodeUIData(objectOfType, graphics, propertyIndexes, maxDiffProperties){
+function changeNodeUIData(objectOfType, graphics, propertyIndexes, maxDiffProperties, arrayColors){
 
 
 	for(i in objectOfType){
@@ -109,8 +109,9 @@ function changeNodeUIData(objectOfType, graphics, propertyIndexes, maxDiffProper
 	    nodeUI.rawData = objectOfType[i];
 
 	    for (j in objectOfType[i]){
+	      //console.log(propertyIndexes[j]);
 	      dataToChange.push(objectOfType[i][j]);
-	      indexes.push(propertyIndexes[j]);
+	      indexes.push(arrayColors[propertyIndexes[j]]);
 	    }
 
 	    while(dataToChange.length < maxDiffProperties){

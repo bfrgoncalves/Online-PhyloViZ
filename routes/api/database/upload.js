@@ -41,6 +41,9 @@ router.post('/', multer({
         countProgress += 1;
         if (countProgress == numberOfFiles){
           uploadToDatabase(dataToDB);
+          for (i in fileNames){
+            fs.unlink(fileNames[i]);
+          }
           res.send(dataToDB.datasetName);
         } 
       });

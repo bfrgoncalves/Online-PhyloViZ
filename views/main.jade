@@ -8,8 +8,8 @@ block normalBody
 			label(style = 'font-size: 200%;') #{title}
 
 	div
-		ul.nav.nav-tabs.tabs-up
-			li.active
+		ul.nav.nav-tabs.tabs-up(id="tabs")
+			li.active(id="treeTab")
 				a(data-target="#treeContent", data-toggle="mainTab") Tree 
 			li
 				a(data-target="#isolateContent", data-toggle="mainTab") Isolates
@@ -35,7 +35,7 @@ block normalBody
 						div
 							a.btn.btn-primary.actionButton(data-toggle='collapse', href='#collapseColor', aria-expanded="false", aria-controls="collapseExample") Assign Colors
 							div.collapse(id='collapseColor')
-								a.btn.btn-primary.actionButton(data-toggle='collapse', href='#SchemeColor', aria-expanded="false", aria-controls="collapseExample") By Scheme
+								a.btn.btn-primary.actionButton(data-toggle='collapse', href='#SchemeColor', aria-expanded="false", aria-controls="collapseExample") By Profile
 								div.collapse(id='SchemeColor')
 									div.well(id='colorAttributesScheme')
 								a.btn.btn-primary.actionButton(data-toggle='collapse', href='#MetadataColor', aria-expanded="false", aria-controls="collapseExample") By Isolate
@@ -49,18 +49,24 @@ block normalBody
 								div.well(id='SizeAttributes')
 									label Node Sizes
 									input(type='range',id='NodeSizeSlider', name='points1', value = 30, min='15', max='100')
-									label Link Thickness
-									input(type='range',id='LinkThickSlider', name='points1', value = 1, min='1', max='30', onchange='ChangeLinkThickness(this.value)')
-									label Link Distance
-									input(type='range',id='LinkDistanceSlider', name='points2', value = 50, min='10', max='100', step='0.01', onchange='ChangeDistance(this.value)')
+									//- label Link Thickness
+									//- input(type='range',id='LinkThickSlider', name='points1', value = 1, min='1', max='30', onchange='ChangeLinkThickness(this.value)')
+									//- label Link Distance
+									//- input(type='range',id='LinkDistanceSlider', name='points2', value = 50, min='10', max='100', step='0.01', onchange='ChangeDistance(this.value)')
 			
 			div.col-lg-2(id="col_info")
-
-
-			div(id='processingElement')
+				div
+					label Information
+				div(id="info_place")
+				br
+				br
+				div(id="currentpiePlace")
+				br
+				br
+				div(id="legendcurrentpiePlace")
 
 			div(id='visual',oncontextmenu='return false;')
-				div.graph-overlay
+				//div.graph-overlay
 
 			div(id='toggleLayout')
 				i.glyphicon.glyphicon-pause(id='iconPauseLayout') 
@@ -68,9 +74,21 @@ block normalBody
 		
 		div.tab-pane(id="isolateContent")
 			div(id="divisolates")
+			br
+			br
+			div.pieRegion
+				div(id="pieisolates")
+				div(id="legendpieisolates")
+				div(id="divbuttonlinkpieisolates")
 
 		div.tab-pane(id="profileContent")
 			div(id="divprofiles")
+			br
+			br
+			div.pieRegion
+				div(id="pieprofiles")
+				div(id="legendpieprofiles")
+				div(id="divbuttonlinkpieprofiles")
 
 
 	
@@ -88,14 +106,16 @@ block scripts
 	script(type='text/javascript', src='/javascripts/dependencies/bootstrap.js')
 	script(type='text/javascript', src='/javascripts/dependencies/bootstrap-select.js')
 	script(type='text/javascript', src='/javascripts/dependencies/jquery.dataTables.js')
-	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/pieNodeWebGl.js')
+	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/pieNodeWebGl1.js')
 	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/CustomLinkProgram.js')
 	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/searchNodesWebGl.js')
 	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/multiSelectionWebGl.js')
 	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/assignColors_Webgl.js')
 	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/change_Render_Properties_Webgl.js')
 	script(type='text/javascript', src='/javascripts/App/main/Table/tableFunctions.js')
+	script(type='text/javascript', src='/javascripts/App/main/globalPie/globalPieFunctions.js')
 	script(type='text/javascript', src='/javascripts/App/main/getPieData.js')
+	script(type='text/javascript', src='/javascripts/App/main/linkTableAndGraph.js')
 	script(type='text/javascript', src='/javascripts/App/main/showInfo.js')
 	script(type='text/javascript', src='/javascripts/App/main/constructGraph.js')
 	script(type='text/javascript', src='/javascripts/App/main/index.js')

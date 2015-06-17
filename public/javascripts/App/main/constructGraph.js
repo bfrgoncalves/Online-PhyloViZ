@@ -47,6 +47,7 @@ function constructGraph(graph){
       // we need to compute layout, but we don't want to freeze the browser
       if (compute) precompute(parseInt(compute), renderGraph);
       else renderGraph();
+      
 
       function precompute(iterations, callback) {
         // let's run 10 iterations per event loop cycle:
@@ -103,6 +104,7 @@ function constructGraph(graph){
               });
 
           renderer.run();
+
 
 
         // Final bit: most likely graph will take more space than available
@@ -181,7 +183,11 @@ function constructGraph(graph){
 
 
           search_nodes(graph);
-          colorAttributes(graph,graphics, renderer); 
+          colorAttributes(graph, graphics, renderer); 
+
+          linkTableAndGraph('isolates');
+          linkTableAndGraph('profiles');
+
       }
 
 

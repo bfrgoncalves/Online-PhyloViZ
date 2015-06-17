@@ -27,8 +27,6 @@ function constructTable(tableData, datasetParameter){
 	var divToCheck = 'div' + datasetParameter;
 	var tableToCheck = 'table' + datasetParameter;
 
-	console.log(tableToCheck);
-
 	var columns = [];
 
 	for (i in tableData.headers){
@@ -39,6 +37,7 @@ function constructTable(tableData, datasetParameter){
 
 	$('#' + tableToCheck).dataTable( {
         "data": tableData.data,
-        "columns": columns
+        "columns": columns,
+        "bSort" : false
     } );  
 }

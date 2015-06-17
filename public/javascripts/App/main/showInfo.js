@@ -10,5 +10,5 @@ function showInfo(graphics, node, e) {
 		toShow += '<br>' + i + ': ' + rData[i] + ' - ' + String(Math.round((pData[count] / 360) * 100)) + '%';
 		count += 1;
 	}
-	$('#col_info').append('<p>----------------------' + toShow + '</p>');
+	$('#info_place').append('<p>----------------------' + toShow + '</p>');
 }

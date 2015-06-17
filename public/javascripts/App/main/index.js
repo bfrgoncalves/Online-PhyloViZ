@@ -15,18 +15,26 @@ var thisrgb = {
 }
 
 
+//global variables to transfer color information from the global pies to the graph
+var arrayColorsIsolates = []; 
+var property_IndexIsolates = {};
+var arrayColorsProfiles = []; 
+var property_IndexProfiles = {};
+var changeFromTable = false;
+////////////////////////////////////////////////////////////////////////////////////
+
 function onLoad(){
 
     $('#visual').css({width:width, height: height, position: "relative"});
 
     var dataToGraph = {};
+
+    createTable(datasetName, 'isolates');
+    createTable(datasetName, 'profiles');
     
     createInput(datasetName, function(graph){
       constructGraph(graph);
     });
-
-    createTable(datasetName, 'isolates');
-    createTable(datasetName, 'profiles');
 
 }
 
@@ -69,5 +77,6 @@ $('[data-toggle="mainTab"]').click(function(e) {
     return false;
 
 });
+
 
 

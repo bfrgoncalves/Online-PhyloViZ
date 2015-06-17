@@ -1,54 +1,79 @@
 var colorAttributes = function(graph, graphics, renderer){
+
+  var color = d3.scale.category20();
 	
 	options = '';
 	var parent = $('#colorAttributesScheme');
-  options += '<option>None</option>';
-  options += '<option>All</option>';
+  var countValues = 1;
+  options += '<option value=' + countValues + '>None</option>';
+  countValues+=1;
+  options += '<option value=' + countValues + '>All</option>';
 	for (var index in graph.schemeGenes){
+    countValues += 1;
 		var property = graph.schemeGenes[index];
-		options += '<option>'+property+'</option>';
+		options += '<option value=' + countValues + '>' +property+'</option>';
 	}
 	parent.append('<select class="selectpicker" id="selectByScheme" data-live-search="true">'+options+'</select>');
 
 	options = '';
-  options += '<option>None</option>';
+  var countValues = 1;
+  options += '<option value=' + countValues + '>None</option>';
 	for (var Nnodes in graph.metadata){
+    countValues += 1;
 	 	var parent = $('#colorAttributesMetadata');
 	 	property = graph.metadata[Nnodes];
-		options += '<option>'+property+'</option>';
+		options += '<option value=' + countValues + '>'+property+'</option>';
 	}
 	parent.append('<select class="selectpicker" id="selectByMetadata" data-live-search="true">'+options+'</select>');
 
-$('.selectpicker').selectpicker();
-  $('.selectpicker').selectpicker({
-    style: 'btn-info',
-    size: 3
-});
+// $('.selectpicker').selectpicker();
+//   $('.selectpicker').selectpicker({
+//     style: 'btn-info',
+//     size: 3
+// });
 
 $('#selectByScheme').change(function(d){
+
 	element = $('#selectByScheme');
 	//console.log(element);
 	propertyToCheck = element.find(":selected").text();
+  propertyIndex = graph.schemeGenes.indexOf(propertyToCheck);
+  console.log(propertyIndex);
 
-  gatherSchemeData(graph, propertyToCheck, function(objectOfTotal, objectOfType, propertyIndexes, maxDiffProperties, countProperties){
-       changePieData(graphics, maxDiffProperties, countProperties); //First change shaders
-       renderer.run(); //Restart nodes
-       changeNodeUIData(objectOfType, graphics, propertyIndexes, maxDiffProperties);
-  });
+  if (changeFromTable == false){
+    linkGraphAndTable('profiles', propertyIndex+1);
+  }
+  else{
+    gatherSchemeData(graph, propertyToCheck, function(objectOfTotal, objectOfType, maxDiffProperties, countProperties){
+         changePieData(graphics, maxDiffProperties, countProperties); //First change shaders
+         renderer.run(); //Restart nodes
+         changeNodeUIData(objectOfType, graphics, property_IndexProfiles, maxDiffProperties, arrayColorsProfiles);
+
+         changeFromTable = false;
+    });
+  }
+
 
 });
 
- $('#selectByMetadata').change(function(d){
+$('#selectByMetadata').change(function(d){
   element = $('#selectByMetadata');
  	propertyToCheck = element.find(":selected").text();
   propertyIndex = graph.metadata.indexOf(propertyToCheck);
 
-
-  gatherMetadata(graph, propertyIndex, function(objectOfTotal, objectOfType, propertyIndexes, maxDiffProperties, countProperties){
+  if (changeFromTable == false){
+    linkGraphAndTable('isolates', propertyIndex);
+  }
+  else{
+    gatherMetadata(graph, propertyIndex, function(objectOfTotal, objectOfType, maxDiffProperties, countProperties){
        changePieData(graphics, maxDiffProperties, countProperties); //First change shaders
        renderer.run(); //Restart nodes
-       changeNodeUIData(objectOfType, graphics, propertyIndexes, maxDiffProperties);
-  });
+       changeNodeUIData(objectOfType, graphics, property_IndexIsolates, maxDiffProperties, arrayColorsIsolates);
+
+       changeFromTable = false;
+    });
+    
+  }
 
 });
 
