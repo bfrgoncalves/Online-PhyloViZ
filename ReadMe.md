@@ -1,27 +1,17 @@
 #Online PhyloViZ
 
-This web application allows you to choose between two layout rendering engines (SVG and WebGl) and display 4 different MLST datasets using minimum spanning trees.
+This web application represents MSTs using PHYLOViZ input files.
 
-Node.js is required.
+Node.js and MongoDB is required.
+
 
 Launch the application
 ======================
 
 `node app` and in your browser listen on port `3000`
 
-Choose a rendering engine
-=========================
+API
+===
 
-On the main page there is a choice between `SVG` and `WebGL`. You can also select one by typing `:3000/svg` or `:3000/webgl`
+Access to the API at `localhost:3000/api`
 
-Choose a dataset
-================
-
-Select between 4 datasets:
-
-* `:3000/webgl?data=sample` - a dataset with sample MLST data
-* `:3000/webgl?data=pyogenes` - a dataset with MLST data of `S.pyogenes` (647 nodes)
-* `:3000/webgl?data=saureus` - a dataset with MLST data of `S.aureus` (2960 nodes)
-* `:3000/webgl?data=spneumo` - a dataset with MLST data of `S.pneumoniae` (10261 nodes)
-
-* webgl can be changed by svg
