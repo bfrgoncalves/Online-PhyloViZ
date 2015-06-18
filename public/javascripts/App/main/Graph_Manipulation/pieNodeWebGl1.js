@@ -109,6 +109,7 @@ function buildCircleNodeShader(angleNumbers, totalTypes) {
 
 
             var nodesVS = [
+                'precision highp float;',
                 'attribute vec2 a_vertexPos;',
                 // Pack clor and size into vector. First elemnt is color, second - size.
                 // Since it's floating point we can only use 24 bit to pack colors...
@@ -127,12 +128,11 @@ function buildCircleNodeShader(angleNumbers, totalTypes) {
                 '}'].join('\n'),
 
                 nodesFS = [
-                'precision mediump float;',
+                'precision highp float;',
                 'const int numberOfAngles = ' + String(numberOfAngles) + ';',
                 'varying float angles[numberOfAngles];',
                 'varying float colorIndex[numberOfAngles];',
 
-                'precision mediump float;',
                 'vec4 currentColor = vec4(1,0,0,1);',
 				//'varying vec2 vTexCoord;', //get the passing value from the vertex shader
 
