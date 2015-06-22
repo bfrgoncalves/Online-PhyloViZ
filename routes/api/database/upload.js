@@ -34,17 +34,19 @@ router.post('/', multer({
   // Here you can check `Object.keys(req.files).length`
   // or for specific fields like `req.files.imageField`
   if(done == true) {
-    console.log(req.body);
     dataToDB.datasetName = req.body.datasetName;
     for (i in fileNames){
       readCSVfile(fileNames[i], i, function(){
         countProgress += 1;
         if (countProgress == numberOfFiles){
-          uploadToDatabase(dataToDB);
+          
           for (i in fileNames){
             fs.unlink(fileNames[i]);
           }
-          res.send(dataToDB.datasetName);
+
+          uploadToDatabase(dataToDB, function(){
+            res.send(dataToDB.datasetName);
+          });
         } 
       });
     }
@@ -82,7 +84,7 @@ function readCSVfile(pathToFile, fileType, callback){
 
 }
 
-function uploadToDatabase(data){
+function uploadToDatabase(data, callback){
 
   var datasetModel = require('../../../models/datasets');
   var instance = new datasetModel({
@@ -93,7 +95,9 @@ function uploadToDatabase(data){
     profiles: data.fileProfile,
     isolates: data.fileMetadata
   });
-  instance.save();
+  instance.save(function(e){
+    callback();
+  });
 }
 
 

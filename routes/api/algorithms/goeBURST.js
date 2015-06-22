@@ -11,8 +11,11 @@ router.get('/', function(req, res, next){
 
 		var datasetName = req.query.name;
 
+		if (req.query.algorithm) var algorithmToUse = req.query.algorithm;
+		else var algorithmToUse = 'prim';
+
 		loadProfiles(datasetName, function(profileArray, identifiers){
-			goeBURST(profileArray, identifiers, function(links){
+			goeBURST(profileArray, identifiers, algorithmToUse, function(links){
 				if(req.query.save){
 					saveLinks(datasetName, links);
 					res.send({datasetName: req.query.name, links: links});

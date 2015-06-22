@@ -16,6 +16,7 @@
     "express": "~4.12.0",
     "fast-csv": "^0.6.0",
     "formidable": "^1.0.17",
+    "heap": "^0.2.6",
     "jade": "~1.9.2",
     "jquery": "^2.1.4",
     "l": "0.0.1",
@@ -26,5 +27,10 @@
     "request": "^2.57.0",
     "serve-favicon": "~2.2.0",
     "simple-ajax": "^2.1.0"
-  }
+  },
+  "description": "This web application allows you to choose between two layout rendering engines (SVG and WebGl) and display 4 different MLST datasets using minimum spanning trees.",
+  "main": "app.js",
+  "devDependencies": {},
+  "author": "",
+  "license": "ISC"
 }
