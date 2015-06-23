@@ -148,9 +148,7 @@ function GlobalPie(classname, data, x, y, r, pieID)
 					    .selectAll("g")
 					    .data(data)
 					    .enter().append("g")
-					    .attr("transform", function(d, i) { 
-					    	console.log(r);
-					    	return "translate(0," + i * 20 + ")"; });
+					    .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
 		legend.append("rect")
 		    .attr("width", 18)

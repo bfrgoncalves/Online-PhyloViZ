@@ -412,7 +412,7 @@ function buildCircleNodeShader(angleNumbers, totalTypes) {
                      }
                     
                     //gl.vertexAttribPointer(locations.dados, 3, gl.FLOAT, false, ATTRIBUTES_PER_PRIMITIVE * Float32Array.BYTES_PER_ELEMENT, 5 * 4);
-
+                    gl.finish();
                     gl.drawArrays(gl.POINTS, 0, nodesCount);
                 },
 
