@@ -5678,7 +5678,7 @@ function webgl(gl) {
     if ((itemsInBuffer + 1) * elementsPerItem > buffer.length) {
       // Every time we run out of space create new array twice bigger.
       // TODO: it seems buffer size is limited. Consider using multiple arrays for huge graphs
-      var extendedArray = new Float32Array(buffer.length * elementsPerItem * 2);
+      var extendedArray = new Float32Array(buffer.length + elementsPerItem);
       extendedArray.set(buffer);
 
       return extendedArray;
