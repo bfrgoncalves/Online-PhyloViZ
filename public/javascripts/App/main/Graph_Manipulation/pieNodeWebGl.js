@@ -27,7 +27,6 @@ function getDataPercentage(data) {
 
 
 
-
 function buildCircleNodeShader(angleNumbers, totalTypes) {
             // For each primitive we need 4 attributes: x, y, color and size.
             var ATTRIBUTES_PER_PRIMITIVE = 4 + (angleNumbers * 2), //angle numbers + color Indexes

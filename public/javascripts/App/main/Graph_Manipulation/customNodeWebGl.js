@@ -25,6 +25,81 @@ function getDataPercentage(data) {
     return arrayData;
 }
 
+function assignQuadrant(dataInPercentage, colorIndexes){
+    //console.log(maxSize);
+    //console.log(dataInPercentage);
+    //console.log(colorIndexes);
+
+
+    maxSize = dataInPercentage.length;
+    newDataArray = [];
+    newIndexArray = [];
+    remaining = 0;
+    totalAngles = 0;
+    prevTotalAngles = 0;
+    countData = 0;
+
+    if (dataInPercentage.length == 0){
+        return [[0],[0]];
+    }
+    else{
+    
+        while(totalAngles +  dataInPercentage[countData] <= 90){
+            totalAngles += dataInPercentage[countData];
+            newDataArray.push(dataInPercentage[countData]);
+            newIndexArray.push(colorIndexes[countData]);
+            countData++;
+        }
+        remaining = 90 - totalAngles;
+        if (remaining > 0){
+            newDataArray.push(remaining);
+            newIndexArray.push(colorIndexes[countData]);
+            dataInPercentage[countData] = dataInPercentage[countData] - remaining;
+            totalAngles += remaining;
+        } 
+
+        while(totalAngles +  dataInPercentage[countData] <= 180){
+            totalAngles += dataInPercentage[countData];
+            newDataArray.push(dataInPercentage[countData]);
+            newIndexArray.push(colorIndexes[countData]);
+            countData++;
+        }
+        if(totalAngles > 0) remaining = 180 - totalAngles;
+        else remaining = 90;
+        if (remaining > 0){
+            newDataArray.push(remaining);
+            newIndexArray.push(colorIndexes[countData]);
+            dataInPercentage[countData] = dataInPercentage[countData] - remaining;
+            totalAngles += remaining;
+        } 
+
+        while(totalAngles +  dataInPercentage[countData] <= 270){
+            totalAngles += dataInPercentage[countData];
+            newDataArray.push(dataInPercentage[countData]);
+            newIndexArray.push(colorIndexes[countData]);
+            countData++;
+        }
+        if(totalAngles > 0) remaining = 270 - totalAngles;
+        else remaining = 90;
+        if (remaining > 0){
+            newDataArray.push(remaining);
+            newIndexArray.push(colorIndexes[countData]);
+            dataInPercentage[countData] = dataInPercentage[countData] - remaining;
+            totalAngles += remaining;
+        } 
+
+        while(totalAngles +  dataInPercentage[countData] <= 360){
+            totalAngles += dataInPercentage[countData];
+            newDataArray.push(dataInPercentage[countData]);
+            newIndexArray.push(colorIndexes[countData]);
+            countData++;
+        }
+
+        return [newDataArray, newIndexArray];
+    }
+
+}
+
 
 
 
@@ -45,7 +120,7 @@ function buildCircleNodeShader(angleNumbers, totalTypes) {
 
             var first = true;
 
-            console.log(ATTRIBUTES_PER_PRIMITIVE);
+            //console.log(ATTRIBUTES_PER_PRIMITIVE);
 
             var firstTime = 0;
 
@@ -138,7 +213,7 @@ function buildCircleNodeShader(angleNumbers, totalTypes) {
                 'varying float colorIndex[numberOfAngles];',
 
                 'vec4 currentColor = vec4(1,0,0,1);',
-				//'varying vec2 vTexCoord;', //get the passing value from the vertex shader
+                //'varying vec2 vTexCoord;', //get the passing value from the vertex shader
 
                 'vec4 getColor(float col){',
                     'vec4 colorToUse;',
@@ -152,167 +227,158 @@ function buildCircleNodeShader(angleNumbers, totalTypes) {
                  'return colorToUse;',
 
                 '}',
-				
+                
                 'void main(){',
 
-					//'vec4 angles = vec4(110.0, 110.0, 110.0, 30.0);',
-					'float prevAngle = radians(0.0);',
-					'float radQuad = radians(90.0);',
-					'float totalAngles = 0.0;',
+                    'float prevAngle = radians(0.0);',
+                    'float radQuad = radians(90.0);',
+                    'float totalAngles = 0.0;',
 
-					'bool found = false;',
-					'bool hasRest = false;',
-					'float rad = 0.0;',
-					'float AngleToUse = 0.0;',
-					'float rest;',
+                    'bool found = false;',
+                    'bool hasRest = false;',
+                    'float rad = 0.0;',
+                    'float AngleToUse = 0.0;',
+                    'float rest;',
                     'int prevAngleNumber = 0;',
+                    'float prevTotal = 0.0;',
 
-					'if (gl_PointCoord.y < 0.5 && gl_PointCoord.x < 0.5){',
-						'for (int i = 0; i<numberOfAngles;i++){',
-							'totalAngles = totalAngles + angles[i];',
-							'if (totalAngles > 90.0){',
-								'rest = totalAngles - 90.0;',
-								'AngleToUse = angles[i] - rest;',
-							'}',
-							'else{',
-								'AngleToUse = angles[i];',
-							'}',
-							'rad = radians(AngleToUse);',
-							'if ((tan(rad + prevAngle) >= (gl_PointCoord.y - 0.5) / (gl_PointCoord.x - 0.5)) && (tan(prevAngle) <= (gl_PointCoord.y - 0.5) / (gl_PointCoord.x - 0.5))){',
-                                    //'float color = float(i) * 0.3;',
+                    'if (gl_PointCoord.y <= 0.5 && gl_PointCoord.x <= 0.5){',
 
+                        'prevAngle = radians(0.0);',
+
+                        'for(int i = 0; i<numberOfAngles;i++){',
+                            'totalAngles = totalAngles + angles[i];',
+                            'if (totalAngles <= 90.0){',
+                                'AngleToUse = angles[i];',
+                            '}',
+                            'else{',
+                                'continue;',
+                            '}',
+                            'rad = radians(AngleToUse);',
+                            'if (totalAngles == 90.0 && (tan(prevAngle) <= (gl_PointCoord.y - 0.5) / (gl_PointCoord.x - 0.5))){',
+                                'float ind = float(colorIndex[i]);',
+                                'vec4 colorToUse = getColor(ind);',
+                                'gl_FragColor = colorToUse;',
+                                'found = true;',
+                            '}',
+                            'else if ((tan(rad + prevAngle) >= (gl_PointCoord.y - 0.5) / (gl_PointCoord.x - 0.5)) && (tan(prevAngle) <= (gl_PointCoord.y - 0.5) / (gl_PointCoord.x - 0.5))){',
                                     'float ind = float(colorIndex[i]);',
                                     'vec4 colorToUse = getColor(ind);',
                                     'gl_FragColor = colorToUse;',
                                     'found = true;',
-							'}',
-							'prevAngle = prevAngle + rad;',
-							'if (totalAngles > 90.0){',
-								'break;',
-							'}',
-						'}',
+                            '}',
+                            'prevAngle = prevAngle + rad;',
+                        '}',
 
-					'}',
+                    '}',
 
-					 'else if (gl_PointCoord.y <= 0.5 && gl_PointCoord.x >= 0.5){',
-					 	'for (int i = 0; i<numberOfAngles;i++){',
-					 		'totalAngles = totalAngles + angles[i];',
-					 		'if (totalAngles >= 90.0){',
-					 			'if (totalAngles - angles[i] < 90.0){',
-					 				'AngleToUse = totalAngles - 90.0;',
-                                    'if (AngleToUse > 90.0){',
-                                        'rest = totalAngles - 180.0;',
-                                        'AngleToUse = 90.0;',
-                                    '}',
-					 			'}',
-					 			  'else if (totalAngles > 180.0){',
-					 			  	'rest = totalAngles - 180.0;',
-					 			  	'AngleToUse = angles[i] - rest;',
-					 			  '}',
-					 			  'else{',
-					 			  	'AngleToUse = angles[i];',
-					 			  '}',
+                    'else if (gl_PointCoord.y < 0.5 && gl_PointCoord.x > 0.5){',
 
-					 			  'rad = radians(AngleToUse);',
-					 		   	 'if (tan(rad + prevAngle) >= (- 2.0 * ( 0.5 - gl_PointCoord.x)) / (- 2.0 * (gl_PointCoord.y - 0.5)) && tan(prevAngle) <= (- 2.0 * ( 0.5 - gl_PointCoord.x)) / (- 2.0 * (gl_PointCoord.y - 0.5)) ){',
-                                            //'float color = float(i) * 0.3;',
-                                            'float ind = float(colorIndex[i]);',
-                                            'vec4 colorToUse = getColor(ind);',
-                                            'gl_FragColor = colorToUse;',
-                                            'found = true;', 
-                                     '}',
-					 		 	 'prevAngle = prevAngle + rad;',
-					 		 	 'if (totalAngles > 180.0){',
-					 				'break;',
-					 			 '}',
+                        'prevAngle = radians(0.0);',
 
-					 		'} ',
-					 	'}',
-					 '}',
-
-					   'else if (gl_PointCoord.y > 0.5 && gl_PointCoord.x > 0.5){',
-					    	'for (int i = 0; i<numberOfAngles;i++){',
-					    		'totalAngles = totalAngles + angles[i];',
-					    		'if (totalAngles >= 180.0){',
-					    			'if (totalAngles - angles[i] < 180.0){',
-					    				'AngleToUse = totalAngles - 180.0;',
-                                        'if (AngleToUse > 90.0){',
-                                            'rest = totalAngles - 180.0;',
-                                            'AngleToUse = 90.0;',
-                                        '}',
-					    			'}',
-					    			'else if (totalAngles > 270.0){',
-					 	 			'rest = totalAngles - 270.0;',
-					 	 			'AngleToUse = angles[i] - rest;',
-					 	 		'}',
-					    			'else{',
-					    				'AngleToUse = angles[i];',
-					    			'}',
-
-					    			'rad = radians(AngleToUse);',
-					    		 	'if (tan(rad + prevAngle) >= (- 2.0 * ( 0.5 - gl_PointCoord.y)) / (- 2.0 * ( 0.5 - gl_PointCoord.x)) && tan(prevAngle) <= (- 2.0 * ( 0.5 - gl_PointCoord.y)) / (- 2.0 * ( 0.5 - gl_PointCoord.x)) ){',
-                                        'float ind = float(colorIndex[i]);',
-                                        'vec4 colorToUse = getColor(ind);',
-                                        'gl_FragColor = colorToUse;',
-                                         'found = true;',
-					  					
-					   			'}',
-					    		 	 'prevAngle = prevAngle + rad;',
-					    		 	 'if (totalAngles > 270.0){',
-					 	 			'break;',
-					 	 		 '}',
-
-					  		'} ',
-					    	'}',
-					    '}',
-
-					    'else if (gl_PointCoord.y > 0.5 && gl_PointCoord.x < 0.5){',
-					   	'for (int i = 0; i<numberOfAngles;i++){',
-					   		'totalAngles = totalAngles + angles[i];',
-					   		'if (totalAngles >= 270.0){',
-					   			'if (totalAngles - angles[i] < 270.0){',
-					   				'AngleToUse = totalAngles - 270.0;',
-                                    'if (AngleToUse > 90.0){',
-                                        'rest = totalAngles - 180.0;',
-                                        'AngleToUse = 90.0;',
-                                    '}',
-					   			'}',
-					   			'else{',
-					   				'AngleToUse = angles[i];',
-					   			'}',
-
-					   			'rad = radians(AngleToUse);',
-					   		 	 'if (tan((rad + prevAngle)) >= (- 2.0 * (gl_PointCoord.x - 0.5)) / (- 2.0 * ( 0.5 - gl_PointCoord.y)) && tan((prevAngle)) <= (- 2.0 * (gl_PointCoord.x - 0.5)) / (- 2.0 * ( 0.5 - gl_PointCoord.y)) ){',
+                        'for(int i = 0; i<numberOfAngles;i++){',
+                            'totalAngles = totalAngles + angles[i];',
+                            'if (totalAngles > 90.0 && totalAngles <= 180.0){',
+                                'AngleToUse = angles[i];',
+                            '}',
+                            'else{',
+                                'continue;',
+                            '}',
+                            'rad = radians(AngleToUse);',
+                            'if (totalAngles == 180.0 && tan(prevAngle) <= (- 2.0 * ( 0.5 - gl_PointCoord.x)) / (- 2.0 * (gl_PointCoord.y - 0.5))){',
+                                'float ind = float(colorIndex[i]);',
+                                'vec4 colorToUse = getColor(ind);',
+                                'gl_FragColor = colorToUse;',
+                                'found = true;',
+                            '}',
+                            'else if (tan(rad + prevAngle) >= (- 2.0 * ( 0.5 - gl_PointCoord.x)) / (- 2.0 * (gl_PointCoord.y - 0.5)) && tan(prevAngle) <= (- 2.0 * ( 0.5 - gl_PointCoord.x)) / (- 2.0 * (gl_PointCoord.y - 0.5)) ){',
                                     'float ind = float(colorIndex[i]);',
                                     'vec4 colorToUse = getColor(ind);',
                                     'gl_FragColor = colorToUse;',
-                                     'found = true;',
-					  
-					   		 	 '}',
-					   		 	 'prevAngle = prevAngle + rad;',
-					   		 	 'if (totalAngles > 360.0){',
-					   				'break;',
-					   			 '}',
+                                    'found = true;',
+                            '}',
+                            'prevAngle = prevAngle + rad;',
+                        '}',
+                    '}',
 
-					   		'} ',
-					   	'}',
-					   '}',
+                   'else if (gl_PointCoord.y >= 0.5 && gl_PointCoord.x >= 0.5){',
 
-					
+                        'prevAngle = radians(0.0);',
 
-				'if (found == false){',
-					'if ((gl_PointCoord.x - 0.5) * (gl_PointCoord.x - 0.5) + (gl_PointCoord.y - 0.5) * (gl_PointCoord.y - 0.5) < 0.25){',
-						'gl_FragColor = vec4(0, 0, 1, 1);',
-					'}',
+                        'for(int i = 0; i<numberOfAngles;i++){',
+                            'totalAngles = totalAngles + angles[i];',
+                            'if (totalAngles > 180.0 && totalAngles <= 270.0){',
+                                'AngleToUse = angles[i];',
+                            '}',
+                            'else {',
+                                'continue;',
+                            '}',
+                            'rad = radians(AngleToUse);',
+                            'if (totalAngles == 270.0 && tan(prevAngle) <= (- 2.0 * ( 0.5 - gl_PointCoord.y)) / (- 2.0 * ( 0.5 - gl_PointCoord.x))){',
+                                'float ind = float(colorIndex[i]);',
+                                'vec4 colorToUse = getColor(ind);',
+                                'gl_FragColor = colorToUse;',
+                                'found = true;',
+                            '}',
+                            'else if (tan(rad + prevAngle) >= (- 2.0 * ( 0.5 - gl_PointCoord.y)) / (- 2.0 * ( 0.5 - gl_PointCoord.x)) && tan(prevAngle) <= (- 2.0 * ( 0.5 - gl_PointCoord.y)) / (- 2.0 * ( 0.5 - gl_PointCoord.x)) ){',
+                                    'float ind = float(colorIndex[i]);',
+                                    'vec4 colorToUse = getColor(ind);',
+                                    'gl_FragColor = colorToUse;',
+                                    'found = true;',
+                            '}',
+                            'prevAngle = prevAngle + rad;',
+                        '}',
+                    '}',
+
+                    'else if (gl_PointCoord.y >= 0.5 && gl_PointCoord.x <= 0.5){',
+
+                        'prevAngle = radians(0.0);',
+
+                        'for(int i = 0; i<numberOfAngles;i++){',
+
+                            'totalAngles = totalAngles + angles[i];',
+                            'if (totalAngles > 270.0 && totalAngles <= 360.0){',
+                                'AngleToUse = angles[i];',
+                            '}',
+                            'else{',
+                                'continue;',
+                            '}',
+                            'rad = radians(AngleToUse);',
+                            'if (AngleToUse != 0.0 && totalAngles == 360.0 && tan(prevAngle) <= (- 2.0 * (gl_PointCoord.x - 0.5)) / (- 2.0 * ( 0.5 - gl_PointCoord.y))){',
+                                'float ind = float(colorIndex[i]);',
+                                'vec4 colorToUse = getColor(ind);',
+                                'gl_FragColor = colorToUse;',
+                                'found = true;',
+                            '}',
+                            'else if(AngleToUse == 0.0){',
+                                'found = true;',
+                                'continue;',
+                            '}',
+                            'else if (tan((rad + prevAngle)) >= (- 2.0 * (gl_PointCoord.x - 0.5)) / (- 2.0 * ( 0.5 - gl_PointCoord.y)) && tan((prevAngle)) <= (- 2.0 * (gl_PointCoord.x - 0.5)) / (- 2.0 * ( 0.5 - gl_PointCoord.y)) ){',
+                                    'float ind = float(colorIndex[i]);',
+                                    'vec4 colorToUse = getColor(ind);',
+                                    'gl_FragColor = colorToUse;',
+                                    'found = true;',
+                            '}',
+                            'prevAngle = prevAngle + rad;',
+                        '}',
+                   '}',
+
+                    
+
+                'if (found == false){',
+                    'if ((gl_PointCoord.x - 0.5) * (gl_PointCoord.x - 0.5) + (gl_PointCoord.y - 0.5) * (gl_PointCoord.y - 0.5) < 0.25){',
+                        'gl_FragColor = vec4(0, 0, 1, 1);',
+                    '}',
                     'else{',
                         'gl_FragColor = vec4(0);',
                     '}',
-				'}',
+                '}',
                  'else if ((gl_PointCoord.x - 0.5) * (gl_PointCoord.x - 0.5) + (gl_PointCoord.y - 0.5) * (gl_PointCoord.y - 0.5) > 0.25){',
                     ' gl_FragColor = vec4(0);',
                  '}',
-					
-				'}'].join('\n');
+                    
+                '}'].join('\n');
                 
 
             var program,

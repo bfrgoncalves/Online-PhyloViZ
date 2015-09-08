@@ -105,6 +105,8 @@ function changeNodeUIData(objectOfType, graphics, propertyIndexes, maxDiffProper
 	    var dataToChange = [];
 	    var indexes = [];
 	    var nodeUI = graphics.getNodeUI(i);
+	    var processedData = [];
+	    var newIndexes = [];
 
 	    nodeUI.rawData = objectOfType[i];
 
@@ -114,11 +116,18 @@ function changeNodeUIData(objectOfType, graphics, propertyIndexes, maxDiffProper
 	      indexes.push(arrayColors[propertyIndexes[j]]);
 	    }
 
+	    newValues = assignQuadrant(getDataPercentage(dataToChange), indexes);
+	    dataToChange = newValues[0];
+	    indexes = newValues[1];
+
 	    while(dataToChange.length < maxDiffProperties){
 	      dataToChange.push(0);
 	      indexes.push(0);
 	    }
-	    nodeUI.data = getDataPercentage(dataToChange);  //Apply data to the nodeUI
+
+	    //console.log(dataToChange);
+	    
+	    nodeUI.data = dataToChange;  //Apply data to the nodeUI
 
 	    nodeUI.colorIndexes = indexes; //Apply data to the nodeUI
 

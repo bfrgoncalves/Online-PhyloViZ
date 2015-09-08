@@ -45,6 +45,7 @@ $('#selectByScheme').change(function(d){
   }
   else{
     gatherSchemeData(graph, propertyToCheck, function(objectOfTotal, objectOfType, maxDiffProperties, countProperties){
+         maxDiffProperties = maxDiffProperties + 3;
          changePieData(graphics, maxDiffProperties, countProperties); //First change shaders
          renderer.run(); //Restart nodes
          changeNodeUIData(objectOfType, graphics, property_IndexProfiles, maxDiffProperties, arrayColorsProfiles);
@@ -66,6 +67,7 @@ $('#selectByMetadata').change(function(d){
   }
   else{
     gatherMetadata(graph, propertyIndex, function(objectOfTotal, objectOfType, maxDiffProperties, countProperties){
+       maxDiffProperties = maxDiffProperties + 3;
        changePieData(graphics, maxDiffProperties, countProperties); //First change shaders
        renderer.run(); //Restart nodes
        changeNodeUIData(objectOfType, graphics, property_IndexIsolates, maxDiffProperties, arrayColorsIsolates);
@@ -81,7 +83,6 @@ $('#selectByMetadata').change(function(d){
 
 
 function changePieData(graphics, dataLength, totalTypes) {
-
 	  var circleNode = buildCircleNodeShader(dataLength, totalTypes);
     graphics.setNodeProgram(circleNode);
   

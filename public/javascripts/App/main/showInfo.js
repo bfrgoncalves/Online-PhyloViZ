@@ -3,6 +3,7 @@ function showInfo(graphics, node, e) {
 	var nodeUI = graphics.getNodeUI(node.id);
 	rData = nodeUI.rawData;
 	pData = nodeUI.data;
+	console.log(pData);
 	var toShow = '';
 	var count = 0;
 	toShow = '<br> Key: ' + node.id;
