@@ -175,6 +175,8 @@ function buildCircleNodeShader(angleNumbers, totalTypes) {
                 
             }
 
+            console.log(countvec4);
+
 
 
             attributesToVertex += 'const int numberOfAngles = ' +  String(numberOfAngles) + ';\n';

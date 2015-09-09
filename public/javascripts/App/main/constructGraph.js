@@ -83,9 +83,6 @@ function constructGraph(graph){
           var circleNode = buildCircleNodeShader(angleNumbers, 1);
           graphics.setNodeProgram(circleNode);
 
-          var linkProgram = webglLinkProgram(2);
-          graphics.setLinkProgram(linkProgram);
-
           // second, change the node ui model, which can be understood
           // by the custom shader:
 
