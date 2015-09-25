@@ -12,6 +12,11 @@ function constructGraph(graph){
     	var arrayOfNodesID = [];
 
     	var graphGL = Viva.Graph.graph();
+      var container = document.getElementById( 'visual' );
+
+      var containerPosition = container.getBoundingClientRect();
+
+      console.log(containerPosition);
 
     	for (i in graph.nodes){
     	 	graphGL.addNode(graph.nodes[i].key, graph.nodes[i]);
@@ -41,7 +46,6 @@ function constructGraph(graph){
             a: 1
           }
         };
-
 
 
       // we need to compute layout, but we don't want to freeze the browser
@@ -78,9 +82,7 @@ function constructGraph(graph){
         // first, tell webgl graphics we want to use custom shader
           // to render nodes:
 
-          var angleNumbers = 1;
-
-          var circleNode = buildCircleNodeShader(angleNumbers, 1);
+          var circleNode = buildCircleNodeShader();
           graphics.setNodeProgram(circleNode);
 
           // second, change the node ui model, which can be understood
@@ -88,8 +90,61 @@ function constructGraph(graph){
 
 
           graphics.node(function (node) {
-             return new WebglCircle(DefaultnodeSize+node.data.isolates.length, nodeColor, [0], [0], null);
+             return new WebglCircle(DefaultnodeSize+node.data.isolates.length, nodeColor, [1], [nodeColor], null);
           });
+
+          var domLabels = generateDOMLabels(graphGL);
+          var tovisualizeLabels = false;
+
+          $('.node-label').css('display','none');
+
+          function generateDOMLabels(graph) {
+                  // this will map node id into DOM element
+                  var labels = Object.create(null);
+                  graph.forEachNode(function(node) {
+                    var label = document.createElement('span');
+                    label.classList.add('node-label');
+                    label.innerText = node.id;
+                    labels[node.id] = label;
+                    container.appendChild(label);
+                  });
+                  // NOTE: If your graph changes over time you will need to
+                  // monitor graph changes and update DOM elements accordingly
+                  return labels;
+                }
+
+          graphics.placeNode(function(ui, pos) {
+                  // This callback is called by the renderer before it updates
+                  // node coordinate. We can use it to update corresponding DOM
+                  // label position;
+
+                  // we create a copy of layout position
+                  var domPos = {
+                      x: pos.x,
+                      y: pos.y
+                  };
+                  // And ask graphics to transform it to DOM coordinates:
+                  graphics.transformGraphToClientCoordinates(domPos);
+
+                  // then move corresponding dom label to its own position:
+                  var nodeId = ui.node.id;
+                  var labelStyle = domLabels[nodeId].style;
+                  labelStyle.left = domPos.x + 'px';
+                  labelStyle.top = domPos.y  + 'px';
+                  labelStyle.position = 'absolute';
+
+                  if (tovisualizeLabels){
+
+                    if (domPos.y + containerPosition.top < containerPosition.top || domPos.y + containerPosition.top > containerPosition.bottom){
+                      labelStyle.display = "none";
+                    }
+                    else if (domPos.x + containerPosition.left < containerPosition.left || domPos.x + containerPosition.left*2 > containerPosition.right){
+                      labelStyle.display = "none";
+                    }
+                    else labelStyle.display = "block";
+
+                  }
+                });
 
 
         var renderer = Viva.Graph.View.renderer(graphGL,
@@ -176,6 +231,21 @@ function constructGraph(graph){
 
           $('#NodeSizeSlider').change(function(e){
             NodeSize(this.value, renderer, graph, graphics)
+          });
+
+          $('#LabelSizeSlider').change(function(e){
+            LabelSize(this.value, graph, domLabels, graphics);
+          });
+
+          $('#AddLabels').change(function(e){
+            if (this.checked){
+              $('.node-label').css('display','block');
+              tovisualizeLabels = true;
+            } 
+            else{
+              $('.node-label').css('display','none');
+              tovisualizeLabels = false;
+            } 
           });
 
 

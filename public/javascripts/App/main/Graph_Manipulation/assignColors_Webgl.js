@@ -7,7 +7,6 @@ var colorAttributes = function(graph, graphics, renderer){
   var countValues = 1;
   options += '<option value=' + countValues + '>None</option>';
   countValues+=1;
-  options += '<option value=' + countValues + '>All</option>';
 	for (var index in graph.schemeGenes){
     countValues += 1;
 		var property = graph.schemeGenes[index];
@@ -38,17 +37,13 @@ $('#selectByScheme').change(function(d){
 	//console.log(element);
 	propertyToCheck = element.find(":selected").text();
   propertyIndex = graph.schemeGenes.indexOf(propertyToCheck);
-  console.log(propertyIndex);
 
   if (changeFromTable == false){
     linkGraphAndTable('profiles', propertyIndex+1);
   }
   else{
-    gatherSchemeData(graph, propertyToCheck, function(objectOfTotal, objectOfType, maxDiffProperties, countProperties){
-         maxDiffProperties = maxDiffProperties + 3;
-         changePieData(graphics, maxDiffProperties, countProperties); //First change shaders
-         renderer.run(); //Restart nodes
-         changeNodeUIData(objectOfType, graphics, property_IndexProfiles, maxDiffProperties, arrayColorsProfiles);
+    gatherSchemeData(graph, propertyToCheck, function(objectOfTotal, objectOfType, countProperties){
+         changeNodeUIData(objectOfType, graphics, property_IndexProfiles, arrayColorsProfiles);
 
          changeFromTable = false;
     });
@@ -62,15 +57,13 @@ $('#selectByMetadata').change(function(d){
  	propertyToCheck = element.find(":selected").text();
   propertyIndex = graph.metadata.indexOf(propertyToCheck);
 
+
   if (changeFromTable == false){
     linkGraphAndTable('isolates', propertyIndex);
   }
   else{
-    gatherMetadata(graph, propertyIndex, function(objectOfTotal, objectOfType, maxDiffProperties, countProperties){
-       maxDiffProperties = maxDiffProperties + 3;
-       changePieData(graphics, maxDiffProperties, countProperties); //First change shaders
-       renderer.run(); //Restart nodes
-       changeNodeUIData(objectOfType, graphics, property_IndexIsolates, maxDiffProperties, arrayColorsIsolates);
+    gatherMetadata(graph, propertyToCheck, function(objectOfTotal, objectOfType, countProperties){
+       changeNodeUIData(objectOfType, graphics, property_IndexIsolates, arrayColorsIsolates);
 
        changeFromTable = false;
     });
@@ -80,15 +73,3 @@ $('#selectByMetadata').change(function(d){
 });
 
 }
-
-
-function changePieData(graphics, dataLength, totalTypes) {
-	  var circleNode = buildCircleNodeShader(dataLength, totalTypes);
-    graphics.setNodeProgram(circleNode);
-  
-}
-
-function assignColorAllProfile(node, graphics, renderer) {
-      var nodeUI = graphics.getNodeUI(node.key);
-      nodeUI.color = color(node.profile);
-    }

@@ -47,8 +47,13 @@ block normalBody
 							a.btn.btn-primary.actionButton(data-toggle='collapse', href='#collapseNodeSize', aria-expanded="false", aria-controls="collapseExample") Change Graphic Properties
 							div.collapse(id='collapseNodeSize')
 								div.well(id='SizeAttributes')
-									label Node Sizes
+									label Nodes Size
 									input(type='range',id='NodeSizeSlider', name='points1', value = 30, min='15', max='100')
+								div.well(id='labelAttributes')
+									label Labels Size
+									input(type='range',id='LabelSizeSlider', name='points1', value = 20, min='1', max='50')
+									label Add Labels
+									input(type='checkbox',id='AddLabels')
 									//- label Link Thickness
 									//- input(type='range',id='LinkThickSlider', name='points1', value = 1, min='1', max='30', onchange='ChangeLinkThickness(this.value)')
 									//- label Link Distance
@@ -106,7 +111,7 @@ block scripts
 	script(type='text/javascript', src='/javascripts/dependencies/bootstrap.js')
 	script(type='text/javascript', src='/javascripts/dependencies/bootstrap-select.js')
 	script(type='text/javascript', src='/javascripts/dependencies/jquery.dataTables.js')
-	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/customNodeWebGl.js')
+	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/customPieChartShader.js')
 	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/CustomLinkProgram.js')
 	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/searchNodesWebGl.js')
 	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/multiSelectionWebGl.js')

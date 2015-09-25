@@ -62,11 +62,7 @@ Viva.Graph = {
   },
 
   Layout: {
-    forceDirected: function(graph, physicsSettings) {
-      // vivagraph had slightly different API:
-      var forceLayout = require('ngraph.forcelayout');
-      return forceLayout(graph, forceLayout.simulator(physicsSettings));
-    },
+    forceDirected: require('ngraph.forcelayout'),
     constant: require('./Layout/constant.js')
   },
 
@@ -116,7 +112,7 @@ Viva.Graph = {
 
 module.exports = Viva;
 
-},{"./Algorithms/centrality.js":33,"./Algorithms/operations.js":34,"./Input/domInputManager.js":35,"./Input/dragndrop.js":36,"./Input/webglInputManager.js":37,"./Layout/constant.js":38,"./Utils/backwardCompatibleEvents.js":39,"./Utils/browserInfo.js":40,"./Utils/findElementPosition.js":42,"./Utils/getDimensions.js":43,"./Utils/intersectRect.js":44,"./Utils/rect.js":46,"./Utils/timer.js":47,"./View/renderer.js":49,"./View/svgGraphics.js":50,"./View/webglGraphics.js":51,"./WebGL/parseColor.js":52,"./WebGL/texture.js":53,"./WebGL/webgl.js":54,"./WebGL/webglAtlas.js":55,"./WebGL/webglImage.js":56,"./WebGL/webglImageNodeProgram.js":57,"./WebGL/webglInputEvents.js":58,"./WebGL/webglLine.js":59,"./WebGL/webglLinkProgram.js":60,"./WebGL/webglNodeProgram.js":61,"./WebGL/webglSquare.js":62,"./version.js":63,"gintersect":2,"ngraph.events":6,"ngraph.forcelayout":7,"ngraph.fromjson":22,"ngraph.generators":23,"ngraph.graph":24,"ngraph.merge":25,"ngraph.random":26,"ngraph.tojson":27,"simplesvg":28}],2:[function(require,module,exports){
+},{"./Algorithms/centrality.js":32,"./Algorithms/operations.js":33,"./Input/domInputManager.js":34,"./Input/dragndrop.js":35,"./Input/webglInputManager.js":36,"./Layout/constant.js":37,"./Utils/backwardCompatibleEvents.js":38,"./Utils/browserInfo.js":39,"./Utils/findElementPosition.js":41,"./Utils/getDimensions.js":42,"./Utils/intersectRect.js":43,"./Utils/rect.js":45,"./Utils/timer.js":46,"./View/renderer.js":48,"./View/svgGraphics.js":49,"./View/webglGraphics.js":50,"./WebGL/parseColor.js":51,"./WebGL/texture.js":52,"./WebGL/webgl.js":53,"./WebGL/webglAtlas.js":54,"./WebGL/webglImage.js":55,"./WebGL/webglImageNodeProgram.js":56,"./WebGL/webglInputEvents.js":57,"./WebGL/webglLine.js":58,"./WebGL/webglLinkProgram.js":59,"./WebGL/webglNodeProgram.js":60,"./WebGL/webglSquare.js":61,"./version.js":62,"gintersect":2,"ngraph.events":6,"ngraph.forcelayout":7,"ngraph.fromjson":21,"ngraph.generators":22,"ngraph.graph":23,"ngraph.merge":24,"ngraph.random":25,"ngraph.tojson":26,"simplesvg":27}],2:[function(require,module,exports){
 module.exports = intersect;
 
 /**
@@ -488,25 +484,20 @@ function validateSubject(subject) {
 module.exports = createLayout;
 module.exports.simulator = require('ngraph.physics.simulator');
 
-var guard = require('varta');
-
 /**
  * Creates force based layout for a given graph.
  * @param {ngraph.graph} graph which needs to be laid out
- * @param {ngraph.physics.simulator=} physicsSimulator if you need custom settings
- * for physics simulator you can pass your own simulator here. If it's not passed
- * a default one will be created
+ * @param {object} physicsSettings if you need custom settings
+ * for physics simulator you can pass your own settings here. If it's not passed
+ * a default one will be created.
  */
-function createLayout(graph, physicsSimulator) {
+function createLayout(graph, physicsSettings) {
   if (!graph) {
     throw new Error('Graph structure cannot be undefined');
   }
 
-  var simulator = require('ngraph.physics.simulator');
-
-  physicsSimulator = physicsSimulator || simulator();
-
-  guard(physicsSimulator, 'physicsSimulator').has('step', 'getBestNewBodyPosition', 'addBodyAt');
+  var createSimulator = require('ngraph.physics.simulator');
+  var physicsSimulator = createSimulator(physicsSettings);
 
   var nodeBodies = typeof Object.create === 'function' ? Object.create(null) : {};
   var springs = {};
@@ -793,7 +784,7 @@ function createLayout(graph, physicsSimulator) {
 
 function noop() { }
 
-},{"ngraph.physics.simulator":8,"varta":21}],8:[function(require,module,exports){
+},{"ngraph.physics.simulator":8}],8:[function(require,module,exports){
 /**
  * Manages a simulation of physical forces acting on bodies and springs.
  */
@@ -1035,10 +1026,14 @@ function physicsSimulator(settings) {
       quadTree.insertBodies(bodies); // performance: O(n * log n)
       while (i--) {
         body = bodies[i];
-        body.force.reset();
+        // If body is pinned there is no point updating its forces - it should
+        // never move:
+        if (!body.isPinned) {
+          body.force.reset();
 
-        quadTree.updateBodyForce(body);
-        dragForce.update(body);
+          quadTree.updateBodyForce(body);
+          dragForce.update(body);
+        }
       }
     }
 
@@ -1049,7 +1044,7 @@ function physicsSimulator(settings) {
   }
 };
 
-},{"./lib/bounds":9,"./lib/createBody":10,"./lib/dragForce":11,"./lib/eulerIntegrator":12,"./lib/spring":13,"./lib/springForce":14,"ngraph.expose":15,"ngraph.merge":25,"ngraph.quadtreebh":17}],9:[function(require,module,exports){
+},{"./lib/bounds":9,"./lib/createBody":10,"./lib/dragForce":11,"./lib/eulerIntegrator":12,"./lib/spring":13,"./lib/springForce":14,"ngraph.expose":15,"ngraph.merge":24,"ngraph.quadtreebh":17}],9:[function(require,module,exports){
 module.exports = function (bodies, settings) {
   var random = require('ngraph.random').random(42);
   var boundingBox =  { x1: 0, y1: 0, x2: 0, y2: 0 };
@@ -1131,7 +1126,7 @@ module.exports = function (bodies, settings) {
   }
 }
 
-},{"ngraph.random":26}],10:[function(require,module,exports){
+},{"ngraph.random":25}],10:[function(require,module,exports){
 var physics = require('ngraph.physics.primitives');
 
 module.exports = function(pos) {
@@ -1167,7 +1162,7 @@ module.exports = function (options) {
   return api;
 };
 
-},{"ngraph.expose":15,"ngraph.merge":25}],12:[function(require,module,exports){
+},{"ngraph.expose":15,"ngraph.merge":24}],12:[function(require,module,exports){
 /**
  * Performs forces integration, using given timestep. Uses Euler method to solve
  * differential equation (http://en.wikipedia.org/wiki/Euler_method ).
@@ -1278,7 +1273,7 @@ module.exports = function (options) {
   return api;
 }
 
-},{"ngraph.expose":15,"ngraph.merge":25,"ngraph.random":26}],15:[function(require,module,exports){
+},{"ngraph.expose":15,"ngraph.merge":24,"ngraph.random":25}],15:[function(require,module,exports){
 module.exports = exposeProperties;
 
 /**
@@ -1717,7 +1712,7 @@ function setChild(node, idx, child) {
   else if (idx === 3) node.quad3 = child;
 }
 
-},{"./insertStack":18,"./isSamePosition":19,"./node":20,"ngraph.random":26}],18:[function(require,module,exports){
+},{"./insertStack":18,"./isSamePosition":19,"./node":20,"ngraph.random":25}],18:[function(require,module,exports){
 module.exports = InsertStack;
 
 /**
@@ -1802,46 +1797,6 @@ module.exports = function Node() {
 };
 
 },{}],21:[function(require,module,exports){
-module.exports = varta;
-
-module.exports.has = delayedVerify;
-
-function varta(suspect, name) {
-  name = name || 'Argument';
-
-  return {
-    has: has
-  };
-
-  function has() {
-    return internalVerify(suspect, name, arguments);
-  }
-}
-
-function delayedVerify() {
-  var expectations = arguments;
-  return verify;
-
-  function verify(suspect, name) {
-    return internalVerify(suspect, name, expectations);
-  }
-}
-
-function internalVerify(suspect, name, expectations) {
-  if (suspect === undefined) {
-    throw new Error(name + ' is not defined');
-  }
-
-  for (var i = 0; i < expectations.length; ++i) {
-    if (suspect[expectations[i]] === undefined) {
-      throw new Error(name + ' is expected to have a property `' + expectations[i] + '`');
-    }
-  }
-
-  return true;
-}
-
-},{}],22:[function(require,module,exports){
 module.exports = load;
 
 var createGraph = require('ngraph.graph');
@@ -1886,7 +1841,7 @@ function load(jsonGraph, nodeTransform, linkTransform) {
 
 function id(x) { return x; }
 
-},{"ngraph.graph":24}],23:[function(require,module,exports){
+},{"ngraph.graph":23}],22:[function(require,module,exports){
 module.exports = {
   ladder: ladder,
   complete: complete,
@@ -2187,7 +2142,7 @@ function wattsStrogatz(n, k, p, seed) {
   return g;
 }
 
-},{"ngraph.graph":24,"ngraph.random":26}],24:[function(require,module,exports){
+},{"ngraph.graph":23,"ngraph.random":25}],23:[function(require,module,exports){
 /**
  * @fileOverview Contains definition of the core graph object.
  */
@@ -2741,7 +2696,7 @@ function Link(fromId, toId, data, id) {
   this.id = id;
 }
 
-},{"ngraph.events":6}],25:[function(require,module,exports){
+},{"ngraph.events":6}],24:[function(require,module,exports){
 module.exports = merge;
 
 /**
@@ -2774,7 +2729,7 @@ function merge(target, options) {
   return target;
 }
 
-},{}],26:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 module.exports = {
   random: random,
   randomIterator: randomIterator
@@ -2861,7 +2816,7 @@ function randomIterator(array, customRandom) {
     };
 }
 
-},{}],27:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 module.exports = save;
 
 function save(graph, customNodeTransform, customLinkTransform) {
@@ -2917,7 +2872,7 @@ function save(graph, customNodeTransform, customLinkTransform) {
   }
 }
 
-},{}],28:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 module.exports = svg;
 
 svg.compile = require('./lib/compile');
@@ -3030,7 +2985,7 @@ function augment(element) {
   }
 }
 
-},{"./lib/compile":29,"./lib/compile_template":30,"add-event-listener":32}],29:[function(require,module,exports){
+},{"./lib/compile":28,"./lib/compile_template":29,"add-event-listener":31}],28:[function(require,module,exports){
 var parser = require('./domparser.js');
 var svg = require('../');
 
@@ -3058,7 +3013,7 @@ function addNamespaces(text) {
   }
 }
 
-},{"../":28,"./domparser.js":31}],30:[function(require,module,exports){
+},{"../":27,"./domparser.js":30}],29:[function(require,module,exports){
 module.exports = template;
 
 var BINDING_EXPR = /{{(.+?)}}/;
@@ -3152,7 +3107,7 @@ function bindTextContent(element, allBindings) {
   }
 }
 
-},{}],31:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 module.exports = createDomparser();
 
 function createDomparser() {
@@ -3168,7 +3123,7 @@ function fail() {
   throw new Error('DOMParser is not supported by this platform. Please open issue here https://github.com/anvaka/simplesvg');
 }
 
-},{}],32:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 addEventListener.removeEventListener = removeEventListener
 addEventListener.addEventListener = addEventListener
 
@@ -3216,7 +3171,7 @@ function oldIEDetach(el, eventName, listener, useCapture) {
   el.detachEvent('on' + eventName, listener)
 }
 
-},{}],33:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 var centrality = require('ngraph.centrality');
 
 module.exports = centralityWrapper;
@@ -3254,7 +3209,7 @@ function toVivaGraphCentralityFormat(centrality) {
   }
 }
 
-},{"ngraph.centrality":3}],34:[function(require,module,exports){
+},{"ngraph.centrality":3}],33:[function(require,module,exports){
 /**
  * @fileOverview Contains collection of primitive operations under graph.
  *
@@ -3289,7 +3244,7 @@ function operations() {
     };
 };
 
-},{}],35:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 /**
  * @author Andrei Kashcha (aka anvaka) / https://github.com/anvaka
  */
@@ -3338,7 +3293,7 @@ function domInputManager(graph, graphics) {
   }
 }
 
-},{"./dragndrop.js":36}],36:[function(require,module,exports){
+},{"./dragndrop.js":35}],35:[function(require,module,exports){
 /**
  * @author Andrei Kashcha (aka anvaka) / https://github.com/anvaka
  */
@@ -3621,7 +3576,7 @@ function dragndrop(element) {
     };
 }
 
-},{"../Utils/browserInfo.js":40,"../Utils/documentEvents.js":41,"../Utils/findElementPosition.js":42}],37:[function(require,module,exports){
+},{"../Utils/browserInfo.js":39,"../Utils/documentEvents.js":40,"../Utils/findElementPosition.js":41}],36:[function(require,module,exports){
 /**
  * @author Andrei Kashcha (aka anvaka) / https://github.com/anvaka
  */
@@ -3692,7 +3647,7 @@ function webglInputManager(graph, graphics) {
     };
 }
 
-},{"../WebGL/webglInputEvents.js":58}],38:[function(require,module,exports){
+},{"../WebGL/webglInputEvents.js":57}],37:[function(require,module,exports){
 module.exports = constant;
 
 var merge = require('ngraph.merge');
@@ -3891,7 +3846,7 @@ function constant(graph, userSettings) {
     }
 }
 
-},{"../Utils/rect.js":46,"ngraph.merge":25,"ngraph.random":26}],39:[function(require,module,exports){
+},{"../Utils/rect.js":45,"ngraph.merge":24,"ngraph.random":25}],38:[function(require,module,exports){
 /**
  * This module provides compatibility layer with 0.6.x library. It will be
  * removed in the next version
@@ -3936,7 +3891,7 @@ function backwardCompatibleEvents(g) {
   }
 }
 
-},{"ngraph.events":6}],40:[function(require,module,exports){
+},{"ngraph.events":6}],39:[function(require,module,exports){
 module.exports = browserInfo();
 
 function browserInfo() {
@@ -3965,7 +3920,7 @@ function browserInfo() {
   };
 }
 
-},{}],41:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 var nullEvents = require('./nullEvents.js');
 
 module.exports = createDocumentEvents();
@@ -3989,7 +3944,7 @@ function off(eventName, handler) {
   document.removeEventListener(eventName, handler);
 }
 
-},{"./nullEvents.js":45}],42:[function(require,module,exports){
+},{"./nullEvents.js":44}],41:[function(require,module,exports){
 /**
  * Finds the absolute position of an element on a page
  */
@@ -4008,7 +3963,7 @@ function findElementPosition(obj) {
     return [curleft, curtop];
 }
 
-},{}],43:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 module.exports = getDimension;
 
 function getDimension(container) {
@@ -4030,7 +3985,7 @@ function getDimension(container) {
     };
 }
 
-},{}],44:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 var intersect = require('gintersect');
 
 module.exports = intersectRect;
@@ -4042,7 +3997,7 @@ function intersectRect(left, top, right, bottom, x1, y1, x2, y2) {
     intersect(right, top, left, top, x1, y1, x2, y2);
 }
 
-},{"gintersect":2}],45:[function(require,module,exports){
+},{"gintersect":2}],44:[function(require,module,exports){
 module.exports = createNullEvents();
 
 function createNullEvents() {
@@ -4055,7 +4010,7 @@ function createNullEvents() {
 
 function noop() { }
 
-},{}],46:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 module.exports = Rect;
 
 /**
@@ -4068,7 +4023,7 @@ function Rect (x1, y1, x2, y2) {
     this.y2 = y2 || 0;
 }
 
-},{}],47:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 (function (global){
 /**
  * @author Andrei Kashcha (aka anvaka) / http://anvaka.blogspot.com
@@ -4164,7 +4119,7 @@ function createTimer() {
 function noop() {}
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],48:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 var nullEvents = require('./nullEvents.js');
 
 module.exports = createDocumentEvents();
@@ -4189,7 +4144,7 @@ function off(eventName, handler) {
 }
 
 
-},{"./nullEvents.js":45}],49:[function(require,module,exports){
+},{"./nullEvents.js":44}],48:[function(require,module,exports){
 /**
  * @fileOverview Defines a graph renderer that uses CSS based drawings.
  *
@@ -4286,18 +4241,16 @@ function renderer(graph, settings) {
      */
     run: function(iterationsCount) {
 
-      //if (!rendererInitialized) {
+      if (!rendererInitialized) {
         prepareSettings();
         prerender();
 
         initDom();
-
         updateCenter();
-
         listenToEvents();
 
         rendererInitialized = true;
-      //}
+      }
 
       renderIterations(iterationsCount);
 
@@ -4380,10 +4333,10 @@ function renderer(graph, settings) {
 
   function prepareSettings() {
     container = container || window.document.body;
-    layout = layout || forceDirected(graph, forceDirected.simulator({
+    layout = layout || forceDirected(graph, {
       springLength: 80,
       springCoeff: 0.0002,
-    }));
+    });
     graphics = graphics || svgGraphics(graph, {
       container: container
     });
@@ -4522,12 +4475,6 @@ function renderer(graph, settings) {
   function initDom() {
     graphics.init(container);
 
-    if (rendererInitialized){
-      graph.forEachNode(removeNodeUi);
-      nodesCount = 0;
-      allNodes = {};
-    }
-
     graph.forEachNode(createNodeUi);
 
     if (settings.renderLinks) {
@@ -4639,6 +4586,9 @@ function renderer(graph, settings) {
     }
 
     if (isInteractive('scroll')) {
+      if (!containerDrag) {
+        containerDrag = dragndrop(container);
+      }
       containerDrag.onScroll(function(e, scaleOffset, scrollPoint) {
         scale(scaleOffset < 0, scrollPoint);
       });
@@ -4674,7 +4624,7 @@ function renderer(graph, settings) {
   }
 }
 
-},{"../Input/domInputManager.js":35,"../Input/dragndrop.js":36,"../Utils/getDimensions.js":43,"../Utils/timer.js":47,"../Utils/windowEvents.js":48,"./svgGraphics.js":50,"ngraph.events":6,"ngraph.forcelayout":7}],50:[function(require,module,exports){
+},{"../Input/domInputManager.js":34,"../Input/dragndrop.js":35,"../Utils/getDimensions.js":42,"../Utils/timer.js":46,"../Utils/windowEvents.js":47,"./svgGraphics.js":49,"ngraph.events":6,"ngraph.forcelayout":7}],49:[function(require,module,exports){
 /**
  * @fileOverview Defines a graph renderer that uses SVG based drawings.
  *
@@ -5032,7 +4982,7 @@ function svgGraphics() {
     }
 }
 
-},{"../Input/domInputManager.js":35,"ngraph.events":6,"simplesvg":28}],51:[function(require,module,exports){
+},{"../Input/domInputManager.js":34,"ngraph.events":6,"simplesvg":27}],50:[function(require,module,exports){
 /**
  * @fileOverview Defines a graph renderer that uses WebGL based drawings.
  *
@@ -5331,7 +5281,6 @@ function webglGraphics(options) {
         */
         init : function (c) {
             var contextParameters = {};
-          
 
             if (options.preserveDrawingBuffer) {
                 contextParameters.preserveDrawingBuffer = true;
@@ -5343,9 +5292,8 @@ function webglGraphics(options) {
             resetScaleInternal();
             container.appendChild(graphicsRoot);
 
+
             gl = graphicsRoot.getContext("experimental-webgl", contextParameters);
-
-
             if (!gl) {
                 var msg = "Could not initialize WebGL. Seems like the browser doesn't support it.";
                 window.alert(msg);
@@ -5463,7 +5411,7 @@ function webglGraphics(options) {
             for (var i = 0; i < nodesCount; ++i) {
                 var ui = nodes[i];
                 pos.x = ui.position.x;
-                pos.y = -ui.position.y;
+                pos.y = ui.position.y;
                 if (userPlaceNodeCallback) {
                     userPlaceNodeCallback(ui, pos);
                 }
@@ -5519,8 +5467,7 @@ function webglGraphics(options) {
                 // and let initialization logic take care about the rest.
                 nodeProgram = newProgram;
             } else if (newProgram) {
-                nodeProgram = newProgram;
-                //throw "Not implemented. Cannot swap shader on the fly... Yet.";
+                throw "Not implemented. Cannot swap shader on the fly... Yet.";
                 // TODO: unload old shader and reinit.
             }
         },
@@ -5540,20 +5487,54 @@ function webglGraphics(options) {
                 // TODO: unload old shader and reinit.
             }
         },
-        transformClientToGraphCoordinates : function (graphicsRootPos) {
-            // TODO: could be a problem when container has margins?
-            // to save memory we modify incoming parameter:
-            // point in clipspace coordinates:
-            graphicsRootPos.x = 2 * graphicsRootPos.x / width - 1;
-            graphicsRootPos.y = 1 - (2 * graphicsRootPos.y) / height;
-            // apply transform:
-            graphicsRootPos.x = (graphicsRootPos.x - transform[12]) / transform[0];
-            graphicsRootPos.y = (graphicsRootPos.y - transform[13]) / transform[5];
-            // now transform to graph coordinates:
-            graphicsRootPos.x *= width / 2;
-            graphicsRootPos.y *= -height / 2;
 
-            return graphicsRootPos;
+        /**
+         * Transforms client coordinates into layout coordinates. Client coordinates
+         * are DOM coordinates relative to the rendering container. Layout
+         * coordinates are those assigned by by layout algorithm to each node.
+         *
+         * @param {Object} p - a point object with `x` and `y` attributes.
+         * This method mutates p.
+         */
+        transformClientToGraphCoordinates: function (p) {
+          // TODO: could be a problem when container has margins?
+            // normalize
+            p.x = ((2 * p.x) / width) - 1;
+            p.y = 1 - ((2 * p.y) / height);
+
+            // apply transform
+            p.x = (p.x - transform[12]) / transform[0];
+            p.y = (p.y - transform[13]) / transform[5];
+
+            // transform to graph coordinates
+            p.x = p.x * (width / 2);
+            p.y = p.y * (-height / 2);
+
+            return p;
+        },
+
+        /**
+         * Transforms WebGL coordinates into client coordinates. Reverse of 
+         * `transformClientToGraphCoordinates()`
+         *
+         * @param {Object} p - a point object with `x` and `y` attributes, which
+         * represents a layout coordinate. This method mutates p.
+         */
+        transformGraphToClientCoordinates: function (p) {
+          // TODO: could be a problem when container has margins?
+            // transform from graph coordinates
+            p.x = p.x / (width / 2);
+            p.y = p.y / (-height / 2);
+
+            // apply transform
+            p.x = (p.x * transform[0]) + transform[12];
+            p.y = (p.y * transform[5]) + transform[13];
+
+            // denormalize
+            p.x = ((p.x + 1) * width) / 2;
+            p.y = ((1 - p.y) * height) / 2;
+
+            return p;
         },
 
         getNodeAtClientPos: function (clientPos, preciseCheck) {
@@ -5583,7 +5564,7 @@ function webglGraphics(options) {
     return graphics;
 }
 
-},{"../Input/webglInputManager.js":37,"../WebGL/webglLine.js":59,"../WebGL/webglLinkProgram.js":60,"../WebGL/webglNodeProgram.js":61,"../WebGL/webglSquare.js":62,"ngraph.events":6,"ngraph.merge":25}],52:[function(require,module,exports){
+},{"../Input/webglInputManager.js":36,"../WebGL/webglLine.js":58,"../WebGL/webglLinkProgram.js":59,"../WebGL/webglNodeProgram.js":60,"../WebGL/webglSquare.js":61,"ngraph.events":6,"ngraph.merge":24}],51:[function(require,module,exports){
 module.exports = parseColor;
 
 function parseColor(color) {
@@ -5607,7 +5588,7 @@ function parseColor(color) {
   return parsedColor;
 }
 
-},{}],53:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 module.exports = Texture;
 
 /**
@@ -5620,7 +5601,7 @@ function Texture(size) {
   this.canvas.width = this.canvas.height = size;
 }
 
-},{}],54:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 /**
  * @fileOverview Utility functions for webgl rendering.
  *
@@ -5662,8 +5643,6 @@ function webgl(gl) {
     gl.attachShader(program, vs);
     gl.attachShader(program, fs);
     gl.linkProgram(program);
-    //gl.detachShader(program, vs);
-    //gl.detachShader(program, fs);
 
     if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
       var msg = gl.getShaderInfoLog(program);
@@ -5678,7 +5657,7 @@ function webgl(gl) {
     if ((itemsInBuffer + 1) * elementsPerItem > buffer.length) {
       // Every time we run out of space create new array twice bigger.
       // TODO: it seems buffer size is limited. Consider using multiple arrays for huge graphs
-      var extendedArray = new Float32Array(buffer.length + elementsPerItem);
+      var extendedArray = new Float32Array(buffer.length * elementsPerItem * 2);
       extendedArray.set(buffer);
 
       return extendedArray;
@@ -5729,7 +5708,7 @@ function swapArrayPart(array, from, to, elementsCount) {
   }
 }
 
-},{}],55:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 var Texture = require('./texture.js');
 
 module.exports = webglAtlas;
@@ -5933,7 +5912,7 @@ function isPowerOf2(n) {
   return (n & (n - 1)) === 0;
 }
 
-},{"./texture.js":53}],56:[function(require,module,exports){
+},{"./texture.js":52}],55:[function(require,module,exports){
 module.exports = webglImage;
 
 /**
@@ -5965,7 +5944,7 @@ function webglImage(size, src) {
     };
 }
 
-},{}],57:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 /**
  * @fileOverview Defines an image nodes for webglGraphics class.
  * Shape of nodes is square.
@@ -6229,7 +6208,7 @@ function createNodeVertexShader() {
   ].join("\n");
 }
 
-},{"./webgl.js":54,"./webglAtlas.js":55}],58:[function(require,module,exports){
+},{"./webgl.js":53,"./webglAtlas.js":54}],57:[function(require,module,exports){
 var documentEvents = require('../Utils/documentEvents.js');
 
 module.exports = webglInputEvents;
@@ -6487,7 +6466,7 @@ function webglInputEvents(webglGraphics) {
   }
 }
 
-},{"../Utils/documentEvents.js":41}],59:[function(require,module,exports){
+},{"../Utils/documentEvents.js":40}],58:[function(require,module,exports){
 var parseColor = require('./parseColor.js');
 
 module.exports = webglLine;
@@ -6508,7 +6487,7 @@ function webglLine(color) {
   };
 }
 
-},{"./parseColor.js":52}],60:[function(require,module,exports){
+},{"./parseColor.js":51}],59:[function(require,module,exports){
 /**
  * @fileOverview Defines a naive form of links for webglGraphics class.
  * This form allows to change color of links.
@@ -6666,7 +6645,7 @@ function webglLinkProgram() {
     };
 }
 
-},{"./webgl.js":54}],61:[function(require,module,exports){
+},{"./webgl.js":53}],60:[function(require,module,exports){
 /**
  * @fileOverview Defines a naive form of nodes for webglGraphics class.
  * This form allows to change color of node. Shape of nodes is rectangular.
@@ -6778,7 +6757,7 @@ function webglNodeProgram() {
     var idx = nodeUI.id;
 
     positions[idx * ATTRIBUTES_PER_PRIMITIVE] = pos.x;
-    positions[idx * ATTRIBUTES_PER_PRIMITIVE + 1] = pos.y;
+    positions[idx * ATTRIBUTES_PER_PRIMITIVE + 1] = -pos.y;
     positions[idx * ATTRIBUTES_PER_PRIMITIVE + 2] = nodeUI.size;
 
     colors[idx * ATTRIBUTES_PER_PRIMITIVE + 3] = nodeUI.color;
@@ -6831,7 +6810,7 @@ function webglNodeProgram() {
   }
 }
 
-},{"./webgl.js":54}],62:[function(require,module,exports){
+},{"./webgl.js":53}],61:[function(require,module,exports){
 var parseColor = require('./parseColor.js');
 
 module.exports = webglSquare;
@@ -6857,9 +6836,9 @@ function webglSquare(size, color) {
   };
 }
 
-},{"./parseColor.js":52}],63:[function(require,module,exports){
+},{"./parseColor.js":51}],62:[function(require,module,exports){
 // todo: this should be generated at build time.
-module.exports = '0.7.10';
+module.exports = '0.8.1';
 
 },{}]},{},[1])(1)
 });

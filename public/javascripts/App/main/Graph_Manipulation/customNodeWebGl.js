@@ -402,6 +402,8 @@ function buildCircleNodeShader(angleNumbers, totalTypes) {
                     
                     gl = glContext;
 
+                    //alert(gl.getParameter(gl.MAX_VARYING_VECTORS));
+
                     //if (prevNodeProgram != null) gl.deleteProgram(prevNodeProgram);
 
                     webglUtils = Viva.Graph.webgl(glContext);
@@ -411,11 +413,11 @@ function buildCircleNodeShader(angleNumbers, totalTypes) {
                     locations = webglUtils.getLocations(program, ['a_vertexPos', 'a_customAttributes', 'u_screenSize', 'u_transform']);
 
                     gl.enableVertexAttribArray(locations.vertexPos);
-                    gl.enableVertexAttribArray(locations.customAttributes);
+                    //gl.enableVertexAttribArray(locations.customAttributes);
 
                     var prevNodeIndex = 0;
 
-                    for (o = 1; o<= countvec4; o++){
+                    for (o = 0; o <= countvec4; o++){
                          gl.enableVertexAttribArray(locations.customAttributes + o);
                          // gl.enableVertexAttribArray(locations.customAttributes + i + 1 + prevNodeIndex);
                          // prevNodeIndex += 1;
@@ -471,6 +473,7 @@ function buildCircleNodeShader(angleNumbers, totalTypes) {
 
                     if (isCanvasDirty) {
                         isCanvasDirty = false;
+                        console.log(transform);
                         gl.uniformMatrix4fv(locations.transform, false, transform);
                         gl.uniform2f(locations.screenSize, canvasWidth, canvasHeight);
                     }
