@@ -109,6 +109,7 @@ function changeNodeUIData(objectOfType, graphics, propertyIndexes, arrayColors){
 	    
 	    nodeUI.data = dataToChange;  //Apply data to the nodeUI
 	    nodeUI.colorIndexes = indexes; //Apply data to the nodeUI
+	    nodeUI.backupColor = indexes;
 
   	}
 }

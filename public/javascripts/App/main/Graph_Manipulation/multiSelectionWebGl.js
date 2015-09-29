@@ -1,6 +1,7 @@
 
 
-function startMultiSelect(graph, renderer, layout) {
+function startMultiSelect(graph, renderer, layout, selectedNodes) {
+
   var graphics = renderer.getGraphics();
   var domOverlay = document.querySelector('.graph-overlay');
   var overlay = createOverlay(domOverlay);
@@ -21,19 +22,29 @@ function startMultiSelect(graph, renderer, layout) {
       y: area.y + area.height
     });
 
+    selectedNodes = [];
+
     graph.forEachNode(higlightIfInside);
-    renderer.rerender();
+    //renderer.rerender();
 
     return;
 
     function higlightIfInside(node) {
       var nodeUI = graphics.getNodeUI(node.id);
       if (isInside(node.id, topLeft, bottomRight)) {
-        nodeUI.color = 0xFFA500ff;
+
+        var newColors = [];
+
+        for (i in nodeUI.colorIndexes){
+          var colorsPerQuadrant = [];
+          for (j in nodeUI.colorIndexes[i]) colorsPerQuadrant.push(0xFFA500ff);
+          newColors.push(colorsPerQuadrant);
+        }
+        nodeUI.colorIndexes = newColors;
         nodeUI.size = 30;
       } else {
-        nodeUI.color = 0x009ee8;
-        nodeUI.size = 30;
+        nodeUI.colorIndexes = nodeUI.backupColor;
+        nodeUI.size = nodeUI.backupSize;
       }
     }
 

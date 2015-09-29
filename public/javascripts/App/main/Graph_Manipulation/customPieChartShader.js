@@ -2,9 +2,11 @@
 function WebglCircle(size, baseColor, data, colors, rawData) {
         circleDataArray = assignQuadrant(getDataPercentage(data), colors);
         this.size = size;
+        this.backupSize = size;
         this.baseColor = baseColor;
         this.data = circleDataArray[0];
         this.colorIndexes = circleDataArray[1];
+        this.backupColor = circleDataArray[1];
         this.rawData = circleDataArray[2];
 
 }

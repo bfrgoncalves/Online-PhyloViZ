@@ -15,6 +15,8 @@ block normalBody
 				a(data-target="#isolateContent", data-toggle="mainTab") Isolates
 			li
 				a(data-target="#profileContent", data-toggle="mainTab") Profiles
+			li(id="distanceTab")
+				a(data-target="#distanceContent", data-toggle="mainTab") Distances
 
 
 	div.tab-content
@@ -58,6 +60,15 @@ block normalBody
 									//- input(type='range',id='LinkThickSlider', name='points1', value = 1, min='1', max='30', onchange='ChangeLinkThickness(this.value)')
 									//- label Link Distance
 									//- input(type='range',id='LinkDistanceSlider', name='points2', value = 50, min='10', max='100', step='0.01', onchange='ChangeDistance(this.value)')
+
+					li
+						div
+							a.btn.btn-primary.actionButton(data-toggle='collapse', href='#collapseOperations', aria-expanded="false", aria-controls="collapseExample") Operations
+							div.collapse(id='collapseOperations')
+								div.well(id='OperationsToMake')
+									label Compute Distances
+									input(type='button',id='distanceButton', name='distances1')
+			
 			
 			div.col-lg-2(id="col_info")
 				div
@@ -71,7 +82,7 @@ block normalBody
 				div(id="legendcurrentpiePlace")
 
 			div(id='visual',oncontextmenu='return false;')
-				//div.graph-overlay
+				div.graph-overlay
 
 			div(id='toggleLayout')
 				i.glyphicon.glyphicon-pause(id='iconPauseLayout') 
@@ -95,6 +106,15 @@ block normalBody
 				div(id="legendpieprofiles")
 				div(id="divbuttonlinkpieprofiles")
 
+		div.tab-pane(id="distanceContent")
+			div(id="divdistances")
+			br
+			br
+			div.pieRegion
+				div(id="piedistances")
+				div(id="legendpiedistances")
+				div(id="divbuttonlinkpiedistances")
+
 
 	
 
@@ -117,6 +137,7 @@ block scripts
 	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/multiSelectionWebGl.js')
 	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/assignColors_Webgl.js')
 	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/change_Render_Properties_Webgl.js')
+	script(type='text/javascript', src='/javascripts/App/main/data_Analysis/data_Analysis_functions.js')
 	script(type='text/javascript', src='/javascripts/App/main/Table/tableFunctions.js')
 	script(type='text/javascript', src='/javascripts/App/main/globalPie/globalPieFunctions.js')
 	script(type='text/javascript', src='/javascripts/App/main/getPieData.js')

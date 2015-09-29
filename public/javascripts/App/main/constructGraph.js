@@ -16,25 +16,31 @@ function constructGraph(graph){
 
       var containerPosition = container.getBoundingClientRect();
 
-      console.log(containerPosition);
-
     	for (i in graph.nodes){
     	 	graphGL.addNode(graph.nodes[i].key, graph.nodes[i]);
     	}
 
     	for (j in graph.links){
-    	 	graphGL.addLink(graph.links[j].source,graph.links[j].target);
+    	 	graphGL.addLink(graph.links[j].source,graph.links[j].target, { connectionStrength: graph.links[j].value });
     	}
 
-    	var nodeColor = 0x009ee8; // hex rrggbb
-           DefaultnodeSize = 30;
+    	var nodeColor = 0x009ee8, // hex rrggbb
+           DefaultnodeSize = 25, idealSpringLength = 1;
 
     	var layout = Viva.Graph.Layout.forceDirected(graphGL, {
-    	    springLength : 30,
+    	    springLength : idealSpringLength,
     	    springCoeff : 0.0003,
     	    dragCoeff : 0.01,
     	    gravity : -10,
-    	    theta: 0.8
+    	    theta: 0.8,
+
+          // This is the main part of this example. We are telling force directed
+          // layout, that we want to change length of each physical spring
+          // by overriding `springTransform` method:
+          springTransform: function (link, spring) {
+            console.log(link);
+            spring.length = idealSpringLength * (link.data.connectionStrength*100);
+          }
       	});
 
       var graphicsOptions = {
@@ -172,6 +178,8 @@ function constructGraph(graph){
 
         var events = Viva.Graph.webglInputEvents(graphics, graphGL);
 
+        var ctrlDown = false, remakeSelection = false, multipleselection = false, selectedNodes = [];
+
         events.mouseEnter(function (node) {
              //console.log('Mouse entered node: ' + node.id);
          }).mouseLeave(function (node) {
@@ -182,25 +190,59 @@ function constructGraph(graph){
           //
         }).click(function (node, e) {
 
-            //console.log('Single click on node: ' + node.id);
-              //renderer.pause();
-              //addLabels(graphics, node);
-              //changeColor(graphics, node,renderer);
+            if (ctrlDown) { // ctrl key
+              selectedNodes = SelectNodes(selectedNodes, node, graphics);
+            }
         });
 
           var multiSelectOverlay;
 
           document.addEventListener('keydown', function(e) {
-          if (e.which === 16 && !multiSelectOverlay) { // shift key
-            multiSelectOverlay = startMultiSelect(graphGL, renderer, layout);
-          }
-          });
-            document.addEventListener('keyup', function(e) {
-              if (e.which === 16 && multiSelectOverlay) {
-                multiSelectOverlay.destroy();
-                multiSelectOverlay = null;
+          
+            if (e.which === 16 && !multiSelectOverlay) { // shift key
+              multipleselection = false;
+              for (i in selectedNodes){
+                var nodeToUse = graphics.getNodeUI(selectedNodes[i].id);
+                nodeToUse.colorIndexes = nodeToUse.backupColor;
+                nodeToUse.size = nodeToUse.backupSize;
+              } 
+              selectedNodes = [];
+              
+              multiSelectOverlay = startMultiSelect(graphGL, renderer, layout, selectedNodes);
+            }
+
+            if (e.which === 17){
+              ctrlDown = true;
+              if (!multipleselection ){
+                for (i in selectedNodes){
+                  var nodeToUse = graphics.getNodeUI(selectedNodes[i].id);
+                  nodeToUse.colorIndexes = nodeToUse.backupColor;
+                  nodeToUse.size = nodeToUse.backupSize;
+                } 
+                remakeSelection = false;
+                selectedNodes = [];
               }
-            });
+            }
+          });
+          document.addEventListener('keyup', function(e) {
+
+            if (e.which === 16 && multiSelectOverlay) {
+              multiSelectOverlay.destroy();
+              multiSelectOverlay = null;
+
+              graphGL.forEachNode(function(node){
+                var currentNodeUI = graphics.getNodeUI(node.id);
+                if (currentNodeUI.colorIndexes[0][0] == 0xFFA500ff) selectedNodes.push(node);
+              });
+              multipleselection = true;
+
+            }
+
+            if (e.which === 17){
+              ctrlDown = false;
+            } 
+            
+          });
 
           $('#searchForm').submit(function(e) {
                           e.preventDefault();
@@ -225,8 +267,6 @@ function constructGraph(graph){
                             $('#iconPauseLayout').toggleClass('glyphicon glyphicon-pause',true);
                             
                           }
-                          // var nodeId = $('#pauseLayout').val();
-                          // centerNode(nodeId,graphGL,layout,renderer,graphics)
                       });
 
           $('#NodeSizeSlider').change(function(e){
@@ -235,6 +275,11 @@ function constructGraph(graph){
 
           $('#LabelSizeSlider').change(function(e){
             LabelSize(this.value, graph, domLabels, graphics);
+          });
+          
+          $('#distanceButton').click(function(e){
+            if (selectedNodes.length < 2) alert('To compute distances, first you need to select more than one node.');
+            else checkLociDifferences(selectedNodes);
           });
 
           $('#AddLabels').change(function(e){

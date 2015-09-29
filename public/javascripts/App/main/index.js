@@ -4,7 +4,6 @@ Math.seedrandom(1);
 var width = $(document).width() - 20,
     height = $(document).height() - $('.phylovizNavbar').height() - 85;
 
-console.log($('.phylovizNavbar').height());
 
 var prevNodeProgram = null;
 
