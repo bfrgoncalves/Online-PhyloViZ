@@ -93,9 +93,12 @@ function uploadToDatabase(data, callback){
     schemeGenes: data['fileProfile_headers'],
     metadata: data['fileMetadata_headers'],
     profiles: data.fileProfile,
-    isolates: data.fileMetadata
+    isolates: data.fileMetadata,
+    positions: {}
   });
+
   instance.save(function(e){
+    console.log('saved');
     callback();
   });
 }

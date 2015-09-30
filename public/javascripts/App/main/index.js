@@ -32,7 +32,7 @@ function onLoad(){
     createTable(datasetName, 'profiles');
     
     createInput(datasetName, function(graph){
-      constructGraph(graph);
+      constructGraph(graph, datasetName);
     });
 
 }
@@ -61,7 +61,6 @@ function getRandomColor() {
 
 function transformGraphToClient(nodePos) {
             //change graph coordinates to container coordinates
-            console.log(nodePos);
             nodePos.x = width /2 + nodePos.x;
             nodePos.y = height / 2 + nodePos.y + 400;
 

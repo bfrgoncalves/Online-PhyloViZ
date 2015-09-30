@@ -13,6 +13,7 @@ var parseGoe = require('goeBURSTparser');
 
 var users = require('./routes/users');
 var upload = require('./routes/api/database/upload');
+var updateDataset = require('./routes/api/database/modifyDataset');
 var goeBURST = require('./routes/api/algorithms/goeBURST');
 var apiHome = require('./routes/api/index');
 var mongoSearch = require('./routes/api/database/mongo');
@@ -35,17 +36,20 @@ app.set('view engine', 'jade');
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 //app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.use('/', routes);
 app.use('/users', users);
 app.use('/main', main);
 app.use('/api', apiHome);
 app.use('/api/db/upload', upload);
+app.use('/api/db/datasets/update', updateDataset);
 app.use('/api/algorithms/goeBURST', goeBURST);
 app.use('/api/utils/phylovizInput', phylovizInput);
 app.use('/api/utils/tableData', phyloviztableData);

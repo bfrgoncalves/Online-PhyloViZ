@@ -9,7 +9,6 @@ function submitTree(){
     event.preventDefault();
     var element = $('#selectDataset');
     var propertyToCheck = element.find(":selected")
-    console.log(propertyToCheck[0].index);
 
     if(propertyToCheck[0].index != 0){
       window.location.replace("/main?datasetName=" + propertyToCheck.text());
@@ -47,12 +46,12 @@ function uploadFiles(){
   var fileSelectMetadata = document.getElementById('uploadMetadata');
   var datasetName = document.getElementById('datasetName');
 
+  
   var fd = new FormData();    
   fd.append( 'fileProfile', fileSelectProfile.files[0] );
   fd.append( 'fileMetadata', fileSelectMetadata.files[0] );
   fd.append( 'datasetName', $('#datasetName').val());
-
-  var dataToInput;
+  
 
   $.ajax({
     url: '/api/db/upload',
@@ -61,14 +60,12 @@ function uploadFiles(){
     contentType: false,
     type: 'POST',
     success: function(datasetName){
-      //console.log(data);
       getLinks(datasetName);
-      //dataToInput = datasetName;
       status('Loading links...');
-      //window.location.replace("/main?datasetName=" + datasetName);
     }
 
   });
+  
 
 }
 

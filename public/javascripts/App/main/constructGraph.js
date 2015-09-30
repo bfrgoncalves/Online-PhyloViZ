@@ -1,4 +1,4 @@
-function constructGraph(graph){
+function constructGraph(graph, datasetName){
 
 
       console.log(graph);
@@ -38,10 +38,18 @@ function constructGraph(graph){
           // layout, that we want to change length of each physical spring
           // by overriding `springTransform` method:
           springTransform: function (link, spring) {
-            console.log(link);
             spring.length = idealSpringLength * (link.data.connectionStrength*100);
           }
       	});
+
+
+      if (Object.keys(graph.positions).length > 0){
+        for (nodeLocation in graph.positions.nodes[0]){
+          var nodeX = graph.positions.nodes[0][nodeLocation][0].x;
+          var nodeY = graph.positions.nodes[0][nodeLocation][0].y;
+          layout.setNodePosition(nodeLocation, nodeX, nodeY);
+        }
+      }
 
       var graphicsOptions = {
           clearColor: true, // we want to avoid rendering artifacts
@@ -280,6 +288,10 @@ function constructGraph(graph){
           $('#distanceButton').click(function(e){
             if (selectedNodes.length < 2) alert('To compute distances, first you need to select more than one node.');
             else checkLociDifferences(selectedNodes);
+          });
+
+          $('#savePositionsButton').click(function(e){
+            saveTreePositions(graphGL, layout, datasetName)
           });
 
           $('#AddLabels').change(function(e){

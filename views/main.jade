@@ -68,6 +68,9 @@ block normalBody
 								div.well(id='OperationsToMake')
 									label Compute Distances
 									input(type='button',id='distanceButton', name='distances1')
+									label Save Positions
+									input(type='button',id='savePositionsButton', name='downloadPositions1')
+									div(id='downloadContainer', style='display:none')
 			
 			
 			div.col-lg-2(id="col_info")
@@ -131,13 +134,15 @@ block scripts
 	script(type='text/javascript', src='/javascripts/dependencies/bootstrap.js')
 	script(type='text/javascript', src='/javascripts/dependencies/bootstrap-select.js')
 	script(type='text/javascript', src='/javascripts/dependencies/jquery.dataTables.js')
-	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/customPieChartShader.js')
+	//script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/customPieChartShader.js')
+	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/pieNodeWebGl.js')
 	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/CustomLinkProgram.js')
 	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/searchNodesWebGl.js')
 	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/multiSelectionWebGl.js')
 	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/assignColors_Webgl.js')
 	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/change_Render_Properties_Webgl.js')
 	script(type='text/javascript', src='/javascripts/App/main/data_Analysis/data_Analysis_functions.js')
+	script(type='text/javascript', src='/javascripts/App/main/data_Analysis/saveTreePositions.js')
 	script(type='text/javascript', src='/javascripts/App/main/Table/tableFunctions.js')
 	script(type='text/javascript', src='/javascripts/App/main/globalPie/globalPieFunctions.js')
 	script(type='text/javascript', src='/javascripts/App/main/getPieData.js')

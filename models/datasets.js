@@ -9,7 +9,8 @@ var datasetSchema = new mongoose.Schema({
 	metadata: Array,
 	profiles: Object,
 	isolates: Object,
-	links: Array
+	links: Array,
+	positions: Object
 });
 
 module.exports = restful.model('datasets', datasetSchema);
