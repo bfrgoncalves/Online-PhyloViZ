@@ -14,6 +14,8 @@ function constructGraph(graph, datasetName){
     	var graphGL = Viva.Graph.graph();
       var container = document.getElementById( 'visual' );
 
+      console.log(idealSpringLength);
+
       var containerPosition = container.getBoundingClientRect();
 
     	for (i in graph.nodes){
@@ -21,11 +23,12 @@ function constructGraph(graph, datasetName){
     	}
 
     	for (j in graph.links){
-    	 	graphGL.addLink(graph.links[j].source,graph.links[j].target, { connectionStrength: graph.links[j].value });
+    	 	graphGL.addLink(graph.links[j].source,graph.links[j].target, { connectionStrength: idealSpringLength * graph.links[j].value });
     	}
 
     	var nodeColor = 0x009ee8, // hex rrggbb
-           DefaultnodeSize = 25, idealSpringLength = 1;
+           DefaultnodeSize = 25;
+
 
     	var layout = Viva.Graph.Layout.forceDirected(graphGL, {
     	    springLength : idealSpringLength,
@@ -37,8 +40,8 @@ function constructGraph(graph, datasetName){
           // This is the main part of this example. We are telling force directed
           // layout, that we want to change length of each physical spring
           // by overriding `springTransform` method:
-          springTransform: function (link, spring) {
-            spring.length = idealSpringLength * (link.data.connectionStrength*100);
+          springTransform: function (link, spring, idealSpringLength) {
+            spring.length = link.data.connectionStrength;
           }
       	});
 
@@ -104,7 +107,9 @@ function constructGraph(graph, datasetName){
 
 
           graphics.node(function (node) {
-             return new WebglCircle(DefaultnodeSize+node.data.isolates.length, nodeColor, [1], [nodeColor], null);
+             if (node.id.search('TransitionNode') > -1) sizeToUse = 5;
+             else sizeToUse = DefaultnodeSize+node.data.isolates.length;
+             return new WebglCircle(sizeToUse, nodeColor, [1], [nodeColor], null);
           });
 
           var domLabels = generateDOMLabels(graphGL);
@@ -170,6 +175,13 @@ function constructGraph(graph, datasetName){
               });
 
           renderer.run();
+
+      if (Object.keys(graph.positions).length > 0){
+        renderer.pause();
+        $('#pauseLayout')[0].innerHTML = "Resume Layout";
+        $('#iconPauseLayout').toggleClass('glyphicon glyphicon-pause',false);
+        $('#iconPauseLayout').toggleClass('glyphicon glyphicon-play',true);
+      }
 
 
 
@@ -284,6 +296,7 @@ function constructGraph(graph, datasetName){
           $('#LabelSizeSlider').change(function(e){
             LabelSize(this.value, graph, domLabels, graphics);
           });
+
           
           $('#distanceButton').click(function(e){
             if (selectedNodes.length < 2) alert('To compute distances, first you need to select more than one node.');

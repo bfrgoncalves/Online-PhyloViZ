@@ -1,310 +1,66 @@
 0 info it worked if it ends with ok
-1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'install' ]
-2 info using npm@1.4.28
-3 info using node@v0.10.36
-4 verbose node symlink /usr/bin/node
-5 verbose readDependencies using package.json deps
-6 verbose install where, deps [ '/home/bruno/repos/Online_PhyloviZ_current',
-6 verbose install   [ 'body-parser',
-6 verbose install     'busboy',
-6 verbose install     'connect-busboy',
-6 verbose install     'cookie-parser',
-6 verbose install     'csv-parser',
-6 verbose install     'csv-streamer',
-6 verbose install     'debug',
-6 verbose install     'express',
-6 verbose install     'fast-csv',
-6 verbose install     'formidable',
-6 verbose install     'heap',
-6 verbose install     'jade',
-6 verbose install     'jquery',
-6 verbose install     'l',
-6 verbose install     'mongoose',
-6 verbose install     'morgan',
-6 verbose install     'multer',
-6 verbose install     'nvd3',
-6 verbose install     'request',
-6 verbose install     'serve-favicon',
-6 verbose install     'simple-ajax' ] ]
-7 info preinstall Force_Layout_ViZ@0.0.0
-8 verbose readDependencies using package.json deps
-9 verbose already installed skipping debug@~2.1.1 /home/bruno/repos/Online_PhyloviZ_current
-10 verbose already installed skipping express@~4.12.0 /home/bruno/repos/Online_PhyloviZ_current
-11 verbose already installed skipping fast-csv@^0.6.0 /home/bruno/repos/Online_PhyloviZ_current
-12 verbose already installed skipping formidable@^1.0.17 /home/bruno/repos/Online_PhyloviZ_current
-13 verbose already installed skipping heap@^0.2.6 /home/bruno/repos/Online_PhyloviZ_current
-14 verbose already installed skipping jade@~1.9.2 /home/bruno/repos/Online_PhyloviZ_current
-15 verbose already installed skipping jquery@^2.1.4 /home/bruno/repos/Online_PhyloviZ_current
-16 verbose already installed skipping l@0.0.1 /home/bruno/repos/Online_PhyloviZ_current
-17 verbose already installed skipping mongoose@^3.8.25 /home/bruno/repos/Online_PhyloviZ_current
-18 verbose already installed skipping morgan@~1.5.1 /home/bruno/repos/Online_PhyloviZ_current
-19 verbose already installed skipping multer@^0.1.8 /home/bruno/repos/Online_PhyloviZ_current
-20 verbose already installed skipping nvd3@^1.1.15-beta2 /home/bruno/repos/Online_PhyloviZ_current
-21 verbose cache add [ 'request@^2.57.0', null ]
-22 verbose cache add name=undefined spec="request@^2.57.0" args=["request@^2.57.0",null]
-23 verbose parsed url { protocol: null,
-23 verbose parsed url   slashes: null,
-23 verbose parsed url   auth: null,
-23 verbose parsed url   host: null,
-23 verbose parsed url   port: null,
-23 verbose parsed url   hostname: null,
-23 verbose parsed url   hash: null,
-23 verbose parsed url   search: null,
-23 verbose parsed url   query: null,
-23 verbose parsed url   pathname: 'request@^2.57.0',
-23 verbose parsed url   path: 'request@^2.57.0',
-23 verbose parsed url   href: 'request@^2.57.0' }
-24 verbose already installed skipping serve-favicon@~2.2.0 /home/bruno/repos/Online_PhyloviZ_current
-25 verbose cache add name="request" spec="^2.57.0" args=["request","^2.57.0"]
-26 verbose parsed url { protocol: null,
-26 verbose parsed url   slashes: null,
-26 verbose parsed url   auth: null,
-26 verbose parsed url   host: null,
-26 verbose parsed url   port: null,
-26 verbose parsed url   hostname: null,
-26 verbose parsed url   hash: null,
-26 verbose parsed url   search: null,
-26 verbose parsed url   query: null,
-26 verbose parsed url   pathname: '^2.57.0',
-26 verbose parsed url   path: '^2.57.0',
-26 verbose parsed url   href: '^2.57.0' }
-27 verbose addNamed [ 'request', '^2.57.0' ]
-28 verbose addNamed [ null, '>=2.57.0-0 <3.0.0-0' ]
-29 verbose cache add [ 'simple-ajax@^2.1.0', null ]
-30 verbose cache add name=undefined spec="simple-ajax@^2.1.0" args=["simple-ajax@^2.1.0",null]
-31 verbose parsed url { protocol: null,
-31 verbose parsed url   slashes: null,
-31 verbose parsed url   auth: null,
-31 verbose parsed url   host: null,
-31 verbose parsed url   port: null,
-31 verbose parsed url   hostname: null,
-31 verbose parsed url   hash: null,
-31 verbose parsed url   search: null,
-31 verbose parsed url   query: null,
-31 verbose parsed url   pathname: 'simple-ajax@^2.1.0',
-31 verbose parsed url   path: 'simple-ajax@^2.1.0',
-31 verbose parsed url   href: 'simple-ajax@^2.1.0' }
-32 verbose already installed skipping body-parser@~1.12.0 /home/bruno/repos/Online_PhyloviZ_current
-33 verbose already installed skipping busboy@^0.2.9 /home/bruno/repos/Online_PhyloviZ_current
-34 silly lockFile b8b22ae0-request-2-57-0 request@^2.57.0
-35 verbose lock request@^2.57.0 /home/bruno/.npm/b8b22ae0-request-2-57-0.lock
-36 verbose cache add name="simple-ajax" spec="^2.1.0" args=["simple-ajax","^2.1.0"]
-37 verbose parsed url { protocol: null,
-37 verbose parsed url   slashes: null,
-37 verbose parsed url   auth: null,
-37 verbose parsed url   host: null,
-37 verbose parsed url   port: null,
-37 verbose parsed url   hostname: null,
-37 verbose parsed url   hash: null,
-37 verbose parsed url   search: null,
-37 verbose parsed url   query: null,
-37 verbose parsed url   pathname: '^2.1.0',
-37 verbose parsed url   path: '^2.1.0',
-37 verbose parsed url   href: '^2.1.0' }
-38 verbose addNamed [ 'simple-ajax', '^2.1.0' ]
-39 verbose addNamed [ null, '>=2.1.0-0 <3.0.0-0' ]
-40 silly lockFile 668e88c2-simple-ajax-2-1-0 simple-ajax@^2.1.0
-41 verbose lock simple-ajax@^2.1.0 /home/bruno/.npm/668e88c2-simple-ajax-2-1-0.lock
-42 silly addNameRange { name: 'simple-ajax',
-42 silly addNameRange   range: '>=2.1.0-0 <3.0.0-0',
-42 silly addNameRange   hasData: false }
-43 verbose already installed skipping connect-busboy@0.0.2 /home/bruno/repos/Online_PhyloviZ_current
-44 verbose already installed skipping cookie-parser@~1.3.4 /home/bruno/repos/Online_PhyloviZ_current
-45 verbose already installed skipping csv-parser@^1.5.0 /home/bruno/repos/Online_PhyloviZ_current
-46 silly addNameRange { name: 'request', range: '>=2.57.0-0 <3.0.0-0', hasData: false }
-47 verbose already installed skipping csv-streamer@^0.1.1 /home/bruno/repos/Online_PhyloviZ_current
-48 verbose request where is /simple-ajax
-49 verbose request registry https://registry.npmjs.org/
-50 verbose request id c23bc48114391f91
-51 verbose url raw /simple-ajax
-52 verbose url resolving [ 'https://registry.npmjs.org/', './simple-ajax' ]
-53 verbose url resolved https://registry.npmjs.org/simple-ajax
-54 verbose request where is https://registry.npmjs.org/simple-ajax
-55 info trying registry request attempt 1 at 15:55:17
-56 verbose etag "4F63VW386HN7N4THCEP00L6U5"
-57 http GET https://registry.npmjs.org/simple-ajax
-58 verbose request where is /request
-59 verbose request registry https://registry.npmjs.org/
-60 verbose url raw /request
-61 verbose url resolving [ 'https://registry.npmjs.org/', './request' ]
-62 verbose url resolved https://registry.npmjs.org/request
-63 verbose request where is https://registry.npmjs.org/request
-64 info trying registry request attempt 1 at 15:55:17
-65 verbose etag "MTQQORJZ4VMFV8WKXD86OD7L"
-66 http GET https://registry.npmjs.org/request
-67 http 304 https://registry.npmjs.org/simple-ajax
-68 silly registry.get cb [ 304,
-68 silly registry.get   { date: 'Mon, 22 Jun 2015 14:55:17 GMT',
-68 silly registry.get     via: '1.1 varnish',
-68 silly registry.get     'cache-control': 'max-age=60',
-68 silly registry.get     etag: '"4F63VW386HN7N4THCEP00L6U5"',
-68 silly registry.get     age: '0',
-68 silly registry.get     connection: 'keep-alive',
-68 silly registry.get     'x-served-by': 'cache-lcy1121-LCY',
-68 silly registry.get     'x-cache': 'MISS',
-68 silly registry.get     'x-cache-hits': '0',
-68 silly registry.get     'x-timer': 'S1434984917.455354,VS0,VE91',
-68 silly registry.get     vary: 'Accept' } ]
-69 verbose etag https://registry.npmjs.org/simple-ajax from cache
-70 silly addNameRange number 2 { name: 'simple-ajax',
-70 silly addNameRange   range: '>=2.1.0-0 <3.0.0-0',
-70 silly addNameRange   hasData: true }
-71 silly addNameRange versions [ 'simple-ajax',
-71 silly addNameRange   [ '0.0.1', '1.0.0', '1.0.1', '2.0.0', '2.1.0' ] ]
-72 verbose addNamed [ 'simple-ajax', '2.1.0' ]
-73 verbose addNamed [ '2.1.0', '2.1.0' ]
-74 silly lockFile 2e4ac3b3-simple-ajax-2-1-0 simple-ajax@2.1.0
-75 verbose lock simple-ajax@2.1.0 /home/bruno/.npm/2e4ac3b3-simple-ajax-2-1-0.lock
-76 silly lockFile 2e4ac3b3-simple-ajax-2-1-0 simple-ajax@2.1.0
-77 silly lockFile 2e4ac3b3-simple-ajax-2-1-0 simple-ajax@2.1.0
-78 silly lockFile 668e88c2-simple-ajax-2-1-0 simple-ajax@^2.1.0
-79 silly lockFile 668e88c2-simple-ajax-2-1-0 simple-ajax@^2.1.0
-80 http 200 https://registry.npmjs.org/request
-81 silly registry.get cb [ 200,
-81 silly registry.get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
-81 silly registry.get     etag: '"J03GGNEJLQ0O488K7SR8B46H"',
-81 silly registry.get     'content-type': 'application/json',
-81 silly registry.get     'cache-control': 'max-age=60',
-81 silly registry.get     'content-length': '155186',
-81 silly registry.get     'accept-ranges': 'bytes',
-81 silly registry.get     date: 'Mon, 22 Jun 2015 14:55:17 GMT',
-81 silly registry.get     via: '1.1 varnish',
-81 silly registry.get     age: '12',
-81 silly registry.get     connection: 'keep-alive',
-81 silly registry.get     'x-served-by': 'cache-lcy1124-LCY',
-81 silly registry.get     'x-cache': 'HIT',
-81 silly registry.get     'x-cache-hits': '1',
-81 silly registry.get     'x-timer': 'S1434984917.452735,VS0,VE1',
-81 silly registry.get     vary: 'Accept' } ]
-82 silly addNameRange number 2 { name: 'request', range: '>=2.57.0-0 <3.0.0-0', hasData: true }
-83 silly addNameRange versions [ 'request',
-83 silly addNameRange   [ '0.10.0',
-83 silly addNameRange     '0.8.3',
-83 silly addNameRange     '0.9.0',
-83 silly addNameRange     '0.9.1',
-83 silly addNameRange     '0.9.5',
-83 silly addNameRange     '1.0.0',
-83 silly addNameRange     '1.1.0',
-83 silly addNameRange     '1.1.1',
-83 silly addNameRange     '1.2.0',
-83 silly addNameRange     '1.9.0',
-83 silly addNameRange     '1.9.1',
-83 silly addNameRange     '1.9.2',
-83 silly addNameRange     '1.9.3',
-83 silly addNameRange     '1.9.5',
-83 silly addNameRange     '1.9.7',
-83 silly addNameRange     '1.9.8',
-83 silly addNameRange     '1.9.9',
-83 silly addNameRange     '2.0.0',
-83 silly addNameRange     '2.0.1',
-83 silly addNameRange     '2.0.2',
-83 silly addNameRange     '2.0.3',
-83 silly addNameRange     '2.0.4',
-83 silly addNameRange     '2.0.5',
-83 silly addNameRange     '2.1.0',
-83 silly addNameRange     '2.1.1',
-83 silly addNameRange     '2.2.0',
-83 silly addNameRange     '2.2.5',
-83 silly addNameRange     '2.2.6',
-83 silly addNameRange     '2.2.9',
-83 silly addNameRange     '2.9.0',
-83 silly addNameRange     '2.9.1',
-83 silly addNameRange     '2.9.2',
-83 silly addNameRange     '2.9.3',
-83 silly addNameRange     '2.9.100',
-83 silly addNameRange     '2.9.150',
-83 silly addNameRange     '2.9.151',
-83 silly addNameRange     '2.9.152',
-83 silly addNameRange     '2.9.153',
-83 silly addNameRange     '2.9.200',
-83 silly addNameRange     '2.9.201',
-83 silly addNameRange     '2.9.202',
-83 silly addNameRange     '2.9.203',
-83 silly addNameRange     '2.10.0',
-83 silly addNameRange     '2.11.0',
-83 silly addNameRange     '2.11.1',
-83 silly addNameRange     '2.11.2',
-83 silly addNameRange     '2.11.3',
-83 silly addNameRange     '2.11.4',
-83 silly addNameRange     '2.12.0',
-83 silly addNameRange     '2.14.0',
-83 silly addNameRange     '2.16.0',
-83 silly addNameRange     '2.16.2',
-83 silly addNameRange     '2.16.4',
-83 silly addNameRange     '2.16.6',
-83 silly addNameRange     '2.18.0',
-83 silly addNameRange     '2.19.0',
-83 silly addNameRange     '2.20.0',
-83 silly addNameRange     '2.21.0',
-83 silly addNameRange     '2.22.0',
-83 silly addNameRange     '2.23.0',
-83 silly addNameRange     '2.24.0',
-83 silly addNameRange     '2.25.0',
-83 silly addNameRange     '2.26.0',
-83 silly addNameRange     '2.27.0',
-83 silly addNameRange     '2.28.0',
-83 silly addNameRange     '2.29.0',
-83 silly addNameRange     '2.30.0',
-83 silly addNameRange     '2.31.0',
-83 silly addNameRange     '2.32.0',
-83 silly addNameRange     '2.33.0',
-83 silly addNameRange     '2.34.0',
-83 silly addNameRange     '2.35.0',
-83 silly addNameRange     '2.36.0',
-83 silly addNameRange     '2.37.0',
-83 silly addNameRange     '2.38.0',
-83 silly addNameRange     '2.39.0',
-83 silly addNameRange     '2.40.0',
-83 silly addNameRange     '2.41.0',
-83 silly addNameRange     '2.42.0',
-83 silly addNameRange     '2.43.0',
-83 silly addNameRange     '2.44.0',
-83 silly addNameRange     '2.45.0',
-83 silly addNameRange     '2.46.0',
-83 silly addNameRange     '2.47.0',
-83 silly addNameRange     '2.48.0',
-83 silly addNameRange     '2.49.0',
-83 silly addNameRange     '2.50.0',
-83 silly addNameRange     '2.51.0',
-83 silly addNameRange     '2.52.0',
-83 silly addNameRange     '2.53.0',
-83 silly addNameRange     '2.54.0',
-83 silly addNameRange     '2.55.0',
-83 silly addNameRange     '2.56.0',
-83 silly addNameRange     '2.57.0',
-83 silly addNameRange     '2.58.0' ] ]
-84 verbose addNamed [ 'request', '2.58.0' ]
-85 verbose addNamed [ '2.58.0', '2.58.0' ]
-86 silly lockFile 5fb2c8e3-request-2-58-0 request@2.58.0
-87 verbose lock request@2.58.0 /home/bruno/.npm/5fb2c8e3-request-2-58-0.lock
-88 silly lockFile efbada5b-s-org-request-request-2-58-0-tgz https://registry.npmjs.org/request/-/request-2.58.0.tgz
-89 verbose lock https://registry.npmjs.org/request/-/request-2.58.0.tgz /home/bruno/.npm/efbada5b-s-org-request-request-2-58-0-tgz.lock
-90 verbose addRemoteTarball [ 'https://registry.npmjs.org/request/-/request-2.58.0.tgz',
-90 verbose addRemoteTarball   'b5f49c0b94aab7fad388612a1fb6ad03b6cc1580' ]
-91 info retry fetch attempt 1 at 15:55:17
-92 verbose fetch to= /tmp/npm-13170-E-8xxcrZ/registry.npmjs.org/request/-/request-2.58.0.tgz
-93 http GET https://registry.npmjs.org/request/-/request-2.58.0.tgz
-94 http 200 https://registry.npmjs.org/request/-/request-2.58.0.tgz
-95 silly lockFile efbada5b-s-org-request-request-2-58-0-tgz https://registry.npmjs.org/request/-/request-2.58.0.tgz
-96 silly lockFile efbada5b-s-org-request-request-2-58-0-tgz https://registry.npmjs.org/request/-/request-2.58.0.tgz
-97 silly lockFile 5fb2c8e3-request-2-58-0 request@2.58.0
-98 silly lockFile 5fb2c8e3-request-2-58-0 request@2.58.0
-99 silly lockFile b8b22ae0-request-2-57-0 request@^2.57.0
-100 silly lockFile b8b22ae0-request-2-57-0 request@^2.57.0
-101 error Error: EACCES, mkdir '/home/bruno/.npm/request/2.58.0'
-101 error  { [Error: EACCES, mkdir '/home/bruno/.npm/request/2.58.0']
-101 error   errno: 3,
-101 error   code: 'EACCES',
-101 error   path: '/home/bruno/.npm/request/2.58.0',
-101 error   parent: 'Force_Layout_ViZ' }
-102 error Please try running this command again as root/Administrator.
-103 error System Linux 3.11.0-26-generic
-104 error command "/usr/bin/node" "/usr/bin/npm" "install"
-105 error cwd /home/bruno/repos/Online_PhyloviZ_current
-106 error node -v v0.10.36
-107 error npm -v 1.4.28
-108 error path /home/bruno/.npm/request/2.58.0
-109 error code EACCES
-110 error errno 3
-111 error stack Error: EACCES, mkdir '/home/bruno/.npm/request/2.58.0'
-112 verbose exit [ 3, true ]
+1 verbose cli [ '/usr/bin/nodejs', '/usr/bin/npm', 'install', 'newick-parser' ]
+2 info using npm@1.3.10
+3 info using node@v0.10.25
+4 verbose readDependencies using package.json deps
+5 verbose cache add [ 'newick-parser', null ]
+6 verbose cache add name=undefined spec="newick-parser" args=["newick-parser",null]
+7 verbose parsed url { protocol: null,
+7 verbose parsed url   slashes: null,
+7 verbose parsed url   auth: null,
+7 verbose parsed url   host: null,
+7 verbose parsed url   port: null,
+7 verbose parsed url   hostname: null,
+7 verbose parsed url   hash: null,
+7 verbose parsed url   search: null,
+7 verbose parsed url   query: null,
+7 verbose parsed url   pathname: 'newick-parser',
+7 verbose parsed url   path: 'newick-parser',
+7 verbose parsed url   href: 'newick-parser' }
+8 silly lockFile 1b7db938-newick-parser newick-parser
+9 verbose lock newick-parser /home/bruno/.npm/1b7db938-newick-parser.lock
+10 silly lockFile 1b7db938-newick-parser newick-parser
+11 silly lockFile 1b7db938-newick-parser newick-parser
+12 verbose addNamed [ 'newick-parser', '' ]
+13 verbose addNamed [ null, '*' ]
+14 silly lockFile 0af51c37-newick-parser newick-parser@
+15 verbose lock newick-parser@ /home/bruno/.npm/0af51c37-newick-parser.lock
+16 silly addNameRange { name: 'newick-parser', range: '*', hasData: false }
+17 verbose url raw newick-parser
+18 verbose url resolving [ 'https://registry.npmjs.org/', './newick-parser' ]
+19 verbose url resolved https://registry.npmjs.org/newick-parser
+20 info trying registry request attempt 1 at 13:13:53
+21 http GET https://registry.npmjs.org/newick-parser
+22 http 404 https://registry.npmjs.org/newick-parser
+23 silly registry.get cb [ 404,
+23 silly registry.get   { 'content-type': 'application/json',
+23 silly registry.get     'cache-control': 'max-age=0',
+23 silly registry.get     'content-length': '2',
+23 silly registry.get     'accept-ranges': 'bytes',
+23 silly registry.get     date: 'Fri, 02 Oct 2015 12:13:54 GMT',
+23 silly registry.get     via: '1.1 varnish',
+23 silly registry.get     age: '0',
+23 silly registry.get     connection: 'keep-alive',
+23 silly registry.get     'x-served-by': 'cache-fra1242-FRA',
+23 silly registry.get     'x-cache': 'MISS',
+23 silly registry.get     'x-cache-hits': '0',
+23 silly registry.get     'x-timer': 'S1443788034.645532,VS0,VE172' } ]
+24 silly addNameRange number 2 { name: 'newick-parser', range: '*', hasData: true }
+25 silly addNameRange versions [ undefined, [] ]
+26 error TypeError: Cannot read property 'latest' of undefined
+26 error     at next (/usr/share/npm/lib/cache.js:687:35)
+26 error     at /usr/share/npm/lib/cache.js:675:5
+26 error     at saved (/usr/share/npm/node_modules/npm-registry-client/lib/get.js:142:7)
+26 error     at /usr/lib/nodejs/graceful-fs/polyfills.js:133:7
+26 error     at Object.oncomplete (fs.js:107:15)
+27 error If you need help, you may report this log at:
+27 error     <http://github.com/isaacs/npm/issues>
+27 error or email it to:
+27 error     <npm-@googlegroups.com>
+28 error System Linux 3.16.0-43-generic
+29 error command "/usr/bin/nodejs" "/usr/bin/npm" "install" "newick-parser"
+30 error cwd /home/bruno/Documents/Phyloviz_25Setembro2015
+31 error node -v v0.10.25
+32 error npm -v 1.3.10
+33 error type non_object_property_load
+34 verbose exit [ 1, true ]

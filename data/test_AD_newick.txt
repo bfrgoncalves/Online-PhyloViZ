@@ -1,0 +1,5 @@
+Strain	emm type	Group carbohydrate	ST	Location	Collection
+168554	stG485	G	A	Portugal	UL
+171712	stG480	G	B	Portugal	UL
+220269	stG2078	G	C	Portugal	UL
+223754	stC839	C	D	Portugal	UL

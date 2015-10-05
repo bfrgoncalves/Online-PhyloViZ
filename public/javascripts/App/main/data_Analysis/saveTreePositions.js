@@ -21,10 +21,10 @@ function saveTreePositions(graph, layout, datasetName){
 
 	console.log(Object.keys(Positions.nodes[0]).length);
 
-	if (Object.keys(Positions.nodes[0]).length > 700){
-		alert('Until know is just possible to save positions of datasets with up to 700 nodes.');
-	}
-	else{
+	// if (Object.keys(Positions.nodes[0]).length > 700){
+	// 	alert('Until know is just possible to save positions of datasets with up to 700 nodes.');
+	// }
+	// else{
 
 		$.ajax({
 	      url: '/api/db/datasets/update',
@@ -39,5 +39,5 @@ function saveTreePositions(graph, layout, datasetName){
 	      }
 
 	    });
-	}
+	// }
 }

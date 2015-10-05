@@ -20,7 +20,6 @@ function linkThickness(newSize, renderer, graph, graphics){
 
 	graph.links.forEach(function(link){
 	        var linkUI = graphics.getLinkUI();
-	        // nodeUI.size = newSize;
 	    })
 
 }

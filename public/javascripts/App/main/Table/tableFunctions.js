@@ -2,7 +2,7 @@
 function createTable(dataset, datasetParameter){
 
 	getTableData(dataset, datasetParameter, function(tableData){
-		constructTable(tableData, datasetParameter);
+    if (tableData.data.length != 0) constructTable(tableData, datasetParameter);
 	});
 
 }
@@ -41,3 +41,4 @@ function constructTable(tableData, datasetParameter){
         "bSort" : false
     } );  
 }
+

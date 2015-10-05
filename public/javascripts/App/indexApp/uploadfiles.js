@@ -8,18 +8,17 @@ function submitTree(){
 
     event.preventDefault();
     var element = $('#selectDataset');
-    var propertyToCheck = element.find(":selected")
+    var propertyToCheck = element.find(":selected");
 
     if(propertyToCheck[0].index != 0){
+      //console.log('AQUI');
       window.location.replace("/main?datasetName=" + propertyToCheck.text());
     }
-    else if($('#uploadProfile').val() == '' || $('#uploadMetadata').val() == '' || $('#datasetName').val() == '') {
-      if ($('#datasetName').val() == '') $('#status').text('Dataset name is required.');
-      else $('#status').text('At least one file is missing.');
-    }
-    else{
-        $('#inputForm').submit();
-    }
+    else if ($('#datasetName').val() == '') $('#status').text('Dataset name is required.');
+    else if ($('#possibleInputFormats').find(":selected")[0].index == 1 && $('#uploadProfile').val() == '') $('#status').text('Profile file is required.');
+    else if ($('#possibleInputFormats').find(":selected")[0].index == 2 && $('#uploadNewick').val() == '')  $('#status').text('Newick file is required.');
+    else $('#inputForm').submit();
+    
 }
 
 $('#inputForm').submit(function() {
@@ -44,13 +43,22 @@ function uploadFiles(){
   var form = document.getElementById('inputForm');
   var fileSelectProfile = document.getElementById('uploadProfile');
   var fileSelectMetadata = document.getElementById('uploadMetadata');
+  var fileSelectNewick = document.getElementById('uploadNewick');
   var datasetName = document.getElementById('datasetName');
+
+  countNumberOfFiles = 0;
+
+  if (fileSelectNewick.files[0] != undefined) countNumberOfFiles += 1;
+  if (fileSelectProfile.files[0] != undefined) countNumberOfFiles += 1;
+  if (fileSelectMetadata.files[0] != undefined) countNumberOfFiles += 1;
 
   
   var fd = new FormData();    
   fd.append( 'fileProfile', fileSelectProfile.files[0] );
   fd.append( 'fileMetadata', fileSelectMetadata.files[0] );
+  fd.append( 'fileNewick', fileSelectNewick.files[0] );
   fd.append( 'datasetName', $('#datasetName').val());
+  fd.append( 'numberOfFiles', countNumberOfFiles);
   
 
   $.ajax({
@@ -60,7 +68,8 @@ function uploadFiles(){
     contentType: false,
     type: 'POST',
     success: function(datasetName){
-      getLinks(datasetName);
+      if (fileSelectNewick.files[0] != undefined) window.location.replace("/main?datasetName=" + datasetName);
+      else getLinks(datasetName);
       status('Loading links...');
     }
 
@@ -85,6 +94,23 @@ function getLinks(datasetName){
   });
 
 }
+
+// function parseNewick(datasetName){
+
+//   $.ajax({
+//     url: '/api/utils/newickParser',
+//     data: $.param({name: datasetName, save: true}),
+//     processData: false,
+//     contentType: false,
+//     type: 'GET',
+//     success: function(data){
+//       status('Done!');
+//       window.location.replace("/main?datasetName=" + data.datasetName);
+//     }
+
+//   });
+
+// }
 
 
 function checkIfNameExists(datasetName){

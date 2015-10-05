@@ -9,22 +9,24 @@ function checkDatasets(){
       contentType: false,
       type: 'GET',
       success: function(data){
-        createDropdown(data);
+        createDropdown(data, '#existingDatasets', 'Select an existing dataset...', 0, 'selectDataset');
       }
 
     });
 }
 
-function createDropdown(data){
+function createDropdown(data, dropdownDiv, placeh, forceSelect, dropDownID){
 
-	var parent = $('#existingDatasets');
+	var parent = $(dropdownDiv);
 	var options = '<option data-hidden = "true"></option>';;
-
+	countOptions = 0;
 	for (var index in data){
+		countOptions += 1;
 		var datasetName = data[index].name;
-		options += '<option>'+datasetName+'</option>';
+		if (forceSelect == countOptions) options += '<option selected = "selected">'+datasetName+'</option>';
+		else options += '<option>'+datasetName+'</option>';
 	}
-	parent.append('<select class="selectpicker" title = "Select an existing dataset..." id="selectDataset" data-live-search="true">'+options+'</select>');
+	parent.append('<select class="selectpicker" title = "'+placeh+'" id="'+dropDownID+'" data-live-search="true">'+options+'</select>');
 
 	$('.selectpicker').selectpicker();
 	  $('.selectpicker').selectpicker({

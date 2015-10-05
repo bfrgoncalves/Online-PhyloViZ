@@ -8,9 +8,7 @@ var multer = require('multer');
 var done = true;
 
 var fileNames = {};
-var numberOfFiles = 0;
 var countProgress = 0;
-var dataToDB = {};
 
 
 router.post('/', multer({
@@ -26,35 +24,47 @@ router.post('/', multer({
   },
   onFileUploadComplete: function (file) {
     console.log(file.fieldname + ' uploaded to  ' + file.path);
-    numberOfFiles += 1;
     fileNames[file.fieldname] = file.path;
-    if(numberOfFiles == 2) done = true;
+    //if(numberOfFiles == 2) done = true;
   }
 }), function(req, res) {
   // Here you can check `Object.keys(req.files).length`
   // or for specific fields like `req.files.imageField`
-  if(done == true) {
-    dataToDB.datasetName = req.body.datasetName;
-    for (i in fileNames){
-      readCSVfile(fileNames[i], i, function(){
-        countProgress += 1;
-        if (countProgress == numberOfFiles){
-          
-          for (i in fileNames){
-            fs.unlink(fileNames[i]);
+  //console.log(req.body.numberOfFiles);
+  var dataToDB = {};
+  countProgress = 0;
+  console.log(req.body.datasetName);
+  dataToDB.datasetName = req.body.datasetName;
+  for (i in req.files){
+    console.log(req.files[i]);
+    readInputFiles(req.files[i].path, i, dataToDB, function(pathToFile, dataToDB){
+          fs.unlink(pathToFile);
+          countProgress += 1;
+          if (countProgress == req.body.numberOfFiles){
+              uploadToDatabase(dataToDB, function(){
+                res.send(dataToDB.datasetName);
+              });
           }
-
-          uploadToDatabase(dataToDB, function(){
-            res.send(dataToDB.datasetName);
-          });
-        } 
-      });
-    }
+    });
   }
+  
 });
 
+function readInputFiles(pathToFile, fileType, dataToDB, callback){
+  if (fileType == 'fileNewick') {
+    readNewickfile(pathToFile, fileType, dataToDB, function(dataToDB){
+      callback(pathToFile, dataToDB);
+    })
+  }
+  else {
+    readCSVfile(pathToFile, fileType, dataToDB, function(dataToDB){
+      callback(pathToFile, dataToDB);
+    })
+  }
+}
 
-function readCSVfile(pathToFile, fileType, callback){
+
+function readCSVfile(pathToFile, fileType, dataToDB, callback){
   
   var stream = fs.createReadStream(pathToFile);
 
@@ -72,6 +82,7 @@ function readCSVfile(pathToFile, fileType, callback){
             dataToDB.key = identifier;
             headers.shift();
           } 
+          if(dataToDB.key == undefined && fileType == 'fileMetadata') dataToDB.key = identifier;
           dataToDB[fileType + '_headers'] = headers; //remove first element from array. remove the identifier
           getHeaders = false;
         }
@@ -79,14 +90,32 @@ function readCSVfile(pathToFile, fileType, callback){
       })
       .on("end", function(){
         console.log("done");
-        callback();
+        callback(dataToDB);
       });
+
+}
+
+function readNewickfile(pathToFile, fileType, dataToDB, callback){
+  
+  var stream = fs.createReadStream(pathToFile);
+
+  dataToDB[fileType] = [];
+
+  fs.readFile(pathToFile, 'utf8', function (err,data) {
+      dataToDB[fileType].push(data);
+      console.log('Newick done');
+      callback(dataToDB);
+  });
 
 }
 
 function uploadToDatabase(data, callback){
 
   var datasetModel = require('../../../models/datasets');
+  if (data.fileMetadata == undefined) data.fileMetadata = [];
+  if (data.fileProfile == undefined) data.fileProfile = [];
+  if (data.fileNewick == undefined) data.fileNewick = [];
+
   var instance = new datasetModel({
     name: data.datasetName,
     key: data.key,
@@ -94,7 +123,8 @@ function uploadToDatabase(data, callback){
     metadata: data['fileMetadata_headers'],
     profiles: data.fileProfile,
     isolates: data.fileMetadata,
-    positions: {}
+    positions: {},
+    newick: data.fileNewick
   });
 
   instance.save(function(e){

@@ -9,11 +9,14 @@ router.get('/', function(req, res, next){
 
 		var dataToGraph = {};
 		var datasetName = req.query.name;
+		var isNewick = false;
 
 	    getDataset(datasetName, function(dataset){
+		  
 	      createPhyloviZInput(dataset, function(graphInput){
 	      	res.send(graphInput);
 	      });
+	    
 	    });
 
 	}

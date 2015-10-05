@@ -12,6 +12,7 @@ var fs = require('fs');
 var parseGoe = require('goeBURSTparser');
 
 var users = require('./routes/users');
+
 var upload = require('./routes/api/database/upload');
 var updateDataset = require('./routes/api/database/modifyDataset');
 var goeBURST = require('./routes/api/algorithms/goeBURST');
@@ -20,7 +21,9 @@ var mongoSearch = require('./routes/api/database/mongo');
 var phylovizInput = require('./routes/api/utils/phyloviz_input');
 var phyloviztableData = require('./routes/api/utils/tableData');
 
-var routes = require('./routes/app/index');
+
+var firstPage = require('./routes/app/firstPage');
+var index = require('./routes/app/index');
 var main = require('./routes/app/main');
 
 var done = false;
@@ -38,13 +41,14 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({limit: '8mb', extended: true}));
+//app.use(bodyParser.urlencoded({ extended: false }));
 
 //app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-app.use('/', routes);
+app.use('/', firstPage);
+app.use('/index', index);
 app.use('/users', users);
 app.use('/main', main);
 app.use('/api', apiHome);
@@ -54,12 +58,7 @@ app.use('/api/algorithms/goeBURST', goeBURST);
 app.use('/api/utils/phylovizInput', phylovizInput);
 app.use('/api/utils/tableData', phyloviztableData);
 app.use('/api/db', mongoSearch);
-// app.use('/inputData',inputData);
 
-//load all files in models dir
-// fs.readdirSync(__dirname + '/models').forEach(function(filename){
-//   if(~filename.indexOf('.js')) require(__dirname + '/models/' + filename);
-// })
 
 mongoose.connect('mongodb://localhost/phyloviz');
 

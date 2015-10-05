@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	<script src="build/biojs-io-newick.min.js"></script>
+	<script>
+	var parser = require("biojs-io-newick");
+
+	//Parse a newick string into json
+	var parsedData = parser.parse_newick("(A:0.1,B:0.2,(C:0.3,D:0.4)E:0.5)F");
+	console.log(parsedData);
+
+	//Parse a json string into newick
+	var newick = parser.parse_json(parsedData);
+	console.log(newick);
+
+	//Parse a nhx string
+	var parsedDataNHX = parser.parse_nhx("((1, ((2, (3, (4)Y#H1)g)e, (((Y#H1, 5)h, 6)f)X#H2)c)a, ((X#H2, 7)d, 8)b)r;");
+	console.log(parsedDataNHX);
+
+	//Back to the json string
+	var newickNHX = parser.parse_json(parsedDataNHX);
+	console.log(newickNHX);
+
+	</script>
+</body>
+</html>
