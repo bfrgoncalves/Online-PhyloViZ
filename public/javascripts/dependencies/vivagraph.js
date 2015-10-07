@@ -5081,6 +5081,7 @@ function webglGraphics(options) {
         };
 
     graphicsRoot = window.document.createElement("canvas");
+    graphicsRoot.id = 'canvas';
 
     var graphics = {
         getLinkUI: function (linkId) {
@@ -5282,9 +5283,9 @@ function webglGraphics(options) {
         init : function (c) {
             var contextParameters = {};
 
-            if (options.preserveDrawingBuffer) {
-                contextParameters.preserveDrawingBuffer = true;
-            }
+            //if (options.preserveDrawingBuffer) {
+            contextParameters.preserveDrawingBuffer = true;
+            //}
 
             container = c;
 

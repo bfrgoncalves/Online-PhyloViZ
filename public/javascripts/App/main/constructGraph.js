@@ -22,8 +22,11 @@ function constructGraph(graph, datasetName){
     	 	graphGL.addNode(graph.nodes[i].key, graph.nodes[i]);
     	}
 
+      if(graph.maxLinkValue == -1) maxLinkValue = 1;
+      else maxLinkValue = graph.maxLinkValue;
+
     	for (j in graph.links){
-    	 	graphGL.addLink(graph.links[j].source,graph.links[j].target, { connectionStrength: idealSpringLength * graph.links[j].value });
+    	 	graphGL.addLink(graph.links[j].source,graph.links[j].target, { connectionStrength: graph.links[j].value });
     	}
 
     	var nodeColor = 0x009ee8, // hex rrggbb
@@ -40,8 +43,8 @@ function constructGraph(graph, datasetName){
           // This is the main part of this example. We are telling force directed
           // layout, that we want to change length of each physical spring
           // by overriding `springTransform` method:
-          springTransform: function (link, spring, idealSpringLength) {
-            spring.length = link.data.connectionStrength;
+          springTransform: function (link, spring) {
+            spring.length = idealSpringLength * link.data.connectionStrength;
           }
       	});
 
@@ -113,24 +116,48 @@ function constructGraph(graph, datasetName){
           });
 
           var domLabels = generateDOMLabels(graphGL);
+
+          var nodeLabels = domLabels[0];
+          var linkLabels = domLabels[1];
           var tovisualizeLabels = false;
+          var tovisualizeLinkLabels = false;
 
           $('.node-label').css('display','none');
+          $('.link-label').css('display','none');
 
           function generateDOMLabels(graph) {
                   // this will map node id into DOM element
-                  var labels = Object.create(null);
+                  var nodeLabels = Object.create(null);
                   graph.forEachNode(function(node) {
-                    var label = document.createElement('span');
-                    label.classList.add('node-label');
-                    label.innerText = node.id;
-                    labels[node.id] = label;
-                    container.appendChild(label);
+                    if (node.id.search('TransitionNode') < 0){
+                      var label = document.createElement('span');
+                      label.classList.add('node-label');
+                      label.innerText = node.id;
+                      nodeLabels[node.id] = label;
+                      container.appendChild(label);
+                    }
+                    
+                  });
+
+                  var countLinks = 0;
+
+                  var linkLabels = Object.create(null);
+                  graph.forEachLink(function(link) {
+                      //console.log(link);
+                      var label = document.createElement('span');
+                      label.classList.add('link-label');
+                      label.innerText = parseFloat(link.data.connectionStrength.toFixed(4));
+                      linkLabels[countLinks] = label;
+                      container.appendChild(label);
+                      countLinks += 1;
+                    
+                    
                   });
                   // NOTE: If your graph changes over time you will need to
                   // monitor graph changes and update DOM elements accordingly
-                  return labels;
+                  return [nodeLabels, linkLabels];
                 }
+
 
           graphics.placeNode(function(ui, pos) {
                   // This callback is called by the renderer before it updates
@@ -147,21 +174,64 @@ function constructGraph(graph, datasetName){
 
                   // then move corresponding dom label to its own position:
                   var nodeId = ui.node.id;
-                  var labelStyle = domLabels[nodeId].style;
-                  labelStyle.left = domPos.x + 'px';
-                  labelStyle.top = domPos.y  + 'px';
-                  labelStyle.position = 'absolute';
+                  if (nodeLabels[nodeId] != undefined){
+                    var labelStyle = nodeLabels[nodeId].style;
+                    labelStyle.left = domPos.x + 'px';
+                    labelStyle.top = domPos.y  + 'px';
+                    labelStyle.position = 'absolute';
 
-                  if (tovisualizeLabels){
+                    if (tovisualizeLabels){
 
-                    if (domPos.y + containerPosition.top < containerPosition.top || domPos.y + containerPosition.top > containerPosition.bottom){
-                      labelStyle.display = "none";
+                      if (domPos.y + containerPosition.top < containerPosition.top || domPos.y + containerPosition.top > containerPosition.bottom){
+                        labelStyle.display = "none";
+                      }
+                      else if (domPos.x + containerPosition.left < containerPosition.left || domPos.x + containerPosition.left*2 > containerPosition.right){
+                        labelStyle.display = "none";
+                      }
+                      else labelStyle.display = "block";
+
                     }
-                    else if (domPos.x + containerPosition.left < containerPosition.left || domPos.x + containerPosition.left*2 > containerPosition.right){
-                      labelStyle.display = "none";
-                    }
-                    else labelStyle.display = "block";
+                  }
+                });
 
+          graphics.placeLink(function(ui, pos) {
+                  // This callback is called by the renderer before it updates
+                  // node coordinate. We can use it to update corresponding DOM
+                  // label position;
+                  newX = (ui.pos.from.x + ui.pos.to.x) / 2;
+                  newY = (ui.pos.from.y + ui.pos.to.y) / 2;
+
+                  // we create a copy of layout position
+
+                  var domPos = {
+                      x: newX,
+                      y: newY,
+                  };
+                  // And ask graphics to transform it to DOM coordinates:
+                  graphics.transformGraphToClientCoordinates(domPos);
+
+                  // then move corresponding dom label to its own position:
+                  var linkId = ui.id;
+
+                  if (linkLabels[linkId] != undefined){
+                    var labelStyle = linkLabels[linkId].style;
+                    labelStyle.left = domPos.x + 'px';
+                    labelStyle.top = domPos.y  + 'px';
+                    labelStyle.position = 'absolute';
+                    labelStyle.color = 'red';
+                    //console.log(labelStyle);
+
+                    if (tovisualizeLinkLabels){
+
+                      if (domPos.y + containerPosition.top < containerPosition.top || domPos.y + containerPosition.top > containerPosition.bottom){
+                        labelStyle.display = "none";
+                      }
+                      else if (domPos.x + containerPosition.left < containerPosition.left || domPos.x + containerPosition.left*2 > containerPosition.right){
+                        labelStyle.display = "none";
+                      }
+                      else labelStyle.display = "block";
+
+                    }
                   }
                 });
 
@@ -293,8 +363,11 @@ function constructGraph(graph, datasetName){
             NodeSize(this.value, renderer, graph, graphics)
           });
 
-          $('#LabelSizeSlider').change(function(e){
-            LabelSize(this.value, graph, domLabels, graphics);
+          $('#NodeLabelSizeSlider').change(function(e){
+            LabelSize(this.value, graph, nodeLabels, graphics, 'node');
+          });
+          $('#LinkLabelSizeSlider').change(function(e){
+            LabelSize(this.value, graph, linkLabels, graphics, 'link');
           });
 
           
@@ -307,6 +380,19 @@ function constructGraph(graph, datasetName){
             saveTreePositions(graphGL, layout, datasetName)
           });
 
+          $('#saveImageButton').click(function(e){
+            var canvas = document.getElementById("canvas");
+            var img    = canvas.toDataURL("image/png");
+
+            $('#imageDownloadLocation').attr('href', img);
+            document.getElementById("imageDownloadLocation").click();
+
+            //console.log($('#imageLocation'));
+            //$('#imageLocation').append("<img src="+img+" />")
+            //console.log(img);
+            //document.write('<img src="'+img+'"/>');
+          });
+
           $('#AddLabels').change(function(e){
             if (this.checked){
               $('.node-label').css('display','block');
@@ -315,6 +401,16 @@ function constructGraph(graph, datasetName){
             else{
               $('.node-label').css('display','none');
               tovisualizeLabels = false;
+            } 
+          });
+          $('#AddLinkLabels').change(function(e){
+            if (this.checked){
+              $('.link-label').css('display','block');
+              tovisualizeLinkLabels = true;
+            } 
+            else{
+              $('.link-label').css('display','none');
+              tovisualizeLinkLabels = false;
             } 
           });
 
