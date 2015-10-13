@@ -20,10 +20,12 @@
     "jade": "~1.9.2",
     "jquery": "^2.1.4",
     "l": "0.0.1",
+    "massive": "^2.0.9",
     "mongoose": "^3.8.25",
     "morgan": "~1.5.1",
     "multer": "^0.1.8",
     "nvd3": "^1.1.15-beta2",
+    "pg": "^4.4.2",
     "request": "^2.57.0",
     "serve-favicon": "~2.2.0",
     "simple-ajax": "^2.1.0"

@@ -1,66 +1,84 @@
 0 info it worked if it ends with ok
-1 verbose cli [ '/usr/bin/nodejs', '/usr/bin/npm', 'install', 'newick-parser' ]
-2 info using npm@1.3.10
-3 info using node@v0.10.25
-4 verbose readDependencies using package.json deps
-5 verbose cache add [ 'newick-parser', null ]
-6 verbose cache add name=undefined spec="newick-parser" args=["newick-parser",null]
-7 verbose parsed url { protocol: null,
-7 verbose parsed url   slashes: null,
-7 verbose parsed url   auth: null,
-7 verbose parsed url   host: null,
-7 verbose parsed url   port: null,
-7 verbose parsed url   hostname: null,
-7 verbose parsed url   hash: null,
-7 verbose parsed url   search: null,
-7 verbose parsed url   query: null,
-7 verbose parsed url   pathname: 'newick-parser',
-7 verbose parsed url   path: 'newick-parser',
-7 verbose parsed url   href: 'newick-parser' }
-8 silly lockFile 1b7db938-newick-parser newick-parser
-9 verbose lock newick-parser /home/bruno/.npm/1b7db938-newick-parser.lock
-10 silly lockFile 1b7db938-newick-parser newick-parser
-11 silly lockFile 1b7db938-newick-parser newick-parser
-12 verbose addNamed [ 'newick-parser', '' ]
-13 verbose addNamed [ null, '*' ]
-14 silly lockFile 0af51c37-newick-parser newick-parser@
-15 verbose lock newick-parser@ /home/bruno/.npm/0af51c37-newick-parser.lock
-16 silly addNameRange { name: 'newick-parser', range: '*', hasData: false }
-17 verbose url raw newick-parser
-18 verbose url resolving [ 'https://registry.npmjs.org/', './newick-parser' ]
-19 verbose url resolved https://registry.npmjs.org/newick-parser
-20 info trying registry request attempt 1 at 13:13:53
-21 http GET https://registry.npmjs.org/newick-parser
-22 http 404 https://registry.npmjs.org/newick-parser
-23 silly registry.get cb [ 404,
-23 silly registry.get   { 'content-type': 'application/json',
-23 silly registry.get     'cache-control': 'max-age=0',
-23 silly registry.get     'content-length': '2',
-23 silly registry.get     'accept-ranges': 'bytes',
-23 silly registry.get     date: 'Fri, 02 Oct 2015 12:13:54 GMT',
-23 silly registry.get     via: '1.1 varnish',
-23 silly registry.get     age: '0',
-23 silly registry.get     connection: 'keep-alive',
-23 silly registry.get     'x-served-by': 'cache-fra1242-FRA',
-23 silly registry.get     'x-cache': 'MISS',
-23 silly registry.get     'x-cache-hits': '0',
-23 silly registry.get     'x-timer': 'S1443788034.645532,VS0,VE172' } ]
-24 silly addNameRange number 2 { name: 'newick-parser', range: '*', hasData: true }
-25 silly addNameRange versions [ undefined, [] ]
-26 error TypeError: Cannot read property 'latest' of undefined
-26 error     at next (/usr/share/npm/lib/cache.js:687:35)
-26 error     at /usr/share/npm/lib/cache.js:675:5
-26 error     at saved (/usr/share/npm/node_modules/npm-registry-client/lib/get.js:142:7)
-26 error     at /usr/lib/nodejs/graceful-fs/polyfills.js:133:7
-26 error     at Object.oncomplete (fs.js:107:15)
-27 error If you need help, you may report this log at:
-27 error     <http://github.com/isaacs/npm/issues>
-27 error or email it to:
-27 error     <npm-@googlegroups.com>
-28 error System Linux 3.16.0-43-generic
-29 error command "/usr/bin/nodejs" "/usr/bin/npm" "install" "newick-parser"
-30 error cwd /home/bruno/Documents/Phyloviz_25Setembro2015
-31 error node -v v0.10.25
-32 error npm -v 1.3.10
-33 error type non_object_property_load
+1 verbose cli [ 'node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   'newick-parser',
+1 verbose cli   '--save' ]
+2 info using npm@2.5.1
+3 info using node@v0.12.1
+4 silly cache add args [ 'newick-parser', null ]
+5 verbose cache add spec newick-parser
+6 silly cache add parsed spec { raw: 'newick-parser',
+6 silly cache add   scope: null,
+6 silly cache add   name: 'newick-parser',
+6 silly cache add   rawSpec: '',
+6 silly cache add   spec: '*',
+6 silly cache add   type: 'range' }
+7 verbose addNamed newick-parser@*
+8 silly addNamed semver.valid null
+9 silly addNamed semver.validRange *
+10 silly addNameRange { name: 'newick-parser', range: '*', hasData: false }
+11 silly mapToRegistry name newick-parser
+12 silly mapToRegistry using default registry
+13 silly mapToRegistry registry https://registry.npmjs.org/
+14 silly mapToRegistry uri https://registry.npmjs.org/newick-parser
+15 verbose addNameRange registry:https://registry.npmjs.org/newick-parser not in flight; fetching
+16 verbose request uri https://registry.npmjs.org/newick-parser
+17 verbose request no auth needed
+18 info attempt registry request try #1 at 4:49:43 PM
+19 verbose request id 18ae9736f2ba622d
+20 http request GET https://registry.npmjs.org/newick-parser
+21 http 404 https://registry.npmjs.org/newick-parser
+22 verbose headers { 'content-type': 'application/json',
+22 verbose headers   'cache-control': 'max-age=0',
+22 verbose headers   'content-length': '2',
+22 verbose headers   'accept-ranges': 'bytes',
+22 verbose headers   date: 'Mon, 12 Oct 2015 15:49:44 GMT',
+22 verbose headers   via: '1.1 varnish',
+22 verbose headers   age: '0',
+22 verbose headers   connection: 'keep-alive',
+22 verbose headers   'x-served-by': 'cache-fra1228-FRA',
+22 verbose headers   'x-cache': 'MISS',
+22 verbose headers   'x-cache-hits': '0',
+22 verbose headers   'x-timer': 'S1444664984.393774,VS0,VE110' }
+23 silly get cb [ 404,
+23 silly get   { 'content-type': 'application/json',
+23 silly get     'cache-control': 'max-age=0',
+23 silly get     'content-length': '2',
+23 silly get     'accept-ranges': 'bytes',
+23 silly get     date: 'Mon, 12 Oct 2015 15:49:44 GMT',
+23 silly get     via: '1.1 varnish',
+23 silly get     age: '0',
+23 silly get     connection: 'keep-alive',
+23 silly get     'x-served-by': 'cache-fra1228-FRA',
+23 silly get     'x-cache': 'MISS',
+23 silly get     'x-cache-hits': '0',
+23 silly get     'x-timer': 'S1444664984.393774,VS0,VE110' } ]
+24 verbose stack Error: Registry returned 404 for GET on https://registry.npmjs.org/newick-parser
+24 verbose stack     at CachingRegistryClient.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:244:14)
+24 verbose stack     at Request._callback (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:178:14)
+24 verbose stack     at Request.self.callback (/usr/local/lib/node_modules/npm/node_modules/request/request.js:344:22)
+24 verbose stack     at Request.emit (events.js:110:17)
+24 verbose stack     at Request.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1239:14)
+24 verbose stack     at Request.emit (events.js:129:20)
+24 verbose stack     at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1187:12)
+24 verbose stack     at IncomingMessage.emit (events.js:129:20)
+24 verbose stack     at _stream_readable.js:908:16
+24 verbose stack     at process._tickCallback (node.js:355:11)
+25 verbose statusCode 404
+26 verbose pkgid newick-parser
+27 verbose cwd /Users/bgoncalves/sandbox/repositories/Online-PhyloViZ
+28 error Darwin 15.0.0
+29 error argv "node" "/usr/local/bin/npm" "install" "newick-parser" "--save"
+30 error node v0.12.1
+31 error npm  v2.5.1
+32 error code E404
+33 error 404 Registry returned 404 for GET on https://registry.npmjs.org/newick-parser
+33 error 404
+33 error 404 'newick-parser' is not in the npm registry.
+33 error 404 You should bug the author to publish it (or use the name yourself!)
+33 error 404 It was specified as a dependency of 'Force_Layout_ViZ'
+33 error 404
+33 error 404 Note that you can also install from a
+33 error 404 tarball, folder, http url, or git url.
 34 verbose exit [ 1, true ]

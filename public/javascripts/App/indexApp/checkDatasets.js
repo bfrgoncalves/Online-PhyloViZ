@@ -3,8 +3,8 @@
 function checkDatasets(){
 
 	$.ajax({
-      url: '/api/db/datasets',
-      data: $.param({select: 'name'}),
+      url: '/api/db/postgres/find/datasets/all',
+      //data: $.param({name: 'name'}),
       processData: false,
       contentType: false,
       type: 'GET',

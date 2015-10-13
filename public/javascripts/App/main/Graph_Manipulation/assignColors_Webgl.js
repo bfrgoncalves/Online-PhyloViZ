@@ -6,11 +6,15 @@ var colorAttributes = function(graph, graphics, renderer){
 	var parent = $('#colorAttributesScheme');
   var countValues = 1;
   options += '<option value=' + countValues + '>None</option>';
-  countValues+=1;
-	for (var index in graph.schemeGenes){
+
+  var schemeGenes = graph.schemeGenes.slice();
+  schemeGenes.shift();
+
+	for (var index in schemeGenes){
     countValues += 1;
-		var property = graph.schemeGenes[index];
-		options += '<option value=' + countValues + '>' +property+'</option>';
+    var property = schemeGenes[index];
+    options += '<option value=' + countValues + '>' +property+'</option>';
+    
 	}
 	parent.append('<select class="selectpicker" id="selectByScheme" data-live-search="true">'+options+'</select>');
 
@@ -39,12 +43,11 @@ $('#selectByScheme').change(function(d){
   propertyIndex = graph.schemeGenes.indexOf(propertyToCheck);
 
   if (changeFromTable == false){
-    linkGraphAndTable('profiles', propertyIndex+1);
+    linkGraphAndTable('profiles', propertyIndex, propertyToCheck);
   }
   else{
     gatherSchemeData(graph, propertyToCheck, function(objectOfTotal, objectOfType, countProperties){
          changeNodeUIData(objectOfType, graphics, property_IndexProfiles, arrayColorsProfiles);
-
          changeFromTable = false;
     });
   }
@@ -59,7 +62,7 @@ $('#selectByMetadata').change(function(d){
 
 
   if (changeFromTable == false){
-    linkGraphAndTable('isolates', propertyIndex);
+    linkGraphAndTable('isolates', propertyIndex, propertyToCheck);
   }
   else{
     gatherMetadata(graph, propertyToCheck, function(objectOfTotal, objectOfType, countProperties){

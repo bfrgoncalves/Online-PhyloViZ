@@ -27,11 +27,11 @@ function saveTreePositions(graph, layout, datasetName){
 	// else{
 
 		$.ajax({
-	      url: '/api/db/datasets/update',
-	      type: 'POST',
+	      url: '/api/db/postgres/update/positions/data',
+	      type: 'PUT',
 	      data: {
-	      		datasetName: datasetName,
-	      		Positions: JSON.stringify(Positions),
+	      		name: datasetName,
+	      		change: JSON.stringify(Positions),
 	      	},
 	      dataType: "json",
 	      success: function(data){

@@ -1,0 +1,1 @@
+SELECT body #>> '{"name"}' as name FROM datasets;

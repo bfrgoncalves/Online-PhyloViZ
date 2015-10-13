@@ -49,16 +49,16 @@ function gatherSchemeData(graph, propertyToCheck, callback){
 	var objectOfProfile = {};
 	var countProperties = 0;
 
-
-
 	graph.nodes.forEach(function(node){
 
 	    objectOfProfile[node.key] = [];
 	    var numberTypes = 0;
 
 	    if (propertyToCheck != 'None'){
+	    	var schemeGenes = graph.schemeGenes.slice();
+  			schemeGenes.shift();
 
-	        propertyIndex = graph.schemeGenes.indexOf(propertyToCheck);
+	        propertyIndex = schemeGenes.indexOf(propertyToCheck);
 
 	        if(objectOfTotal[String(node.profile[propertyIndex])]) objectOfTotal[String(node.profile[propertyIndex])] += 1;
 	        else{
@@ -108,6 +108,7 @@ function changeNodeUIData(objectOfType, graphics, propertyIndexes, arrayColors){
 	    indexes = newValues[1];
 	    
 	    nodeUI.data = dataToChange;  //Apply data to the nodeUI
+	    //console.log(dataToChange);
 	    nodeUI.colorIndexes = indexes; //Apply data to the nodeUI
 	    nodeUI.backupColor = indexes;
 

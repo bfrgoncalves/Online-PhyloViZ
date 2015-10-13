@@ -48,7 +48,7 @@ function constructGraph(graph, datasetName){
           }
       	});
 
-
+      console.log(graph.positions);
       if (Object.keys(graph.positions).length > 0){
         for (nodeLocation in graph.positions.nodes[0]){
           var nodeX = graph.positions.nodes[0][nodeLocation][0].x;

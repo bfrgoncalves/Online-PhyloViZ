@@ -7,19 +7,25 @@ var bodyParser = require('body-parser');
 // var busboy = require('connect-busboy');
 var restful = require('node-restful')
 var mongoose = require('mongoose');
+
+var massive = require("massive");
+
+
 var fs = require('fs');
 
 var parseGoe = require('goeBURSTparser');
 
 var users = require('./routes/users');
 
-var upload = require('./routes/api/database/upload');
+var upload = require('./routes/api/database/uploadPostgres');
 var updateDataset = require('./routes/api/database/modifyDataset');
 var goeBURST = require('./routes/api/algorithms/goeBURST');
 var apiHome = require('./routes/api/index');
 var mongoSearch = require('./routes/api/database/mongo');
 var phylovizInput = require('./routes/api/utils/phyloviz_input');
 var phyloviztableData = require('./routes/api/utils/tableData');
+
+var postgres = require('./routes/api/database/postgres');
 
 
 var firstPage = require('./routes/app/firstPage');
@@ -52,16 +58,24 @@ app.use('/index', index);
 app.use('/users', users);
 app.use('/main', main);
 app.use('/api', apiHome);
-app.use('/api/db/upload', upload);
+app.use('/api/db/postgres/upload', upload);
 app.use('/api/db/datasets/update', updateDataset);
 app.use('/api/algorithms/goeBURST', goeBURST);
 app.use('/api/utils/phylovizInput', phylovizInput);
 app.use('/api/utils/tableData', phyloviztableData);
 app.use('/api/db', mongoSearch);
 
+app.use('/api/db/postgres', postgres);
 
-mongoose.connect('mongodb://localhost/phyloviz');
 
+//mongoose.connect('mongodb://localhost/phyloviz');
+
+//var massive = require("massive");
+//var connectionString = "postgres://localhost/phyloviz";
+//var massiveInstance = massive.connectSync({connectionString : connectionString, scripts: './db'})
+
+// Set a reference to the massive instance on Express' app:
+//app.set('db', massiveInstance);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

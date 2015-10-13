@@ -1,11 +1,16 @@
 
 
-function constructPie(dataArray, columnIndex, pieID, x, y, r){
+function constructPie(dataArray, columnIndex, columnName, pieID, x, y, r){
 
 	gatherPieData(dataArray, function(dataToPie){
-		GlobalPie('pie', dataToPie, x, y, r, pieID);
+		GlobalPie('pie', dataToPie, x, y, r, pieID, columnName);
 		//linkToGraph(dataToPie, columnIndex, graph, graphics, renderer);
 	});
+}
+
+function destroyPie(pieID){
+	d3.select('#' + pieID).selectAll('svg').remove();
+    d3.select('#legend' + pieID).selectAll('svg').remove();
 }
 
 
@@ -31,7 +36,7 @@ function gatherPieData(dataArray, callback){
 }
 
 
-function GlobalPie(classname, data, x, y, r, pieID)
+function GlobalPie(classname, data, x, y, r, pieID, columnName)
     { 
         //color could be made a parameter
 
@@ -76,6 +81,13 @@ function GlobalPie(classname, data, x, y, r, pieID)
                 .data([data])
                 .attr("class", classname);
 
+        var textIdentifier = pie.append("text")
+					    .attr("dy", ".35em")
+					    .style("text-anchor", "middle")
+					    .attr("class", "textTop")
+					    .text( columnName )
+					    .attr("y", -30);
+        
         var textTop = pie.append("text")
 					    .attr("dy", ".35em")
 					    .style("text-anchor", "middle")

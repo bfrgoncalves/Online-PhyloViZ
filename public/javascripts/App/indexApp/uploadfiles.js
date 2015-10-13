@@ -62,12 +62,13 @@ function uploadFiles(){
   
 
   $.ajax({
-    url: '/api/db/upload',
+    url: '/api/db/postgres/upload',
     data: fd,
     processData: false,
     contentType: false,
     type: 'POST',
     success: function(datasetName){
+      //console.log(datasetName);
       if (fileSelectNewick.files[0] != undefined) window.location.replace("/main?datasetName=" + datasetName);
       else getLinks(datasetName);
       status('Loading links...');
@@ -118,7 +119,7 @@ function checkIfNameExists(datasetName){
     status('Checking if dataset exists...');
 
     $.ajax({
-      url: '/api/db/datasets',
+      url: '/api/db/postgres/find/datasets/name',
       data: $.param({name: datasetName}),
       processData: false,
       contentType: false,

@@ -27,12 +27,13 @@ function onLoad(){
     $('#visual').css({width:width, height: height, position: "relative"});
 
     var dataToGraph = {};
-
-    createTable(datasetName, 'isolates');
-    createTable(datasetName, 'profiles');
     
     createInput(datasetName, function(graph){
-      constructGraph(graph, datasetName);
+      createTable(datasetName, 'isolates');
+      createTable(datasetName, 'profiles');
+      setTimeout(function(){
+        constructGraph(graph, datasetName);
+      }, 100);
     });
 
 }

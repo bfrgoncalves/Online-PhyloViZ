@@ -9,7 +9,7 @@ var datasetSchema = new mongoose.Schema({
 	metadata: Array,
 	profiles: Object,
 	isolates: Object,
-	links: Array,
+ 	links: Array,
 	positions: Object,
 	newick: String
 });

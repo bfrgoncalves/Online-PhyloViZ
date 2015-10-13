@@ -4,6 +4,7 @@ var util = require("util");
 var fs = require("fs"); 
 var csv = require("fast-csv");
 var multer = require('multer');
+var massive = require("massive");
 
 var done = true;
 
@@ -111,24 +112,42 @@ function readNewickfile(pathToFile, fileType, dataToDB, callback){
 
 function uploadToDatabase(data, callback){
 
-  var datasetModel = require('../../../models/datasets');
+  //var datasetModel = require('../../../models/datasets');
   if (data.fileMetadata == undefined) data.fileMetadata = [];
   if (data.fileProfile == undefined) data.fileProfile = [];
   if (data.fileNewick == undefined) data.fileNewick = [];
 
-  var instance = new datasetModel({
+  var instance = {
     name: data.datasetName,
-    key: data.key,
-    schemeGenes: data['fileProfile_headers'],
-    metadata: data['fileMetadata_headers'],
-    profiles: data.fileProfile,
-    isolates: data.fileMetadata,
-    positions: {},
-    newick: data.fileNewick
-  });
+      key: data.key,
+      schemeGenes: data['fileProfile_headers'],
+      metadata: data['fileMetadata_headers'],
+      profiles: data.fileProfile,
+      isolates: data.fileMetadata,
+      positions: {},
+      links: [],
+      newick: data.fileNewick
+  };
 
-  instance.save(function(e){
-    console.log('saved');
+  //var instance = new datasetModel({
+  //  name: data.datasetName,
+    //key: data.key,
+    //schemeGenes: data['fileProfile_headers'],
+    //metadata: data['fileMetadata_headers'],
+    //profiles: data.fileProfile,
+    //isolates: data.fileMetadata,
+    //positions: {},
+    //newick: data.fileNewick
+  //});
+
+  //instance.save(function(e){
+    //console.log('saved');
+    //callback();
+  //});
+  
+  massive.connect({
+    db: "phyloviz"}, function(err, db){
+    db.saveDoc("datasets", instance, function(err,res){ console.log('done'); });
     callback();
   });
 }

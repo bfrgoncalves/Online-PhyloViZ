@@ -7,19 +7,22 @@ function linkTableAndGraph(property){
 
 	$('#'+tableToCheck+' thead th').click(function(d){
       var columnIndex = $(this).index();
+      //if (property == 'profiles') columnIndex += 1;
       var table = $('#'+ tableToCheck).DataTable();
   	  var columnData = table.column(columnIndex).data();
+
+  	  columnName = table.column(columnIndex).header().innerHTML;
       
-      createLinkButton(property, columnIndex, columnData);
+      createLinkButton(property, columnIndex, columnData, columnName);
       
-      constructPie(columnData, columnIndex, 'pie' + property, 75, 0, 150);
+      constructPie(columnData, columnIndex, columnName, 'pie' + property, 75, 0, 150);
 
   	});
 
 }
 
 
-function createLinkButton(property, columnIndex, columnData){
+function createLinkButton(property, columnIndex, columnData, columnName){
 	
 	$("#divbuttonlinkpie" + property).empty();
 	
@@ -30,7 +33,7 @@ function createLinkButton(property, columnIndex, columnData){
 
 		changeFromTable = true;
 
-		constructPie(columnData, columnIndex, 'currentpiePlace', 75, 0, 75); //tree tab pie
+		constructPie(columnData, columnIndex, columnName, 'currentpiePlace', 75, 0, 75); //tree tab pie
 
 		$('.nav-tabs > li.active').removeClass('active');
       	$('.tab-pane.active').removeClass('active');
@@ -38,34 +41,50 @@ function createLinkButton(property, columnIndex, columnData){
       	$('#treeContent').addClass('active');
 		
 		if (property =='isolates'){
-	      	$("#selectByMetadata").val(String(columnIndex+2));
+	      	$("#selectByMetadata").val(String(columnIndex+1));
 	      	$("#selectByMetadata").trigger("change");
 	    }
         else{
 	      	if(columnIndex != 0){
-	      		$("#selectByScheme").val(String(columnIndex+2));
+	      		$("#selectByScheme").val(String(columnIndex+1));
 	      		$("#selectByScheme").trigger("change");
 	      	}
       	}
 	});
 }
 
-function linkGraphAndTable(property, indexProperty){
+function destroyLink(property){
+	$("#divbuttonlinkpie" + property).empty();
+}
+
+function linkGraphAndTable(property, indexProperty, columnName){
 	
 	var tableToCheck = 'table' + property;
-
-	changeFromTable = true;
 	
-	var table = $('#'+ tableToCheck).DataTable();
-  	var columnData = table.column(indexProperty).data();
-  	
-  	constructPie(columnData, indexProperty, 'pie' + property, 75, 0, 150); //table tab pie
+	changeFromTable = true;
 
-  	constructPie(columnData, indexProperty, 'currentpiePlace', 75, 0, 75); //tree tab pie
+	if (indexProperty == -1){
 
-  	createLinkButton(property, indexProperty);
+		destroyPie('pie' + property);
+		destroyPie('currentpiePlace');
+		destroyLink(property);
 
-  	if (property =='isolates') $("#selectByMetadata").trigger("change"); 
-    else $("#selectByScheme").trigger("change");
+		if (property =='isolates') $("#selectByMetadata").trigger("change"); 
+	    else $("#selectByScheme").trigger("change");
+	}
+	else{
+	
+		var table = $('#'+ tableToCheck).DataTable();
+	  	var columnData = table.column(indexProperty).data();
+	  	
+	  	constructPie(columnData, indexProperty, columnName, 'pie' + property, 75, 0, 150); //table tab pie
+
+	  	constructPie(columnData, indexProperty, columnName, 'currentpiePlace', 75, 0, 75); //tree tab pie
+
+	  	createLinkButton(property, indexProperty);
+
+	  	if (property =='isolates') $("#selectByMetadata").trigger("change"); 
+	    else $("#selectByScheme").trigger("change");
+	}
       	
 }
