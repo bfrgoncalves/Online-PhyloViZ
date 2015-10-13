@@ -9,9 +9,10 @@ Launch the application
 
 `node app` and in your browser listen on port `3000`
 
-Configure mongoDB
+Configure postgreSQL
 =================
 
-- change the dbpath of mongoDB to the "data/db" folder located at the application: `mongod --dbpath data/db`
-- leave it running
-- run the application
+- create a database with the name phyloviz
+- create the schema "datasets"
+- run the node application
+- init tables at "http://localhost:3000/api/db/postgres/init"
