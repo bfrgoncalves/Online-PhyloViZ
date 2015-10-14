@@ -3,6 +3,15 @@ extends layout
 block moreStyle
 	link(rel='stylesheet', href='/stylesheets/indexAppStyle.css')
 
+block login
+	if (!user)
+		a(href="/users/login") Login
+		= '	'
+		a(href="/users/register") Register
+	if (user)
+		p Welcome, #{user.name}!
+		= '	'
+		a(href="/users/logout") Logout
 
 block normalBody
 	div(id="imageDiv" style = "position: fixed; bottom: 0px; right: 0px;")

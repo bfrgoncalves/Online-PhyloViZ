@@ -79,7 +79,13 @@ a {
 }
 #SVpieprofiles {margin-left:auto; margin-right:auto; display:block;}
 
-
+#userRegion{
+  left: 80%;
+  top: 5%;
+  width:35%;
+  height:10%;
+  position: absolute;
+}
 
 #inputDiv {
   left: 50%;

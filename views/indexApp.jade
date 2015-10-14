@@ -3,6 +3,16 @@ extends layout
 block moreStyle
 	link(rel='stylesheet', href='/stylesheets/indexAppStyle.css')
 
+block login
+	if (!user)
+		a(href="/users/login") Login
+		= '	'
+		a(href="/users/register") Register
+	if (user)
+		p Welcome, #{user.name}!
+		= '	'
+		a(href="/users/logout") Logout
+
 
 block normalBody
 	div(id="imageDiv" style = "position: fixed; bottom: 0px; right: 0px;")
@@ -16,6 +26,9 @@ block normalBody
 		
 		div(id="useDataset")
 			label Upload your own data
+			if (!user)
+				br
+				label Note: Without registration your datasets will be made public
 
 		br
 		div(id="possibleInputs")

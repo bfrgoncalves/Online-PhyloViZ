@@ -2,18 +2,20 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
-//var cookieParser = require('cookie-parser');
+
+var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var expressSession = require('express-session');
 // var busboy = require('connect-busboy');
 var restful = require('node-restful')
-var mongoose = require('mongoose');
 
-var massive = require("massive");
-
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
 var fs = require('fs');
 
 var parseGoe = require('goeBURSTparser');
+var flash = require('connect-flash');
 
 var users = require('./routes/users');
 
@@ -27,14 +29,13 @@ var phyloviztableData = require('./routes/api/utils/tableData');
 
 var postgres = require('./routes/api/database/postgres');
 
+//var testAuthentication = require('./routes/app/testAuthentication');
 
 var firstPage = require('./routes/app/firstPage');
 var index = require('./routes/app/index');
 var main = require('./routes/app/main');
 
 var done = false;
-
-// var inputData = require('./routes/inputData');
 
 var app = express();
 
@@ -45,13 +46,20 @@ app.set('view engine', 'jade');
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
-
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({limit: '8mb', extended: true}));
-//app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({limit: '8mb', extended: false}));
+app.use(cookieParser());      //FOR PASSPORT
+app.use(expressSession({ 
+  secret: 'keyboard cat',
+  resave: true,
+  saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
-//app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(flash());
+
 
 app.use('/', firstPage);
 app.use('/index', index);
@@ -66,16 +74,6 @@ app.use('/api/utils/tableData', phyloviztableData);
 app.use('/api/db', mongoSearch);
 
 app.use('/api/db/postgres', postgres);
-
-
-//mongoose.connect('mongodb://localhost/phyloviz');
-
-//var massive = require("massive");
-//var connectionString = "postgres://localhost/phyloviz";
-//var massiveInstance = massive.connectSync({connectionString : connectionString, scripts: './db'})
-
-// Set a reference to the massive instance on Express' app:
-//app.set('db', massiveInstance);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

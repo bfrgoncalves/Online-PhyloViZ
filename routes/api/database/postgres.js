@@ -31,7 +31,7 @@ router.get('/init', function(req, res, next){ //to change
 					'CREATE TABLE datasets.isolates (id SERIAL PRIMARY KEY, dataset_id integer NOT NULL, metadata text[], data jsonb);' +
 					'CREATE TABLE datasets.positions (id SERIAL PRIMARY KEY, dataset_id integer NOT NULL, data jsonb);' +
 					'CREATE TABLE datasets.newick (id SERIAL PRIMARY KEY, dataset_id integer NOT NULL, data jsonb);' +
-					'CREATE TABLE datasets.users (id SERIAL PRIMARY KEY, dataset_id integer NOT NULL, data jsonb);' +
+					'CREATE TABLE datasets.users (id SERIAL PRIMARY KEY, username varchar(20) UNIQUE, pass text);' +
 					'CREATE TABLE datasets.datasets (id SERIAL PRIMARY KEY, user_id varchar(20) NOT NULL, name varchar(20) NOT NULL, key varchar(20) NOT NULL);';
 
 	
