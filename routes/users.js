@@ -12,7 +12,7 @@ passport.serializeUser(function(user, done){
 
 passport.deserializeUser(function(id, done){
   
-  query = "SELECT username FROM datasets.users WHERE id =$1;";
+  query = "SELECT username FROM datasets.users WHERE user_id =$1;";
 
     var client = new pg.Client(connectionString);
 
@@ -34,7 +34,7 @@ passport.deserializeUser(function(id, done){
 
 passport.use(new passportLocal.Strategy(function(username, password, done){
 	
-	query = "SELECT id FROM datasets.users WHERE username =$1;";
+	query = "SELECT user_id FROM datasets.users WHERE username =$1;";
 
 	var client = new pg.Client(connectionString);
     client.connect(function(err) {
@@ -47,8 +47,8 @@ passport.use(new passportLocal.Strategy(function(username, password, done){
 	        }
 	        if(result.rows.length == 0) done(null, false, {message: "Register before login"});
 	        else{
-		        userID = result.rows[0].id;
-	        	query = "SELECT pass FROM datasets.users WHERE id =$1;";
+		        userID = result.rows[0].user_id;
+	        	query = "SELECT pass FROM datasets.users WHERE user_id =$1;";
 	        	client.query(query, [userID], function(err, result) {
 			        if(err) {
 			          return console.error('error running query', err);

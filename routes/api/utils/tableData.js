@@ -10,9 +10,12 @@ router.get('/', function(req, res, next){
 		var dataToGraph = {};
 		var datasetName = req.query.name;
 
+		if (!req.isAuthenticated()) var userID = "1";
+		else var userID = req.user.id;
+
 		if (req.query.parameter != null){
 			var parameter = req.query.parameter;
-			getDataset(datasetName, parameter, function(dataset){
+			getDataset(datasetName, userID, parameter, function(dataset){
 		      createTable_data({dataset: dataset[0].data, parameter: parameter, headers: dataset[1].headers}, function(table_data){
 		      	res.send({status: 'OK', data: table_data.data, headers: table_data.headers});
 		      });
@@ -25,19 +28,19 @@ router.get('/', function(req, res, next){
 		
 });
 
-function getDataset(datasetName, parameter, callback) {
+function getDataset(datasetName, userID, parameter, callback) {
 
 	var pg = require("pg");
   	var connectionString = "postgres://localhost/phyloviz";
 
-  	query = "SELECT id FROM datasets.datasets WHERE name='"+datasetName+"';";
+  	query = "SELECT id FROM datasets.datasets WHERE name='"+datasetName+"' AND user_id=$1;";
 
   	var client = new pg.Client(connectionString);
     client.connect(function(err) {
       if(err) {
         return console.error('could not connect to postgres', err);
       }
-      client.query(query, function(err, result) {
+      client.query(query, [userID], function(err, result) {
         if(err) {
           return console.error('error running query', err);
         }

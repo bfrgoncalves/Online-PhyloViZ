@@ -26,13 +26,15 @@ router.get('/init', function(req, res, next){ //to change
 
 	function initDataset(callback){
 
-		var query = 'CREATE TABLE datasets.links (id SERIAL PRIMARY KEY, dataset_id integer NOT NULL, data jsonb);' +
-					'CREATE TABLE datasets.profiles (id SERIAL PRIMARY KEY, dataset_id integer NOT NULL, schemeGenes text[], data jsonb);' +
-					'CREATE TABLE datasets.isolates (id SERIAL PRIMARY KEY, dataset_id integer NOT NULL, metadata text[], data jsonb);' +
-					'CREATE TABLE datasets.positions (id SERIAL PRIMARY KEY, dataset_id integer NOT NULL, data jsonb);' +
-					'CREATE TABLE datasets.newick (id SERIAL PRIMARY KEY, dataset_id integer NOT NULL, data jsonb);' +
-					'CREATE TABLE datasets.users (id SERIAL PRIMARY KEY, username varchar(20) UNIQUE, pass text);' +
-					'CREATE TABLE datasets.datasets (id SERIAL PRIMARY KEY, user_id varchar(20) NOT NULL, name varchar(20) NOT NULL, key varchar(20) NOT NULL);';
+		var query = 'CREATE TABLE datasets.links (id SERIAL PRIMARY KEY, user_id varchar(20) NOT NULL, data jsonb);' +
+					'CREATE TABLE datasets.profiles (id SERIAL PRIMARY KEY, user_id varchar(20) NOT NULL, schemeGenes text[], data jsonb);' +
+					'CREATE TABLE datasets.isolates (id SERIAL PRIMARY KEY, user_id varchar(20) NOT NULL, metadata text[], data jsonb);' +
+					'CREATE TABLE datasets.positions (id SERIAL PRIMARY KEY, user_id varchar(20) NOT NULL, data jsonb);' +
+					'CREATE TABLE datasets.newick (id SERIAL PRIMARY KEY, user_id varchar(20) NOT NULL, data jsonb);' +
+					'CREATE TABLE datasets.users (user_id SERIAL PRIMARY KEY, username varchar(20) UNIQUE, pass text);' +
+					'CREATE TABLE datasets.datasets (id SERIAL PRIMARY KEY, user_id varchar(20) NOT NULL, name varchar(20) NOT NULL, key varchar(20) NOT NULL);' +
+					
+					"INSERT INTO datasets.users(username, pass) VALUES('public', 'public');";
 
 	
 		var client = new pg.Client(connectionString);
@@ -58,8 +60,6 @@ router.get('/init', function(req, res, next){ //to change
 });
 
 router.post('/insert/:table', function(req, res, next){
-
-	console.log(req);
 
 
 	function insertOnTable(query, callback){
@@ -89,20 +89,21 @@ router.post('/insert/:table', function(req, res, next){
 
 router.get('/find/:table/:field/', function(req, res, next){
 
-	function findOnTable(params, reqQuery, callback){
+	function findOnTable(userID, params, reqQuery, callback){
 
-		if (params.field == 'all') query = "SELECT * FROM datasets."+params.table+";";
+		if (params.field == 'all') query = "SELECT * FROM datasets."+params.table+" WHERE user_id=$1;";
 		else{
-			query = "SELECT "+req.params.field+" FROM datasets."+params.table;
+			query = "SELECT "+req.params.field+" FROM datasets."+params.table+" WHERE user_id=$1";
 			if (Object.keys(reqQuery).length == 0) query+=";";
 			else{
-				query += " WHERE ";
 				for (i in reqQuery){
-					query += i + " = '" + reqQuery[i] + "'";
-					query += ' AND ';
+					if(i != 'user_id'){
+						query += " AND ";
+						query += i + " = '" + reqQuery[i] + "'";
+					}
 
 				}
-				query = query.substring(0, query.length - 5);
+				//query = query.substring(0, query.length - 5);
 				query += ";";
 				console.log(query);
 			}
@@ -113,7 +114,7 @@ router.get('/find/:table/:field/', function(req, res, next){
 		  if(err) {
 		    return console.error('could not connect to postgres', err);
 		  }
-		  client.query(query, function(err, result) {
+		  client.query(query, [userID], function(err, result) {
 		    if(err) {
 		      return console.error('error running query', err);
 		    }
@@ -124,7 +125,10 @@ router.get('/find/:table/:field/', function(req, res, next){
 
 	}
 
-	findOnTable(req.params, req.query, function (doc){
+	if (!req.isAuthenticated()) user_id = "1";
+	else user_id = req.user.id;
+
+	findOnTable(user_id, req.params, req.query, function (doc){
 		res.send(doc);
 	});
 	
@@ -132,16 +136,16 @@ router.get('/find/:table/:field/', function(req, res, next){
 
 router.put('/update/:table/:field/', function(req, res, next){
 
-	function updateJSON(params, reqBody, callback){
+	function updateJSON(userID, params, reqBody, callback){
 
-		query = "SELECT id FROM datasets.datasets WHERE name = $1;";
+		query = "SELECT id FROM datasets.datasets WHERE name = $1 AND user_id=$2;";
 
 		var client = new pg.Client(connectionString);
 		client.connect(function(err) {
 		  if(err) {
 		    return console.error('could not connect to postgres', err);
 		  }
-		  client.query(query, [reqBody.name], function(err, result) {
+		  client.query(query, [reqBody.name, userID], function(err, result) {
 		    if(err) {
 		      return console.error('error running query', err);
 		    }
@@ -162,7 +166,10 @@ router.put('/update/:table/:field/', function(req, res, next){
 
 	}
 
-	updateJSON(req.params, req.body, function (doc){
+	if (!req.isAuthenticated()) user_id = "1";
+	else user_id = req.user.id;
+
+	updateJSON(user_id, req.params, req.body, function (doc){
 		res.sendStatus(200);
 	});
 	

@@ -10,12 +10,16 @@ router.get('/', function(req, res, next){
 	if (req.query.name){
 
 		var datasetName = req.query.name;
+
+		if (!req.isAuthenticated()) var userID = "1";
+		else var userID = req.user.id;
+
 		var datasetId;
 
 		if (req.query.algorithm) var algorithmToUse = req.query.algorithm;
 		else var algorithmToUse = 'prim';
 
-		loadProfiles(datasetName, function(profileArray, identifiers, datasetID){
+		loadProfiles(datasetName, userID, function(profileArray, identifiers, datasetID){
 			datasetId = datasetID;
 			
 			goeBURST(profileArray, identifiers, algorithmToUse, function(links){
@@ -36,7 +40,7 @@ router.get('/', function(req, res, next){
 	
 });
 
-function loadProfiles(datasetName, callback){
+function loadProfiles(datasetName, userID, callback){
 
 	var profiles;
 	var identifiers = {};
@@ -47,9 +51,9 @@ function loadProfiles(datasetName, callback){
 	var pg = require("pg");
 	var connectionString = "postgres://localhost/phyloviz";
 
-	query = "SELECT id FROM datasets.datasets WHERE name = '"+datasetName+"';";
+	query = "SELECT id FROM datasets.datasets WHERE name = '"+datasetName+"' AND user_id= '"+userID+"';";
 
-	//console.log(query);
+	console.log(query);
 
 	var client = new pg.Client(connectionString);
 		

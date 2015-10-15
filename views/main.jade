@@ -1,5 +1,15 @@
 extends layout
 
+block login
+	if (!user)
+		a(href="/users/login") Login
+		= '	'
+		a(href="/users/register") Register
+	if (user)
+		p Your logged in as #{user.name}
+		= '	'
+		a(href="/users/logout") Logout
+
 block normalBody
 
 	div.phylovizNavbar
