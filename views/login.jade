@@ -1,18 +1,33 @@
-extends layoutauth
+extends layout
 
-block content
+block normalBody
+
+  div.phylovizNavbar
+    div(onclick="javascript:location.href='/'")
+      img(src = '/images/logo.png', width = "80", height = "80")
+      label(style = 'font-size: 200%;') #{title}
+
+block sign
   .container
     h1 Login Page
     p.lead Insert your username and password.
     br
-    form(role='form', action="", method="post", style='max-width: 300px;')
+    form(role='form', id= 'submitForm', action="", method="post", style='max-width: 300px;')
       .form-group
-          input.form-control(type='text', name="username", placeholder='Enter Username')
+          input.form-control(type='text', name="username", placeholder='Enter Username', required)
       .form-group
-        input.form-control(type='password', name="password", placeholder='Password')
+        input.form-control(id ='pass' type='password', name="password", placeholder='Password', required)
+      a(href='/users/forgotpass') Forgot your password?
+      br
+      br
       button.btn.btn-default(type='submit') Submit
       &nbsp;
       a(href='/')
         button.btn.btn-primary(type="button") Cancel
     br
     h4 #{message}
+
+block scripts
+  script(type='text/javascript', src='/javascripts/dependencies/jquery-2.1.3.min.js')
+  script(type='text/javascript', src='/javascripts/dependencies/sha256.js')
+  script(type='text/javascript', src='/javascripts/App/indexApp/encryption.js')

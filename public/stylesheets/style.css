@@ -87,6 +87,14 @@ a {
   position: absolute;
 }
 
+#sign{
+  left: 40%;
+  top: 25%;
+  width:35%;
+  height:10%;
+  position: absolute;
+}
+
 #inputDiv {
   left: 50%;
   top: 40%;

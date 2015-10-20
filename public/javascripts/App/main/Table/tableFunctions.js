@@ -7,11 +7,11 @@ function createTable(dataset, datasetParameter){
 
 }
 
-function getTableData(datasetName, parameterId, callback){
+function getTableData(datasetID, parameterId, callback){
 
 	$.ajax({
       url: '/api/utils/tableData',
-      data: $.param({name: datasetName, parameter: parameterId}),
+      data: $.param({dataset_id: datasetID, parameter: parameterId}),
       processData: false,
       contentType: false,
       type: 'GET',

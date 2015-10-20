@@ -23,8 +23,9 @@ function createDropdown(data, dropdownDiv, placeh, forceSelect, dropDownID){
 	for (var index in data){
 		countOptions += 1;
 		var datasetName = data[index].name;
-		if (forceSelect == countOptions) options += '<option selected = "selected">'+datasetName+'</option>';
-		else options += '<option>'+datasetName+'</option>';
+		var datasetID = data[index].dataset_id;
+		if (forceSelect == countOptions) options += '<option value="'+datasetID+'">'+datasetName+'</option>';
+		else options += '<option value="'+datasetID+'">'+datasetName+'</option>';
 	}
 	parent.append('<select class="selectpicker" title = "'+placeh+'" id="'+dropDownID+'" data-live-search="true">'+options+'</select>');
 

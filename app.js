@@ -1,3 +1,6 @@
+var fs = require('fs');
+var https = require('https');
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -10,9 +13,8 @@ var expressSession = require('express-session');
 var restful = require('node-restful')
 
 var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
 
-var fs = require('fs');
+
 
 var parseGoe = require('goeBURSTparser');
 var flash = require('connect-flash');
@@ -25,7 +27,9 @@ var goeBURST = require('./routes/api/algorithms/goeBURST');
 var apiHome = require('./routes/api/index');
 var mongoSearch = require('./routes/api/database/mongo');
 var phylovizInput = require('./routes/api/utils/phyloviz_input');
+var mailer = require('./routes/api/utils/mailer');
 var phyloviztableData = require('./routes/api/utils/tableData');
+var publicLink = require('./routes/api/utils/publicLink');
 
 var postgres = require('./routes/api/database/postgres');
 
@@ -38,6 +42,11 @@ var main = require('./routes/app/main');
 var done = false;
 
 var app = express();
+
+var server = https.createServer({
+  cert: fs.readFileSync(__dirname + '/my.crt'), //get the ssl certificate and key
+  key: fs.readFileSync(__dirname + '/my.key')
+}, app); //https listen and express app will use all the middlewere
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -57,6 +66,8 @@ app.use(expressSession({
 app.use(passport.initialize());
 app.use(passport.session());
 
+//app.use('/api', passport.authenticate('basic', {session: false}));
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(flash());
 
@@ -71,6 +82,8 @@ app.use('/api/db/datasets/update', updateDataset);
 app.use('/api/algorithms/goeBURST', goeBURST);
 app.use('/api/utils/phylovizInput', phylovizInput);
 app.use('/api/utils/tableData', phyloviztableData);
+app.use('/api/utils/mailer', mailer);
+app.use('/api/utils/publiclink', publicLink);
 app.use('/api/db', mongoSearch);
 
 app.use('/api/db/postgres', postgres);
@@ -81,7 +94,6 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
-
 
 // error handlers
 
@@ -108,9 +120,12 @@ app.use(function(err, req, res, next) {
 });
 
 
-app.listen(3000, function(){
+server.listen(3000, function(){  //https server is listening
   console.log('Server Running');
 });
+
+// CODE to generate certificate
+// openssl req -x509 -nodes -days 365 -newkey rsa:1024 -out my.crt -keyout my.key
 
 
 module.exports = app;

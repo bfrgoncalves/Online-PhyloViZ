@@ -7,9 +7,9 @@ var goeBURST = require('goeBURST');
 
 router.get('/', function(req, res, next){
 	
-	if (req.query.name){
+	if (req.query.dataset_id){
 
-		var datasetName = req.query.name;
+		var datasetID = req.query.dataset_id;
 
 		if (!req.isAuthenticated()) var userID = "1";
 		else var userID = req.user.id;
@@ -19,16 +19,16 @@ router.get('/', function(req, res, next){
 		if (req.query.algorithm) var algorithmToUse = req.query.algorithm;
 		else var algorithmToUse = 'prim';
 
-		loadProfiles(datasetName, userID, function(profileArray, identifiers, datasetID){
+		loadProfiles(datasetID, userID, function(profileArray, identifiers, datasetID){
 			datasetId = datasetID;
 			
 			goeBURST(profileArray, identifiers, algorithmToUse, function(links){
 				if(req.query.save){
 					saveLinks(datasetID, links, function(){
-						res.send({datasetName: req.query.name, links: links});
+						res.send({datasetID: req.query.dataset_id, links: links});
 					});
 				}
-				else res.send({datasetName: req.query.name, links: links});
+				else res.send({datasetID: req.query.dataset_id, links: links});
 			});
 		});
 
@@ -40,7 +40,7 @@ router.get('/', function(req, res, next){
 	
 });
 
-function loadProfiles(datasetName, userID, callback){
+function loadProfiles(datasetID, userID, callback){
 
 	var profiles;
 	var identifiers = {};
@@ -51,61 +51,60 @@ function loadProfiles(datasetName, userID, callback){
 	var pg = require("pg");
 	var connectionString = "postgres://localhost/phyloviz";
 
-	query = "SELECT id FROM datasets.datasets WHERE name = '"+datasetName+"' AND user_id= '"+userID+"';";
+	//query = "SELECT id FROM datasets.datasets WHERE dataset_id = '"+datasetID+"' AND user_id= '"+userID+"';";
 
-	console.log(query);
+	//console.log(query);
 
 	var client = new pg.Client(connectionString);
 		
-		client.connect(function(err) {
-		  if(err) {
-		    return console.error('could not connect to postgres', err);
-		  }
-		  client.query(query, function(err, result) {
-		    if(err) {
-		      return console.error('error running query', err);
-		    }
-		    else{
-		    	datasetID = result.rows[0].id;
-		    	query = "SELECT data FROM datasets.profiles WHERE id = "+datasetID+";";
-		    	
-		    	client.query(query, function(err, result) {
-			    if(err) {
-			      return console.error('error running query', err);
-			    }
+	client.connect(function(err) {
+	  if(err) {
+	    return console.error('could not connect to postgres', err);
+	  }
+	  //client.query(query, function(err, result) {
+	    //if(err) {
+	    //  return console.error('error running query', err);
+	    //}
+	    //else{
+	    	//datasetID = result.rows[0].id;
+		query = "SELECT data FROM datasets.profiles WHERE dataset_id = '"+datasetID+"';";
+		
+		client.query(query, function(err, result) {
+	    if(err) {
+	      return console.error('error running query', err);
+	    }
 
-			    var profiles = result.rows[0].data.profiles;
-				
-				var existsProfile = {};
+	    var profiles = result.rows[0].data.profiles;
+		
+		var existsProfile = {};
 
-				//console.log(profiles);
-				
-				profiles.forEach(function(profile){
-					var arr = Object.keys(profile).map(function(k) { return profile[k] });
-					var identifier = arr.shift();
-					//arr.reverse();
-					
-					if(existsProfile[String(arr)]) {
-						console.log('Profile already exists');
-						//console.log(identifier);
-					}
-					
-					else{
-						existsProfile[String(arr)] = true;
-						identifiers[countProfiles] = identifier;
-						countProfiles += 1; 
-						profileArray.push(arr);
+		//console.log(profiles);
+		
+		profiles.forEach(function(profile){
+			var arr = Object.keys(profile).map(function(k) { return profile[k] });
+			var identifier = arr.shift();
+			//arr.reverse();
+			
+			if(existsProfile[String(arr)]) {
+				console.log('Profile already exists');
+				//console.log(identifier);
+			}
+			
+			else{
+				existsProfile[String(arr)] = true;
+				identifiers[countProfiles] = identifier;
+				countProfiles += 1; 
+				profileArray.push(arr);
 
-					}
-				});
-				console.log(countProfiles);
-				client.end();
-				callback(profileArray, identifiers, datasetID);
-
-			  });
-		    }
-		  });
+			}
 		});
+		client.end();
+		callback(profileArray, identifiers, datasetID);
+
+	  });
+	    //}
+	  //});
+	});
 
 
 }
@@ -119,9 +118,8 @@ function saveLinks(datasetID, links, callback){
 	var linksToUse = { links: links };
 
 	var client = new pg.Client(connectionString);
-		console.log(datasetID);
 
-		query = "UPDATE datasets.links SET data = '"+JSON.stringify(linksToUse)+"' WHERE id ="+datasetID+";";
+		query = "UPDATE datasets.links SET data = '"+JSON.stringify(linksToUse)+"' WHERE dataset_id ='"+datasetID+"';";
 		
 		client.connect(function(err) {
 		  if(err) {

@@ -28,22 +28,22 @@ function onLoad(){
 
     var dataToGraph = {};
     
-    createInput(datasetName, function(graph){
-      createTable(datasetName, 'isolates');
-      createTable(datasetName, 'profiles');
+    createInput(datasetID, function(graph){
+      createTable(datasetID, 'isolates');
+      createTable(datasetID, 'profiles');
       setTimeout(function(){
-        constructGraph(graph, datasetName);
+        constructGraph(graph, datasetID);
       }, 100);
     });
 
 }
 
 
-function createInput(datasetName, callback) {
+function createInput(datasetID, callback) {
 
   $.ajax({
       url: '/api/utils/phylovizInput',
-      data: $.param({name: datasetName}),
+      data: $.param({dataset_id: datasetID}),
       processData: false,
       contentType: false,
       type: 'GET',

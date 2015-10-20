@@ -5,17 +5,17 @@ var createPhyloviZInput = require('phyloviz_input');
 
 router.get('/', function(req, res, next){
 	
-	if (req.query.name){
+	if (req.query.dataset_id){
 
 		var dataToGraph = {};
-		var datasetName = req.query.name;
+		var datasetID = req.query.dataset_id;
 
 		if (!req.isAuthenticated()) var userID = "1";
 		else var userID = req.user.id;
 
 		var isNewick = false;
 
-	    getDataset(datasetName, userID, function(dataset){
+	    getDataset(datasetID, userID, function(dataset){
 	      createPhyloviZInput(dataset, function(graphInput){
 	      	res.send(graphInput);
 	      });
@@ -27,32 +27,27 @@ router.get('/', function(req, res, next){
 		
 });
 
-function getDataset(datasetName, userID, callback) {
+function getDataset(datasetID, userID, callback) {
 
 	var pg = require("pg");
 	var connectionString = "postgres://localhost/phyloviz";
 
 	var datasetID;
 
-	query = "SELECT id FROM datasets.datasets WHERE name = '"+datasetName+"' AND user_id=$1;";
+	//query = "SELECT id FROM datasets.datasets WHERE dataset_id = '"+datasetID+"' AND user_id=$1;";
 
 	var client = new pg.Client(connectionString);
 		client.connect(function(err) {
 		  if(err) {
 		    return console.error('could not connect to postgres', err);
 		  }
-		  client.query(query, [userID], function(err, result) {
-		    if(err) {
-		      return console.error('error running query', err);
-		    }
-		    datasetID = result.rows[0].id;
 
-		    query = "SELECT data AS profiles, schemeGenes FROM datasets.profiles WHERE id="+datasetID+";" +
-		    		"SELECT data AS isolates, metadata FROM datasets.isolates WHERE id="+datasetID+";" +
-		    		"SELECT data AS links FROM datasets.links WHERE id="+datasetID+";" +
-		    		"SELECT data AS newick FROM datasets.newick WHERE id="+datasetID+";" +
-		    		"SELECT data AS positions FROM datasets.positions WHERE id="+datasetID+";" +
-		    		"SELECT name, key FROM datasets.datasets WHERE id="+datasetID+";";
+		    query = "SELECT data AS profiles, schemeGenes FROM datasets.profiles WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;" +
+		    		"SELECT data AS isolates, metadata FROM datasets.isolates WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;" +
+		    		"SELECT data AS links FROM datasets.links WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;" +
+		    		"SELECT data AS newick FROM datasets.newick WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;" +
+		    		"SELECT data AS positions FROM datasets.positions WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;" +
+		    		"SELECT name, key FROM datasets.datasets WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;";
 
 		    client.query(query, function(err, result) {
 			    if(err) {
@@ -76,7 +71,6 @@ function getDataset(datasetName, userID, callback) {
 			    callback([dataset]);
 			});
 
-		  });
 		});
 }
 

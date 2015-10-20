@@ -41,7 +41,7 @@ function createLinkButton(property, columnIndex, columnData, columnName){
       	$('#treeContent').addClass('active');
 		
 		if (property =='isolates'){
-	      	$("#selectByMetadata").val(String(columnIndex+1));
+	      	$("#selectByMetadata").val(String(columnIndex+2));
 	      	$("#selectByMetadata").trigger("change");
 	    }
         else{

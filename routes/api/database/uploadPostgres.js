@@ -4,11 +4,14 @@ var util = require("util");
 var fs = require("fs"); 
 var csv = require("fast-csv");
 var multer = require('multer');
+var crypto = require('crypto');
 
 var done = true;
 
 var fileNames = {};
 var countProgress = 0;
+
+var config = require('../../../config.js');
 
 
 router.post('/', multer({
@@ -40,14 +43,13 @@ router.post('/', multer({
   else dataToDB.userID = req.user.id;
 
   for (i in req.files){
-    console.log(req.files[i]);
     readInputFiles(req.files[i].path, i, dataToDB, function(pathToFile, dataToDB){
           fs.unlink(pathToFile);
           countProgress += 1;
           if (countProgress == req.body.numberOfFiles){
               //console.log(req.user);
               uploadToDatabase(dataToDB, function(){
-                res.send(dataToDB.datasetName);
+                res.send(dataToDB.datasetID);
               });
           }
     });
@@ -136,12 +138,17 @@ function uploadToDatabase(data, callback){
     //console.log(data.fileNewick);
     newick = { newick : data.fileNewick[0]};
 
-    query = "INSERT INTO datasets.datasets (name, key, user_id) VALUES ('"+data.datasetName+"', '"+data.key+"', '"+userID+"');" +
-            "INSERT INTO datasets.profiles (user_id, data, schemeGenes) VALUES ("+userID+", '"+JSON.stringify(profiles)+"', '{"+data['fileProfile_headers']+"}');" +
-            "INSERT INTO datasets.isolates (user_id, data, metadata) VALUES ("+userID+", '"+JSON.stringify(isolates)+"', '{"+data['fileMetadata_headers']+"}');" +
-            "INSERT INTO datasets.positions (user_id, data) VALUES ("+userID+", '"+JSON.stringify(positions)+"');" +
-            "INSERT INTO datasets.links (user_id, data) VALUES ("+userID+", '"+JSON.stringify(links)+"');" +
-            "INSERT INTO datasets.newick (user_id, data) VALUES ("+userID+", '"+JSON.stringify(newick)+"');"; 
+    var cipher = crypto.createCipher(config.cipherUser.algorithm, config.cipherUser.pass);
+    dataset_id = userID + data.datasetName;
+    data.datasetID = cipher.update(dataset_id,'utf8','hex');
+
+
+    query = "INSERT INTO datasets.datasets (name, key, user_id, dataset_id) VALUES ('"+data.datasetName+"', '"+data.key+"', '"+userID+"', '"+data.datasetID+"');" +
+            "INSERT INTO datasets.profiles (user_id, data, schemeGenes, dataset_id) VALUES ('"+userID+"', '"+JSON.stringify(profiles)+"', '{"+data['fileProfile_headers']+"}', '"+data.datasetID+"');" +
+            "INSERT INTO datasets.isolates (user_id, data, metadata, dataset_id) VALUES ('"+userID+"', '"+JSON.stringify(isolates)+"', '{"+data['fileMetadata_headers']+"}', '"+data.datasetID+"');" +
+            "INSERT INTO datasets.positions (user_id, data, dataset_id) VALUES ('"+userID+"', '"+JSON.stringify(positions)+"', '"+data.datasetID+"');" +
+            "INSERT INTO datasets.links (user_id, data, dataset_id) VALUES ('"+userID+"', '"+JSON.stringify(links)+"', '"+data.datasetID+"');" +
+            "INSERT INTO datasets.newick (user_id, data, dataset_id) VALUES ('"+userID+"', '"+JSON.stringify(newick)+"', '"+data.datasetID+"');"; 
 
     var client = new pg.Client(connectionString);
     client.connect(function(err) {

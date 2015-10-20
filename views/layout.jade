@@ -12,11 +12,13 @@ html
 		link(rel='stylesheet', href='/stylesheets/jquery.dataTables.css')
 
 		block moreStyle
-
 	
 	body(onload= 'onLoad()',style='background-color:white')
 		div(id='userRegion')
 			block login
+
+		div(id='sign')
+			block sign
 
 		block normalBody
 			div(id='global')

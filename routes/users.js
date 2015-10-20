@@ -1,10 +1,17 @@
 var express = require('express');
+var crypto = require('crypto');
 var router = express.Router();
 var passport = require('passport');
 var passportLocal = require('passport-local');
+//var passportHttp = require('passport-http');
+
+var config = require('../config.js');
+
+var app = express();
 
 var pg = require("pg");
-var connectionString = "postgres://localhost/phyloviz";
+var connectionString = "postgres://localhost/" + config.db;
+
 
 passport.serializeUser(function(user, done){
   done(null, user.id);
@@ -32,80 +39,116 @@ passport.deserializeUser(function(id, done){
 });
 
 
-passport.use(new passportLocal.Strategy(function(username, password, done){
-	
-	query = "SELECT user_id FROM datasets.users WHERE username =$1;";
+passport.use(new passportLocal.Strategy(verifyCredentials));
 
-	var client = new pg.Client(connectionString);
+
+function verifyCredentials(username, password, done){
+  
+  query = "SELECT user_id FROM datasets.users WHERE username =$1;";
+
+  var client = new pg.Client(connectionString);
     client.connect(function(err) {
       if(err) {
         return console.error('could not connect to postgres', err);
       }
       client.query(query, [username], function(err, result) {
-	        if(err) {
-	          return console.error('error running query', err);
-	        }
-	        if(result.rows.length == 0) done(null, false, {message: "Register before login"});
-	        else{
-		        userID = result.rows[0].user_id;
-	        	query = "SELECT pass FROM datasets.users WHERE user_id =$1;";
-	        	client.query(query, [userID], function(err, result) {
-			        if(err) {
-			          return console.error('error running query', err);
-			        }
-			        pass = result.rows[0].pass;
-			        client.end();
-			        if (password == pass){
-					    done(null, { id: userID, name: username });
-					  } else{
-					    done(null, false, {message: "Invalid password"});
-					  }
+          if(err) {
+            return console.error('error running query', err);
+          }
+          if(result.rows.length == 0) done(null, false, {message: "Register before login"});
+          else{
+            userID = result.rows[0].user_id;
+            query = "SELECT pass, salt FROM datasets.users WHERE user_id =$1;";
+            client.query(query, [userID], function(err, result) {
+              if(err) {
+                return console.error('error running query', err);
+              }
 
-			    });
-			}
-	        
-      	});
+              pass = result.rows[0].pass;
+              salt = result.rows[0].salt;
+
+              client.end();
+              crypto.pbkdf2(password, salt, 7000, 256, 
+                 function (err, hash) {
+                      hash = new Buffer(hash).toString('hex');
+                      if (hash == pass){
+                      done(null, { id: userID, name: username });
+                    } else{
+                      done(null, false, {message: "Invalid password"});
+                    }
+                  }
+              );
+
+          });
+      }
+          
+        });
     });
-
-}));
+}
 
 router.get('/login', function(req, res){
-	res.render('login', { message: req.flash('error') });
+	res.render('login', { message: req.flash('error') , title: config.title});
 });
 
 
 router.get('/register', function(req, res){
-  res.render('register', { message: req.flash('userError') });
+  res.render('register', { message: req.flash('userError') , title: config.title});
+});
+
+router.get('/forgotpass', function(req, res){
+  res.render('forgottenPass', { message: req.flash('usermessage') , title: config.title });
 });
 
 router.post('/register', function(req, res, next){
-	
-	query = "INSERT INTO datasets.users(username, pass) VALUES('" + req.body.username +"', '"+req.body.password+"');";
 
-	var client = new pg.Client(connectionString);
-    client.connect(function(err) {
-      if(err) {
-        return console.error('could not connect to postgres', err);
-      }
-      client.query(query, function(err, result) {
-        if(err) {
-        	client.end();
-        	req.flash('userError', "Username "+req.body.username+" already exists");
-        	res.redirect('/users/register');
-        	return null;
-        }
-        client.end();
 
-        passport.authenticate('local')(req, res, function () {
-            req.session.save(function (err) {
-                if (err) {
-                    return next(err);
-                }
-                res.redirect('/');
+  if (!req.body.username || !req.body.password) {  
+    req.flash('userError', 'Username and password both required');
+    res.redirect('/users/register');
+    return null;
+  }
+
+  crypto.randomBytes(128, function (err, salt) {
+    if (err) { throw err; }
+    salt = new Buffer(salt).toString('hex');
+    crypto.pbkdf2(req.body.password, salt, 7000, 256, 
+      function (err, hash) {
+        hash= new Buffer(hash).toString('hex');
+        if (err) { throw err; }
+        //console.log(config.cipherUser.algorithm);
+        var cipher = crypto.createCipher(config.cipherUser.algorithm, config.cipherUser.pass);
+        var user_id = cipher.update(req.body.username,'utf8','hex');
+
+        query = "INSERT INTO datasets.users(username, user_id, salt, pass, email) VALUES('" + req.body.username +"', '"+user_id+"', '"+salt+"', '"+hash+"', '"+req.body.email+"');";
+
+        var client = new pg.Client(connectionString);
+          client.connect(function(err) {
+            if(err) {
+              return console.error('could not connect to postgres', err);
+            }
+            client.query(query, function(err, result) {
+              if(err) {
+                client.end();
+                req.flash('userError', "Username "+req.body.username+" already exists");
+                res.redirect('/users/register');
+                return null;
+              }
+              client.end();
+
+              passport.authenticate('local')(req, res, function (err) {
+                  req.session.save(function (err) {
+                      if (err) {
+                          return next(err);
+                      }
+                      res.redirect('/');
+                  });
+              });
             });
-        });
+          });
+
       });
-    });
+  });
+	
 });
 
 

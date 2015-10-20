@@ -1,4 +1,4 @@
-function constructGraph(graph, datasetName){
+function constructGraph(graph, datasetID){
 
 
       console.log(graph);
@@ -377,7 +377,11 @@ function constructGraph(graph, datasetName){
           });
 
           $('#savePositionsButton').click(function(e){
-            saveTreePositions(graphGL, layout, datasetName)
+            saveTreePositions(graphGL, layout, datasetID)
+          });
+
+          $('#generatePublicLinkButton').click(function(e){
+            generatePublicLink(datasetID);
           });
 
           $('#saveImageButton').click(function(e){

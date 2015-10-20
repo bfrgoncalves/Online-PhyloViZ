@@ -1,0 +1,30 @@
+extends layout
+
+block normalBody
+
+  div.phylovizNavbar
+    div(onclick="javascript:location.href='/'")
+      img(src = '/images/logo.png', width = "80", height = "80")
+      label(style = 'font-size: 200%;') #{title}
+
+block sign
+  .container
+    h1 Forgot your password?
+    p.lead Type your username and e-mail
+    br
+    form(role='form', id = 'submitForm', action="/api/utils/mailer/sendpass",method="post", style='max-width: 300px;')
+      .form-group
+          input.form-control(type='text', name="username", placeholder='Enter Username', required)
+      .form-group
+        input.form-control(type='text', name="email", placeholder='Enter e-mail', required)
+      button.btn.btn-default(type='submit') Submit
+      &nbsp;
+      a(href='/')
+        button.btn.btn-primary(type="button") Cancel
+    br
+    h4 #{message}
+
+block scripts
+  script(type='text/javascript', src='/javascripts/dependencies/jquery-2.1.3.min.js')
+  script(type='text/javascript', src='/javascripts/dependencies/sha256.js')
+  script(type='text/javascript', src='/javascripts/App/indexApp/encryption.js')

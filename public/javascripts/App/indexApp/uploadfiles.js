@@ -12,7 +12,7 @@ function submitTree(){
 
     if(propertyToCheck[0].index != 0){
       //console.log('AQUI');
-      window.location.replace("/main?datasetName=" + propertyToCheck.text());
+      window.location.replace("/main/dataset/" + propertyToCheck.val());
     }
     else if ($('#datasetName').val() == '') $('#status').text('Dataset name is required.');
     else if ($('#possibleInputFormats').find(":selected")[0].index == 1 && $('#uploadProfile').val() == '') $('#status').text('Profile file is required.');
@@ -67,10 +67,10 @@ function uploadFiles(){
     processData: false,
     contentType: false,
     type: 'POST',
-    success: function(datasetName){
+    success: function(datasetID){
       //console.log(datasetName);
-      if (fileSelectNewick.files[0] != undefined) window.location.replace("/main?datasetName=" + datasetName);
-      else getLinks(datasetName);
+      if (fileSelectNewick.files[0] != undefined) window.location.replace("/main/dataset/" + datasetID);
+      else getLinks(datasetID);
       status('Loading links...');
     }
 
@@ -79,17 +79,17 @@ function uploadFiles(){
 
 }
 
-function getLinks(datasetName){
+function getLinks(datasetID){
 
   $.ajax({
     url: '/api/algorithms/goeBURST',
-    data: $.param({name: datasetName, save: true}),
+    data: $.param({dataset_id: datasetID, save: true}),
     processData: false,
     contentType: false,
     type: 'GET',
     success: function(data){
       status('Done!');
-      window.location.replace("/main?datasetName=" + data.datasetName);
+      window.location.replace("/main/dataset/" + data.datasetID);
     }
 
   });

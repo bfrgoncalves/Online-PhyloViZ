@@ -13,7 +13,7 @@ block login
 block normalBody
 
 	div.phylovizNavbar
-		div(onclick="javascript:location.href='./'")
+		div(onclick="javascript:location.href='/'")
 			img(src = '/images/logo.png', width = "80", height = "80")
 			label(style = 'font-size: 200%;') #{title}
 
@@ -91,6 +91,11 @@ block normalBody
 									label Save Image
 									input(type='button',id='saveImageButton', name='saveImage1')
 									div(id='downloadContainer', style='display:none')
+									br
+									label Generate public link
+									input(type='button',id='generatePublicLinkButton', name='publicLink1')
+									textarea(id="publiclinkLocation")
+
 			
 			
 			div.col-lg-2(id="col_info")
@@ -146,7 +151,7 @@ block normalBody
 block scripts
 	script(type='text/javascript').
 		var compute = !{JSON.stringify(precompute)};
-		var datasetName = !{JSON.stringify(datasetName)};
+		var datasetID = !{JSON.stringify(datasetID)};
 		var idealSpringLength = !{JSON.stringify(springLength)};
 	script(type='text/javascript', src='/javascripts/dependencies/d3.min.js')
 	script(type='text/javascript', src='/javascripts/dependencies/seedrandom.js')
@@ -166,6 +171,7 @@ block scripts
 	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/change_Render_Properties_Webgl.js')
 	script(type='text/javascript', src='/javascripts/App/main/data_Analysis/data_Analysis_functions.js')
 	script(type='text/javascript', src='/javascripts/App/main/data_Analysis/saveTreePositions.js')
+	script(type='text/javascript', src='/javascripts/App/main/data_Analysis/generatePublicLink.js')
 	script(type='text/javascript', src='/javascripts/App/main/Table/tableFunctions.js')
 	script(type='text/javascript', src='/javascripts/App/main/globalPie/globalPieFunctions.js')
 	script(type='text/javascript', src='/javascripts/App/main/getPieData.js')
