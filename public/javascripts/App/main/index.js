@@ -32,6 +32,7 @@ function onLoad(){
       createTable(datasetID, 'isolates');
       createTable(datasetID, 'profiles');
       setTimeout(function(){
+        if (Object.keys(graph.distanceMatrix) == 0) $('#NLVgraph').css("display", "none");
         constructGraph(graph, datasetID);
       }, 100);
     });

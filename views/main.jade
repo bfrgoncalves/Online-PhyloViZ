@@ -12,6 +12,8 @@ block login
 
 block normalBody
 
+	div(id="processingElement")
+
 	div.phylovizNavbar
 		div(onclick="javascript:location.href='/'")
 			img(src = '/images/logo.png', width = "80", height = "80")
@@ -68,10 +70,19 @@ block normalBody
 									input(type='checkbox',id='AddLabels')
 									br
 									br
-									label Link Labels Size
-									input(type='range',id='LinkLabelSizeSlider', name='points1', value = 20, min='1', max='50')
-									label Add Link Labels
-									input(type='checkbox',id='AddLinkLabels')
+									//label Link Labels Size
+									//input(type='range',id='LinkLabelSizeSlider', name='points1', value = 20, min='1', max='50')
+									//label Add Link Labels
+									//input(type='checkbox',id='AddLinkLabels')
+									//br
+									//br
+									label Split Tree
+									input(type='number',id='SplitTreeSlider', name='points2', value = 7, min='0', max='7')
+									br
+									br
+									div(id="NLVgraph")
+										label NLV graph
+										input(type='number',id='NLVnumber', name='points2', value = 7, min='0', max='7')
 									//- label Link Thickness
 									//- input(type='range',id='LinkThickSlider', name='points1', value = 1, min='1', max='30', onchange='ChangeLinkThickness(this.value)')
 									//- label Link Distance
@@ -84,22 +95,23 @@ block normalBody
 								div.well(id='OperationsToMake')
 									label Compute Distances
 									input(type='button',id='distanceButton', name='distances1')
-									br
-									label Save Positions
-									input(type='button',id='savePositionsButton', name='downloadPositions1')
+									if (user && !isPublic)
+										br
+										label Save Positions
+										input(type='button',id='savePositionsButton', name='downloadPositions1')
+										br
+										label Generate public link
+										input(type='button',id='generatePublicLinkButton', name='publicLink1')
+										textarea(id="publiclinkLocation")
 									br
 									label Save Image
-									input(type='button',id='saveImageButton', name='saveImage1')
+									input(type='button',id='saveImageButton1', name='saveImage1')
 									div(id='downloadContainer', style='display:none')
-									br
-									label Generate public link
-									input(type='button',id='generatePublicLinkButton', name='publicLink1')
-									textarea(id="publiclinkLocation")
 
 			
 			
 			div.col-lg-2(id="col_info")
-				div
+				div(id="informationTitle")
 					label Information
 				div(id="info_place")
 				br
@@ -135,6 +147,11 @@ block normalBody
 				div(id="divbuttonlinkpieprofiles")
 
 		div.tab-pane(id="distanceContent")
+			//p Order 
+			//	select(id="order")
+			//		option(value="name") by Name
+			//		option(value="count") by Frequency
+
 			div(id="divdistances")
 			br
 			br
@@ -145,8 +162,6 @@ block normalBody
 
 	a(id="imageDownloadLocation" download="phylovizTree.png" style="display:none;")
 
-
-	
 
 block scripts
 	script(type='text/javascript').
@@ -171,6 +186,7 @@ block scripts
 	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/change_Render_Properties_Webgl.js')
 	script(type='text/javascript', src='/javascripts/App/main/data_Analysis/data_Analysis_functions.js')
 	script(type='text/javascript', src='/javascripts/App/main/data_Analysis/saveTreePositions.js')
+	script(type='text/javascript', src='/javascripts/App/main/data_Analysis/linksToTable.js')
 	script(type='text/javascript', src='/javascripts/App/main/data_Analysis/generatePublicLink.js')
 	script(type='text/javascript', src='/javascripts/App/main/Table/tableFunctions.js')
 	script(type='text/javascript', src='/javascripts/App/main/globalPie/globalPieFunctions.js')
@@ -178,4 +194,5 @@ block scripts
 	script(type='text/javascript', src='/javascripts/App/main/linkTableAndGraph.js')
 	script(type='text/javascript', src='/javascripts/App/main/showInfo.js')
 	script(type='text/javascript', src='/javascripts/App/main/constructGraph.js')
+	script(type='text/javascript', src='/javascripts/App/main/iterativeGraph.js')
 	script(type='text/javascript', src='/javascripts/App/main/index.js')

@@ -6478,13 +6478,14 @@ module.exports = webglLine;
  * figure out how to render it.
  *
  */
-function webglLine(color) {
+function webglLine(color, idGL) {
   return {
     /**
      * Gets or sets color of the line. If you set this property externally
      * make sure it always come as integer of 0xRRGGBBAA format
      */
-    color: parseColor(color)
+    color: parseColor(color),
+    idGL: idGL
   };
 }
 

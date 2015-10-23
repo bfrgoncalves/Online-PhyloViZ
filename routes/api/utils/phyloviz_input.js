@@ -45,6 +45,7 @@ function getDataset(datasetID, userID, callback) {
 		    query = "SELECT data AS profiles, schemeGenes FROM datasets.profiles WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;" +
 		    		"SELECT data AS isolates, metadata FROM datasets.isolates WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;" +
 		    		"SELECT data AS links FROM datasets.links WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;" +
+		    		"SELECT distanceMatrix FROM datasets.links WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;" +
 		    		"SELECT data AS newick FROM datasets.newick WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;" +
 		    		"SELECT data AS positions FROM datasets.positions WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;" +
 		    		"SELECT name, key FROM datasets.datasets WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;";
@@ -58,15 +59,24 @@ function getDataset(datasetID, userID, callback) {
 
 			    for(i in result.rows){
 			    	for(x in result.rows[i]){
-
+			    		//console.log(x);
 			    		if( x == 'profiles') dataset.profiles = result.rows[i][x]['profiles'];
 			    		else if( x  == 'isolates') dataset.isolates = result.rows[i][x]['isolates'];
 			    		else if( x  == 'links') dataset.links = result.rows[i][x]['links'];
+			    		else if( x  == 'distancematrix'){
+			    			try{
+			    				dataset.distanceMatrix = result.rows[i][x]['distanceMatrix'];
+			    			}
+			    			catch (TypeError){
+			    				dataset.distanceMatrix = {};
+			    			}
+			    		} 
 			    		else if( x  == 'newick') dataset.newick = result.rows[i][x]['newick'];
 			    		else if( x  == 'positions') dataset.positions = result.rows[i][x];
 			    		else if( x  == 'name' || x == 'key' || x == 'schemegenes' || x == 'metadata') dataset[x] = result.rows[i][x];
 			    	}
 			    }
+			    //console.log(dataset.profiles.length);
 			    client.end();
 			    callback([dataset]);
 			});

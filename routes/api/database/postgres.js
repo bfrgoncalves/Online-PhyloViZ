@@ -25,7 +25,7 @@ router.get('/init', function(req, res, next){ //to change
 
 	function initDataset(callback){
 
-		var query = 'CREATE TABLE datasets.links (id SERIAL PRIMARY KEY, user_id text NOT NULL, dataset_id text NOT NULL, is_public boolean, data jsonb);' +
+		var query = 'CREATE TABLE datasets.links (id SERIAL PRIMARY KEY, user_id text NOT NULL, dataset_id text NOT NULL, is_public boolean, data jsonb, distanceMatrix jsonb);' +
 					'CREATE TABLE datasets.profiles (id SERIAL PRIMARY KEY, user_id text NOT NULL, schemeGenes text[], dataset_id text NOT NULL, is_public boolean, data jsonb);' +
 					'CREATE TABLE datasets.isolates (id SERIAL PRIMARY KEY, user_id text NOT NULL, metadata text[], dataset_id text NOT NULL, is_public boolean, data jsonb);' +
 					'CREATE TABLE datasets.positions (id SERIAL PRIMARY KEY, user_id text NOT NULL, dataset_id text NOT NULL, is_public boolean, data jsonb);' +
@@ -149,9 +149,19 @@ router.put('/update/:table/:field/', function(req, res, next){
 		    //}
 		    //datasetID = result.rows[0].id;
 
-		    query = "UPDATE datasets."+params.table+" SET "+params.field+" = $1 WHERE user_id = $2 AND dataset_id = $3;";
+		    //console.log(reqBody.change, userID, reqBody.dataset_id);
 
-		    client.query(query, [reqBody.change, userID, reqBody.dataset_id], function(err, result) {
+		    if (params.table == 'all'){
+		    	query = "UPDATE datasets.datasets SET "+params.field+" = '"+reqBody.change+"' WHERE user_id = '"+userID+"' AND dataset_id = '"+reqBody.dataset_id+"';" +
+		    			"UPDATE datasets.profiles SET "+params.field+" = '"+reqBody.change+"' WHERE user_id = '"+userID+"' AND dataset_id = '"+reqBody.dataset_id+"';" +
+		    			"UPDATE datasets.isolates SET "+params.field+" = '"+reqBody.change+"' WHERE user_id = '"+userID+"' AND dataset_id = '"+reqBody.dataset_id+"';" +
+		    			"UPDATE datasets.newick SET "+params.field+" = '"+reqBody.change+"' WHERE user_id = '"+userID+"' AND dataset_id = '"+reqBody.dataset_id+"';" +
+		    			"UPDATE datasets.positions SET "+params.field+" = '"+reqBody.change+"' WHERE user_id = '"+userID+"' AND dataset_id = '"+reqBody.dataset_id+"';" +
+		    			"UPDATE datasets.links SET "+params.field+" = '"+reqBody.change+"' WHERE user_id = '"+userID+"' AND dataset_id = '"+reqBody.dataset_id+"';";
+		    }
+		    else query = "UPDATE datasets."+params.table+" SET "+params.field+" = '"+reqBody.change+"' WHERE user_id = '"+userID+"' AND dataset_id = '"+reqBody.dataset_id+"';";
+
+		    client.query(query, function(err, result) {
 			    if(err) {
 			      return console.error('error running query', err);
 			    }

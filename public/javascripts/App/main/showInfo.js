@@ -19,3 +19,12 @@ function showInfo(graphics, node, e) {
 	}
 	$('#info_place').append('<p>----------------------' + toShow + '</p>');
 }
+
+function showInfoLinks(link) {
+
+	var toShow = '';
+	toShow = '<br> Link:<br> From:' + link.fromId + '<br> To: ' + link.toId + '<br> Value: ' + link.data.value;
+	
+
+	$('#info_place').append('<p>----------------------' + toShow + '</p>');
+}

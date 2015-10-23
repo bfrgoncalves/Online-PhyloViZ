@@ -22,13 +22,13 @@ router.get('/', function(req, res, next){
 		loadProfiles(datasetID, userID, function(profileArray, identifiers, datasetID){
 			datasetId = datasetID;
 			
-			goeBURST(profileArray, identifiers, algorithmToUse, function(links){
+			goeBURST(profileArray, identifiers, algorithmToUse, function(links, distanceMatrix){
 				if(req.query.save){
-					saveLinks(datasetID, links, function(){
-						res.send({datasetID: req.query.dataset_id, links: links});
+					saveLinks(datasetID, links, distanceMatrix, function(){
+						res.send({datasetID: req.query.dataset_id, links: links, distanceMatrix: distanceMatrix});
 					});
 				}
-				else res.send({datasetID: req.query.dataset_id, links: links});
+				else res.send({datasetID: req.query.dataset_id, links: links, distanceMatrix: distanceMatrix});
 			});
 		});
 
@@ -67,7 +67,8 @@ function loadProfiles(datasetID, userID, callback){
 	    //}
 	    //else{
 	    	//datasetID = result.rows[0].id;
-		query = "SELECT data FROM datasets.profiles WHERE dataset_id = '"+datasetID+"';";
+		query = "SELECT data FROM datasets.profiles WHERE dataset_id = '"+datasetID+"';" +
+				"SELECT schemeGenes FROM datasets.profiles WHERE dataset_id = '"+datasetID+"';";
 		
 		client.query(query, function(err, result) {
 	    if(err) {
@@ -75,13 +76,18 @@ function loadProfiles(datasetID, userID, callback){
 	    }
 
 	    var profiles = result.rows[0].data.profiles;
+	    var schemeGenes = result.rows[1].schemegenes;
+	    console.log('AQUI');
+	    console.log(schemeGenes);
 		
 		var existsProfile = {};
 
 		//console.log(profiles);
 		
 		profiles.forEach(function(profile){
-			var arr = Object.keys(profile).map(function(k) { return profile[k] });
+			var arr = [];
+			for (i in schemeGenes) arr.push(profile[schemeGenes[i]]);
+			//var arr = Object.keys(profile).map(function(k) { return profile[k] });
 			var identifier = arr.shift();
 			//arr.reverse();
 			
@@ -109,17 +115,19 @@ function loadProfiles(datasetID, userID, callback){
 
 }
 
-function saveLinks(datasetID, links, callback){
+function saveLinks(datasetID, links, distanceMatrix, callback){
 
 	//var datasetModel = require('../../../models/datasets');
 
 	var pg = require("pg");
 	var connectionString = "postgres://localhost/phyloviz";
 	var linksToUse = { links: links };
+	var distanceMatrixToUse =  { distanceMatrix: distanceMatrix };
 
 	var client = new pg.Client(connectionString);
 
-		query = "UPDATE datasets.links SET data = '"+JSON.stringify(linksToUse)+"' WHERE dataset_id ='"+datasetID+"';";
+		query = "UPDATE datasets.links SET data = '"+JSON.stringify(linksToUse)+"' WHERE dataset_id ='"+datasetID+"';" + 
+				"UPDATE datasets.links SET distanceMatrix = '"+JSON.stringify(distanceMatrixToUse)+"' WHERE dataset_id ='"+datasetID+"';";
 		
 		client.connect(function(err) {
 		  if(err) {

@@ -69,3 +69,51 @@ function constructDistanceTable(distanceMatrix){
   	$('#distanceContent').addClass('active');
 
 }
+
+function changeColor(nodeUI, color){
+	var newColors = [];
+    for (i in nodeUI.colorIndexes){
+      var colorsPerQuadrant = [];
+      for (j in nodeUI.colorIndexes[i]) colorsPerQuadrant.push(color);
+      newColors.push(colorsPerQuadrant);
+    }
+    nodeUI.colorIndexes = newColors;
+    nodeUI.size = 30;
+}
+
+function getLinks(nodesToCheckLinks, node, graphics, graphGL, toRemove){
+
+	if (toRemove != ""){
+		var nodeUI = graphics.getNodeUI(toRemove.id);
+		changeColor(nodeUI, nodeUI.baseColor);
+
+	}
+
+	nodesToCheckLinks.push(node);
+
+	var nodeUI = graphics.getNodeUI(node.id);
+
+	changeColor(nodeUI, 0x333333);
+
+	if (nodesToCheckLinks.length == 2){
+		var link = graphGL.getLink(nodesToCheckLinks[0].id, nodesToCheckLinks[1].id);
+		if (link == null) var link = graphGL.getLink(nodesToCheckLinks[1].id, nodesToCheckLinks[0].id);
+		if (link != null) showInfoLinks(link);
+		toRemove = nodesToCheckLinks.shift();
+	}
+
+	return nodesToCheckLinks, toRemove;
+
+}
+
+function restoreLinkSearch(nodesToCheckLinks, graphics, toRemove){
+	if (toRemove != ""){
+		var nodeUI = graphics.getNodeUI(toRemove.id);
+		changeColor(nodeUI, nodeUI.baseColor);
+
+	}
+	for (i in nodesToCheckLinks){
+		var nodeUI = graphics.getNodeUI(nodesToCheckLinks[i].id);
+		changeColor(nodeUI, nodeUI.baseColor);
+	}
+}
