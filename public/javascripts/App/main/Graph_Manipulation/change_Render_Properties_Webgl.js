@@ -75,9 +75,9 @@ function NLVgraph(graphGL, graph, graphics, value, addedLinks, prevValue, treeLi
 
     value = parseInt(value);
 
-    if (value <= prevValue){
+    if (value < prevValue){
         for (i in addedLinks){
-            if (addedLinks[i].data.value >= value) {
+            if (addedLinks[i].data.value > value) {
                 graphGL.removeLink(addedLinks[i]);
 
                 delete addedLinks[i];
@@ -116,7 +116,6 @@ function NLVgraph(graphGL, graph, graphics, value, addedLinks, prevValue, treeLi
 
 function printDiv(width, height) 
 {
-    console.log(width, height);
 
   var divWithLabels=document.getElementById('visual');
   var divWithpieChart = document.getElementById('col_info');

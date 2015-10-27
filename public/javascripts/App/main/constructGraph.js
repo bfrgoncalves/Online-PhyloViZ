@@ -13,7 +13,9 @@ function constructGraph(graph, datasetID){
           prevSplitTreeValue = 0,
           removedLinks = {},
           prevNLVvalue = 0,
-          addedLinks = {};
+          addedLinks = {},
+          metadataFilter = {},
+          schemeFilter = {};
 
     	var graphGL = Viva.Graph.graph();
       //var allGraph = Viva.Graph.graph();
@@ -489,8 +491,8 @@ function constructGraph(graph, datasetID){
           search_nodes(graph);
           colorAttributes(graph, graphics, renderer); 
 
-          linkTableAndGraph('isolates');
-          linkTableAndGraph('profiles');
+          linkTableAndGraph('isolates', graph.key);
+          linkTableAndGraph('profiles', graph.key);
 
           //createDistanceTable(graph);
 

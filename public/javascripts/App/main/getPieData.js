@@ -1,6 +1,6 @@
 
 
-function gatherMetadata(graph, propertyIndex, callback){
+function gatherMetadata(graph, propertyIndex, metadataFilter, callback){
 
 	var objectOfTotal = {};
 	var objectOfType = {};
@@ -27,11 +27,13 @@ function gatherMetadata(graph, propertyIndex, callback){
 			        countProperties += 1;
 			      } 
 
-			      if(objectOfType[node.key][String(node.isolates[i][propertyIndex])]) objectOfType[node.key][String(node.isolates[i][propertyIndex])] += 1;
-			      else{
-			        numberTypes += 1;
-			        objectOfType[node.key][String(node.isolates[i][propertyIndex])] = 1;
-			      } 
+			      if (metadataFilter[2].length == 0 || (metadataFilter[1].indexOf(node.key) > -1 && metadataFilter[2].indexOf(String(node.isolates[i][propertyIndex])) > -1)){
+		      		  if(objectOfType[node.key][String(node.isolates[i][propertyIndex])]) objectOfType[node.key][String(node.isolates[i][propertyIndex])] += 1;
+				      else{
+				        numberTypes += 1;
+				        objectOfType[node.key][String(node.isolates[i][propertyIndex])] = 1;
+				      } 
+			      }
 			  }
 			}
 		}
@@ -43,7 +45,7 @@ function gatherMetadata(graph, propertyIndex, callback){
 }
 
 
-function gatherSchemeData(graph, propertyToCheck, callback){
+function gatherSchemeData(graph, propertyToCheck, schemeFilter, callback){
 
 	var objectOfTotal = {};
 	var objectOfProfile = {};
@@ -66,11 +68,13 @@ function gatherSchemeData(graph, propertyToCheck, callback){
 	            countProperties += 1;
 	          }
 
-	        if(objectOfProfile[node.key][String(node.profile[propertyIndex])]) objectOfProfile[node.key][String(node.profile[propertyIndex])] += 1;
-	        else{
-	          numberTypes += 1;
-	          objectOfProfile[node.key][String(node.profile[propertyIndex])] = 1;
-	        }
+	        if (schemeFilter[2].length == 0 || (schemeFilter[1].indexOf(node.key) > -1 && schemeFilter[2].indexOf(String(node.profile[propertyIndex])) > -1)){
+		        if(objectOfProfile[node.key][String(node.profile[propertyIndex])]) objectOfProfile[node.key][String(node.profile[propertyIndex])] += 1;
+		        else{
+		          numberTypes += 1;
+		          objectOfProfile[node.key][String(node.profile[propertyIndex])] = 1;
+		        }
+		    }
 		}	
 
 	});
@@ -83,15 +87,12 @@ function gatherSchemeData(graph, propertyToCheck, callback){
 
 function changeNodeUIData(objectOfType, graphics, propertyIndexes, arrayColors){
 
-
 	for(i in objectOfType){
 	    var dataToChange = [];
 	    var indexes = [];
 	    var nodeUI = graphics.getNodeUI(i);
 	    
 	    if(!$.isEmptyObject(objectOfType[i])){
-		    var processedData = [];
-		    var newIndexes = [];
 
 		    nodeUI.rawData = objectOfType[i];
 
@@ -100,8 +101,8 @@ function changeNodeUIData(objectOfType, graphics, propertyIndexes, arrayColors){
 		      indexes.push(arrayColors[propertyIndexes[j]]);
 		    }
 		}
-
-	    if (dataToChange.length < 1) newValues = assignQuadrant(getDataPercentage([1]), [nodeUI.baseColor]);
+		noDataColor = 0xDEDEDE; //Color to use when there is no associated data to the nodes
+	    if (dataToChange.length < 1) newValues = assignQuadrant(getDataPercentage([1]), [noDataColor]);
 	    else newValues = assignQuadrant(getDataPercentage(dataToChange), indexes);
 	    
 	    dataToChange = newValues[0];

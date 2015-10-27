@@ -43,10 +43,10 @@ $('#selectByScheme').change(function(d){
   propertyIndex = graph.schemeGenes.indexOf(propertyToCheck);
 
   if (changeFromTable == false){
-    linkGraphAndTable('profiles', propertyIndex, propertyToCheck);
+    linkGraphAndTable('profiles', propertyIndex, propertyToCheck, graph.key);
   }
   else{
-    gatherSchemeData(graph, propertyToCheck, function(objectOfTotal, objectOfType, countProperties){
+    gatherSchemeData(graph, propertyToCheck, schemeFilter, function(objectOfTotal, objectOfType, countProperties){
          changeNodeUIData(objectOfType, graphics, property_IndexProfiles, arrayColorsProfiles);
          changeFromTable = false;
     });
@@ -62,10 +62,10 @@ $('#selectByMetadata').change(function(d){
 
 
   if (changeFromTable == false){
-    linkGraphAndTable('isolates', propertyIndex, propertyToCheck);
+    linkGraphAndTable('isolates', propertyIndex, propertyToCheck, graph.key);
   }
   else{
-    gatherMetadata(graph, propertyToCheck, function(objectOfTotal, objectOfType, countProperties){
+    gatherMetadata(graph, propertyToCheck, metadataFilter, function(objectOfTotal, objectOfType, countProperties){
        changeNodeUIData(objectOfType, graphics, property_IndexIsolates, arrayColorsIsolates);
 
        changeFromTable = false;

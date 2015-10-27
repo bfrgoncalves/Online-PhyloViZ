@@ -9,7 +9,7 @@ var config = require('../../config.js');
 router.get('/dataset/:datasetID', function(req, res, next) {
 
   //if(!req.isAuthenticated()) return res.redirect("/");
-  springLength = 50;
+  springLength = 1;
   if (req.query.springLength != undefined) springLength = req.query.springLength;
   if (req.query.precompute != undefined) res.render('main', { 
   	title: 'PHYLOViZ Online', 
@@ -39,7 +39,7 @@ router.get('/dataset/public/:cipheredDataset', function(req, res, next) {
   datasetID= decipher.update(req.params.cipheredDataset,'hex','utf8');
   //parts = deciphered.split('/');
   //datasetID = parts[0];
-  springLength = 50;
+  springLength = 1;
 
   if (req.query.springLength != undefined) springLength = req.query.springLength;
   if (req.query.precompute != undefined) res.render('main', { 

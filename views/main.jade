@@ -129,6 +129,7 @@ block normalBody
 				i(id='pauseLayout') Pause Layout
 		
 		div.tab-pane(id="isolateContent")
+			div(id="exportisolates")
 			div(id="divisolates")
 			br
 			br
@@ -138,6 +139,7 @@ block normalBody
 				div(id="divbuttonlinkpieisolates")
 
 		div.tab-pane(id="profileContent")
+			div(id="exportprofiles")
 			div(id="divprofiles")
 			br
 			br
@@ -151,7 +153,7 @@ block normalBody
 			//	select(id="order")
 			//		option(value="name") by Name
 			//		option(value="count") by Frequency
-
+			div(id="exportdistances")
 			div(id="divdistances")
 			br
 			br
@@ -176,7 +178,11 @@ block scripts
 	script(type='text/javascript', src='/javascripts/dependencies/jquery-ui.min.js')
 	script(type='text/javascript', src='/javascripts/dependencies/bootstrap.js')
 	script(type='text/javascript', src='/javascripts/dependencies/bootstrap-select.js')
+	script(type='text/javascript', src='/javascripts/dependencies/datatables.min.js')
 	script(type='text/javascript', src='/javascripts/dependencies/jquery.dataTables.js')
+	script(type='text/javascript', src='/javascripts/dependencies/pdfmake.min.js')
+	script(type='text/javascript', src='/javascripts/dependencies/jszip.js')
+	script(type='text/javascript', src='/javascripts/dependencies/vfs_fonts.js')
 	//script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/customPieChartShader.js')
 	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/pieNodeWebGl.js')
 	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/CustomLinkProgram.js')

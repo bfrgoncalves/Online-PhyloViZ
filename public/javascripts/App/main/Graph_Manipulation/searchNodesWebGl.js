@@ -7,11 +7,11 @@ var search_nodes = function(graph){
 	optArray = optArray.sort();
 }
 
-$(function () {
-    $("#nodeid").autocomplete({
-        source: optArray
-    });
-});
+//$(function () {
+//    $("#nodeid").autocomplete({
+//        source: optArray
+//    });
+//});
 
 var centerNode = function(nodeId,graph,layout,renderer,graphics){
 	if (graph.getNode(nodeId)) {
