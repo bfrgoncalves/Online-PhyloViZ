@@ -27,16 +27,55 @@ function onLoad(){
     $('#visual').css({width:width, height: height, position: "relative"});
 
     var dataToGraph = {};
+
+    var img = document.getElementById('GIFimage');
+    $("#GIFimage").attr("src", '../../images/waitingGIF.gif').attr('width' , '100px').attr('height' , '100px');
+
+    status('Loading input data...');
     
     createInput(datasetID, function(graph){
-      createTable(datasetID, 'isolates');
-      createTable(datasetID, 'profiles');
-      setTimeout(function(){
-        if (Object.keys(graph.distanceMatrix) == 0) $('#NLVgraph').css("display", "none");
-        constructGraph(graph, datasetID);
-      }, 100);
+      //console.log(graph);
+      checkInput(graph, function(graph){
+
+          status('Loading tables...');
+          createTable(datasetID, 'isolates', function(){
+            createTable(datasetID, 'profiles', function(){
+              
+              status('Loading tree...');
+
+              constructGraph(graph, datasetID);
+            });
+          });
+      });
     });
 
+}
+
+function checkTablesDone(graph, datasetID){
+  countTables += 1;
+  console.log(countTables);
+  if (countTables == 2){
+    constructGraph(graph, datasetID);
+  }
+}
+
+function checkInput(graph, callback){
+  if (graph.key == 'undefined' || graph.nodes.length == 0){
+
+    $.ajax({
+      url: '/api/db/postgres/delete',
+      data: {dataset_id: datasetID},
+      type: 'DELETE',
+      success: function(data){
+        alert('There was an error uploading the dataset. Possible input format error.');
+        window.location.replace("/index");
+      }
+
+    });
+  }
+  else{
+    callback(graph);
+  }
 }
 
 
@@ -77,6 +116,10 @@ $('[data-toggle="mainTab"]').click(function(e) {
     return false;
 
 });
+
+function status(message) {
+    $('#statusMain').text(message);
+}
 
 
 

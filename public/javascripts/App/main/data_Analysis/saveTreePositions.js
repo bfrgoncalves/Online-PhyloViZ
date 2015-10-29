@@ -21,7 +21,7 @@ function saveTreePositions(graph, layout, datasetID){
       	},
       dataType: "json",
       success: function(data){
-        console.log('done');
+        alert('Positions saved!');
       }
 
     });

@@ -1,11 +1,22 @@
+
 body {
   padding: 20px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: white;
+  margin:0 auto;
 }
 
 a {
   color: #00B7FF;
+}
+
+#buttonExistingDatasets{
+  margin: 0 10px 0 10px;
+}
+
+#divDeleteDataset{
+  position:absolute;
+  left: 92%;
 }
 
 .phylovizNavbar{
@@ -47,6 +58,21 @@ a {
   text-align:center;
 }
 
+
+#waitingGifMain{
+  position: absolute;
+  z-index:2;
+  top: 40%;
+  left: 48%;
+}
+
+#statusMain{
+  position: absolute;
+  z-index:2;
+  top: 53%;
+  left: 47.5%;
+}
+
 .nav-tabs > li, .nav-pills > li {
     float:none;
     display:inline-block;
@@ -58,23 +84,46 @@ a {
     text-align:center;
 }
 
+
 .pieRegion {text-align:center;}
 
 #pieisolates {display:inline-block;}
 #divbuttonlinkpieisolates {display:inline-block;}
+
+#divisolates{
+  width: 100%;
+  overflow-x: auto;
+}
+
+#divprofiles{
+  width: 100%;
+  overflow-x: auto;
+}
+
 #legendpieisolates {
   height: 300px;
   width: 200px;
   overflow-y: auto;
+  overflow-x: auto;
+  display:inline-block;
+}
+
+#legendcurrentpiePlace {
+  height: 200px;
+  width: 200px;
+  overflow-y: auto;
+  overflow-x: auto;
   display:inline-block;
 }
 
 #pieprofiles {display:inline-block;}
 #divbuttonlinkpieprofiles {display:inline-block;}
+
 #legendpieprofiles {
   height: 300px;
   width: 200px;
   overflow-y: auto;
+  overflow-x: auto;
   display:inline-block;
 }
 #SVpieprofiles {margin-left:auto; margin-right:auto; display:block;}
@@ -82,7 +131,7 @@ a {
 #userRegion{
   left: 80%;
   top: 5%;
-  width:35%;
+  width:10%;
   height:10%;
   position: absolute;
 }
@@ -95,14 +144,15 @@ a {
   position: absolute;
 }
 
+
 #inputDiv {
-  left: 50%;
+  left: 38%;
   top: 40%;
-  width:500px;
+  width:50%;
   height:200px;
   position: absolute;
   margin:-10% 0 0 -12%;
-  text-align:center;
+  text-align: center;
 }
 
 
@@ -130,26 +180,58 @@ a {
   padding: 30px;
   text-align: left;
   position: absolute;
-  top: 15%; 
+  top: 10%; 
   z-index: 2;
 }
+
+#divButtonLegend{
+  position: absolute;
+  width: 10%;
+  top: 13.5%;
+  left: 82.5%; 
+  display:none;
+  z-index: 2;
+}
+
+#divButtonInfo{
+  position: absolute;
+  width: 10%;
+  top: 86%;
+  left: 18%; 
+  z-index: 2;
+}
+
 
 #col_info{
   padding: 30px;
   text-align: center;
   position: absolute;
-  top: 15%;
+  top: 13%;
   left: 82%; 
-  height: 80%;
+  height: 40%;
+  border-radius: 10px;
+  border: 2px solid black;
+  background-color:white;
+  z-index: 1;
+  display:none;
+
+}
+
+#col_information{
+  height:10%;
+  position: absolute;
+  top: 88%;
+  left: 17%; 
   background-color: white;
   z-index: 2;
   overflow-y: auto;
   overflow-x: auto;
-
 }
 
 #info_place{
-  height: 40%;
+  width:95%;
+  height:100%;
+  position:absolute;
   overflow-y: auto;
   overflow-x: auto;
   border-radius: 10px;
@@ -157,12 +239,6 @@ a {
 }
 
 #currentpiePlace {display:inline-block;}
-
-#legendcurrentpiePlace{
-  height: 25%;
-  overflow-y: auto;
-  overflow-x: auto;
-}
 
 
 .graph-overlay {
@@ -180,7 +256,7 @@ a {
 }
 
 
-#toggleLayout { position: absolute; bottom: 3%; margin-left: 50%; cursor: pointer; font-size: 15px; color: black;}
+#toggleLayout { margin-left: 30%; cursor: pointer; font-size: 15px; color: black;}
 
 #toggleLayoutSVG { position: absolute; bottom: 3%; margin-left: 50%; cursor: pointer; font-size: 15px; color: black;}
 

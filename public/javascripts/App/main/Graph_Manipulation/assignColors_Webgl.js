@@ -44,6 +44,8 @@ $('#selectByScheme').change(function(d){
 
   if (changeFromTable == false){
     linkGraphAndTable('profiles', propertyIndex, propertyToCheck, graph.key);
+    $('#divButtonLegend').css('display', 'block');
+    $('#col_info').css('display', 'block');
   }
   else{
     gatherSchemeData(graph, propertyToCheck, schemeFilter, function(objectOfTotal, objectOfType, countProperties){
@@ -63,6 +65,8 @@ $('#selectByMetadata').change(function(d){
 
   if (changeFromTable == false){
     linkGraphAndTable('isolates', propertyIndex, propertyToCheck, graph.key);
+    $('#divButtonLegend').css('display', 'block');
+    $('#col_info').css('display', 'block');
   }
   else{
     gatherMetadata(graph, propertyToCheck, metadataFilter, function(objectOfTotal, objectOfType, countProperties){

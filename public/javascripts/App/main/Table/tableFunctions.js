@@ -1,8 +1,11 @@
 
-function createTable(dataset, datasetParameter){
+function createTable(dataset, datasetParameter, callback){
 
 	getTableData(dataset, datasetParameter, function(tableData){
-    if (tableData.data.length != 0) constructTable(tableData, datasetParameter);
+    if (tableData.data.length != 0) constructTable(tableData, datasetParameter, function(){
+      callback();
+    });
+    else callback();
 	});
 
 }
@@ -22,7 +25,7 @@ function getTableData(datasetID, parameterId, callback){
     });
 }
 
-function constructTable(tableData, datasetParameter){
+function constructTable(tableData, datasetParameter, callback){
 
 	var divToCheck = 'div' + datasetParameter;
 	var tableToCheck = 'table' + datasetParameter;
@@ -37,7 +40,9 @@ function constructTable(tableData, datasetParameter){
 
 	$('#'+ divToCheck).html( '<table cellpadding="0" cellspacing="0" border="0" class="display" id="'+tableToCheck+'"></table>' );
 
+
 	var table = $('#' + tableToCheck).DataTable( {
+
         "data": tableData.data,
         "columns": columns,
         "bSort" : false,
@@ -73,11 +78,14 @@ function constructTable(tableData, datasetParameter){
         "fnInitComplete": function(oSettings, json) {
           createFooter('#' + tableToCheck, columns, function(){
             createColumnSearch(tableToCheck);
+            //$(divToCheck).css('overflow-x','auto');
           });
           exportButtons = $('#' + tableToCheck + '_wrapper .buttons-html5');
           buttonPrint = $('#' + tableToCheck + '_wrapper .buttons-print');
           $('#export'+datasetParameter).append(exportButtons);
           $('#export'+datasetParameter).append(buttonPrint);
+          callback();
+
 
         }
     } );

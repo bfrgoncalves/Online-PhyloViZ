@@ -4,15 +4,14 @@ function status(message) {
 }
 
 
-function submitTree(){
+function submitTree(NameToID){
 
-    event.preventDefault();
-    var element = $('#selectDataset');
-    var propertyToCheck = element.find(":selected");
+    var table = $('#TableDatasets').DataTable();
+    var datasetData = table.rows('.selected').data();
 
-    if(propertyToCheck[0].index != 0){
+    if(datasetData[0] != undefined){
       //console.log('AQUI');
-      window.location.replace("/main/dataset/" + propertyToCheck.val());
+      window.location.replace("/main/dataset/" + NameToID[datasetData[0][0]]);
     }
     else if ($('#datasetName').val() == '') $('#status').text('Dataset name is required.');
     else if ($('#possibleInputFormats').find(":selected")[0].index == 1 && $('#uploadProfile').val() == '') $('#status').text('Profile file is required.');
@@ -71,7 +70,7 @@ function uploadFiles(){
       //console.log(datasetName);
       if (fileSelectNewick.files[0] != undefined) window.location.replace("/main/dataset/" + datasetID);
       else getLinks(datasetID);
-      status('Loading links...');
+      status('Computing links...');
     }
 
   });

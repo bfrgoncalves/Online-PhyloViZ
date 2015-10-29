@@ -94,7 +94,10 @@ function createLinkButton(property, columnIndex, columnData, columnName){
 
 		changeFromTable = true;
 
-		constructPie(columnData, columnIndex, columnName, 'currentpiePlace', 75, 0, 75); //tree tab pie
+		$('#divButtonLegend').css('display', 'block');
+		$('#col_info').css('display', 'block');
+
+		constructPie(columnData, columnIndex, columnName, 'currentpiePlace', 40, 0, 40); //tree tab pie
 
 		$('.nav-tabs > li.active').removeClass('active');
       	$('.tab-pane.active').removeClass('active');

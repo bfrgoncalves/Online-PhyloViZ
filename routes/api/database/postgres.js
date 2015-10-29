@@ -31,7 +31,7 @@ router.get('/init', function(req, res, next){ //to change
 					'CREATE TABLE datasets.positions (id SERIAL PRIMARY KEY, user_id text NOT NULL, dataset_id text NOT NULL, is_public boolean, data jsonb);' +
 					'CREATE TABLE datasets.newick (id SERIAL PRIMARY KEY, user_id text NOT NULL, dataset_id text NOT NULL, is_public boolean, data jsonb);' +
 					'CREATE TABLE datasets.users (id SERIAL PRIMARY KEY, username varchar(20) UNIQUE, user_id text UNIQUE, salt text, pass text, email text);' +
-					'CREATE TABLE datasets.datasets (id SERIAL PRIMARY KEY, user_id text NOT NULL, name varchar(20) NOT NULL, dataset_id text NOT NULL, key varchar(20) NOT NULL, is_public boolean);' +
+					'CREATE TABLE datasets.datasets (id SERIAL PRIMARY KEY, user_id text NOT NULL, name varchar(20) NOT NULL, dataset_id text NOT NULL, key varchar(20) NOT NULL, is_public boolean, description text);' +
 					
 					"INSERT INTO datasets.users(username, user_id, salt, pass) VALUES('public', 'public', '1', 'public');";
 
@@ -177,10 +177,48 @@ router.put('/update/:table/:field/', function(req, res, next){
 	if (!req.isAuthenticated()) user_id = "1";
 	else user_id = req.user.id;
 
-	updateJSON(user_id, req.params, req.body, function (doc){
-		res.sendStatus(200);
+	updateJSON(user_id, req.params, req.body, function (){
+		res.send(true);
 	});
 	
+});
+
+router.delete('/delete', function(req, res){
+
+	function deleteDataset(userID, reqBody, callback){
+
+		var client = new pg.Client(connectionString);
+		client.connect(function(err) {
+			if(err) {
+			  	return console.error('could not connect to postgres', err);
+			}
+
+	    	query = "DELETE FROM datasets.datasets WHERE user_id = '"+userID+"' AND dataset_id = '"+reqBody.dataset_id+"';" +
+	    			"DELETE FROM datasets.profiles WHERE user_id = '"+userID+"' AND dataset_id = '"+reqBody.dataset_id+"';" +
+	    			"DELETE FROM datasets.isolates WHERE user_id = '"+userID+"' AND dataset_id = '"+reqBody.dataset_id+"';" +
+	    			"DELETE FROM datasets.newick WHERE user_id = '"+userID+"' AND dataset_id = '"+reqBody.dataset_id+"';" +
+	    			"DELETE FROM datasets.positions WHERE user_id = '"+userID+"' AND dataset_id = '"+reqBody.dataset_id+"';" +
+	    			"DELETE FROM datasets.links WHERE user_id = '"+userID+"' AND dataset_id = '"+reqBody.dataset_id+"';";
+
+
+		    client.query(query, function(err, result) {
+			    if(err) {
+			      return console.error('error running query', err);
+			    }
+			    client.end();
+			    callback();
+
+			});
+		});
+	}
+
+	if (!req.isAuthenticated()) user_id = '1';//res.send({message: "Cannot delete datasets without being authenticated"});
+	else user_id = req.user.id;
+
+	deleteDataset(user_id, req.body, function (){
+		res.send({message: "Dataset deleted"});
+	});
+
 });
 
 module.exports = router;

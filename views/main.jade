@@ -38,13 +38,20 @@ block normalBody
 				ul.nav.nav-stacked
 					li
 						div
+							h5(id='numberOfNodes') Number of nodes: 
 							form(id='searchForm')
 								div.input-group
 									input.form-control(type='text' id='nodeid' style='color:black' placehorder="Search")
 									span.input-group-btn
 										button.btn.btn-default(type='submit') Search
-							br
-							h5(id='numberOfNodes') Number of nodes: 
+					li
+						br
+						div(id='toggleLayout')
+							i.glyphicon.glyphicon-pause(id='iconPauseLayout') 
+							i(id='pauseLayout') Pause Layout
+						br
+							
+						
 					li
 						div
 							a.btn.btn-primary.actionButton(data-toggle='collapse', href='#collapseColor', aria-expanded="false", aria-controls="collapseExample") Assign Colors
@@ -108,25 +115,26 @@ block normalBody
 									input(type='button',id='saveImageButton1', name='saveImage1')
 									div(id='downloadContainer', style='display:none')
 
+			div.col-lg-8(id="col_information")
+				div(id="info_place")
 			
+			div(id="divButtonLegend")
+				button.btn-md.btn-info(type='button',id='toggle_col_legend') Hide Legend
+
+			div(id="divButtonInfo")
+				button.btn-md.btn-info(type='button',id='toggle_col_info') Hide Information
 			
 			div.col-lg-2(id="col_info")
-				div(id="informationTitle")
-					label Information
-				div(id="info_place")
-				br
-				br
-				div(id="currentpiePlace")
-				br
-				br
-				div(id="legendcurrentpiePlace")
+				div(id="piePlace")
+					div(id="currentpiePlace")
+					br
+					br
+					div(id="legendcurrentpiePlace")
 
 			div(id='visual',oncontextmenu='return false;')
 				div.graph-overlay
 
-			div(id='toggleLayout')
-				i.glyphicon.glyphicon-pause(id='iconPauseLayout') 
-				i(id='pauseLayout') Pause Layout
+			span(id ='statusMain')
 		
 		div.tab-pane(id="isolateContent")
 			div(id="exportisolates")
@@ -163,6 +171,9 @@ block normalBody
 				div(id="divbuttonlinkpiedistances")
 
 	a(id="imageDownloadLocation" download="phylovizTree.png" style="display:none;")
+
+	div(id = 'waitingGifMain')
+		img(id = 'GIFimage')
 
 
 block scripts

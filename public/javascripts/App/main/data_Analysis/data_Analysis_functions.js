@@ -61,7 +61,9 @@ function constructDistanceTable(distanceMatrix){
 		table.data.push(rows);
 	} 
 
-	constructTable(table, 'distances');
+	constructTable(table, 'distances', function(){
+		
+	});
 
 	$('.nav-tabs > li.active').removeClass('active');
   	$('.tab-pane.active').removeClass('active');
