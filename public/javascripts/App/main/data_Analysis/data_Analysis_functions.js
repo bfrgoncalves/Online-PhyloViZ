@@ -10,8 +10,6 @@ function SelectNodes(selectedNodesArray, node, graphics){
       newColors.push(colorsPerQuadrant);
     }
     nodeUI.colorIndexes = newColors;
-    nodeUI.size = 30;
-
 
 	return selectedNodesArray;
 }
@@ -80,7 +78,6 @@ function changeColor(nodeUI, color){
       newColors.push(colorsPerQuadrant);
     }
     nodeUI.colorIndexes = newColors;
-    nodeUI.size = 30;
 }
 
 function getLinks(nodesToCheckLinks, node, graphics, graphGL, toRemove){

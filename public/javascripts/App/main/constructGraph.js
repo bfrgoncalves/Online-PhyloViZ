@@ -453,7 +453,7 @@ function constructGraph(graph, datasetID){
                       });
 
           $('#NodeSizeSlider').change(function(e){
-            NodeSize(this.value, renderer, graph, graphics)
+            NodeSize(this.value, this.max, renderer, graph, graphics)
           });
 
           $('#NodeLabelSizeSlider').change(function(e){
@@ -465,6 +465,10 @@ function constructGraph(graph, datasetID){
 
           $('#SplitTreeSlider').change(function(e){
             removedLinks, prevSplitTreeValue = splitTree(graphGL, graphics, removedLinks, this.value, prevSplitTreeValue, linkLabels, tovisualizeLinkLabels, treeLinks);
+          });
+
+          $('#SpringLengthSlider').change(function(e){
+            changeSpringLength(this.value, this.max, renderer, graphGL, layout, graph);
           });
 
           $('#NLVnumber').change(function(e){

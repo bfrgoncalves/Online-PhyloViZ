@@ -30,8 +30,8 @@ router.get('/init', function(req, res, next){ //to change
 					'CREATE TABLE datasets.isolates (id SERIAL PRIMARY KEY, user_id text NOT NULL, metadata text[], dataset_id text NOT NULL, is_public boolean, data jsonb);' +
 					'CREATE TABLE datasets.positions (id SERIAL PRIMARY KEY, user_id text NOT NULL, dataset_id text NOT NULL, is_public boolean, data jsonb);' +
 					'CREATE TABLE datasets.newick (id SERIAL PRIMARY KEY, user_id text NOT NULL, dataset_id text NOT NULL, is_public boolean, data jsonb);' +
-					'CREATE TABLE datasets.users (id SERIAL PRIMARY KEY, username varchar(20) UNIQUE, user_id text UNIQUE, salt text, pass text, email text);' +
-					'CREATE TABLE datasets.datasets (id SERIAL PRIMARY KEY, user_id text NOT NULL, name varchar(20) NOT NULL, dataset_id text NOT NULL, key varchar(20) NOT NULL, is_public boolean, description text);' +
+					'CREATE TABLE datasets.users (id SERIAL PRIMARY KEY, username text UNIQUE, user_id text UNIQUE, salt text, pass text, email text);' +
+					'CREATE TABLE datasets.datasets (id SERIAL PRIMARY KEY, user_id text NOT NULL, name text NOT NULL, dataset_id text NOT NULL, key text NOT NULL, is_public boolean, description text);' +
 					
 					"INSERT INTO datasets.users(username, user_id, salt, pass) VALUES('public', 'public', '1', 'public');";
 

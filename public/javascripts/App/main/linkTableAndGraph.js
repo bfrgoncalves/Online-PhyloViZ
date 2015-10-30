@@ -73,10 +73,12 @@ function linkTableAndGraph(property, key){
   	  }
 
   	  columnName = table.column(columnIndex).header().innerHTML;
+
+  	  var pieHeight = $('#col_info').height();
       
       createLinkButton(property, columnIndex, columnData, columnName);
       
-      constructPie(columnData, columnIndex, columnName, 'pie' + property, 75, 0, 150);
+      constructPie(columnData, columnIndex, columnName, 'pie' + property, pieHeight*3, 0, pieHeight*2);
 
   	});
 
@@ -97,7 +99,9 @@ function createLinkButton(property, columnIndex, columnData, columnName){
 		$('#divButtonLegend').css('display', 'block');
 		$('#col_info').css('display', 'block');
 
-		constructPie(columnData, columnIndex, columnName, 'currentpiePlace', 40, 0, 40); //tree tab pie
+		var pieHeight = $('#col_info').height();
+
+		constructPie(columnData, columnIndex, columnName, 'currentpiePlace', pieHeight, 0, pieHeight); //tree tab pie
 
 		$('.nav-tabs > li.active').removeClass('active');
       	$('.tab-pane.active').removeClass('active');
@@ -195,12 +199,16 @@ function linkGraphAndTable(property, indexProperty, columnName, key){
 	  	  		schemeFilter[2] = [];
 	  	  	}
 	  	  }
+
+	  	var pieHeight = $('#col_info').height() * 0.15;
+
 	  	
-	  	constructPie(columnData, indexProperty, columnName, 'pie' + property, 75, 0, 150); //table tab pie
+	  	constructPie(columnData, indexProperty, columnName, 'pie' + property, pieHeight*3, 0, pieHeight*2); //table tab pie
 
-	  	constructPie(columnData, indexProperty, columnName, 'currentpiePlace', 75, 0, 75); //tree tab pie
+	  	constructPie(columnData, indexProperty, columnName, 'currentpiePlace', pieHeight, 0, pieHeight); //tree tab pie
 
-	  	createLinkButton(property, indexProperty);
+	  	$('#buttonlink' + 'pie' + property).remove();
+	  	//createLinkButton(property, indexProperty);
 
 	  	if (property =='isolates') $("#selectByMetadata").trigger("change"); 
 	    else $("#selectByScheme").trigger("change");

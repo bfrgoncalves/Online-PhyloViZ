@@ -1,9 +1,10 @@
 
 //adjust Node Size
-function NodeSize(newSize, renderer, graph, graphics){
+function NodeSize(newSize, max, renderer, graph, graphics){
     graph.nodes.forEach(function(node){
         var nodeUI = graphics.getNodeUI(node.key);
-        nodeUI.size = newSize;
+
+        nodeUI.size = nodeUI.backupSize + (nodeUI.backupSize * 2 * (parseInt(newSize) / parseInt(max)));      
     });
 }
 
@@ -25,6 +26,19 @@ function LabelSize(newSize, graph, domLabels, graphics, type){
     }
     
     
+}
+
+function changeSpringLength(newValue, max, renderer, graphGL, layout, graph){
+
+    graph.links.forEach(function(link){
+
+            var linkUI = graphGL.getLink(link.source, link.target);
+
+            var spring = layout.getSpring(link.source, link.target);
+            spring.length = linkUI.data.value + (100 * linkUI.data.value * (newValue/max));
+
+        })
+
 }
 
 function linkThickness(newSize, renderer, graph, graphics){

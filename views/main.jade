@@ -69,7 +69,12 @@ block normalBody
 							div.collapse(id='collapseNodeSize')
 								div.well(id='SizeAttributes')
 									label Nodes Size
-									input(type='range',id='NodeSizeSlider', name='points1', value = 30, min='15', max='100')
+									input(type='range',id='NodeSizeSlider', name='points1', value = 1, min='1', max='30')
+									br
+									br
+									label Link Length
+									input(type='range',id='SpringLengthSlider', name='points3', value = 1, min='1', max='100') 
+
 								div.well(id='labelAttributes')
 									label Node Labels Size
 									input(type='range',id='NodeLabelSizeSlider', name='points1', value = 20, min='1', max='50')
@@ -77,12 +82,12 @@ block normalBody
 									input(type='checkbox',id='AddLabels')
 									br
 									br
-									//label Link Labels Size
-									//input(type='range',id='LinkLabelSizeSlider', name='points1', value = 20, min='1', max='50')
-									//label Add Link Labels
-									//input(type='checkbox',id='AddLinkLabels')
-									//br
-									//br
+									label Link Labels Size
+									input(type='range',id='LinkLabelSizeSlider', name='points1', value = 20, min='1', max='50')
+									label Add Link Labels
+									input(type='checkbox',id='AddLinkLabels')
+									br
+									br
 									label Split Tree
 									input(type='number',id='SplitTreeSlider', name='points2', value = 7, min='0', max='7')
 									br
@@ -90,10 +95,6 @@ block normalBody
 									div(id="NLVgraph")
 										label NLV graph
 										input(type='number',id='NLVnumber', name='points2', value = 7, min='0', max='7')
-									//- label Link Thickness
-									//- input(type='range',id='LinkThickSlider', name='points1', value = 1, min='1', max='30', onchange='ChangeLinkThickness(this.value)')
-									//- label Link Distance
-									//- input(type='range',id='LinkDistanceSlider', name='points2', value = 50, min='10', max='100', step='0.01', onchange='ChangeDistance(this.value)')
 
 					li
 						div
@@ -142,6 +143,7 @@ block normalBody
 			br
 			br
 			div.pieRegion
+				div(id='numberOfColumnsisolates')
 				div(id="pieisolates")
 				div(id="legendpieisolates")
 				div(id="divbuttonlinkpieisolates")
@@ -152,6 +154,7 @@ block normalBody
 			br
 			br
 			div.pieRegion
+				div(id='numberOfColumnsprofiles')
 				div(id="pieprofiles")
 				div(id="legendpieprofiles")
 				div(id="divbuttonlinkpieprofiles")
@@ -166,6 +169,7 @@ block normalBody
 			br
 			br
 			div.pieRegion
+				div(id='numberOfColumnsdistances')
 				div(id="piedistances")
 				div(id="legendpiedistances")
 				div(id="divbuttonlinkpiedistances")

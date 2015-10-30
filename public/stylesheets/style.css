@@ -1,7 +1,7 @@
 
 body {
   padding: 20px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: white;
   margin:0 auto;
 }
@@ -101,7 +101,6 @@ a {
 }
 
 #legendpieisolates {
-  height: 300px;
   width: 200px;
   overflow-y: auto;
   overflow-x: auto;
@@ -109,7 +108,6 @@ a {
 }
 
 #legendcurrentpiePlace {
-  height: 200px;
   width: 200px;
   overflow-y: auto;
   overflow-x: auto;
@@ -120,7 +118,6 @@ a {
 #divbuttonlinkpieprofiles {display:inline-block;}
 
 #legendpieprofiles {
-  height: 300px;
   width: 200px;
   overflow-y: auto;
   overflow-x: auto;

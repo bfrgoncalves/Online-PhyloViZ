@@ -60,7 +60,7 @@ function checkTablesDone(graph, datasetID){
 }
 
 function checkInput(graph, callback){
-  if (graph.key == 'undefined' || graph.nodes.length == 0){
+  if (graph.nodes.length == 0){
 
     $.ajax({
       url: '/api/db/postgres/delete',

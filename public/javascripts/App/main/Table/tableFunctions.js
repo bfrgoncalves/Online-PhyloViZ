@@ -41,6 +41,11 @@ function constructTable(tableData, datasetParameter, callback){
 	$('#'+ divToCheck).html( '<table cellpadding="0" cellspacing="0" border="0" class="display" id="'+tableToCheck+'"></table>' );
 
 
+  $('#numberOfColumns' + datasetParameter).text('Number of Columns: ' + columns.length);
+
+  $('#numberOfColumns' + datasetParameter).css({top: '18%', left:'25%', position:'absolute', fontSize: '16px'});
+
+
 	var table = $('#' + tableToCheck).DataTable( {
 
         "data": tableData.data,
