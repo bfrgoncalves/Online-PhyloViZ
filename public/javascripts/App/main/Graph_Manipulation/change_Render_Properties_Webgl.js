@@ -150,10 +150,7 @@ function printDiv(width, height)
 
   newWin.document.write('<html><body onload="window.print()">'+toAddImage+divWithpieChart.innerHTML+divWithLabels.innerHTML+'</body></html>');
   newWin.document.getElementById('canvas').remove();
-  newWin.document.getElementById('info_place').remove();
-  newWin.document.getElementById('informationTitle').remove();
-  //newWin.document.getElementById('col_info');
-  //newWin.document.write('')
+
 
   newWin.document.close();
 
