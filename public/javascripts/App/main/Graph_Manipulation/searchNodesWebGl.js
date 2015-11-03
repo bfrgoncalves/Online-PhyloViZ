@@ -1,26 +1,18 @@
 var optArray = [];
 
-var search_nodes = function(graph){
-	for (var i = 0; i < graph.nodes.length - 1; i++) {
-	    optArray.push(String(graph.nodes[i].key));
-	}
-	optArray = optArray.sort();
-}
 
-//$(function () {
-//    $("#nodeid").autocomplete({
-//        source: optArray
-//    });
-//});
+var centerNode = function(nodeId, graphObject){
 
-var centerNode = function(nodeId,graph,layout,renderer,graphics){
+	var graph = graphObject.graphGL;
+	var layout = graphObject.layout;
+	var renderer = graphObject.renderer;
+	var graphics = graphObject.graphics;
+	
 	if (graph.getNode(nodeId)) {
 			if ($('#pauseLayout')[0].innerHTML == "Pause Layout") $( "#pauseLayout" ).trigger( "click" );
             var pos = layout.getNodePosition(nodeId);
             node = graph.getNode(nodeId);
             renderer.moveTo(pos.x, pos.y);
-            //changeColor(graphics,node,renderer);
-            //layout.pinNode(node, !layout.isNodePinned(node));
             var currentScale = String(renderer.zoomIn());
             zoomToNode(1, currentScale,renderer,pos);
     }

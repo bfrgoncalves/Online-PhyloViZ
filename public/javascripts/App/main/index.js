@@ -51,14 +51,6 @@ function onLoad(){
 
 }
 
-function checkTablesDone(graph, datasetID){
-  countTables += 1;
-  console.log(countTables);
-  if (countTables == 2){
-    constructGraph(graph, datasetID);
-  }
-}
-
 function checkInput(graph, callback){
   if (graph.nodes.length == 0){
 

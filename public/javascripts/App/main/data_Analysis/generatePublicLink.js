@@ -10,7 +10,6 @@ function generatePublicLink(datasetID){
       dataType: "json",
       success: function(data){
       	createLinkPlace(data);
-        //console.log('done');
     	}
 	});
 
@@ -24,12 +23,10 @@ function generatePublicLink(datasetID){
       	},
       dataType: "json",
       success: function(data){
-        //console.log('done');
       }
 	});
 }
 
 function createLinkPlace(data){
-	console.log(data);
 	$('#publiclinkLocation').text(data.url);
 }

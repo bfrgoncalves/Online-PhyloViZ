@@ -1,5 +1,8 @@
-function SelectNodes(selectedNodesArray, node, graphics){
-	selectedNodesArray.push(node);
+function SelectNodes(node, graphObject){
+
+	var graphics = graphObject.graphics;
+
+	graphObject.selectedNodes.push(node);
 
 	var nodeUI = graphics.getNodeUI(node.id);
 
@@ -11,7 +14,6 @@ function SelectNodes(selectedNodesArray, node, graphics){
     }
     nodeUI.colorIndexes = newColors;
 
-	return selectedNodesArray;
 }
 
 
@@ -80,7 +82,13 @@ function changeColor(nodeUI, color){
     nodeUI.colorIndexes = newColors;
 }
 
-function getLinks(nodesToCheckLinks, node, graphics, graphGL, toRemove){
+function getLinks(node, graphObject){
+
+	var nodesToCheckLinks = graphObject.nodesToCheckLinks;
+	var graphics = graphObject.graphics;
+	var graphGL = graphObject.graphGL;
+	var toRemove = graphObject.toRemove;
+
 
 	if (toRemove != ""){
 		var nodeUI = graphics.getNodeUI(toRemove.id);
@@ -92,8 +100,6 @@ function getLinks(nodesToCheckLinks, node, graphics, graphGL, toRemove){
 
 	var nodeUI = graphics.getNodeUI(node.id);
 
-	//nodeUI.backupColor = nodeUI.colorIndexes;
-
 	changeColor(nodeUI, 0x333333);
 
 	if (nodesToCheckLinks.length == 2){
@@ -103,11 +109,17 @@ function getLinks(nodesToCheckLinks, node, graphics, graphGL, toRemove){
 		toRemove = nodesToCheckLinks.shift();
 	}
 
-	return nodesToCheckLinks, toRemove;
+	graphObject.nodesToCheckLinks = nodesToCheckLinks;
+	graphObject.toRemove = toRemove;
 
 }
 
-function restoreLinkSearch(nodesToCheckLinks, graphics, toRemove){
+function restoreLinkSearch(graphObject){
+
+	var toRemove = graphObject.toRemove;
+	var graphics = graphObject.graphics;
+	var nodesToCheckLinks = graphObject.nodesToCheckLinks;
+
 	if (toRemove != ""){
 		var nodeUI = graphics.getNodeUI(toRemove.id);
 		nodeUI.colorIndexes = nodeUI.backupColor;

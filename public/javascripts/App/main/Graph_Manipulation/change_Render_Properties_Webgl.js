@@ -1,6 +1,11 @@
 
 //adjust Node Size
-function NodeSize(newSize, max, renderer, graph, graphics){
+function NodeSize(newSize, max, graphObject){
+
+    var renderer = graphObject.renderer;
+    var graph = graphObject.graphInput;
+    var graphics = graphObject.graphics;
+
     graph.nodes.forEach(function(node){
         var nodeUI = graphics.getNodeUI(node.key);
 
@@ -14,7 +19,10 @@ function NodeSize(newSize, max, renderer, graph, graphics){
 }
 
 //adjust Node Size
-function LabelSize(newSize, graph, domLabels, graphics, type){
+function LabelSize(newSize, graphObject, domLabels, type){
+
+    var graph = graphObject.graphInput;
+    var graphics = graphObject.graphics;
 
     if (type == 'node'){
         graph.nodes.forEach(function(node){
@@ -33,7 +41,12 @@ function LabelSize(newSize, graph, domLabels, graphics, type){
     
 }
 
-function changeSpringLength(newValue, max, renderer, graphGL, layout, graph){
+function changeSpringLength(newValue, max, graphObject){
+
+    var renderer = graphObject.renderer;
+    var graphGL = graphObject.graphGL;
+    var layout = graphObject.layout;
+    var graph = graphObject.graphInput;
 
     graph.links.forEach(function(link){
 
@@ -60,8 +73,17 @@ function linkThickness(newSize, renderer, graph, graphics){
 
 }
 
-function splitTree(graph, graphics, removedLinks, value, prevValue, linkLabels, tovisualizeLinkLabels, treeLinks, renderer) {
+function splitTree(graphObject, value) {
     //console.log(linkLabels);
+    var graph = graphObject.graphGL;
+    var graphics = graphObject.graphics;
+    var removedLinks = graphObject.removedLinks;
+    var prevValue = graphObject.prevSplitTreeValue;
+    var linkLabels = graphObject.linkLabels;
+    var tovisualizeLinkLabels = graphObject.tovisualizeLinkLabels;
+    var treeLinks = graphObject.treeLinks;
+    var renderer = graphObject.renderer;
+
     value = parseInt(value);
     if (value < prevValue){
         graph.forEachNode(function(node){
@@ -97,12 +119,21 @@ function splitTree(graph, graphics, removedLinks, value, prevValue, linkLabels, 
         setTimeout(function(){ renderer.pause();}, 50);
     }
 
-    return removedLinks, prevValue;
+    graphObject.removedLinks = removedLinks;
+    graphObject.prevSplitTreeValue = prevValue;
 
 }
 
 
-function NLVgraph(graphGL, graph, graphics, value, addedLinks, prevValue, treeLinks, renderer) {
+function NLVgraph(graphObject, value) {
+
+    var graphGL = graphObject.graphGL;
+    var graph = graphObject.graphInput;
+    var graphics = graphObject.graphics;
+    var addedLinks = graphObject.addedLinks;
+    var prevValue = graphObject.prevNLVvalue;
+    var treeLinks = graphObject.treeLinks;
+    var renderer = graphObject.renderer;
 
     value = parseInt(value);
 
@@ -146,7 +177,8 @@ function NLVgraph(graphGL, graph, graphics, value, addedLinks, prevValue, treeLi
         setTimeout(function(){ renderer.pause();}, 50);
     }
 
-    return addedLinks, prevValue;
+    graphObject.addedLinks = addedLinks;
+    graphObject.prevNLVvalue = prevValue;
 
 }
 

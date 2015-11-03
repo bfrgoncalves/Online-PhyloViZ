@@ -1,6 +1,11 @@
 
 
-function startMultiSelect(graph, renderer, layout, selectedNodes) {
+function startMultiSelect(graphObject) {
+
+  var graph = graphObject.graphGL;
+  var renderer = graphObject.renderer;
+  var selectedNodes = graphObject.selectedNodes;
+  var layout = graphObject.layout;
 
   var graphics = renderer.getGraphics();
   var domOverlay = document.querySelector('.graph-overlay');

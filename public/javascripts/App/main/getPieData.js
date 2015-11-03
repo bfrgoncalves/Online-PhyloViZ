@@ -85,7 +85,7 @@ function gatherSchemeData(graph, propertyToCheck, schemeFilter, callback){
 
 
 
-function changeNodeUIData(objectOfType, graphics, propertyIndexes, arrayColors){
+function changeNodeUIData(objectOfType, graphics, propertyIndexes, arrayColors, renderer){
 
 	for(i in objectOfType){
 	    var dataToChange = [];
@@ -114,4 +114,11 @@ function changeNodeUIData(objectOfType, graphics, propertyIndexes, arrayColors){
 	    nodeUI.backupColor = indexes;
 
   	}
+
+  	if($('#pauseLayout')[0].innerHTML == "Resume Layout"){
+        renderer.resume();
+        setTimeout(function(){ renderer.pause();}, 50);
+    }
+
+
 }

@@ -49,7 +49,7 @@ $('#selectByScheme').change(function(d){
   }
   else{
     gatherSchemeData(graph, propertyToCheck, schemeFilter, function(objectOfTotal, objectOfType, countProperties){
-         changeNodeUIData(objectOfType, graphics, property_IndexProfiles, arrayColorsProfiles);
+         changeNodeUIData(objectOfType, graphics, property_IndexProfiles, arrayColorsProfiles, renderer);
          changeFromTable = false;
     });
   }
@@ -70,7 +70,7 @@ $('#selectByMetadata').change(function(d){
   }
   else{
     gatherMetadata(graph, propertyToCheck, metadataFilter, function(objectOfTotal, objectOfType, countProperties){
-       changeNodeUIData(objectOfType, graphics, property_IndexIsolates, arrayColorsIsolates);
+       changeNodeUIData(objectOfType, graphics, property_IndexIsolates, arrayColorsIsolates, renderer);
 
        changeFromTable = false;
     });

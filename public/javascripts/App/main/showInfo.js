@@ -28,3 +28,42 @@ function showInfoLinks(link) {
 
 	$('#info_place').append('<p>----------------------' + toShow + '</p>');
 }
+
+
+//Information and pie legend manipulation
+
+$('#toggle_col_legend').click(function(){
+        if(this.innerHTML.search('Hide') > -1){
+          this.innerHTML =  "Show Legend";
+          $("#divButtonLegend").animate({
+                left: '95%'
+                //opacity: 0
+            });
+        }
+        else if (this.innerHTML.search('Show') > -1){
+          this.innerHTML = "Hide Legend";
+          $("#divButtonLegend").animate({
+                left: '82.5%'
+                //opacity: 0
+            });
+        }
+        $('#col_info').toggle(1000);
+      });
+
+      $('#toggle_col_info').click(function(){
+        if(this.innerHTML.search('Hide') > -1){
+          this.innerHTML =  "Show Information";
+          $("#divButtonInfo").animate({
+                top: '97%'
+                //opacity: 0
+            });
+        }
+        else if (this.innerHTML.search('Show') > -1){
+          this.innerHTML = "Hide Information";
+          $("#divButtonInfo").animate({
+                top: '76%'
+                //opacity: 0
+            });
+        }
+        $('#col_information').toggle(1000);
+      });

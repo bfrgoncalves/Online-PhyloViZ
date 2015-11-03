@@ -1,4 +1,8 @@
-function saveTreePositions(graph, layout, datasetID){
+function saveTreePositions(graphObject){
+
+  var graph = graphObject.graphGL;
+  var layout = graphObject.layout;
+  var datasetID = graphObject.datasetID;
 	
 	var Positions = {};
 	var nodePositions = {};
