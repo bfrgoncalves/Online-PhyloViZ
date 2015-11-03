@@ -92,6 +92,8 @@ function getLinks(nodesToCheckLinks, node, graphics, graphGL, toRemove){
 
 	var nodeUI = graphics.getNodeUI(node.id);
 
+	//nodeUI.backupColor = nodeUI.colorIndexes;
+
 	changeColor(nodeUI, 0x333333);
 
 	if (nodesToCheckLinks.length == 2){
@@ -108,11 +110,11 @@ function getLinks(nodesToCheckLinks, node, graphics, graphGL, toRemove){
 function restoreLinkSearch(nodesToCheckLinks, graphics, toRemove){
 	if (toRemove != ""){
 		var nodeUI = graphics.getNodeUI(toRemove.id);
-		changeColor(nodeUI, nodeUI.baseColor);
+		nodeUI.colorIndexes = nodeUI.backupColor;
 
 	}
 	for (i in nodesToCheckLinks){
 		var nodeUI = graphics.getNodeUI(nodesToCheckLinks[i].id);
-		changeColor(nodeUI, nodeUI.baseColor);
+		nodeUI.colorIndexes = nodeUI.backupColor; 
 	}
 }

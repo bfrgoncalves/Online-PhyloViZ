@@ -34,7 +34,7 @@ function constructGraph(graph, datasetID){
         else if (this.innerHTML.search('Show') > -1){
           this.innerHTML = "Hide Information";
           $("#divButtonInfo").animate({
-                top: '86%'
+                top: '76%'
                 //opacity: 0
             });
         }
@@ -82,6 +82,10 @@ function constructGraph(graph, datasetID){
       $("#SplitTreeSlider").attr({
          "max" : maxLinkValue,
          "value" : maxLinkValue 
+      });
+
+      $("#SpringLengthSlider").attr({
+         "max" : maxLinkValue,
       });
 
       $("#NLVnumber").attr({
@@ -464,7 +468,7 @@ function constructGraph(graph, datasetID){
           });
 
           $('#SplitTreeSlider').change(function(e){
-            removedLinks, prevSplitTreeValue = splitTree(graphGL, graphics, removedLinks, this.value, prevSplitTreeValue, linkLabels, tovisualizeLinkLabels, treeLinks);
+            removedLinks, prevSplitTreeValue = splitTree(graphGL, graphics, removedLinks, this.value, prevSplitTreeValue, linkLabels, tovisualizeLinkLabels, treeLinks, renderer);
           });
 
           $('#SpringLengthSlider').change(function(e){
@@ -472,7 +476,7 @@ function constructGraph(graph, datasetID){
           });
 
           $('#NLVnumber').change(function(e){
-            addedLinks, prevNLVvalue = NLVgraph(graphGL, graph, graphics, this.value, addedLinks, prevNLVvalue, treeLinks);
+            addedLinks, prevNLVvalue = NLVgraph(graphGL, graph, graphics, this.value, addedLinks, prevNLVvalue, treeLinks, renderer);
           });
 
           

@@ -6,6 +6,11 @@ function NodeSize(newSize, max, renderer, graph, graphics){
 
         nodeUI.size = nodeUI.backupSize + (nodeUI.backupSize * 2 * (parseInt(newSize) / parseInt(max)));      
     });
+
+    if($('#pauseLayout')[0].innerHTML == "Resume Layout"){
+        renderer.resume();
+        setTimeout(function(){ renderer.pause();}, 50);
+    }
 }
 
 //adjust Node Size
@@ -35,9 +40,15 @@ function changeSpringLength(newValue, max, renderer, graphGL, layout, graph){
             var linkUI = graphGL.getLink(link.source, link.target);
 
             var spring = layout.getSpring(link.source, link.target);
-            spring.length = linkUI.data.value + (100 * linkUI.data.value * (newValue/max));
+
+            spring.length = linkUI.data.value + (200 * (1 + Math.log(linkUI.data.value)) * (newValue/max));
 
         })
+
+    if($('#pauseLayout')[0].innerHTML == "Resume Layout"){
+        renderer.resume();
+        setTimeout(function(){ renderer.pause();}, 50);
+    }
 
 }
 
@@ -49,7 +60,7 @@ function linkThickness(newSize, renderer, graph, graphics){
 
 }
 
-function splitTree(graph, graphics, removedLinks, value, prevValue, linkLabels, tovisualizeLinkLabels, treeLinks) {
+function splitTree(graph, graphics, removedLinks, value, prevValue, linkLabels, tovisualizeLinkLabels, treeLinks, renderer) {
     //console.log(linkLabels);
     value = parseInt(value);
     if (value < prevValue){
@@ -65,6 +76,7 @@ function splitTree(graph, graphics, removedLinks, value, prevValue, linkLabels, 
                 }
              });
         });
+
     }
     else{
         for (i in removedLinks){
@@ -80,12 +92,17 @@ function splitTree(graph, graphics, removedLinks, value, prevValue, linkLabels, 
     }
     prevValue = value;
 
+    if($('#pauseLayout')[0].innerHTML == "Resume Layout"){
+        renderer.resume();
+        setTimeout(function(){ renderer.pause();}, 50);
+    }
+
     return removedLinks, prevValue;
 
 }
 
 
-function NLVgraph(graphGL, graph, graphics, value, addedLinks, prevValue, treeLinks) {
+function NLVgraph(graphGL, graph, graphics, value, addedLinks, prevValue, treeLinks, renderer) {
 
     value = parseInt(value);
 
@@ -123,6 +140,11 @@ function NLVgraph(graphGL, graph, graphics, value, addedLinks, prevValue, treeLi
         });
     }
     prevValue = value;
+
+    if($('#pauseLayout')[0].innerHTML == "Resume Layout"){
+        renderer.resume();
+        setTimeout(function(){ renderer.pause();}, 50);
+    }
 
     return addedLinks, prevValue;
 

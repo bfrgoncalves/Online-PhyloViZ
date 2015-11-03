@@ -41,7 +41,6 @@ function startMultiSelect(graph, renderer, layout, selectedNodes) {
           newColors.push(colorsPerQuadrant);
         }
         nodeUI.colorIndexes = newColors;
-        nodeUI.size = 30;
       } else {
         nodeUI.colorIndexes = nodeUI.backupColor;
         nodeUI.size = nodeUI.backupSize;

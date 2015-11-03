@@ -193,9 +193,13 @@ a {
 #divButtonInfo{
   position: absolute;
   width: 10%;
-  top: 86%;
+  top: 76%;
   left: 18%; 
   z-index: 2;
+}
+
+#divdistances{
+  left: 50%;
 }
 
 
@@ -215,9 +219,9 @@ a {
 }
 
 #col_information{
-  height:10%;
+  height:20%;
   position: absolute;
-  top: 88%;
+  top: 78%;
   left: 17%; 
   background-color: white;
   z-index: 2;

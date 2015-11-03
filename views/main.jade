@@ -86,8 +86,12 @@ block normalBody
 									input(type='range',id='LinkLabelSizeSlider', name='points1', value = 20, min='1', max='50')
 									label Add Link Labels
 									input(type='checkbox',id='AddLinkLabels')
-									br
-									br
+
+					li
+						div
+							a.btn.btn-primary.actionButton(data-toggle='collapse', href='#collapseOperations', aria-expanded="false", aria-controls="collapseExample") Operations
+							div.collapse(id='collapseOperations')
+								div.well(id='OperationsToMake')
 									label Split Tree
 									input(type='number',id='SplitTreeSlider', name='points2', value = 7, min='0', max='7')
 									br
@@ -96,10 +100,6 @@ block normalBody
 										label NLV graph
 										input(type='number',id='NLVnumber', name='points2', value = 7, min='0', max='7')
 
-					li
-						div
-							a.btn.btn-primary.actionButton(data-toggle='collapse', href='#collapseOperations', aria-expanded="false", aria-controls="collapseExample") Operations
-							div.collapse(id='collapseOperations')
 								div.well(id='OperationsToMake')
 									label Compute Distances
 									input(type='button',id='distanceButton', name='distances1')
