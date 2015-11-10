@@ -4,55 +4,47 @@ block moreStyle
 	link(rel='stylesheet', href='/stylesheets/indexAppStyle.css')
 
 block login
-	if (!user)
-		a(href="/users/login") Login
-		= '	'
-		a(href="/users/register") Register
-	if (user)
-		p Welcome, #{user.name}!
-		= '	'
-		a(href="/users/logout") Logout
+	div(id='userLocation')
+		if (!user)
+			a(href="/users/login") Login
+			= '	'
+			a(href="/users/register") Register
+		if (user)
+			p Welcome, #{user.name}! 
+				= ' '
+				a(href="/users/logout") Logout
 
 
 block normalBody
-	div(id="imageDiv" style = "position: fixed; bottom: 0px; right: 0px;")
-		img(src = '/images/phyloviz1.png', width = "800", height = "500")
 
 	div(id='inputDiv')
-		img(src = '/images/logo.png', width = "120", height = "120")
-		label(style = 'font-size: 250%;') #{title}
+		img.phylovizImage(src = '/images/logo.png')
+		label.title #{title}
 
 		br
 
 		div(id="useExistingDatasets", style="text-align:center;")
 			br
-			button.btn.btn-md.btn-info(id="buttonExistingDatasets") Use Existing Datasets
-			button.btn.btn-md.btn-info(id="buttonUploadDatasets", style="left:50%;") Upload Datasets
-		
-		br
+			button.btn-info.resizable_button(id="buttonExistingDatasets") Existing Datasets
+			button.btn-info.resizable_button(id="buttonUploadDatasets") Upload Datasets
 
+		br
 		div(id="useDataset")
-			br
-			br
 			br
 			label Existing datasets
 			br
 			br
 			div(id='existingDatasets')
 			div(id="divDeleteDataset")
-				button.btn.btn-sm.btn-danger(id="buttonDeleteDataset", style ="display:none") Delete
+				button.btn.btn-sm.btn-danger.resizable_button_submit(id="buttonDeleteDataset", style ="display:none") Delete
 
-		br
 
 		div(id="uploadDiv", style="display:none;")
-		
-			div(id="useDataset")
+			div(id="useOwnDataset")
 				label Upload your own data
 				if (!user)
-					br
-					label Note: Without registration your datasets will be made public
+					p Note: Without registration your datasets will be made public
 
-			br
 			div(id="possibleInputs")
 				label Possible Input Formats	
 				div(id='possibleInputFormats')
@@ -60,36 +52,34 @@ block normalBody
 			br
 
 			div(id="newickButton")
-				div.input-group.input-group-lg
+				div.input-group.input-sm
 					input.form-control.justVisual(id = 'textNewick', type="text", placeholder="Upload Newick file", aria-describedby="sizing-addon1")
 					span.input-group-addon(id="Newick", onclick="getFile(this.id)") Browse
 
 			div(id="profileButton")
-				div.input-group.input-group-lg
+				div.input-group.input-sm
 					input.form-control.justVisual(id = 'textProfile', type="text", placeholder="Upload Profile Data", aria-describedby="sizing-addon1")
 					span.input-group-addon(id="Profile", onclick="getFile(this.id)") Browse
 
 			div(id="metadataButton")
-				div.input-group.input-group-lg
+				div.input-group.input-sm
 					input.form-control.justVisual(id = 'textMetadata', type="text", placeholder="Upload Metadata", aria-describedby="sizing-addon1")
 					span.input-group-addon(id="Metadata", onclick="getFile(this.id)") Browse
 
 
 			form(id ='inputForm')
-				input.form-control(id="datasetName", type="text", placeholder="Select a name for the dataset", required)
+				input.form-control.input-sm(id="datasetName", type="text", placeholder="Select a name for the dataset", required)
 				div(style='height: 0px;width:0px; overflow:hidden;')
 					input(id="uploadProfile", type="file", value="upload", onchange = 'getFileName(this.id)' )
 					input(id="uploadMetadata", type="file", value="upload", onchange = 'getFileName(this.id)' )
 					input(id="uploadNewick", type="file", value="upload", onchange = 'getFileName(this.id)' )
 			
-			br
 
-			br
-
+		br
 
 		div(id="LaunchButton", style="text-align:center;")
 			br
-			button.btn.btn-lg.btn-primary(id="submitForm") Launch Tree
+			button.btn.btn-primary.resizable_button_submit(id="submitForm") Launch Tree
 
 		br
 
@@ -104,19 +94,6 @@ block normalBody
 
 		span(id ='status')
 
-		br
-
-	//div.footerDiv(id="socialButtons")
-	//	ul.soc
-	//		li
-	//			a.soc-twitter
-	//		li
-	//			a.soc-facebook
-	//		li
-	//			a.soc-google
-	//		li
-	//			a.soc-linkedin
-
 
 
 block scripts
@@ -127,6 +104,7 @@ block scripts
 	script(type='text/javascript', src='/javascripts/dependencies/bootstrap-select.js')
 	script(type='text/javascript', src='/javascripts/dependencies/datatables.min.js')
 	script(type='text/javascript', src='/javascripts/dependencies/jquery.dataTables.js')
+	script(type='text/javascript', src='/javascripts/App/adjustElements/adjustElementsIndex.js')
 	script(type='text/javascript', src='/javascripts/App/indexApp/checkDatasets.js')
 	script(type='text/javascript', src='/javascripts/App/indexApp/uploadfiles.js')
 	script(type='text/javascript', src='/javascripts/App/indexApp/inputButton.js')

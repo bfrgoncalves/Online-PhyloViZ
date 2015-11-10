@@ -64,7 +64,10 @@ function createTable(data, divID, callback){
         "bSort" : false,
         "scrollY":        "100px",
         "scrollCollapse": true,
-        "paging":         false
+        "paging":         false,
+        columnDefs: [
+          { className: "dt-center", targets: ["_all"]}
+        ],
 
     } );
 
@@ -77,6 +80,7 @@ function createTable(data, divID, callback){
 	        else {
 	            table.$('tr.selected').removeClass('selected');
 	            $(this).addClass('selected');
+	            $('#buttonDeleteDataset').css('float', 'right');
 	            $('#buttonDeleteDataset').css('display', 'block');
 	        }
     	}
@@ -101,11 +105,6 @@ function createDropdown(data, dropdownDiv, placeh, forceSelect, dropDownID){
 		if (forceSelect == countOptions) options += '<option value="'+datasetID+'">'+datasetName+'</option>';
 		else options += '<option value="'+datasetID+'">'+datasetName+'</option>';
 	}
-	parent.append('<select class="selectpicker" title = "'+placeh+'" id="'+dropDownID+'" data-live-search="true">'+options+'</select>');
+	parent.append('<select title = "'+placeh+'" id="'+dropDownID+'" data-live-search="true">'+options+'</select>');
 
-	$('.selectpicker').selectpicker();
-	  $('.selectpicker').selectpicker({
-	    style: 'btn-info',
-	    size: 5
-	});
 }

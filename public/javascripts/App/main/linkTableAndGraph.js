@@ -74,11 +74,13 @@ function linkTableAndGraph(property, key){
 
   	  columnName = table.column(columnIndex).header().innerHTML;
 
-  	  var pieHeight = $('#col_info').height();
+  	  var pieHeight = $("#" + tableToCheck).height();
+  	  var radious = pieHeight / 6;
+  	  var legendRectSize = radious / 6;
       
       createLinkButton(property, columnIndex, columnData, columnName);
       
-      constructPie(columnData, columnIndex, columnName, 'pie' + property, pieHeight*3, 0, pieHeight*2);
+      constructPie(columnData, columnIndex, columnName, 'pie' + property, radious, legendRectSize, radious);
 
   	});
 
@@ -89,24 +91,40 @@ function createLinkButton(property, columnIndex, columnData, columnName){
 	
 	$("#divbuttonlinkpie" + property).empty();
 	
-	var button = $('<button id = "buttonlinkpie'+ property + '" type="button" class="btn btn-lg btn-primary">Link to Tree</button>');
+	var button = $('<button id = "buttonlinkpie'+ property + '" type="button" class="btn btn-primary">Link to Tree</button>');
 	$("#divbuttonlinkpie" + property).append(button);
+
+	var ButtonfontSize = $("#pauseLayout").css('font-size');
+
+	$("#buttonlinkpie" + property).css('font-size', ButtonfontSize);
 
 	$("#buttonlinkpie" + property).click(function(d){
 
 		changeFromTable = true;
 
-		$('#divButtonLegend').css('display', 'block');
-		$('#col_info').css('display', 'block');
-
-		var pieHeight = $('#col_info').height();
-
-		constructPie(columnData, columnIndex, columnName, 'currentpiePlace', pieHeight, 0, pieHeight); //tree tab pie
-
 		$('.nav-tabs > li.active').removeClass('active');
       	$('.tab-pane.active').removeClass('active');
       	$('#treeTab').addClass('active');
       	$('#treeContent').addClass('active');
+
+		$('#divButtonLegend').css('display', 'block');
+		$('#col_info').css('display', 'block');
+
+		var pieHeight = $('#col_info').height();
+		var pieWidth = $('#col_info').width();
+  	  	var radious = pieHeight * 0.14;
+  	  	//var legendRectSize = $('#pauseLayout').height();
+  	  	var legendRectSize = radious / 5;
+
+		constructPie(columnData, columnIndex, columnName, 'currentpiePlace', pieWidth, legendRectSize, radious); //tree tab pie
+
+      	fontSize = ButtonfontSize.replace('px', '');
+        fontSize1 = parseFloat(fontSize);
+
+      	legendHeight = $('#col_info').height() - $('#SVcurrentpiePlace').height() - (radious + fontSize1);
+
+
+        $('#legendcurrentpiePlace').css('height', legendHeight);
 		
 		if (property =='isolates'){
 	      	$("#selectByMetadata").val(String(columnIndex+2));
@@ -200,12 +218,22 @@ function linkGraphAndTable(property, indexProperty, columnName, key){
 	  	  	}
 	  	  }
 
-	  	var pieHeight = $('#col_info').height() * 0.15;
+	  	//var pieHeight = $('#col_info').height() * 0.15;
 
+	  	var pieHeight = $('#col_info').height();
+		var pieWidth = $('#col_info').width();
+  	  	var radious = pieHeight * 0.2;
+  	  	//var legendRectSize = $('#pauseLayout').height();
+  	  	var legendRectSize = radious / 5;
 	  	
-	  	constructPie(columnData, indexProperty, columnName, 'pie' + property, pieHeight*3, 0, pieHeight*2); //table tab pie
+	  	constructPie(columnData, indexProperty, columnName, 'pie' + property, radious, legendRectSize, radious); //table tab pie
 
-	  	constructPie(columnData, indexProperty, columnName, 'currentpiePlace', pieHeight, 0, pieHeight); //tree tab pie
+	  	var radious = pieHeight * 0.14;
+  	  	//var legendRectSize = $('#pauseLayout').height();
+  	  	var legendRectSize = radious / 5;
+
+
+	  	constructPie(columnData, indexProperty, columnName, 'currentpiePlace', pieWidth, legendRectSize, radious); //tree tab pie
 
 	  	$('#buttonlink' + 'pie' + property).remove();
 	  	//createLinkButton(property, indexProperty);

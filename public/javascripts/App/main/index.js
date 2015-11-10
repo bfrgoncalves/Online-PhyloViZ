@@ -1,8 +1,8 @@
 Math.seedrandom(1);
 
 
-var width = $(document).width() - 20,
-    height = $(document).height() - $('.phylovizNavbar').height() - 85;
+var width = $(document).width() - $(document).width() * 0.02,
+    height = $(document).height() - $('#tabs').height() - $(document).width() * 0.02;
 
 
 var prevNodeProgram = null;
@@ -29,7 +29,8 @@ function onLoad(){
     var dataToGraph = {};
 
     var img = document.getElementById('GIFimage');
-    $("#GIFimage").attr("src", '../../images/waitingGIF.gif').attr('width' , '100px').attr('height' , '100px');
+    $("#GIFimage").attr("src", '../../images/waitingGIF.gif');
+    $(".waitingImage").css({'width': '20%'});
 
     status('Loading input data...');
     

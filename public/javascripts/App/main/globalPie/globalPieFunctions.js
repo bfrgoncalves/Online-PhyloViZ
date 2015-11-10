@@ -1,9 +1,9 @@
 
 
-function constructPie(dataArray, columnIndex, columnName, pieID, x, y, r){
+function constructPie(dataArray, columnIndex, columnName, pieID, startWidth, startHeight, r){
 
 	gatherPieData(dataArray, function(dataToPie){
-		GlobalPie('pie', dataToPie, x, y, r, pieID, columnName);
+		GlobalPie('pie', dataToPie, startWidth, startHeight, r, pieID, columnName);
 		//linkToGraph(dataToPie, columnIndex, graph, graphics, renderer);
 	});
 }
@@ -36,7 +36,7 @@ function gatherPieData(dataArray, callback){
 }
 
 
-function GlobalPie(classname, data, x, y, r, pieID, columnName)
+function GlobalPie(classname, data, startWidth, startHeight, r, pieID, columnName)
     { 
         //color could be made a parameter
 
@@ -77,13 +77,22 @@ function GlobalPie(classname, data, x, y, r, pieID, columnName)
 	    	}
         }
 
-        $('#legend' + pieID).css('height', x * 2);
+        var SVheight = $('#col_info').height() - $('#currentpiePlace').height();
+
+        var fontSize = $("#pauseLayout").css('font-size');
+
+        fontSize = fontSize.replace('px', '');
+        fontSize1 = parseFloat(fontSize);
+
 
         d3.select('#' + pieID).selectAll('svg').remove();
         d3.select('#legend' + pieID).selectAll('svg').remove();
 
-        var pie = d3.select('#' + pieID).append('svg').attr('id', "SV" + pieID).style('width', r*2 + 30).style('height', r*2 + 80)
-            .append("svg:g").attr('id', 'P' + pieID).attr("transform", "translate(" + (r + 5) + "," + (r + 5) +")")
+        if( pieID.search('currentpieplace') > -1 ) increment = $('#col_info').width() - r * 2;
+        else increment = r;
+
+        var pie = d3.select('#' + pieID).append('svg').attr('id', "SV" + pieID).style('width', r * 2 + increment).style('height', r*2 + fontSize1 * 5)
+            .append("svg:g").attr('id', 'P' + pieID).attr("transform", "translate(" + (r * 1.5) + "," + (r + fontSize1) +")")
                 //.data([data.sort(d3.descending)])
                 .data([data])
                 .attr("class", classname);
@@ -93,21 +102,21 @@ function GlobalPie(classname, data, x, y, r, pieID, columnName)
 					    .style("text-anchor", "middle")
 					    .attr("class", "textTop")
 					    .text( columnName )
-					    .attr("y", r + 20);
+					    .attr("y", fontSize1 + r);
         
         var textTop = pie.append("text")
 					    .attr("dy", ".35em")
 					    .style("text-anchor", "middle")
 					    .attr("class", "textTop")
 					    .text( "TOTAL" )
-					    .attr("y", r + 40);
+					    .attr("y", fontSize1*2 + r);
 		
 		var textBottom = pie.append("text")
 		    .attr("dy", ".35em")
 		    .style("text-anchor", "middle")
 		    .attr("class", "textBottom")
 		    .text(total.toFixed(0))
-		    .attr("y", r + 60);
+		    .attr("y", fontSize1*3 + r);
 
 		var arc = d3.svg.arc()
 				    .innerRadius(inner)
@@ -128,9 +137,9 @@ function GlobalPie(classname, data, x, y, r, pieID, columnName)
 					                    .attr("d", arcOver)
 					                
 					                textTop.text(d3.select(this).datum().data.label)
-					                    .attr("y", r + 40);
+					                    .attr("y", fontSize1*2 + r);
 					                textBottom.text(d3.select(this).datum().data.value.toFixed(0))
-					                    .attr("y", r + 60);
+					                    .attr("y", fontSize1*3 + r);
 					            })
 					            .on("mouseout", function(d) {
 					                d3.select(this).select("path").transition()
@@ -138,7 +147,7 @@ function GlobalPie(classname, data, x, y, r, pieID, columnName)
 					                    .attr("d", arc);
 					                
 					                textTop.text( "TOTAL" )
-					                    .attr("y", r + 40);
+					                    .attr("y", fontSize1*2 + r);
 					                textBottom.text(total.toFixed(0));
 					            });
 
@@ -162,23 +171,26 @@ function GlobalPie(classname, data, x, y, r, pieID, columnName)
 
         if(maxStringLength == 1) maxStringLength = 2;
 
+        var fontSize = $('#pauseLayout').css('font-size');
+
         var legend = d3.select('#legend' + pieID).append("svg")
 					    .attr("class", "legend")
-					    .style("width", maxStringLength * 20)
-					    .style("height", total * 20)
+					    .style("width", maxStringLength * fontSize)
+					    .style("height", total * (startHeight * 1.5))
 					    .selectAll("g")
 					    .data(data)
 					    .enter().append("g")
-					    .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+					    .attr("transform", function(d, i) { return "translate(0," + i * startHeight * 1.5  + ")"; });
+
 
 		legend.append("rect")
-		    .attr("width", 18)
-		    .attr("height", 18)
+		    .attr("width", startHeight)
+		    .attr("height", startHeight)
 		    .style("fill", function(d, i) { return color(i); });
 
 		legend.append("text")
-		    .attr("x", 24)
-		    .attr("y", 9)
+		    .attr("x", startHeight)
+		    .attr("y", startHeight/2)
 		    .attr("dy", ".35em")
 		    .text(function(d) { return d.label; });
 
@@ -200,5 +212,13 @@ function GlobalPie(classname, data, x, y, r, pieID, columnName)
         //    .delay(function(d, i) { return 2000 + i * 50; })
         //    .duration(750)
         //    .attrTween("d", tweenDonut);
+
+        var ButtonfontSize = $("#pauseLayout").css('font-size');
+        $("text").css('font-size', ButtonfontSize);
+
+
+        legendHeight = $('#SV' + pieID).height();
+
+        $('#legend' + pieID).css('height', legendHeight);
 
     }

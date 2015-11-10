@@ -2,17 +2,18 @@ function constructGraph(graph, datasetID){
 
     var graphObject = {
 
-          graphInput: graph,
-          graphGL: Viva.Graph.graph(),
-          nodeColor: 0x009ee8, // hex rrggbb
-          DefaultnodeSize: 25,
-          datasetID: datasetID,
-          width: width,
-          height: height,
-          prevSplitTreeValue: 0,
-          prevNLVvalue: 0,
-          addedLinks: {},
-          removedLinks: {},
+          graphInput: graph, //phyloviz input format
+          graphGL: Viva.Graph.graph(), //graph format used by Vivagraph
+          nodeColor: 0x009ee8, //default nodeColor for the application
+          DefaultnodeSize: 25, //default node size for the application
+          datasetID: datasetID, //id of the dataset
+          width: width, //canvas width
+          height: height, //canvas height
+          prevSplitTreeValue: 0, //prev value used in splitTree method
+          prevNLVvalue: 0, //prev value used in NLV graph method
+          addedLinks: {}, //links added when we use NLV graph
+          removedLinks: {} //links removed when we use SplitTree
+
     
     } 
 
@@ -22,7 +23,7 @@ function constructGraph(graph, datasetID){
 
       graphObject.container = document.getElementById( 'visual' );
 
-      var graphFunctions = loadGraphFunctions();
+      var graphFunctions = loadGraphFunctions();  //Functions to be applied to the graphObject object. graphFunctions.js
 
       graphFunctions.init(graphObject);
       graphFunctions.initLayout(graphObject);
@@ -33,9 +34,9 @@ function constructGraph(graph, datasetID){
       graphFunctions.adjustScale(graphObject);
       graphFunctions.searchNodeByID(graphObject, '#nodeid');
 
-      graphFunctions.launchGraphEvents(graphObject);
+      graphFunctions.launchGraphEvents(graphObject); 
 
-      var buttonFunctions = loadButtonFunctions();
+      var buttonFunctions = loadButtonFunctions(); //Functions to be applied to the graphObject object. buttonsFunctions.js
 
       buttonFunctions.numberOfNodes(graphObject);
       buttonFunctions.pauseButton(graphObject);
@@ -43,9 +44,9 @@ function constructGraph(graph, datasetID){
       buttonFunctions.operationsButtons(graphObject);
       buttonFunctions.searchButton(graphObject);
 
-      colorAttributes(graphObject.graphInput, graphObject.graphics, graphObject.renderer); 
+      colorAttributes(graphObject.graphInput, graphObject.graphics, graphObject.renderer); //function which links the colors of the pieCharts to the data
 
-      linkTableAndGraph('isolates', graphObject.graphInput.key);
+      linkTableAndGraph('isolates', graphObject.graphInput.key); //link between operations from the tables and the graph tab
       linkTableAndGraph('profiles', graphObject.graphInput.key);
 
 

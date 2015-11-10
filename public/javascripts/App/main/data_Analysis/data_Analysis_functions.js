@@ -25,19 +25,26 @@ function hamming(p, q) {
   return res;
 }
 
-function checkLociDifferences(arrayOfNodes){
+function checkLociDifferences(arrayOfNodes, metadata){
 	var distanceMatrix = {};
+	var NodesToConstructTable = [];
+	var maxDistance = -1;
 
 	for(i=0; i<arrayOfNodes.length; i++){
 		var iDistances = {};
 		for (j=0; j<arrayOfNodes.length; j++){
-			iDistances[arrayOfNodes[j].id] = hamming(arrayOfNodes[i].data.profile, arrayOfNodes[j].data.profile);
+			distance = hamming(arrayOfNodes[i].data.profile, arrayOfNodes[j].data.profile);
+			iDistances[arrayOfNodes[j].id] = distance;
+			if(distance > maxDistance) maxDistance = distance;
 		}
 		distanceMatrix[arrayOfNodes[i].id] = []
 		distanceMatrix[arrayOfNodes[i].id].push(iDistances);
 	}
 
+	for (i in arrayOfNodes) NodesToConstructTable.push(arrayOfNodes[i]);
+
 	constructDistanceTable(distanceMatrix);
+	createDistanceTable(NodesToConstructTable, distanceMatrix, metadata, maxDistance);
 
 }
 

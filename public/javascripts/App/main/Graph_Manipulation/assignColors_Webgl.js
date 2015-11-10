@@ -16,7 +16,7 @@ var colorAttributes = function(graph, graphics, renderer){
     options += '<option value=' + countValues + '>' +property+'</option>';
     
 	}
-	parent.append('<select class="selectpicker" id="selectByScheme" data-live-search="true">'+options+'</select>');
+	parent.append('<select id="selectByScheme" data-live-search="true"><optgroup>'+options+'</optgroup></select>');
 
 	options = '';
   var countValues = 1;
@@ -27,13 +27,8 @@ var colorAttributes = function(graph, graphics, renderer){
 	 	property = graph.metadata[Nnodes];
 		options += '<option value=' + countValues + '>'+property+'</option>';
 	}
-	parent.append('<select class="selectpicker" id="selectByMetadata" data-live-search="true">'+options+'</select>');
+	parent.append('<select id="selectByMetadata" data-live-search="true"><optgroup>'+options+'</optgroup></select>');
 
-// $('.selectpicker').selectpicker();
-//   $('.selectpicker').selectpicker({
-//     style: 'btn-info',
-//     size: 3
-// });
 
 $('#selectByScheme').change(function(d){
 

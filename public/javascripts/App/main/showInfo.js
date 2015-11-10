@@ -17,7 +17,10 @@ function showInfo(graphics, node, e) {
 		toShow += '<br>' + i + ': ' + rData[i] + ' - ' + String(Math.round(rData[i]/total*100)) + '%';
 		count += 1;
 	}
-	$('#info_place').append('<p>----------------------' + toShow + '</p>');
+	$('#info_place').append('<p>' + toShow + '</p>');
+
+  var objDiv = document.getElementById("info_place");
+  objDiv.scrollTop = objDiv.scrollHeight;
 }
 
 function showInfoLinks(link) {
@@ -26,18 +29,36 @@ function showInfoLinks(link) {
 	toShow = '<br> Link:<br> From:' + link.fromId + '<br> To: ' + link.toId + '<br> Value: ' + link.data.value;
 	
 
-	$('#info_place').append('<p>----------------------' + toShow + '</p>');
+	$('#info_place').append('<p>' + toShow + '</p>');
+
+  var objDiv = document.getElementById("info_place");
+  objDiv.scrollTop = objDiv.scrollHeight;
 }
 
 
 //Information and pie legend manipulation
 
+$('#clear_info').click(function(){
+  $('#info_place').empty();
+});
+
 $('#toggle_col_legend').click(function(){
         if(this.innerHTML.search('Hide') > -1){
           this.innerHTML =  "Show Legend";
+
           $("#divButtonLegend").animate({
-                left: '95%'
-                //opacity: 0
+                left: '94%'
+          });
+          $("#divButtonLegend").animate({deg: 90}, {
+                step: function(now) {
+                      // in the step-callback (that is fired each step of the animation),
+                      // you can use the `now` paramter which contains the current
+                      // animation-position (`0` up to `angle`)
+                      $("#divButtonLegend").css({
+                          transform: 'rotate(-' + now + 'deg)',
+                      });
+
+                }
             });
         }
         else if (this.innerHTML.search('Show') > -1){
@@ -46,24 +67,34 @@ $('#toggle_col_legend').click(function(){
                 left: '82.5%'
                 //opacity: 0
             });
+
+          $("#divButtonLegend").animate({deg: 0}, {
+                step: function(now) {
+                      // in the step-callback (that is fired each step of the animation),
+                      // you can use the `now` paramter which contains the current
+                      // animation-position (`0` up to `angle`)
+                      $("#divButtonLegend").css({
+                          transform: 'rotate(-' + now + 'deg)',
+                      });
+
+                }
+            });
         }
         $('#col_info').toggle(1000);
       });
 
       $('#toggle_col_info').click(function(){
         if(this.innerHTML.search('Hide') > -1){
-          this.innerHTML =  "Show Information";
-          $("#divButtonInfo").animate({
-                top: '97%'
-                //opacity: 0
-            });
-        }
-        else if (this.innerHTML.search('Show') > -1){
-          this.innerHTML = "Hide Information";
-          $("#divButtonInfo").animate({
-                top: '76%'
-                //opacity: 0
-            });
+          //this.innerHTML =  "Show Information";
+          //$("#divButtonClearInfo").css({ display: 'none' });
+          setTimeout(function(){
+            $("#divButtonInfoOutside").css({ bottom: '0%', display: 'block', left: '19%'});
+          }, 900);
         }
         $('#col_information').toggle(1000);
+      });
+
+      $("#toggle_col_in").click(function(){
+        $('#col_information').toggle(1000);
+        $("#divButtonInfoOutside").css({ display: 'none'});
       });

@@ -8,38 +8,24 @@ html
 		link(rel='stylesheet', href='/stylesheets/bootstrap.css')
 		link(rel='stylesheet', href='/stylesheets/style.css')
 		link(rel='stylesheet', href='/stylesheets/bootstrap-select.css')
-		link(rel='stylesheet', href='/stylesheets/social_buttons.css')
 		link(rel='stylesheet', href='/stylesheets/jquery.dataTables.css')
 		link(rel='stylesheet', href='/stylesheets/datatables.min.css')
 
 		block moreStyle
-	
-	body(onload= 'onLoad()',style='background-color:white')
-		div(id='userRegion')
-			block login
 
-		div(id='sign')
+	
+	body(onload= 'onLoad()')
+
+		div.globalContainer
+
+			block login
+			block title
+
 			block sign
 
-		block normalBody
-			div(id='global')
-				div(id="contextMenu")
+			block normalBody
 
-
-				block visualization
-
-				div.col-lg-2(id="col_toolbar")
-					block actions
-
-				div.col-lg-2(id="col_actions")
-					block toolBar
-
-				block LayoutPause
-
-				div(id="modals")
-					block modals
-
-			div(id='waiting')
+				div(id='waiting')
 
 	block scripts
 

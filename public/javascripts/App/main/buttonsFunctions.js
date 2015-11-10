@@ -97,7 +97,7 @@ function loadButtonFunctions(){
 
 			$('#distanceButton').click(function(e){
 	            if (graphObject.selectedNodes.length < 2) alert('To compute distances, first you need to select more than one node.');
-	            else checkLociDifferences(graphObject.selectedNodes);
+	            else checkLociDifferences(graphObject.selectedNodes, graphObject.graphInput.metadata);
 	        });
 
 	        $('#savePositionsButton').click(function(e){

@@ -46,6 +46,8 @@ function constructTable(tableData, datasetParameter, callback){
   $('#numberOfColumns' + datasetParameter).css({top: '18%', left:'25%', position:'absolute', fontSize: '16px'});
 
 
+
+
 	var table = $('#' + tableToCheck).DataTable( {
 
         "data": tableData.data,
@@ -79,16 +81,21 @@ function constructTable(tableData, datasetParameter, callback){
             //'selectCells'
         ],
         select: true,
+        columnDefs: [
+          { className: "dt-center", targets: ["_all"]}
+        ],
 
         "fnInitComplete": function(oSettings, json) {
           createFooter('#' + tableToCheck, columns, function(){
             createColumnSearch(tableToCheck);
+            addToDiv(tableToCheck);
             //$(divToCheck).css('overflow-x','auto');
           });
           exportButtons = $('#' + tableToCheck + '_wrapper .buttons-html5');
           buttonPrint = $('#' + tableToCheck + '_wrapper .buttons-print');
           $('#export'+datasetParameter).append(exportButtons);
           $('#export'+datasetParameter).append(buttonPrint);
+          $("table").css({"overflow-x": 'auto'});
           callback();
 
 
@@ -96,6 +103,13 @@ function constructTable(tableData, datasetParameter, callback){
     } );
 
 
+}
+
+function addToDiv(tableToCheck){
+  console.log(tableToCheck);
+  $("#" + tableToCheck + '_wrapper').append($('<div id="' + tableToCheck + '_container"></div>'));
+  $("#" + tableToCheck).appendTo('#' + tableToCheck + '_container');
+  $('#' + tableToCheck + '_container').css({'width': '100%', 'overflow-x': 'auto'});
 }
 
 function createFooter(element, columns, callback) {
