@@ -1,6 +1,9 @@
 adjustElements = function () {
 
     var ButtonfontSize = $("#col_webgl").width() * 0.06; // 10% of container width
+    console.log(ButtonfontSize);
+    if(ButtonfontSize < 1) ButtonfontSize = NaN;
+
     var heightTab = $(window).height() - $("#tabs_headers").height() - 50;
 
     var assignColorHeight = $("#assignCol").height();
