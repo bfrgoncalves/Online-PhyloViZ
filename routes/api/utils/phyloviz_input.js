@@ -3,6 +3,8 @@ var router = express.Router();
 var util = require("util");
 var createPhyloviZInput = require('phyloviz_input');
 
+var config = require('../../../config.js');
+
 router.get('/', function(req, res, next){
 	
 	if (req.query.dataset_id){
@@ -30,7 +32,7 @@ router.get('/', function(req, res, next){
 function getDataset(datasetID, userID, callback) {
 
 	var pg = require("pg");
-	var connectionString = "postgres://localhost/phyloviz";
+	var connectionString = "postgres://" + config.databaseUserString + "@localhost/phyloviz";
 
 	var datasetID;
 

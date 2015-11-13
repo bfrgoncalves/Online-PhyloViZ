@@ -1,6 +1,7 @@
 function SelectNodes(node, graphObject){
 
 	var graphics = graphObject.graphics;
+	var renderer = graphObject.renderer;
 
 	graphObject.selectedNodes.push(node);
 
@@ -13,6 +14,11 @@ function SelectNodes(node, graphObject){
       newColors.push(colorsPerQuadrant);
     }
     nodeUI.colorIndexes = newColors;
+
+    if(graphObject.isLayoutPaused){
+        renderer.resume();
+        setTimeout(function(){ renderer.pause();}, 5);
+      }
 
 }
 
@@ -30,21 +36,34 @@ function checkLociDifferences(arrayOfNodes, metadata){
 	var NodesToConstructTable = [];
 	var maxDistance = -1;
 
-	for(i=0; i<arrayOfNodes.length; i++){
-		var iDistances = {};
-		for (j=0; j<arrayOfNodes.length; j++){
-			distance = hamming(arrayOfNodes[i].data.profile, arrayOfNodes[j].data.profile);
-			iDistances[arrayOfNodes[j].id] = distance;
-			if(distance > maxDistance) maxDistance = distance;
+	status('Computing Distances...');
+	$("#waitingGifMain").css({'display': 'block'});
+
+	setTimeout(function(){
+		constructDistances();
+	}, 100);
+
+	function constructDistances() {
+
+		for(i=0; i<arrayOfNodes.length; i++){
+			var iDistances = {};
+			for (j=0; j<arrayOfNodes.length; j++){
+				distance = hamming(arrayOfNodes[i].data.profile, arrayOfNodes[j].data.profile);
+				iDistances[arrayOfNodes[j].id] = distance;
+				if(distance > maxDistance) maxDistance = distance;
+			}
+			distanceMatrix[arrayOfNodes[i].id] = []
+			distanceMatrix[arrayOfNodes[i].id].push(iDistances);
 		}
-		distanceMatrix[arrayOfNodes[i].id] = []
-		distanceMatrix[arrayOfNodes[i].id].push(iDistances);
+
+		for (i in arrayOfNodes) NodesToConstructTable.push(arrayOfNodes[i]);
+
+		constructDistanceTable(distanceMatrix);
+		createDistanceTable(NodesToConstructTable, distanceMatrix, metadata, maxDistance);
+
+		$("#waitingGifMain").css('display', 'none');
+		status('');
 	}
-
-	for (i in arrayOfNodes) NodesToConstructTable.push(arrayOfNodes[i]);
-
-	constructDistanceTable(distanceMatrix);
-	createDistanceTable(NodesToConstructTable, distanceMatrix, metadata, maxDistance);
 
 }
 
@@ -95,6 +114,7 @@ function getLinks(node, graphObject){
 	var graphics = graphObject.graphics;
 	var graphGL = graphObject.graphGL;
 	var toRemove = graphObject.toRemove;
+	var renderer = graphObject.renderer;
 
 
 	if (toRemove != ""){
@@ -119,6 +139,11 @@ function getLinks(node, graphObject){
 	graphObject.nodesToCheckLinks = nodesToCheckLinks;
 	graphObject.toRemove = toRemove;
 
+	if(graphObject.isLayoutPaused){
+        renderer.resume();
+        setTimeout(function(){ renderer.pause();}, 5);
+      }
+
 }
 
 function restoreLinkSearch(graphObject){
@@ -126,6 +151,7 @@ function restoreLinkSearch(graphObject){
 	var toRemove = graphObject.toRemove;
 	var graphics = graphObject.graphics;
 	var nodesToCheckLinks = graphObject.nodesToCheckLinks;
+	var renderer = graphObject.renderer;
 
 	if (toRemove != ""){
 		var nodeUI = graphics.getNodeUI(toRemove.id);
@@ -136,4 +162,9 @@ function restoreLinkSearch(graphObject){
 		var nodeUI = graphics.getNodeUI(nodesToCheckLinks[i].id);
 		nodeUI.colorIndexes = nodeUI.backupColor; 
 	}
+
+	if(graphObject.isLayoutPaused){
+        renderer.resume();
+        setTimeout(function(){ renderer.pause();}, 5);
+      }
 }

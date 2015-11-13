@@ -20,9 +20,10 @@ var property_IndexIsolates = {};
 var arrayColorsProfiles = []; 
 var property_IndexProfiles = {};
 var changeFromTable = false;
+var loaded = false;
 ////////////////////////////////////////////////////////////////////////////////////
 
-function onLoad(){
+$(document).ready(function(){
 
     $('#visual').css({width:width, height: height, position: "relative"});
 
@@ -31,6 +32,7 @@ function onLoad(){
     var img = document.getElementById('GIFimage');
     $("#GIFimage").attr("src", '../../images/waitingGIF.gif');
     $(".waitingImage").css({'width': '20%'});
+    $(".tab-pane").css({'opacity': '0'});
 
     status('Loading input data...');
     
@@ -50,7 +52,7 @@ function onLoad(){
       });
     });
 
-}
+});
 
 function checkInput(graph, callback){
   if (graph.nodes.length == 0){

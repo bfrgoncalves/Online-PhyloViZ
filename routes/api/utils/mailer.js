@@ -7,7 +7,7 @@ var crypto = require('crypto');
 var config = require('../../../config.js');
 
 var pg = require("pg");
-var connectionString = "postgres://localhost/" + config.db;
+var connectionString = "postgres://" + config.databaseUserString + "@localhost/phyloviz";
 
 // create reusable transporter object using SMTP transport
 var transporter = nodemailer.createTransport({

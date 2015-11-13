@@ -19,8 +19,23 @@ function createDistanceTable(selectedNodes, distanceMatrix, metadata, maxDistanc
 
   $("#divOrder").css({'display': 'block'});
 
-  constructMatrix(selectedNodes, distanceMatrix, metadata, maxDistance, svg, svgHeight);
+  createSelect(metadata, function(){
+    constructMatrix(selectedNodes, distanceMatrix, metadata, maxDistance, svg, svgHeight);
+  });
 
+}
+
+function createSelect(metadata, callback){
+  if (metadata.length > 0){
+    var selectElement = document.getElementById('checkboxListContent'); 
+    for (i in metadata){
+      var checkBoxHTML = document.createElement('div'); 
+      checkBoxHTML.innerHTML = '<input type="checkbox" class="checkBoxMetadata" value ="'+ metadata[i] +'" name="check' + metadata[i] + '><label for="check' + metadata[i] + '">'+ metadata[i] +'</label>'
+      selectElement.appendChild(checkBoxHTML);
+    }
+    $("#divCheckboxList").css({display: 'block'});
+  }
+  callback();
 }
 
 var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDistance, svg, svgHeight) {
@@ -37,12 +52,12 @@ var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDista
                "#63FF9B", "#63FF6B", "#7BFF63", "#BBFF63", "#DBFF63", "#FBFF63", 
                "#FFD363", "#FFB363", "#FF8363", "#FF7363", "#FF6364"];
 
-  var buckets = 10, currentValue = '';
+  var buckets = 10, currentValue = '', currentShowValues = {};
 
   if(maxDistance < colors.length) colors = colors.slice(0, maxDistance);
 
   var colorScale = d3.scale.quantile()
-    .domain([0, maxDistance-1]) //d3.max(nodes, function (d) { return d.value; })
+    .domain([0, maxDistance]) //d3.max(nodes, function (d) { return d.value; })
     .range(colors);
 
   var matrix = [],
@@ -122,12 +137,6 @@ var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDista
   row.append("line")
       .attr("x2", width);
 
-  //row.append("text")
-  //    .attr("x", -6)
-  //    .attr("y", x.rangeBand() / 2)
-  //    .attr("dy", ".32em")
-  //    .attr("text-anchor", "end")
-  //    .text(function(d, i) { return nodes[i].id; });
 
   var column = svg.selectAll(".column")
       .data(matrix)
@@ -138,35 +147,42 @@ var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDista
   column.append("line")
       .attr("x1", -width);
 
-  //column.append("text")
-  //    .attr("x", 6)
-  //    .attr("y", x.rangeBand() / 2)
-  //    .attr("dy", ".32em")
-  //    .attr("text-anchor", "start")
-  //    .text(function(d, i) { return nodes[i].id; });
+  var quantileNumbers = [0].concat(colorScale.quantiles());
+
+  var legendHeight = svgHeight / 2; 
 
   var legend = d3.select('#divsvgLegend').append('svg')
-                  .attr('width', width )
-                  .attr('height', (width/4)).selectAll(".legend")
-                  .data([0].concat(colorScale.quantiles()), function(d) { return d; });
+                  .attr('width', legendHeight/15 )
+                  .attr('height', legendHeight/colors.length).selectAll(".legend")
+                  .data(quantileNumbers, function(d) { return d; });
 
           legend.enter().append("g")
               .attr("class", "legend");
 
           legend.append("rect")
-            .attr("x", function(d, i) { return width/colors.length * i; })
-            .attr("y", 0)
-            .attr("width", width/ colors.length)
-            .attr("height", width/10)
+            .attr("x", 0)
+            .attr("y", function(d, i) { return legendHeight/colors.length * i; })
+            .attr("width", legendHeight/15)
+            .attr("height", legendHeight/colors.length)
             .style("fill", function(d, i) { return colors[i]; });
 
           legend.append("text")
             .attr("class", "mono")
-            .text(function(d) { return "≥ " + parseFloat(d).toFixed(1); })
-            .attr("x", function(d, i) { return width/colors.length * i; })
-            .attr("y", height / 8);
+            .text(function(d,i) {
+              if(i == quantileNumbers.length-1) return "≥ " + parseFloat(quantileNumbers[i]).toFixed(2);
+              else return parseFloat(quantileNumbers[i]).toFixed(2) + ' - ' + parseFloat(quantileNumbers[i+1]).toFixed(2);
+            })
+            .attr("x", legendHeight/15 + 5)
+            .attr("y", function(d, i) { return legendHeight/colors.length * i + legendHeight/colors.length/2; });
 
-          $(".mono").css('font-size', '70%');
+  $('#groupSVG').css({ height: legendHeight});
+  $('#divsvgLegend').css({ height: legendHeight});
+
+  $('.checkBoxMetadata').on('click', function(){
+      currentShowValues[this.value] = this.checked;
+  });
+
+  var prevCellSelected;
 
   function row(row) {
 
@@ -174,7 +190,7 @@ var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDista
     var cell = d3.select(this).selectAll(".cell")
         .data(row)
       .enter().append("rect")
-        .attr("class", "cell")
+        .attr("class", function(d, i){ return "cell line_" + d.y + " col_" + d.x;})
         .attr("x", function(d) { return x(d.x); })
         .attr("width", x.rangeBand())
         .attr("height", x.rangeBand())
@@ -190,26 +206,47 @@ var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDista
 
     var text = '<p>Line: ' + nodes[p.y].id + '</p><p>Column: ' + nodes[p.x].id + ' </p><p>Distance: ' + 
                 distanceMatrix[selectedNodes[p.y].id][0][selectedNodes[p.x].id] + '</p>';
-    if (currentValue != 'name') text += '<p>' + currentValue + ': ' + p[currentValue] + '</p>';
+    
+
+    for (i in currentShowValues){
+      if (currentShowValues[i]) text += '<p>' + i + ': ' + p[i] + '</p>';
+    }
+
 
     $('#divOverMatrix').append(text);
-    d3.selectAll(".cell").style("fill", function(d, i) { 
+    d3.selectAll(".line_" + p.y ).style("fill", function(d, i) { 
       if (d.y == p.y && d.x == p.x) return 'red';
       else return colorScale(distanceMatrix[selectedNodes[d.y].id][0][selectedNodes[d.x].id]);
     }).attr("stroke", function(d,i){
       if (d.y == p.y || d.x == p.x) return 'black';
     });
+
+    d3.selectAll(".col_" + p.x ).style("fill", function(d, i) { 
+      if (d.y == p.y && d.x == p.x) return 'red';
+      else return colorScale(distanceMatrix[selectedNodes[d.y].id][0][selectedNodes[d.x].id]);
+    }).attr("stroke", function(d,i){
+      if (d.y == p.y || d.x == p.x) return 'black';
+    });
+
+    prevCellSelected = p;
   }
 
   function mouseout() {
 
     $('#divOverMatrix').empty();
 
-    d3.selectAll(".cell").style("fill", function(d, i) { 
+    d3.selectAll(".col_" + prevCellSelected.x).style("fill", function(d, i) { 
       return colorScale(distanceMatrix[selectedNodes[d.y].id][0][selectedNodes[d.x].id]);
     }).attr("stroke", function(d,i){
       return false;
     });
+
+    d3.selectAll(".line_" + prevCellSelected.y).style("fill", function(d, i) { 
+      return colorScale(distanceMatrix[selectedNodes[d.y].id][0][selectedNodes[d.x].id]);
+    }).attr("stroke", function(d,i){
+      return false;
+    });
+
   }
 
   function order(value) {
@@ -219,21 +256,14 @@ var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDista
     var t = svg.transition().duration(0);
 
     svg.selectAll(".row")
-        //.delay(function(d, i) { return x(i) * 4; })
         .attr("transform", function(d, i) { return "translate(0," + x(i) + ")"; })
       .selectAll(".cell")
-        //.delay(function(d) { return x(d.x) * 4; })
         .attr("x", function(d) { return x(d.x); });
 
     svg.selectAll(".column")
-        //.delay(function(d, i) { return x(i) * 4; })
         .attr("transform", function(d, i) { return "translate(" + x(i) + ")rotate(-90)"; });
   }
 
-  //var timeout = setTimeout(function() {
-  //  order("group");
-  //  d3.select("#order").property("selectedIndex", 2).node().focus();
-  //}, 5000);
 
   $('#order').change(function(){
     order($('#order').find(":selected").text());

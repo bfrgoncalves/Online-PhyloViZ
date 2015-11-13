@@ -48,7 +48,11 @@ function startMultiSelect(graphObject) {
         nodeUI.colorIndexes = newColors;
       } else {
         nodeUI.colorIndexes = nodeUI.backupColor;
-        nodeUI.size = nodeUI.backupSize;
+        //nodeUI.size = nodeUI.backupSize;
+      }
+      if(graphObject.isLayoutPaused){
+        renderer.resume();
+        setTimeout(function(){ renderer.pause();}, 5);
       }
     }
 
@@ -118,10 +122,10 @@ function createOverlay(overlayDom) {
   }
 
   function recalculateSelectedArea(e) {
-    selectedArea.width = Math.abs(e.layerX - startX);
-    selectedArea.height = Math.abs(e.layerY  - startY);
-    selectedArea.x = Math.min(e.layerX , startX);
-    selectedArea.y = Math.min(e.layerY, startY);
+    selectedArea.width = Math.abs(e.clientX - startX);
+    selectedArea.height = Math.abs(e.clientY  - startY);
+    selectedArea.x = Math.min(e.clientX , startX);
+    selectedArea.y = Math.min(e.clientY, startY);
   }
 
   function updateSelectedAreaIndicator() {

@@ -20,10 +20,11 @@ var colorAttributes = function(graph, graphics, renderer){
 
 	options = '';
   var countValues = 1;
+  var parent = $('#colorAttributesMetadata');
   options += '<option value=' + countValues + '>None</option>';
+
 	for (var Nnodes in graph.metadata){
     countValues += 1;
-	 	var parent = $('#colorAttributesMetadata');
 	 	property = graph.metadata[Nnodes];
 		options += '<option value=' + countValues + '>'+property+'</option>';
 	}

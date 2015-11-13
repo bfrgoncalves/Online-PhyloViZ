@@ -40,42 +40,44 @@ block normalBody
 
 
 		div(id="uploadDiv", style="display:none;")
+			br
 			div(id="useOwnDataset")
 				label Upload your own data
 				if (!user)
 					p Note: Without registration your datasets will be made public
-
+			br
 			div(id="possibleInputs")
-				label Possible Input Formats	
+				label.input-formats Possible Input Formats	
 				div(id='possibleInputFormats')
 			
 			br
 
-			div(id="newickButton")
-				div.input-group.input-sm
-					input.form-control.justVisual(id = 'textNewick', type="text", placeholder="Upload Newick file", aria-describedby="sizing-addon1")
-					span.input-group-addon(id="Newick", onclick="getFile(this.id)") Browse
+			div(id="inputButtons")
+				div(id="newickButton")
+					div.input-group.input-sm
+						input.form-control.justVisual(id = 'textNewick', type="text", placeholder="Upload Newick file", aria-describedby="sizing-addon1")
+						span.input-group-addon(id="Newick", onclick="getFile(this.id)") Browse
 
-			div(id="profileButton")
-				div.input-group.input-sm
-					input.form-control.justVisual(id = 'textProfile', type="text", placeholder="Upload Profile Data", aria-describedby="sizing-addon1")
-					span.input-group-addon(id="Profile", onclick="getFile(this.id)") Browse
+				div(id="profileButton")
+					div.input-group.input-sm
+						input.form-control.justVisual(id = 'textProfile', type="text", placeholder="Upload Profile Data", aria-describedby="sizing-addon1")
+						span.input-group-addon(id="Profile", onclick="getFile(this.id)") Browse
 
-			div(id="metadataButton")
-				div.input-group.input-sm
-					input.form-control.justVisual(id = 'textMetadata', type="text", placeholder="Upload Metadata", aria-describedby="sizing-addon1")
-					span.input-group-addon(id="Metadata", onclick="getFile(this.id)") Browse
+				div(id="metadataButton")
+					div.input-group.input-sm
+						input.form-control.justVisual(id = 'textMetadata', type="text", placeholder="Upload Metadata", aria-describedby="sizing-addon1")
+						span.input-group-addon(id="Metadata", onclick="getFile(this.id)") Browse
 
 
-			form(id ='inputForm')
-				input.form-control.input-sm(id="datasetName", type="text", placeholder="Select a name for the dataset", required)
-				div(style='height: 0px;width:0px; overflow:hidden;')
-					input(id="uploadProfile", type="file", value="upload", onchange = 'getFileName(this.id)' )
-					input(id="uploadMetadata", type="file", value="upload", onchange = 'getFileName(this.id)' )
-					input(id="uploadNewick", type="file", value="upload", onchange = 'getFileName(this.id)' )
+				form(id ='inputForm')
+					input.form-control.input-sm(id="datasetName", type="text", placeholder="Select a name for the dataset", required)
+					div(style='height: 0px;width:0px; overflow:hidden;')
+						input(id="uploadProfile", type="file", value="upload", onchange = 'getFileName(this.id)' )
+						input(id="uploadMetadata", type="file", value="upload", onchange = 'getFileName(this.id)' )
+						input(id="uploadNewick", type="file", value="upload", onchange = 'getFileName(this.id)' )
 			
 
-		br
+				br
 
 		div(id="LaunchButton", style="text-align:center;")
 			br

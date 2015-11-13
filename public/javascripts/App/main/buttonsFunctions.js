@@ -14,9 +14,12 @@ function loadButtonFunctions(){
 
 			var graph = graphObject.graphInput;
 			var renderer = graphObject.renderer;
+			graphObject.isLayoutPaused = false;
 
 			if (Object.keys(graph.positions).length > 0){
 		        renderer.pause();
+				graphObject.isLayoutPaused = true;
+
 		        $('#pauseLayout')[0].innerHTML = "Resume Layout";
 		        $('#iconPauseLayout').toggleClass('glyphicon glyphicon-pause',false);
 		        $('#iconPauseLayout').toggleClass('glyphicon glyphicon-play',true);
@@ -24,14 +27,16 @@ function loadButtonFunctions(){
 
 		    $('#pauseLayout').click(function(e) {
 	              e.preventDefault();
-	              if($('#pauseLayout')[0].innerHTML == "Pause Layout"){
+	              if(!graphObject.isLayoutPaused){
 	                renderer.pause();
+	                graphObject.isLayoutPaused = true;
 	                $('#pauseLayout')[0].innerHTML = "Resume Layout";
 	                $('#iconPauseLayout').toggleClass('glyphicon glyphicon-pause',false);
 	                $('#iconPauseLayout').toggleClass('glyphicon glyphicon-play',true);
 	              }
 	              else{ 
 	                renderer.resume();
+	                graphObject.isLayoutPaused = false;
 	                $('#pauseLayout')[0].innerHTML = "Pause Layout";
 	                $('#iconPauseLayout').toggleClass('glyphicon glyphicon-play',false);
 	                $('#iconPauseLayout').toggleClass('glyphicon glyphicon-pause',true);
@@ -96,7 +101,7 @@ function loadButtonFunctions(){
 		operationsButtons: function(graphObject){
 
 			$('#distanceButton').click(function(e){
-	            if (graphObject.selectedNodes.length < 2) alert('To compute distances, first you need to select more than one node.');
+				if (graphObject.selectedNodes.length < 2) alert('To compute distances, first you need to select more than one node.');
 	            else checkLociDifferences(graphObject.selectedNodes, graphObject.graphInput.metadata);
 	        });
 

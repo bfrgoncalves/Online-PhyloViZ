@@ -46,13 +46,35 @@ function constructGraph(graph, datasetID){
 
       colorAttributes(graphObject.graphInput, graphObject.graphics, graphObject.renderer); //function which links the colors of the pieCharts to the data
 
-      linkTableAndGraph('isolates', graphObject.graphInput.key); //link between operations from the tables and the graph tab
-      linkTableAndGraph('profiles', graphObject.graphInput.key);
+      linkTableAndGraph('isolates', graphObject); //link between operations from the tables and the graph tab
+      linkTableAndGraph('profiles', graphObject);
 
+      if (graphObject.graphInput.schemeGenes.length == 1 && graphObject.graphInput.schemeGenes[0] == 'undefined'){
+        $("#TreeOperations").css('display', 'none');
+        $("#computeDistances").css('display', 'none');
+      }
 
-      $("#GIFimage").css('display', 'none');
       $("#waitingGifMain").css('display', 'none');
+      $(".tab-pane").css({'opacity': '1'});
       status("");
+
+      tocheckTableIsolatesHeight = true;
+      tocheckTableProfilesHeight = true;
+
+      loaded = true;
+
+      $('#tabs li a').on('click', function(d){
+
+        if(loaded && tocheckTableIsolatesHeight && this.innerText == 'Isolates') {
+          graphObject.tableIsolatesHeight = $("#tableisolates_wrapper").height();
+          tocheckTableIsolatesHeight = false;
+        }
+        else if(loaded && tocheckTableProfilesHeight && this.innerText == 'Profiles'){
+          graphObject.tableProfilesHeight = $("#tableprofiles_wrapper").height();
+          tocheckTableProfilesHeight = false;
+        }
+
+      })
 
 
 

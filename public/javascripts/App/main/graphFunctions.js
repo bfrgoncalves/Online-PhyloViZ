@@ -100,7 +100,6 @@ function loadGraphFunctions(){
 
 		setPositions: function(graphObject){
 
-			console.log(graphObject);
 			var graph = graphObject.graphInput;
 			var layout = graphObject.layout;
 
@@ -243,7 +242,6 @@ function loadGraphFunctions(){
 
 		                  // then move corresponding dom label to its own position:
 		                  var linkId = ui.idGL;
-		                  //console.log(ui);
 
 		                  if (linkLabels[linkId] != undefined){
 		                    var labelStyle = linkLabels[linkId].style;
@@ -340,9 +338,13 @@ function loadGraphFunctions(){
 	              for (i in graphObject.selectedNodes){
 	                var nodeToUse = graphics.getNodeUI(graphObject.selectedNodes[i].id);
 	                nodeToUse.colorIndexes = nodeToUse.backupColor;
-	                nodeToUse.size = nodeToUse.backupSize;
 	              } 
 	              graphObject.selectedNodes = [];
+
+	              if(graphObject.isLayoutPaused){
+			        renderer.resume();
+			        setTimeout(function(){ renderer.pause();}, 5);
+			      }
 	              
 	              multiSelectOverlay = startMultiSelect(graphObject);
 	            }
@@ -353,11 +355,32 @@ function loadGraphFunctions(){
 	                for (i in graphObject.selectedNodes){
 	                  var nodeToUse = graphics.getNodeUI(graphObject.selectedNodes[i].id);
 	                  nodeToUse.colorIndexes = nodeToUse.backupColor;
-	                  nodeToUse.size = nodeToUse.backupSize;
+	                  //nodeToUse.size = nodeToUse.backupSize;
 	                } 
 	                remakeSelection = false;
 	                graphObject.selectedNodes = [];
+
+	                if(graphObject.isLayoutPaused){
+				        renderer.resume();
+				        setTimeout(function(){ renderer.pause();}, 5);
+				      }
 	              }
+	            }
+	            if (e.which === 87){
+	            	if (!graphObject.isLayoutPaused){
+		            	renderer.pause();
+		                graphObject.isLayoutPaused = true;
+		                $('#pauseLayout')[0].innerHTML = "Resume Layout";
+		                $('#iconPauseLayout').toggleClass('glyphicon glyphicon-pause',false);
+		                $('#iconPauseLayout').toggleClass('glyphicon glyphicon-play',true);
+		            }
+		            else{
+		            	renderer.resume();
+		                graphObject.isLayoutPaused = false;
+		                $('#pauseLayout')[0].innerHTML = "Pause Layout";
+		                $('#iconPauseLayout').toggleClass('glyphicon glyphicon-play',false);
+		                $('#iconPauseLayout').toggleClass('glyphicon glyphicon-pause',true);
+		            }
 	            }
 	          });
 	          document.addEventListener('keyup', function(e) {

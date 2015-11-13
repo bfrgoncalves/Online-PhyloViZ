@@ -119,7 +119,7 @@ function readNewickfile(pathToFile, fileType, dataToDB, callback){
 function uploadToDatabase(data, callback){
 
   var pg = require("pg");
-  var connectionString = "postgres://localhost/phyloviz";
+  var connectionString = "postgres://" + config.databaseUserString + "@localhost/phyloviz";
 
   if (data.fileMetadata == undefined) data.fileMetadata = [];
   if (data.fileProfile == undefined) data.fileProfile = [];

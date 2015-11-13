@@ -106,10 +106,9 @@ function constructTable(tableData, datasetParameter, callback){
 }
 
 function addToDiv(tableToCheck){
-  console.log(tableToCheck);
   $("#" + tableToCheck + '_wrapper').append($('<div id="' + tableToCheck + '_container"></div>'));
   $("#" + tableToCheck).appendTo('#' + tableToCheck + '_container');
-  $('#' + tableToCheck + '_container').css({'width': '100%', 'overflow-x': 'auto'});
+  $('#' + tableToCheck + '_container').css({'width': '100%', 'overflow-x': 'auto', 'height': '50%'});
 }
 
 function createFooter(element, columns, callback) {

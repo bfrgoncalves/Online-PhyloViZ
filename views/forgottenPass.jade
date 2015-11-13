@@ -1,26 +1,36 @@
 extends layout
 
-block normalBody
+block login
+  div(id='userLocation')
+    if (!user)
+      a(href="/users/login") Login
+      = ' '
+      a(href="/users/register") Register
+    if (user)
+      p Welcome, #{user.name}! 
+        = ' '
+        a(href="/users/logout") Logout
 
-  div.phylovizNavbar
-    div(onclick="javascript:location.href='/'")
-      img(src = '/images/logo.png', width = "80", height = "80")
-      label(style = 'font-size: 200%;') #{title}
+block title
+  div.titleLocation(onclick="javascript:location.href='/'")
+    div.float_title
+      img.phylovizImage(src = '/images/logo.png')
+      label.title #{title}
 
 block sign
-  .container
-    h1 Forgot your password?
-    p.lead Type your username and e-mail
+  div(id='sign')
+    h3 Forgot your password?
+    p Type your username and e-mail
     br
     form(role='form', id = 'submitForm', action="/api/utils/mailer/sendpass",method="post", style='max-width: 300px;')
       .form-group
           input.form-control(type='text', name="username", placeholder='Enter Username', required)
       .form-group
         input.form-control(type='text', name="email", placeholder='Enter e-mail', required)
-      button.btn.btn-default(type='submit') Submit
+      button.btn.btn-default.resizable_button_submit(type='submit') Submit
       &nbsp;
       a(href='/')
-        button.btn.btn-primary(type="button") Cancel
+        button.btn.btn-primary.resizable_button_submit(type="button") Cancel
     br
     h4 #{message}
 
@@ -28,3 +38,4 @@ block scripts
   script(type='text/javascript', src='/javascripts/dependencies/jquery-2.1.3.min.js')
   script(type='text/javascript', src='/javascripts/dependencies/sha256.js')
   script(type='text/javascript', src='/javascripts/App/indexApp/encryption.js')
+  script(type='text/javascript', src='/javascripts/App/adjustElements/adjustElementsLogin.js')

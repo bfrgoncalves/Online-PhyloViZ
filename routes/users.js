@@ -10,7 +10,7 @@ var config = require('../config.js');
 var app = express();
 
 var pg = require("pg");
-var connectionString = "postgres://localhost/" + config.db;
+var connectionString = "postgres://" + config.databaseUserString + "@localhost/" + config.db;
 
 
 passport.serializeUser(function(user, done){
@@ -71,6 +71,8 @@ function verifyCredentials(username, password, done){
               crypto.pbkdf2(password, salt, 7000, 256, 
                  function (err, hash) {
                       hash = new Buffer(hash).toString('hex');
+                      console.log(hash);
+                      console.log(pass);
                       if (hash == pass){
                       done(null, { id: userID, name: username });
                     } else{

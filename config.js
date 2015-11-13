@@ -13,6 +13,7 @@ function makeid(length)
 
 module.exports = {
 	db : 'phyloviz',
+	databaseUserString: 'phylovizonline:phylo2015',
 	randomId : makeid,
 	title : "PHYLOViZ Online",
 	cipherUser: { algorithm: 'aes-256-ctr', pass: 'd6F3Efeq'},

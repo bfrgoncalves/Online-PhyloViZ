@@ -5,9 +5,11 @@ var router = express.Router();
 var util = require("util"); 
 var fs = require("fs");
 
+var config = require('../../../config.js');
+
 
 var pg = require("pg");
-var connectionString = "postgres://localhost/phyloviz";
+var connectionString = "postgres://" + config.databaseUserString + "@localhost/phyloviz";
 
 
 router.get('/init', function(req, res, next){ //to change

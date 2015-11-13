@@ -2,7 +2,10 @@
 var firstTimeFilterIsolates = true;
 var firstTimeFilterProfiles = true;
 
-function linkTableAndGraph(property, key){
+
+function linkTableAndGraph(property, graphObject){
+
+	key = graphObject.graphInput.key;
 
 	var divToCheck = 'div' + property;
 	var tableToCheck = 'table' + property;
@@ -27,6 +30,7 @@ function linkTableAndGraph(property, key){
 
 	$('#'+tableToCheck+' thead th').click(function(d){
 
+
 	  if (firstTimeFilterIsolates){
 	  	metadataFilter = new Array(3);
 	  	metadataFilter[0] = keyIndexI;
@@ -41,6 +45,9 @@ function linkTableAndGraph(property, key){
       var columnIndex = $(this).index();
       //if (property == 'profiles') columnIndex += 1;
       var table = $('#'+ tableToCheck).DataTable();
+
+      $( table.cells().nodes() ).removeClass( 'highlight' );
+      $( table.column( columnIndex ).nodes() ).addClass( 'highlight' );
 
       if (table.rows('.selected').data().length != 0){
       	var columnDataInter = table.rows('.selected').data();
@@ -74,7 +81,9 @@ function linkTableAndGraph(property, key){
 
   	  columnName = table.column(columnIndex).header().innerHTML;
 
-  	  var pieHeight = $("#" + tableToCheck).height();
+  	  if (property == 'isolates') var pieHeight = graphObject.tableIsolatesHeight;
+  	  else if (property == 'profiles')var pieHeight = graphObject.tableProfilesHeight;
+
   	  var radious = pieHeight / 6;
   	  var legendRectSize = radious / 6;
       

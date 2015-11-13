@@ -1,5 +1,5 @@
 
-function onLoad(){
+$(document).ready( function(){
 
 	createDatasetButtons();
 
@@ -15,13 +15,21 @@ function onLoad(){
 	createDropdown(optionsToDropDown, '#possibleInputFormats', 'Input formats', 1, 'inputFormats');
 
 	$('#possibleInputFormats').change(function(){
+		$('#inputButtons').css({ 'display': 'block'});
+		$('#LaunchButton').css({ 'display': 'block'});
 		var propertyToCheck = $('#possibleInputFormats').find(":selected");
+		if (propertyToCheck[0].index == 0){
+			$('#inputButtons').css({ 'display': 'none'});
+			$('#LaunchButton').css({ 'display': 'none'});
+		}
 		if (propertyToCheck[0].index == 1) showProfileButton();
 		else if (propertyToCheck[0].index == 2) showNewickButton();
 	});
 
+	$('#inputFormats').css({ 'width': '50%'});
+
 	
-}
+});
 
 function createDatasetButtons(){
 
@@ -29,6 +37,7 @@ function createDatasetButtons(){
 
 	$('#buttonExistingDatasets').click(function(){
 		status("");
+		$('#LaunchButton').css({ 'display': 'block'});
 		if (!isUploading) return false;
 		if (isUploading){
 			$('#uploadDiv').toggle();
@@ -39,6 +48,8 @@ function createDatasetButtons(){
 
 	$('#buttonUploadDatasets').click(function(){
 		status("");
+		var propertyToCheck = $('#possibleInputFormats').find(":selected");
+		if (propertyToCheck[0].index == 0) $('#LaunchButton').css({ 'display': 'none'});
 		if (isUploading) return false;
 		if (!isUploading){
 			var table = $('#TableDatasets').DataTable();

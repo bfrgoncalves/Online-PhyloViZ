@@ -23,6 +23,12 @@ a {
   height: 100%;
 }
 
+#APIbodyRegion{
+  width:100%;
+  height: 90%;
+  margin-top: 5%;
+}
+
 #imageDiv {
   position: fixed;
   bottom: 0px;
@@ -43,6 +49,15 @@ a {
 #buttonUploadDatasets{
   width: 30%;
   left:50%;
+}
+
+#uploadDiv{
+  width: 50%;
+  margin-left: 25%;
+}
+
+#inputButtons{
+  display: none;
 }
 
 #divDeleteDataset{
@@ -91,8 +106,13 @@ a {
 #waitingGifMain{
   position: absolute;
   z-index:2;
+  width: 30%;
   top: 40%;
-  left: 48%;
+  left: 45%;
+}
+
+#LaunchButton{
+  display: block;
 }
 
 .waitingImage{
@@ -100,10 +120,9 @@ a {
 }
 
 #statusMain{
-  position: absolute;
+  position: relative;
   z-index:2;
-  top: 53%;
-  left: 47.5%;
+  margin-left: 5%;
 }
 
 .nav-tabs > li, .nav-pills > li {
@@ -133,6 +152,22 @@ a {
   margin-top: 1%;
   width: 100%;
   overflow-x: auto;
+}
+
+#tableisolates, #tableprofiles, #tabledistances{
+  cursor: pointer;
+}
+
+thead tr th{
+  border: 1px solid black;
+}
+
+thead tr th:hover{
+  background-color: #6497b1;
+}
+
+td.highlight {
+    background-color: #d2eaec;
 }
 
 #legendpieisolates {
@@ -183,7 +218,7 @@ a {
 }
 
 #sign{
-  width:35%;
+  width:55%;
   height:10%;
   margin-left: 32.5%;
   margin-top: 10%;
@@ -191,9 +226,9 @@ a {
 
 
 #inputDiv {
-  margin-left: 20%;
+  margin-left: 22.5%;
   margin-top: 10%;
-  width: 60%;
+  width: 55%;
   height: 90%;
   position: relative;
   text-align: center;
@@ -260,9 +295,9 @@ select {
 }
 
 #distanceMatrix{
-  width: 65%;
-  height:50%;
-  margin-left: 35%;
+  width: 100%;
+  height:70%;
+  margin-left: 1%;
   margin-top: 1%;
 }
 
@@ -274,10 +309,28 @@ select {
 
 #groupSVG{
   float: left;
-  margin-left: 1.5%;
-  margin-top: 2%;
-  width: 50%;
+  width: 20%;
+  height: 50%;
+  margin-left: 2%;
+  margin-top: 3%;
 }
+
+#divCheckboxList{
+  display:none;
+  width: 20%;
+  height: 30%;
+  float:left;
+  margin-top: 3%;
+}
+
+#labelcheckbox{
+  vertical-align: middle;
+}
+
+#checkboxListContent{
+  overflow-y: auto;
+}
+
 
 #col_info{
   text-align: center;

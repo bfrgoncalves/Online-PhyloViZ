@@ -9,10 +9,10 @@ function NodeSize(newSize, max, graphObject){
     graph.nodes.forEach(function(node){
         var nodeUI = graphics.getNodeUI(node.key);
 
-        nodeUI.size = nodeUI.backupSize + (nodeUI.backupSize * 2 * (parseInt(newSize) / parseInt(max)));      
+        nodeUI.size = nodeUI.backupSize + (nodeUI.backupSize * 2 * (parseInt(newSize) / parseInt(max))); 
     });
 
-    if($('#pauseLayout')[0].innerHTML == "Resume Layout"){
+    if(graphObject.isLayoutPaused){
         renderer.resume();
         setTimeout(function(){ renderer.pause();}, 50);
     }
@@ -58,7 +58,7 @@ function changeSpringLength(newValue, max, graphObject){
 
         })
 
-    if($('#pauseLayout')[0].innerHTML == "Resume Layout"){
+    if(graphObject.isLayoutPaused){
         renderer.resume();
         setTimeout(function(){ renderer.pause();}, 50);
     }
@@ -114,7 +114,7 @@ function splitTree(graphObject, value) {
     }
     prevValue = value;
 
-    if($('#pauseLayout')[0].innerHTML == "Resume Layout"){
+    if(graphObject.isLayoutPaused){
         renderer.resume();
         setTimeout(function(){ renderer.pause();}, 50);
     }
@@ -172,7 +172,7 @@ function NLVgraph(graphObject, value) {
     }
     prevValue = value;
 
-    if($('#pauseLayout')[0].innerHTML == "Resume Layout"){
+    if(graphObject.isLayoutPaused){
         renderer.resume();
         setTimeout(function(){ renderer.pause();}, 50);
     }
