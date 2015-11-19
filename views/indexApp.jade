@@ -58,6 +58,11 @@ block normalBody
 						input.form-control.justVisual(id = 'textNewick', type="text", placeholder="Upload Newick file", aria-describedby="sizing-addon1")
 						span.input-group-addon(id="Newick", onclick="getFile(this.id)") Browse
 
+				div(id="fastaButton")
+					div.input-group.input-sm
+						input.form-control.justVisual(id = 'textFasta', type="text", placeholder="Upload Fasta file", aria-describedby="sizing-addon1")
+						span.input-group-addon(id="Fasta", onclick="getFile(this.id)") Browse
+
 				div(id="profileButton")
 					div.input-group.input-sm
 						input.form-control.justVisual(id = 'textProfile', type="text", placeholder="Upload Profile Data", aria-describedby="sizing-addon1")
@@ -75,6 +80,7 @@ block normalBody
 						input(id="uploadProfile", type="file", value="upload", onchange = 'getFileName(this.id)' )
 						input(id="uploadMetadata", type="file", value="upload", onchange = 'getFileName(this.id)' )
 						input(id="uploadNewick", type="file", value="upload", onchange = 'getFileName(this.id)' )
+						input(id="uploadFasta", type="file", value="upload", onchange = 'getFileName(this.id)' )
 			
 
 				br

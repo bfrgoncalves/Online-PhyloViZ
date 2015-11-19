@@ -4586,11 +4586,15 @@ function renderer(graph, settings) {
     }
 
     if (isInteractive('scroll')) {
+      firstTouch = true;
       if (!containerDrag) {
         containerDrag = dragndrop(container);
       }
       containerDrag.onScroll(function(e, scaleOffset, scrollPoint) {
-        scale(scaleOffset < 0, scrollPoint);
+        if (e.wheelDelta) {
+          if (e.wheelDelta != 0) scale(scaleOffset < 0, scrollPoint);
+        }
+        else if (e.detail != 0) scale(scaleOffset < 0, scrollPoint);
       });
     }
 

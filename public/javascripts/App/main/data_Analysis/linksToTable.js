@@ -21,8 +21,24 @@ function createDistanceTable(selectedNodes, distanceMatrix, metadata, maxDistanc
 
   createSelect(metadata, function(){
     constructMatrix(selectedNodes, distanceMatrix, metadata, maxDistance, svg, svgHeight);
+    $("#divClearDistances").css({display: 'block'});
+    allowClearDistances();
   });
 
+}
+
+function allowClearDistances(){
+  $("#clearDistanceMatrix").click(function(){
+    $('divsvg').empty();
+    $("#divOrder").css({display: 'none'});
+    d3.select("#divsvg svg").remove();
+    d3.select("#divsvgLegend svg").remove();
+    $("#checkboxListContent").empty();
+    $("#divdistances").empty();
+    $("#divClearDistances").css({display: 'none'});
+    $("#divCheckboxList").css({display: 'none'});
+  });
+  $("#divClearDistances").css({display: 'block'});
 }
 
 function createSelect(metadata, callback){

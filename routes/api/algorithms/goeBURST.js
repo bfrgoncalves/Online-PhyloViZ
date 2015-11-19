@@ -4,6 +4,8 @@ var util = require("util");
 var fs = require("fs");
 var goeBURST = require('goeBURST');
 
+var config = require('../../../config.js');
+
 
 router.get('/', function(req, res, next){
 	
@@ -49,7 +51,7 @@ function loadProfiles(datasetID, userID, callback){
 	var datasetID;
 
 	var pg = require("pg");
-	var connectionString = "postgres://localhost/phyloviz";
+	var connectionString = "pg://" + config.databaseUserString + "@localhost/phyloviz";
 
 	//query = "SELECT id FROM datasets.datasets WHERE dataset_id = '"+datasetID+"' AND user_id= '"+userID+"';";
 
@@ -77,8 +79,6 @@ function loadProfiles(datasetID, userID, callback){
 
 	    var profiles = result.rows[0].data.profiles;
 	    var schemeGenes = result.rows[1].schemegenes;
-	    console.log('AQUI');
-	    console.log(schemeGenes);
 		
 		var existsProfile = {};
 
@@ -120,7 +120,7 @@ function saveLinks(datasetID, links, distanceMatrix, callback){
 	//var datasetModel = require('../../../models/datasets');
 
 	var pg = require("pg");
-	var connectionString = "postgres://localhost/phyloviz";
+	var connectionString = "pg://" + config.databaseUserString + "@localhost/phyloviz";
 	var linksToUse = { links: links };
 	var distanceMatrixToUse =  { distanceMatrix: distanceMatrix };
 

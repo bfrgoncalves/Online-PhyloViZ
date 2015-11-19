@@ -43,6 +43,7 @@ function uploadFiles(){
   var fileSelectProfile = document.getElementById('uploadProfile');
   var fileSelectMetadata = document.getElementById('uploadMetadata');
   var fileSelectNewick = document.getElementById('uploadNewick');
+  var fileSelectFasta = document.getElementById('uploadFasta');
   var datasetName = document.getElementById('datasetName');
 
   countNumberOfFiles = 0;
@@ -50,12 +51,14 @@ function uploadFiles(){
   if (fileSelectNewick.files[0] != undefined) countNumberOfFiles += 1;
   if (fileSelectProfile.files[0] != undefined) countNumberOfFiles += 1;
   if (fileSelectMetadata.files[0] != undefined) countNumberOfFiles += 1;
+  if (fileSelectFasta.files[0] != undefined) countNumberOfFiles += 1;
 
   
   var fd = new FormData();    
   fd.append( 'fileProfile', fileSelectProfile.files[0] );
   fd.append( 'fileMetadata', fileSelectMetadata.files[0] );
   fd.append( 'fileNewick', fileSelectNewick.files[0] );
+  fd.append( 'fileFasta', fileSelectFasta.files[0] );
   fd.append( 'datasetName', $('#datasetName').val());
   fd.append( 'numberOfFiles', countNumberOfFiles);
   

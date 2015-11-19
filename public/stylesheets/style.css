@@ -80,6 +80,14 @@ a {
   z-index: 2;
 }
 
+.apiTitle{
+  border-bottom: 2px solid black;
+}
+
+.apiBody{
+  margin-top: 2%;
+}
+
 .float_title{
   width:50%;
   float: right;
@@ -316,6 +324,14 @@ select {
 }
 
 #divCheckboxList{
+  display:none;
+  width: 20%;
+  height: 30%;
+  float:left;
+  margin-top: 3%;
+}
+
+#divClearDistances{
   display:none;
   width: 20%;
   height: 30%;

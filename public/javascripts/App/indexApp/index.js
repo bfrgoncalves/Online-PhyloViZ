@@ -11,7 +11,7 @@ $(document).ready( function(){
 		});
 	});
 
-	var optionsToDropDown = [{name: 'Profile Data'}, {name: 'Newick Data'}];
+	var optionsToDropDown = [{name: 'Profile Data'}, {name: 'Newick Data'}, , {name: 'Fasta Data'}];
 	createDropdown(optionsToDropDown, '#possibleInputFormats', 'Input formats', 1, 'inputFormats');
 
 	$('#possibleInputFormats').change(function(){
@@ -24,6 +24,7 @@ $(document).ready( function(){
 		}
 		if (propertyToCheck[0].index == 1) showProfileButton();
 		else if (propertyToCheck[0].index == 2) showNewickButton();
+		else if (propertyToCheck[0].index == 3) showFastaButton();
 	});
 
 	$('#inputFormats').css({ 'width': '50%'});
@@ -65,10 +66,18 @@ function createDatasetButtons(){
 
 function showProfileButton(){
 	$('#newickButton').css('display', 'none');
+	$('#fastaButton').css('display', 'none');
 	$('#profileButton').css('display', 'block');
 }
 
 function showNewickButton(){
 	$('#profileButton').css('display', 'none');
+	$('#fastaButton').css('display', 'none');
 	$('#newickButton').css('display', 'block');
+}
+
+function showFastaButton(){
+	$('#profileButton').css('display', 'none');
+	$('#fastaButton').css('display', 'block');
+	$('#newickButton').css('display', 'none');
 }

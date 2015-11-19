@@ -40,6 +40,8 @@ $(document).ready(function(){
       //console.log(graph);
       checkInput(graph, function(graph){
 
+          console.log(graph);
+
           status('Loading tables...');
           createTable(datasetID, 'isolates', function(){
             createTable(datasetID, 'profiles', function(){

@@ -63,6 +63,11 @@ function readInputFiles(pathToFile, fileType, dataToDB, callback){
       callback(pathToFile, dataToDB);
     })
   }
+  else if (fileType == 'fileFasta') {
+     readFastafile(pathToFile, fileType, dataToDB, function(dataToDB){
+      callback(pathToFile, dataToDB);
+    })
+  }
   else {
     readCSVfile(pathToFile, fileType, dataToDB, function(dataToDB){
       callback(pathToFile, dataToDB);
@@ -89,11 +94,20 @@ function readCSVfile(pathToFile, fileType, dataToDB, callback){
             dataToDB.key = identifier;
             //headers.shift();
           } 
-          if(dataToDB.key == undefined && fileType == 'fileMetadata') dataToDB.key = identifier;
+          if((dataToDB.key == undefined || dataToDB.key == 'phylovizFastaID') && fileType == 'fileMetadata') dataToDB.key = identifier;
+
+          if (dataToDB.key == 'phylovizFastaID'){
+            for (i in dataToDB['fileFasta']){
+              dataToDB['fileFasta'][i][dataToDB.key] = dataToDB['fileFasta'][i]['phylovizFastaID'];
+              delete dataToDB['fileFasta'][i]['phylovizFastaID'];
+            }
+          }
+
           dataToDB[fileType + '_headers'] = headers; //remove first element from array. remove the identifier
           getHeaders = false;
         }
         dataToDB[fileType].push(data);
+        console.log(data);
       })
       .on("end", function(){
         console.log("done");
@@ -104,7 +118,7 @@ function readCSVfile(pathToFile, fileType, dataToDB, callback){
 
 function readNewickfile(pathToFile, fileType, dataToDB, callback){
   
-  var stream = fs.createReadStream(pathToFile);
+  //var stream = fs.createReadStream(pathToFile);
 
   dataToDB[fileType] = [];
 
@@ -116,13 +130,91 @@ function readNewickfile(pathToFile, fileType, dataToDB, callback){
 
 }
 
+function readFastafile(pathToFile, fileType, dataToDB, callback){
+  
+  var stream = fs.createReadStream(pathToFile);
+
+  dataToDB[fileType] = [];
+  var fastaIDs = []
+  var fastaSequences = []
+  
+  if(dataToDB.key == undefined) dataToDB.key = "phylovizFastaID";
+
+  fs.readFile(pathToFile, 'utf8', function (err,data) {
+      lines = data.split('\n')
+      sequenceToPush = '';
+      headers = {};
+      headers[dataToDB.key] = '';
+      for (i in lines){
+        if (sequenceToPush != '' && lines[i].charAt(0) == '>'){
+          var splitSequence = sequenceToPush.split('');
+          fastaSequences.push(splitSequence);
+          sequenceToPush = '';
+        } 
+        if (lines[i].charAt(0) == '>') fastaIDs.push(lines[i].substring(1, lines[i].length));
+        else{
+         sequenceToPush += lines[i].trim();
+        }
+      }
+
+      var splitSequence = sequenceToPush.split('');
+      fastaSequences.push(splitSequence);
+
+      var numberToChar = {};
+
+      var fastaProfiles = new Array(fastaSequences.length);
+
+      var fastaProfiles = fastaSequences.map(function(x){
+        var newObject = {};
+        newObject[dataToDB.key] = '';
+        
+        for(var i = 0; i < fastaSequences[0].length; i++){
+          newObject['L' + String(i)] = 0;
+        }
+        return newObject;
+      });
+
+
+      for(var i= 0; i < fastaSequences[0].length; i++){
+        numberToChar = {};
+        var currentPosition = [];
+        countLetter = 0;
+        headers['L' + String(i)] = '';
+
+        for(j in fastaSequences){
+          if (numberToChar.hasOwnProperty(fastaSequences[j][i])) fastaProfiles[j]['L' + String(i)] = String(numberToChar[fastaSequences[j][String(i)]]);
+          else{
+            countLetter += 1;
+            numberToChar[fastaSequences[j][i]] = countLetter;
+            fastaProfiles[j]['L' + String(i)] = String(numberToChar[fastaSequences[j][i]]);
+          } 
+        } 
+      }
+
+      for(i in fastaProfiles){
+        fastaProfiles[i][dataToDB.key] = fastaIDs[i];
+        dataToDB[fileType].push(fastaProfiles[i]);
+      }
+      headerArray = [];
+
+      for (i in headers) headerArray.push(i);
+
+      dataToDB['fileProfile_headers'] = headerArray;
+
+      console.log('Fasta done');
+      callback(dataToDB);
+  });
+
+}
+
 function uploadToDatabase(data, callback){
 
   var pg = require("pg");
   var connectionString = "postgres://" + config.databaseUserString + "@localhost/phyloviz";
 
   if (data.fileMetadata == undefined) data.fileMetadata = [];
-  if (data.fileProfile == undefined) data.fileProfile = [];
+  if (data.fileProfile == undefined && data.fileFasta == undefined) data.fileProfile = [];
+  if (data.fileFasta != undefined) data.fileProfile = data.fileFasta;
   if (data.fileNewick == undefined) data.fileNewick = [];
   if (data['fileMetadata_headers'] == undefined) data['fileMetadata_headers'] = [];
 

@@ -99,7 +99,7 @@ block normalBody
 								a.btn.btn-primary.actionButton(data-toggle='collapse', href='#collapseOperations', aria-expanded="false", aria-controls="collapseExample") Operations
 								div.collapse(id='collapseOperations')
 									div.well(id='TreeOperations')
-										label Split Tree
+										label Tree cut-off
 										input(type='number',id='SplitTreeSlider', name='points2', value = 7, min='0', max='7')
 										br
 										br
@@ -187,16 +187,11 @@ block normalBody
 						label(id="labelcheckbox", for="#divCheckboxList") Select Metadata
 						br
 						div(id="checkboxListContent")
+					div(id="divClearDistances")
+						button.btn-md.btn-danger(id="clearDistanceMatrix") Clear Distances
 				br
 				div(id="divdistances")
-					div(id="exportdistances")
-				br
-				br
-				div.pieRegion
-					//div(id='numberOfColumnsdistances')
-					div(id="piedistances")
-					div(id="legendpiedistances")
-					div(id="divbuttonlinkpiedistances")
+
 
 	a(id="imageDownloadLocation" download="phylovizTree.png" style="display:none;")
 

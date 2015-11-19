@@ -10,26 +10,23 @@ block API
 	div.apiTitle
 		h3 API 
 	div.apiBody
-		p Welcome to PHYLOViZ Online API!
-		p Here you can find information about the different methods and services than can be used to interact with the application.
-
-		label(for="#phylovizDataUpload") Data Upload
-		div(id="phylovizDataUpload")
-			li
-				a(href="api/help/login") Remote login
-			li
-				a(href="api/help/upload") Upload data
-			li
-				a(href="api/help/finddata") Find data
+		p PHYLOViZ input
+		p This service lets you get the phyloviz input JSON object for a given dataset.
+		label NOTE: Without login in the application, only public datasets will be available.
 		br
-		label(for="#phylovizUtils") Utils
-		div(id="phylovizUtils")
-			li
-				a(href="api/help/phylovizinput") PHYLOViZ Online input
-			li
-				a(href="api/help/goeBURST") goeBURST algorithm
-			li
-				a(href="api/help/tabledata") Table data
+		br
+		label Methods supported: 
+		div GET 
+		br
+		label URL:
+		div /api/utils/phylovizInput
+		br
+		label Example:
+		div 
+			/api/utils/phylovizInput?dataset_id='test'
+			p Gets the results for the dataset with the name 'test'.
+
+
 
 
 block scripts

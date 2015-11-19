@@ -10,26 +10,20 @@ block API
 	div.apiTitle
 		h3 API 
 	div.apiBody
-		p Welcome to PHYLOViZ Online API!
-		p Here you can find information about the different methods and services than can be used to interact with the application.
-
-		label(for="#phylovizDataUpload") Data Upload
-		div(id="phylovizDataUpload")
-			li
-				a(href="api/help/login") Remote login
-			li
-				a(href="api/help/upload") Upload data
-			li
-				a(href="api/help/finddata") Find data
+		p Table data
+		p This service lets you get profile data or metadata of a given dataset to be used on tables. Results are given in an array with the different rows and with the headers.
 		br
-		label(for="#phylovizUtils") Utils
-		div(id="phylovizUtils")
-			li
-				a(href="api/help/phylovizinput") PHYLOViZ Online input
-			li
-				a(href="api/help/goeBURST") goeBURST algorithm
-			li
-				a(href="api/help/tabledata") Table data
+		label Methods supported: 
+		div GET 
+		br
+		label URL:
+		div /api/utils/tableData&dataset_id=[datasetID]&parameter=[isolates|profiles]
+		br
+		label Example:
+		div 
+			/api/utils/tableData&dataset_id=test&parameter=isolates
+			p Gets the isolate data for the test dataset.
+
 
 
 block scripts
