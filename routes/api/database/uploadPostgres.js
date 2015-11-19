@@ -94,7 +94,7 @@ function readCSVfile(pathToFile, fileType, dataToDB, callback){
             dataToDB.key = identifier;
             //headers.shift();
           } 
-          if((dataToDB.key == undefined || dataToDB.key == 'phylovizFastaID') && fileType == 'fileMetadata') dataToDB.key = identifier;
+          if((dataToDB.key == undefined || dataToDB.key == 'phylovizFastaID') && fileType == 'fileMetadata') dataToDB.key = identifier.trim();
 
           if (dataToDB.key == 'phylovizFastaID'){
             for (i in dataToDB['fileFasta']){
@@ -107,7 +107,6 @@ function readCSVfile(pathToFile, fileType, dataToDB, callback){
           getHeaders = false;
         }
         dataToDB[fileType].push(data);
-        console.log(data);
       })
       .on("end", function(){
         console.log("done");
@@ -151,7 +150,7 @@ function readFastafile(pathToFile, fileType, dataToDB, callback){
           fastaSequences.push(splitSequence);
           sequenceToPush = '';
         } 
-        if (lines[i].charAt(0) == '>') fastaIDs.push(lines[i].substring(1, lines[i].length));
+        if (lines[i].charAt(0) == '>') fastaIDs.push(lines[i].substring(1, lines[i].length).trim());
         else{
          sequenceToPush += lines[i].trim();
         }
