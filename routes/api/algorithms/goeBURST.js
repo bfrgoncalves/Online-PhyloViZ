@@ -120,7 +120,7 @@ function saveLinks(datasetID, links, distanceMatrix, callback){
 	//var datasetModel = require('../../../models/datasets');
 
 	var pg = require("pg");
-	var connectionString = "pg://" + config.databaseUserString + "@localhost/phyloviz";
+	var connectionString = "pg://" + config.databaseUserString + "@localhost/"+ config.db;
 	var linksToUse = { links: links };
 	var distanceMatrixToUse =  { distanceMatrix: distanceMatrix };
 
