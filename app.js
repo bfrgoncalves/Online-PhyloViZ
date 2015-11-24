@@ -14,7 +14,7 @@ var restful = require('node-restful')
 
 var passport = require('passport');
 
-
+var config = require('./config');
 
 var parseGoe = require('goeBURSTparser');
 var flash = require('connect-flash');
@@ -30,6 +30,7 @@ var phylovizInput = require('./routes/api/utils/phyloviz_input');
 var mailer = require('./routes/api/utils/mailer');
 var phyloviztableData = require('./routes/api/utils/tableData');
 var publicLink = require('./routes/api/utils/publicLink');
+//var pubmlst = require('./routes/api/database/pubmlst');
 
 var postgres = require('./routes/api/database/postgres');
 
@@ -43,9 +44,10 @@ var done = false;
 
 var app = express();
 
+
 var server = https.createServer({
-  cert: fs.readFileSync(__dirname + '/my.crt'), //get the ssl certificate and key
-  key: fs.readFileSync(__dirname + '/my.key')
+  cert: fs.readFileSync(config.certPath), //get the ssl certificate and key
+  key: fs.readFileSync(config.keyPath)
 }, app); //https listen and express app will use all the middlewere
 
 // view engine setup
@@ -85,6 +87,7 @@ app.use('/api/utils/tableData', phyloviztableData);
 app.use('/api/utils/mailer', mailer);
 app.use('/api/utils/publiclink', publicLink);
 app.use('/api/db', mongoSearch);
+//app.use('/api/pubmlst', pubmlst);
 
 app.use('/api/db/postgres', postgres);
 
@@ -120,7 +123,8 @@ app.use(function(err, req, res, next) {
 });
 
 
-server.listen(3000, function(){  //https server is listening
+
+server.listen(config.port, function(){  //https server is listening
   console.log('Server Running');
 });
 

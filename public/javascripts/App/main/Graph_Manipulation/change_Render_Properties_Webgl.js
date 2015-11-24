@@ -41,6 +41,32 @@ function LabelSize(newSize, graphObject, domLabels, type){
     
 }
 
+function changeLogScale(graphObject){
+
+    var renderer = graphObject.renderer;
+    var graphGL = graphObject.graphGL;
+    var layout = graphObject.layout;
+    var graph = graphObject.graphInput;
+
+    if(!graphObject.isLogScale) $("#SpringLengthSlider").val(1);
+
+    graph.links.forEach(function(link){
+
+            var linkUI = graphGL.getLink(link.source, link.target);
+
+            var spring = layout.getSpring(link.source, link.target);
+
+            if (graphObject.isLogScale) spring.length = Math.log10(spring.length);
+            else spring.length = linkUI.data.connectionStrength;
+
+        })
+
+    if(graphObject.isLayoutPaused){
+        renderer.resume();
+        setTimeout(function(){ renderer.pause();}, 50);
+    }
+}
+
 function changeSpringLength(newValue, max, graphObject){
 
     var renderer = graphObject.renderer;
@@ -54,7 +80,8 @@ function changeSpringLength(newValue, max, graphObject){
 
             var spring = layout.getSpring(link.source, link.target);
 
-            spring.length = linkUI.data.value + (200 * (1 + Math.log(linkUI.data.value)) * (newValue/max));
+            if (graphObject.isLogScale) spring.length = Math.log10(1 + linkUI.data.value) + (200 * Math.log10(1 + linkUI.data.value * (newValue/max)));
+            else spring.length = linkUI.data.value + (200 * (1 + Math.log10(linkUI.data.value)) * (newValue/max));
 
         })
 

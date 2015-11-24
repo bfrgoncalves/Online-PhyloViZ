@@ -80,6 +80,17 @@ function loadButtonFunctions(){
 	            } 
           	});
 
+          	$('#AddLogScale').change(function(e){
+	            if (this.checked){
+	              graphObject.isLogScale = true;	
+	              changeLogScale(graphObject);
+	            } 
+	            else{
+	              graphObject.isLogScale = false;	
+	              changeLogScale(graphObject);
+	            } 
+          	});
+
           	$('#AddLinkLabels').change(function(e){
 	            if (this.checked){
 	              $('.link-label').css('display','block');
