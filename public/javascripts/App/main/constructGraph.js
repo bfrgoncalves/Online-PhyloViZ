@@ -65,11 +65,11 @@ function constructGraph(graph, datasetID){
 
       $('#tabs li a').on('click', function(d){
 
-        if(loaded && tocheckTableIsolatesHeight && this.innerText == 'Isolates') {
+        if(loaded && tocheckTableIsolatesHeight && this.innerText == 'Auxiliary Data') {
           graphObject.tableIsolatesHeight = $("#tableisolates_wrapper").height();
           tocheckTableIsolatesHeight = false;
         }
-        else if(loaded && tocheckTableProfilesHeight && this.innerText == 'Profiles'){
+        else if(loaded && tocheckTableProfilesHeight && this.innerText == 'Genomic Data'){
           graphObject.tableProfilesHeight = $("#tableprofiles_wrapper").height();
           tocheckTableProfilesHeight = false;
         }
