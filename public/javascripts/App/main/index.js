@@ -44,12 +44,12 @@ $(document).ready(function(){
 
           status('Loading tables...');
           createTable(datasetID, 'isolates', function(){
-            //createTable(datasetID, 'profiles', function(){
+            createTable(datasetID, 'profiles', function(){
               
               status('Loading tree...');
 
               constructGraph(graph, datasetID);
-            //});
+            });
           });
       });
     });
