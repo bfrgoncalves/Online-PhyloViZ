@@ -9,7 +9,7 @@ var config = require('../../../config.js');
 
 
 var pg = require("pg");
-var connectionString = "pg://" + config.databaseUserString + "@localhost/phyloviz";
+var connectionString = "pg://" + config.databaseUserString + "@localhost/"+ config.db;
 
 
 router.get('/init', function(req, res, next){ //to change

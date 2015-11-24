@@ -209,7 +209,7 @@ function readFastafile(pathToFile, fileType, dataToDB, callback){
 function uploadToDatabase(data, callback){
 
   var pg = require("pg");
-  var connectionString = "postgres://" + config.databaseUserString + "@localhost/phyloviz";
+  var connectionString = "postgres://" + config.databaseUserString + "@localhost/"+ config.db;
 
   if (data.fileMetadata == undefined) data.fileMetadata = [];
   if (data.fileProfile == undefined && data.fileFasta == undefined) data.fileProfile = [];

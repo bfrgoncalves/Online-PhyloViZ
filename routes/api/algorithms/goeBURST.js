@@ -51,7 +51,7 @@ function loadProfiles(datasetID, userID, callback){
 	var datasetID;
 
 	var pg = require("pg");
-	var connectionString = "pg://" + config.databaseUserString + "@localhost/phyloviz";
+	var connectionString = "pg://" + config.databaseUserString + "@localhost/"+ config.db;
 
 	//query = "SELECT id FROM datasets.datasets WHERE dataset_id = '"+datasetID+"' AND user_id= '"+userID+"';";
 

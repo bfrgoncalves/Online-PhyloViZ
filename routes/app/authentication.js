@@ -6,7 +6,7 @@ var passportLocal = require('passport-local');
 var config = require('../../config.js');
 
 var pg = require("pg");
-var connectionString = "postgres://" + config.databaseUserString + "@localhost/phyloviz";
+var connectionString = "postgres://" + config.databaseUserString + "@localhost/"+ config.db;
 
 
 passport.use(new passportLocal.Strategy(function(username, password, callback){

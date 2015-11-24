@@ -33,7 +33,7 @@ router.get('/', function(req, res, next){
 function getDataset(datasetID, userID, parameter, callback) {
 
 	var pg = require("pg");
-  	var connectionString = "postgres://" + config.databaseUserString + "@localhost/phyloviz";
+  	var connectionString = "postgres://" + config.databaseUserString + "@localhost/"+ config.db;
 
   	//query = "SELECT id FROM datasets.datasets WHERE name='"+datasetName+"' AND user_id=$1;";
 

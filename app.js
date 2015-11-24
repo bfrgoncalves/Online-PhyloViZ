@@ -1,5 +1,7 @@
 var fs = require('fs');
-var https = require('https');
+//var https = require('https');
+
+var http = require('http');
 
 var express = require('express');
 var path = require('path');
@@ -45,10 +47,7 @@ var done = false;
 var app = express();
 
 
-var server = https.createServer({
-  cert: fs.readFileSync(config.certPath), //get the ssl certificate and key
-  key: fs.readFileSync(config.keyPath)
-}, app); //https listen and express app will use all the middlewere
+var server = http.createServer(app); //https listen and express app will use all the middlewere
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
