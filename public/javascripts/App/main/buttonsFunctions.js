@@ -10,6 +10,14 @@ function loadButtonFunctions(){
 
 		},
 
+		datasetName: function(graphObject){
+
+			var graph = graphObject.graphInput;
+
+			$('#datasetNameDiv').append(' '+ graph.dataset_name);
+
+		},
+
 		pauseButton: function(graphObject){
 
 			var graph = graphObject.graphInput;

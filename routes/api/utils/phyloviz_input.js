@@ -50,7 +50,7 @@ function getDataset(datasetID, userID, callback) {
 		    		"SELECT distanceMatrix FROM datasets.links WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;" +
 		    		"SELECT data AS newick FROM datasets.newick WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;" +
 		    		"SELECT data AS positions FROM datasets.positions WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;" +
-		    		"SELECT name, key FROM datasets.datasets WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;";
+		    		"SELECT name, key, data_type FROM datasets.datasets WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;";
 
 		    client.query(query, function(err, result) {
 			    if(err) {
@@ -75,7 +75,8 @@ function getDataset(datasetID, userID, callback) {
 			    		} 
 			    		else if( x  == 'newick') dataset.newick = result.rows[i][x]['newick'];
 			    		else if( x  == 'positions') dataset.positions = result.rows[i][x];
-			    		else if( x  == 'name' || x == 'key' || x == 'schemegenes' || x == 'metadata') dataset[x] = result.rows[i][x];
+			    		else if( x  == 'name' || x == 'key' || x == 'schemegenes' || x == 'metadata' || x == 'data_type') dataset[x] = result.rows[i][x];
+			    		console.log(x);
 			    	}
 			    }
 			    //console.log(dataset.profiles.length);

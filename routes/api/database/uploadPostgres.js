@@ -43,6 +43,7 @@ router.post('/', multer({
   else dataToDB.userID = req.user.id;
 
   for (i in req.files){
+    dataToDB['is_' + i] = true;
     readInputFiles(req.files[i].path, i, dataToDB, function(pathToFile, dataToDB){
           fs.unlink(pathToFile);
           countProgress += 1;
@@ -232,9 +233,11 @@ function uploadToDatabase(data, callback){
     var cipher = crypto.createCipher(config.cipherUser.algorithm, config.cipherUser.pass);
     dataset_id = userID + data.datasetName;
     data.datasetID = cipher.update(dataset_id,'utf8','hex');
+    if (data['is_fileNewick']) data.data_type = 'newick';
+    if (data['is_fileFasta']) data.data_type = 'fasta';
+    if (data['is_fileProfile']) data.data_type = 'profile';
 
-
-    query = "INSERT INTO datasets.datasets (name, key, user_id, dataset_id) VALUES ('"+data.datasetName+"', '"+data.key+"', '"+userID+"', '"+data.datasetID+"');" +
+    query = "INSERT INTO datasets.datasets (name, key, user_id, dataset_id, data_type) VALUES ('"+data.datasetName+"', '"+data.key+"', '"+userID+"', '"+data.datasetID+"', '"+data.data_type+"');" +
             "INSERT INTO datasets.profiles (user_id, data, schemeGenes, dataset_id) VALUES ('"+userID+"', '"+JSON.stringify(profiles)+"', '{"+data['fileProfile_headers']+"}', '"+data.datasetID+"');" +
             "INSERT INTO datasets.isolates (user_id, data, metadata, dataset_id) VALUES ('"+userID+"', '"+JSON.stringify(isolates)+"', '{"+data['fileMetadata_headers']+"}', '"+data.datasetID+"');" +
             "INSERT INTO datasets.positions (user_id, data, dataset_id) VALUES ('"+userID+"', '"+JSON.stringify(positions)+"', '"+data.datasetID+"');" +

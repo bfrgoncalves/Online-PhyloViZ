@@ -44,12 +44,17 @@ $(document).ready(function(){
 
           status('Loading tables...');
           createTable(datasetID, 'isolates', function(){
-            createTable(datasetID, 'profiles', function(){
-              
-              status('Loading tree...');
 
+            if (graph.data_type == 'fasta'){
+              status('Loading tree...');
               constructGraph(graph, datasetID);
-            });
+            }
+            else{
+              createTable(datasetID, 'profiles', function(){
+                status('Loading tree...');
+                constructGraph(graph, datasetID);
+              });
+            }
           });
       });
     });

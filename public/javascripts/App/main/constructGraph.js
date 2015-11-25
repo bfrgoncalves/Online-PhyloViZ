@@ -39,6 +39,7 @@ function constructGraph(graph, datasetID){
       var buttonFunctions = loadButtonFunctions(); //Functions to be applied to the graphObject object. buttonsFunctions.js
 
       buttonFunctions.numberOfNodes(graphObject);
+      buttonFunctions.datasetName(graphObject);
       buttonFunctions.pauseButton(graphObject);
       buttonFunctions.graphicButtons(graphObject);
       buttonFunctions.operationsButtons(graphObject);
@@ -53,6 +54,8 @@ function constructGraph(graph, datasetID){
         $("#TreeOperations").css('display', 'none');
         $("#computeDistances").css('display', 'none');
       }
+
+      if (graphObject.graphInput.data_type == 'newick') $("#logScaleDiv").css('display', 'none');
 
       $("#waitingGifMain").css('display', 'none');
       $(".tab-pane").css({'opacity': '1'});
@@ -69,7 +72,7 @@ function constructGraph(graph, datasetID){
           graphObject.tableIsolatesHeight = $("#tableisolates_wrapper").height();
           tocheckTableIsolatesHeight = false;
         }
-        else if(loaded && tocheckTableProfilesHeight && this.innerText == 'Genomic Data'){
+        else if(loaded && tocheckTableProfilesHeight && this.innerText == 'Profiles'){
           graphObject.tableProfilesHeight = $("#tableprofiles_wrapper").height();
           tocheckTableProfilesHeight = false;
         }
