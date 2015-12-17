@@ -76,6 +76,26 @@ function loadButtonFunctions(){
 	            changeSpringLength(this.value, this.max, graphObject);
 	        });
 
+	        $('#DragSlider').change(function(e){
+	            changeDragCoefficient(this.value, this.max, graphObject);
+	        });
+
+	        $('#SpringCoefSlider').change(function(e){
+	            changeSpringCoefficient(this.value, this.max, graphObject);
+	        });
+
+	        $('#GravitySlider').change(function(e){
+	            changeGravity(this.value, this.max, graphObject);
+	        });
+
+	        $('#ThetaSlider').change(function(e){
+	            changeTheta(this.value, this.max, graphObject);
+	        });
+
+	        $('#MassSlider').change(function(e){
+	            changeMass(this.value, this.max, graphObject);
+	        });
+
 
 	        $('#AddLabels').change(function(e){
 	            if (this.checked){

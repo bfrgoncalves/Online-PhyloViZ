@@ -92,6 +92,88 @@ function changeSpringLength(newValue, max, graphObject){
 
 }
 
+function changeDragCoefficient(newValue, max, graphObject){
+
+    var renderer = graphObject.renderer;
+    var graphGL = graphObject.graphGL;
+    var layout = graphObject.layout;
+    var graph = graphObject.graphInput;
+
+    layout.simulator.dragCoeff(parseInt(newValue) * 0.0001);
+
+    if(graphObject.isLayoutPaused){
+        renderer.resume();
+        setTimeout(function(){ renderer.pause();}, 50);
+    }
+
+}
+
+function changeSpringCoefficient(newValue, max, graphObject){
+
+    var renderer = graphObject.renderer;
+    var graphGL = graphObject.graphGL;
+    var layout = graphObject.layout;
+    var graph = graphObject.graphInput;
+
+    layout.simulator.springCoeff(parseInt(newValue) * 0.0001);
+
+    if(graphObject.isLayoutPaused){
+        renderer.resume();
+        setTimeout(function(){ renderer.pause();}, 50);
+    }
+
+}
+
+function changeGravity(newValue, max, graphObject){
+
+    var renderer = graphObject.renderer;
+    var graphGL = graphObject.graphGL;
+    var layout = graphObject.layout;
+    var graph = graphObject.graphInput;
+
+    layout.simulator.gravity(parseInt(newValue));
+
+    if(graphObject.isLayoutPaused){
+        renderer.resume();
+        setTimeout(function(){ renderer.pause();}, 50);
+    }
+
+}
+
+function changeTheta(newValue, max, graphObject){
+
+    var renderer = graphObject.renderer;
+    var graphGL = graphObject.graphGL;
+    var layout = graphObject.layout;
+    var graph = graphObject.graphInput;
+
+    layout.simulator.theta(parseInt(newValue) * 0.01);
+
+    if(graphObject.isLayoutPaused){
+        renderer.resume();
+        setTimeout(function(){ renderer.pause();}, 50);
+    }
+
+}
+
+function changeMass(newValue, max, graphObject){
+
+    var renderer = graphObject.renderer;
+    var graphGL = graphObject.graphGL;
+    var layout = graphObject.layout;
+    var graph = graphObject.graphInput;
+
+    graphObject.graphGL.forEachNode(function(node){
+        graphObject.layout.getBody(node.id).mass = graphObject.layout.getBody(node.id).defaultMass * ((graphObject.layout.getBody(node.id).defaultMass / parseFloat(newValue)));
+    });
+
+    if(graphObject.isLayoutPaused){
+        renderer.resume();
+        setTimeout(function(){ renderer.pause();}, 50);
+    }
+
+}
+
 function linkThickness(newSize, renderer, graph, graphics){
 
 	graph.links.forEach(function(link){

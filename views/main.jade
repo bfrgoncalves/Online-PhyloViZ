@@ -97,6 +97,20 @@ block normalBody
 											input(type='range',id='LinkLabelSizeSlider', name='points1', value = 20, min='1', max='50')
 											label Add Link Labels
 											input(type='checkbox',id='AddLinkLabels')
+									a.btn.btn-primary.actionButton(data-toggle='collapse', href='#LayoutGraphics', aria-expanded="false", aria-controls="collapseExample") Layout
+									div.collapse(id='LayoutGraphics')
+										div.well(id='LayoutAttributes')
+											label Drag Coefficient
+											input(type='range',id='DragSlider', name='points1', value = 3, min='1', max='50')
+											br
+											label Spring Coefficient
+											input(type='range',id='SpringCoefSlider', name='points1', value = 1, min='1', max='200')
+											label Gravity
+											input(type='range',id='GravitySlider', name='points1', value = -10, min='-200', max='1')
+											label Theta
+											input(type='range',id='ThetaSlider', name='points1', value = 0.8, min='0.8', max='100')
+											label Mass Ratio
+											input(type='range',id='MassSlider', name='points1', value = 1, min='1', max='20')
 
 						li
 							div

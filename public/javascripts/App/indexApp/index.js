@@ -59,6 +59,8 @@ function createDatasetButtons(onButtons){
 
 	$('#buttonUploadDatasets').click(function(){
 		status("");
+		var table = $('#TableDatasets').DataTable();
+		table.$('tr').removeClass('selected');
 		var propertyToCheck = $('#possibleInputFormats').find(":selected");
 		if (propertyToCheck[0].index == 0) $('#LaunchButton').css({ 'display': 'none'});
 

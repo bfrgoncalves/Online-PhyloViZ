@@ -45,8 +45,13 @@ function constructGraph(graph, datasetID){
       buttonFunctions.operationsButtons(graphObject);
       buttonFunctions.searchButton(graphObject);
 
-      colorAttributes(graphObject.graphInput, graphObject.graphics, graphObject.renderer); //function which links the colors of the pieCharts to the data
+      graphObject.graphGL.forEachNode(function(node){
+        graphObject.layout.getBody(node.id).defaultMass = graphObject.layout.getBody(node.id).mass;
+      });
 
+      colorAttributes(graphObject.graphInput, graphObject.graphics, graphObject.renderer); //function which links the colors of the pieCharts to the data
+      //graphObject.layout.simulator.gravity(-1000)
+      //console.log(graphObject.layout.simulator.gravity());
       linkTableAndGraph('isolates', graphObject); //link between operations from the tables and the graph tab
       linkTableAndGraph('profiles', graphObject);
 

@@ -49,6 +49,7 @@ router.post('/', multer({
           countProgress += 1;
           if (countProgress == req.body.numberOfFiles){
               //console.log(req.user);
+              dataToDB.dataset_description = req.body.dataset_description;
               uploadToDatabase(dataToDB, function(){
                 res.send(dataToDB.datasetID);
               });
@@ -237,13 +238,14 @@ function uploadToDatabase(data, callback){
     if (data['is_fileFasta']) data.data_type = 'fasta';
     if (data['is_fileProfile']) data.data_type = 'profile';
 
-    query = "INSERT INTO datasets.datasets (name, key, user_id, dataset_id, data_type) VALUES ('"+data.datasetName+"', '"+data.key+"', '"+userID+"', '"+data.datasetID+"', '"+data.data_type+"');" +
+    query = "INSERT INTO datasets.datasets (name, key, user_id, dataset_id, data_type, description) VALUES ('"+data.datasetName+"', '"+data.key+"', '"+userID+"', '"+data.datasetID+"', '"+data.data_type+"', '" + data.dataset_description + "');" +
             "INSERT INTO datasets.profiles (user_id, data, schemeGenes, dataset_id) VALUES ('"+userID+"', '"+JSON.stringify(profiles)+"', '{"+data['fileProfile_headers']+"}', '"+data.datasetID+"');" +
             "INSERT INTO datasets.isolates (user_id, data, metadata, dataset_id) VALUES ('"+userID+"', '"+JSON.stringify(isolates)+"', '{"+data['fileMetadata_headers']+"}', '"+data.datasetID+"');" +
             "INSERT INTO datasets.positions (user_id, data, dataset_id) VALUES ('"+userID+"', '"+JSON.stringify(positions)+"', '"+data.datasetID+"');" +
             "INSERT INTO datasets.links (user_id, data, dataset_id) VALUES ('"+userID+"', '"+JSON.stringify(links)+"', '"+data.datasetID+"');" +
             "INSERT INTO datasets.newick (user_id, data, dataset_id) VALUES ('"+userID+"', '"+JSON.stringify(newick)+"', '"+data.datasetID+"');"; 
 
+    console.log(query);
     var client = new pg.Client(connectionString);
     client.connect(function(err) {
       if(err) {

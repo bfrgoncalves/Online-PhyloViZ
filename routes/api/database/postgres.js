@@ -152,6 +152,10 @@ router.put('/update/:table/:field/', function(req, res, next){
 		    //datasetID = result.rows[0].id;
 
 		    //console.log(reqBody.change, userID, reqBody.dataset_id);
+		console.log(reqBody.change);
+		console.log(params.table);
+		console.log(params.field);
+		console.log('AQUI');
 
 		    if (params.table == 'all'){
 		    	query = "UPDATE datasets.datasets SET "+params.field+" = '"+reqBody.change+"' WHERE user_id = '"+userID+"' AND dataset_id = '"+reqBody.dataset_id+"';" +

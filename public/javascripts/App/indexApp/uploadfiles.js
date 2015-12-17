@@ -22,8 +22,10 @@ function submitTree(NameToID){
 
 $('#inputForm').submit(function() {
 
-    var datasetName = $('#datasetName').val()
-    checkIfNameExists(datasetName);
+    var datasetName = $('#datasetName').val();
+    checkIfNameExists(datasetName, function(){
+      uploadFiles();
+    });
 
     return false;
 });
@@ -60,6 +62,7 @@ function uploadFiles(){
   fd.append( 'fileNewick', fileSelectNewick.files[0] );
   fd.append( 'fileFasta', fileSelectFasta.files[0] );
   fd.append( 'datasetName', $('#datasetName').val());
+  fd.append( 'dataset_description', $('#dataset_description').val());
   fd.append( 'numberOfFiles', countNumberOfFiles);
   
 
@@ -116,7 +119,7 @@ function getLinks(datasetID){
 // }
 
 
-function checkIfNameExists(datasetName){
+function checkIfNameExists(datasetName, callback){
     
     status('Checking if dataset exists...');
 
@@ -128,7 +131,7 @@ function checkIfNameExists(datasetName){
       type: 'GET',
       success: function(data){
         if(data.length > 0) status('Dataset name already exists!');
-        else uploadFiles();
+        else callback();
       }
 
     });

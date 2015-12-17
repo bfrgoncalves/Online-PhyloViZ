@@ -85,16 +85,28 @@ $('#toggle_col_legend').click(function(){
 
       $('#toggle_col_info').click(function(){
         if(this.innerHTML.search('Hide') > -1){
-          //this.innerHTML =  "Show Information";
-          //$("#divButtonClearInfo").css({ display: 'none' });
           setTimeout(function(){
-            $("#divButtonInfoOutside").css({ bottom: '0%', display: 'block', left: '19%'});
+            $("#divButtonInfoOutside").css({ bottom: '0%', display: 'block', left: '17.5%'});
           }, 900);
         }
-        $('#col_information').toggle(1000);
+        $('#col_information').animate({
+            top: '100%',
+            height: 'toggle',
+            width: 'toggle'
+          },
+          {
+            duration: 1000
+          });
       });
 
       $("#toggle_col_in").click(function(){
-        $('#col_information').toggle(1000);
+        $('#col_information').animate({
+            top: '78.5%',
+            height: 'toggle',
+            width: 'toggle'
+          },
+          {
+            duration: 1000
+          });
         $("#divButtonInfoOutside").css({ display: 'none'});
       });

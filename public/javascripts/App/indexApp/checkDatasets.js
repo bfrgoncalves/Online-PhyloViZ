@@ -9,7 +9,6 @@ function checkDatasets(callback){
       contentType: false,
       type: 'GET',
       success: function(data){
-        //createDropdown(data, '#existingDatasets', 'Select an existing dataset...', 0, 'selectDataset');
         createTable(data, '#existingDatasets', function(datasetObject){
         	callback(datasetObject);
         });
@@ -28,10 +27,56 @@ function deleteDataset(tableToCheck, datasetObject){
       type: 'DELETE',
       success: function(data){
       	table.row('.selected').remove().draw( false );
+        table.$('tr').removeClass('selected');
         status(data.message);
         $('#buttonDeleteDataset').css('display', 'none');
 
       }
+
+    });
+
+}
+
+
+function changeDescription(tableToCheck, datasetObject, description){
+
+  var table = $('#' + tableToCheck).DataTable();
+  selectedData = table.rows('.selected').data();
+
+  $.ajax({
+      url: '/api/db/postgres/update/datasets/description',
+      data: {change: description, dataset_id: datasetObject[selectedData[0][0]]},
+      type: 'PUT',
+      success: function(data){
+        table.cell('.selected', 1).data(description).draw(false);
+        status('Description updated');
+        $('#changeDescription').val("");
+
+      }
+
+    });
+}
+
+function changeDatasetName(tableToCheck, datasetObject, newName){
+
+  var table = $('#' + tableToCheck).DataTable();
+  selectedData = table.rows('.selected').data();
+
+  checkIfNameExists(newName, function(){
+      
+      $.ajax({
+        url: '/api/db/postgres/update/datasets/name',
+        data: {change: newName, dataset_id: datasetObject[selectedData[0][0]]},
+        type: 'PUT',
+        success: function(data){
+          table.cell('.selected', 0).data(newName).draw(false);
+          table.$('tr').removeClass('selected');
+          status('Dataset Name updated');
+          $('#changeDatasetName').val("");
+
+        }
+
+      });
 
     });
 
@@ -78,17 +123,30 @@ function createTable(data, divID, callback){
 	            $(this).removeClass('selected');
 	        }
 	        else {
+              $('#changeDescriptionDiv').css('display', 'block');
 	            table.$('tr.selected').removeClass('selected');
 	            $(this).addClass('selected');
 	            $('#buttonDeleteDataset').css('float', 'right');
 	            $('#buttonDeleteDataset').css('display', 'block');
+              //$('#buttonChangeDescription').css('display', 'block');
+              //$('#buttonChangeDatasetName').css('display', 'block');
 	        }
     	}
     } );
 
     $('#buttonDeleteDataset').click(function(){
     	deleteDataset(tableToCheck, datasetObject);
-    })
+    });
+
+    $('#buttonChangeDescription').click(function(){
+      var description = $('#changeDescription').val();
+      changeDescription(tableToCheck, datasetObject, description);
+    });
+
+    $('#buttonChangeDatasetName').click(function(){
+      var newName = $('#changeDatasetName').val();
+      changeDatasetName(tableToCheck, datasetObject, newName);
+    });
 
     callback(datasetObject);
 }

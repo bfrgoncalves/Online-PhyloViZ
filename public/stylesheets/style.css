@@ -18,6 +18,14 @@ a {
   color: #00B7FF;
 }
 
+
+.statcounter {
+    position: fixed;
+    bottom: 10%;
+    left: 90%;
+    width: 100%;
+}
+
 #globalContainer{
   width: 100%;
   height: 100%;
@@ -120,9 +128,7 @@ a {
   left: 45%;
 }
 
-#LaunchButton{
-  display: block;
-}
+
 
 .waitingImage{
   height: auto;
@@ -171,7 +177,7 @@ thead tr th{
   border: 1px solid black;
 }
 
-thead tr th:hover{
+thead tr th.doHover:hover{
   background-color: #6497b1;
 }
 

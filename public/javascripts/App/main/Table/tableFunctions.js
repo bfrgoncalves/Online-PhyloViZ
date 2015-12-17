@@ -86,6 +86,7 @@ function constructTable(tableData, datasetParameter, callback){
         ],
 
         "fnInitComplete": function(oSettings, json) {
+
           createFooter('#' + tableToCheck, columns, function(){
             createColumnSearch(tableToCheck);
             addToDiv(tableToCheck);
@@ -95,6 +96,8 @@ function constructTable(tableData, datasetParameter, callback){
           buttonPrint = $('#' + tableToCheck + '_wrapper .buttons-print');
           $('#export'+datasetParameter).append(exportButtons);
           $('#export'+datasetParameter).append(buttonPrint);
+
+          $('table thead tr th').addClass('doHover');
           $("table").css({"overflow-x": 'auto'});
           callback();
 
