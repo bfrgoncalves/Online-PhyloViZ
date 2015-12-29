@@ -20,6 +20,9 @@ function createDistanceTable(selectedNodes, distanceMatrix, metadata, maxDistanc
   $("#divOrder").css({'display': 'block'});
 
   createSelect(metadata, function(){
+    $('#countSelectedNodes').empty();
+    $('#countSelectedNodes').append('Selected Nodes: ' + selectedNodes.length);
+    $("#countSelectedNodes").css({display: 'block'});
     constructMatrix(selectedNodes, distanceMatrix, metadata, maxDistance, svg, svgHeight);
     $("#divClearDistances").css({display: 'block'});
     allowClearDistances();
@@ -31,6 +34,7 @@ function allowClearDistances(){
   $("#clearDistanceMatrix").click(function(){
     $('divsvg').empty();
     $("#divOrder").css({display: 'none'});
+    $("#countSelectedNodes").css({display: 'none'});
     d3.select("#divsvg svg").remove();
     d3.select("#divsvgLegend svg").remove();
     $("#checkboxListContent").empty();

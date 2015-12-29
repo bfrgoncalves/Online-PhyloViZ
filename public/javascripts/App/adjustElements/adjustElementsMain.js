@@ -15,7 +15,7 @@ adjustElements = function () {
 
     $("body").css('font-size', ButtonfontSize);
     $("li").css('font-size', ButtonfontSize);
-    $("a").css('font-size', ButtonfontSize * 1.2);
+    $("a").css('font-size', ButtonfontSize * 1.5);
     $(".login").css('font-size', ButtonfontSize * 1.2);
     $("i").css('font-size', ButtonfontSize);
     $(".form-control").css({'font-size': ButtonfontSize, 'height': assignColorHeight, 'padding': 0});

@@ -32,7 +32,35 @@ router.get('/dataset/:datasetID', function(req, res, next) {
 });
 
 /* GET home page. */
-router.get('/dataset/public/:cipheredDataset', function(req, res, next) {
+router.get('/dataset/public/:datasetID', function(req, res, next) {
+
+  springLength = 1;
+
+  if (req.query.springLength != undefined) springLength = req.query.springLength;
+  if (req.query.precompute != undefined) res.render('main', { 
+    title: 'PHYLOViZ Online', 
+    precompute: req.query.precompute, 
+    datasetID: req.params.datasetID, 
+    springLength : springLength,
+    isAuthenticated: req.isAuthenticated(), //function given by passport
+    user: req.user, //also given by passport. an user object
+    isPublic : true
+  });
+  else res.render('main', { 
+    title: 'PHYLOViZ Online', 
+    precompute: false, 
+    datasetID: req.params.datasetID, 
+    springLength : springLength,
+    isAuthenticated: req.isAuthenticated(), //function given by passport
+    user: req.user, //also given by passport. an user object
+    isPublic: true
+  });
+
+
+});
+
+/* GET home page. */
+router.get('/dataset/share/:cipheredDataset', function(req, res, next) {
 
   //console.log(req.params.cipheredDataset);
   var decipher = crypto.createDecipher(config.cipherUser.algorithm, config.cipherUser.pass);

@@ -34,7 +34,7 @@ function loadGraphFunctions(){
 			graphObject.layout = Viva.Graph.Layout.forceDirected(graphGL, {
 						    	    springLength : idealSpringLength,
 						    	    springCoeff : 0.0001,
-						    	    dragCoeff : 0.01,
+						    	    dragCoeff : 0.0001,
 						    	    gravity : -10,
 						    	    theta: 0.8,
 
@@ -114,7 +114,7 @@ function loadGraphFunctions(){
 		      }
 		},
 
-		precompute: function(graphObject, iterations, callback) {
+		precompute: function myself(graphObject, iterations, callback) { //define name inside function to be able to call it from inside
 
 			var layout = graphObject.layout;
 	        // let's run 10 iterations per event loop cycle:
@@ -124,15 +124,22 @@ function loadGraphFunctions(){
 	          iterations--;
 	          i++;
 	        }
-	        $('#processingElement').children().remove();
-	        $('#processingElement').append('<div><h3>Layout precompute: ' + iterations+'</h3></div>');
+	        //$('#processingElement').children().remove();
+	        //$('#processingElement').append('<div><h3>Layout precompute: ' + iterations+'</h3></div>');
+	        status('Layout precompute: ' + iterations); 
 	        if (iterations > 0) {
 	          setTimeout(function () {
-	              precompute(iterations, callback);
+	              myself(graphObject,iterations, callback);
 	          }, 0); // keep going in next even cycle
 	        } else {
 	          // we are done!
-	          $('#processingElement').children().remove();
+	          //$('#processingElement').children().remove();
+	          $("#waitingGifMain").css('display', 'none');
+      		  $(".tab-pane").css({'opacity': '1'});
+      		  status("");
+
+    		  layout.simulator.dragCoeff(30 * 0.0001);
+	          
 	          callback();
 	        }
         }, 

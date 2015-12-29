@@ -2,7 +2,8 @@
 $(document).ready( function(){
 
 	var onButtons = {
-		userdatasets: true,
+		home: true,
+		userdatasets: false,
 		uploaddatasets:false,
 		publicdatasets: false
 	}
@@ -16,6 +17,9 @@ $(document).ready( function(){
 			submitTree(datasetsObject);
 		});
 	});
+
+	var tutorialFunctions = tutorial('col_tutorial');
+	tutorialFunctions.home();
 
 	var optionsToDropDown = [{name: 'Profile Data'}, {name: 'Newick Data'}, , {name: 'Fasta Data'}];
 	createDropdown(optionsToDropDown, '#possibleInputFormats', 'Input formats', 1, 'inputFormats');
@@ -40,9 +44,70 @@ $(document).ready( function(){
 
 function createDatasetButtons(onButtons){
 
+	var tutorialFunctions = tutorial('col_tutorial');
 
-	$('#buttonExistingDatasets').click(function(){
+	$('#buttonHelp').click(function(){
+		$('#col_tutorial').toggle();
+	});
+
+	$('#buttonHome').click(function(){
 		status("");
+		var table = $('#tableuser').DataTable();
+		table.$('tr').removeClass('selected');
+		var table = $('#tablepublic').DataTable();
+		table.$('tr').removeClass('selected');
+		$('#LaunchButton').css({ 'display': 'none'});
+		if (onButtons.home) return false;
+		if (onButtons.uploaddatasets){
+			$('#uploadDiv').toggle();
+			onButtons.uploaddatasets = false;
+		}
+		else if (onButtons.publicdatasets){
+			$('#publicDataset').toggle();
+			onButtons.publicdatasets = false;
+		}
+		else if (onButtons.userdatasets){
+			$('#userDataset').toggle();
+			onButtons.userdatasets = false;
+		}
+		$('#homeDiv').toggle();
+		$('#userDataset').css({"display": "none"});
+        $('#uploadDiv').css({"display": "none"});
+        $('#publicDataset').css({"display": "none"});
+        tutorialFunctions.home();
+		onButtons.home = true;
+	});
+
+	$('#buttonPublicDatasets').click(function(){
+		status("");
+		var table = $('#tableuser').DataTable();
+		table.$('tr').removeClass('selected');
+		$('#LaunchButton').css({ 'display': 'block'});
+		if (onButtons.publicdatasets) return false;
+		else if (onButtons.uploaddatasets){
+			$('#uploadDiv').toggle();
+			onButtons.uploaddatasets = false;
+		}
+		else if (onButtons.userdatasets){
+			$('#userDataset').toggle();
+			onButtons.userdatasets = false;
+		}
+		else if (onButtons.home){
+			$('#homeDiv').toggle();
+			onButtons.home = false;
+		}
+        $('#publicDataset').toggle();
+        $('#userDataset').css({"display": "none"});
+        $('#uploadDiv').css({"display": "none"});
+        $('#homeDiv').css({"display": "none"});
+        tutorialFunctions.publicdatasets();
+        onButtons.publicdatasets = true;
+	});
+
+	$('#buttonUserDatasets').click(function(){
+		status("");
+		var table = $('#tablepublic').DataTable();
+		table.$('tr').removeClass('selected');
 		$('#LaunchButton').css({ 'display': 'block'});
 		if (onButtons.userdatasets) return false;
 		else if (onButtons.uploaddatasets){
@@ -53,27 +118,45 @@ function createDatasetButtons(onButtons){
 			$('#publicDataset').toggle();
 			onButtons.publicdatasets = false;
 		}
-        $('#useDataset').toggle();
+		else if (onButtons.home){
+			$('#homeDiv').toggle();
+			onButtons.home = false;
+		}
+        $('#userDataset').toggle();
+        $('#publicDataset').css({"display": "none"});
+        $('#uploadDiv').css({"display": "none"});
+        $('#homeDiv').css({"display": "none"});
+        tutorialFunctions.userdatasets();
         onButtons.userdatasets = true;
       });
 
 	$('#buttonUploadDatasets').click(function(){
 		status("");
-		var table = $('#TableDatasets').DataTable();
+		var table = $('#tableuser').DataTable();
+		table.$('tr').removeClass('selected');
+		var table = $('#tablepublic').DataTable();
 		table.$('tr').removeClass('selected');
 		var propertyToCheck = $('#possibleInputFormats').find(":selected");
 		if (propertyToCheck[0].index == 0) $('#LaunchButton').css({ 'display': 'none'});
 
         if (onButtons.uploaddatasets) return false;
 		else if (onButtons.userdatasets){
-			$('#useDataset').toggle();
+			$('#userDataset').toggle();
 			onButtons.userdatasets = false;
 		}
 		else if (onButtons.publicdatasets){
 			$('#publicDataset').toggle();
 			onButtons.publicdatasets = false;
 		}
+		else if (onButtons.home){
+			$('#homeDiv').toggle();
+			onButtons.home = false;
+		}
 		$('#uploadDiv').toggle();
+		$('#publicDataset').css({"display": "none"});
+        $('#userDataset').css({"display": "none"});
+        $('#homeDiv').css({"display": "none"});
+        tutorialFunctions.uploaddatasets();
 		onButtons.uploaddatasets = true;
       });
 

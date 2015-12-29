@@ -27,13 +27,13 @@ router.get('/init', function(req, res, next){ //to change
 
 	function initDataset(callback){
 
-		var query = 'CREATE TABLE datasets.links (id SERIAL PRIMARY KEY, user_id text NOT NULL, dataset_id text NOT NULL, is_public boolean, data jsonb, distanceMatrix jsonb);' +
-					'CREATE TABLE datasets.profiles (id SERIAL PRIMARY KEY, user_id text NOT NULL, schemeGenes text[], dataset_id text NOT NULL, is_public boolean, data jsonb);' +
-					'CREATE TABLE datasets.isolates (id SERIAL PRIMARY KEY, user_id text NOT NULL, metadata text[], dataset_id text NOT NULL, is_public boolean, data jsonb);' +
-					'CREATE TABLE datasets.positions (id SERIAL PRIMARY KEY, user_id text NOT NULL, dataset_id text NOT NULL, is_public boolean, data jsonb);' +
-					'CREATE TABLE datasets.newick (id SERIAL PRIMARY KEY, user_id text NOT NULL, dataset_id text NOT NULL, is_public boolean, data jsonb);' +
-					'CREATE TABLE datasets.users (id SERIAL PRIMARY KEY, username text UNIQUE, user_id text UNIQUE, salt text, pass text, email text);' +
-					'CREATE TABLE datasets.datasets (id SERIAL PRIMARY KEY, user_id text NOT NULL, name text NOT NULL, dataset_id text NOT NULL, key text NOT NULL, is_public boolean, description text, data_type text NOT NULL);' +
+		var query = 'CREATE TABLE datasets.links (id SERIAL PRIMARY KEY, user_id text NOT NULL, dataset_id text NOT NULL, is_public boolean, data jsonb, distanceMatrix jsonb, put_public boolean);' +
+					'CREATE TABLE datasets.profiles (id SERIAL PRIMARY KEY, user_id text NOT NULL, schemeGenes text[], dataset_id text NOT NULL, is_public boolean, data jsonb, put_public boolean);' +
+					'CREATE TABLE datasets.isolates (id SERIAL PRIMARY KEY, user_id text NOT NULL, metadata text[], dataset_id text NOT NULL, is_public boolean, data jsonb, put_public boolean);' +
+					'CREATE TABLE datasets.positions (id SERIAL PRIMARY KEY, user_id text NOT NULL, dataset_id text NOT NULL, is_public boolean, data jsonb, put_public boolean);' +
+					'CREATE TABLE datasets.newick (id SERIAL PRIMARY KEY, user_id text NOT NULL, dataset_id text NOT NULL, is_public boolean, data jsonb, put_public boolean);' +
+					'CREATE TABLE datasets.users (id SERIAL PRIMARY KEY, username text UNIQUE, user_id text UNIQUE, salt text, pass text, email text, put_public boolean);' +
+					'CREATE TABLE datasets.datasets (id SERIAL PRIMARY KEY, user_id text NOT NULL, name text NOT NULL, dataset_id text NOT NULL, key text NOT NULL, is_public boolean, description text, data_type text NOT NULL, put_public boolean);' +
 					
 					"INSERT INTO datasets.users(username, user_id, salt, pass) VALUES('public', 'public', '1', 'public');";
 
@@ -92,9 +92,13 @@ router.get('/find/:table/:field/', function(req, res, next){
 
 	function findOnTable(userID, params, reqQuery, callback){
 
-		if (params.field == 'all') query = "SELECT * FROM datasets."+params.table+" WHERE user_id=$1;";
+		if (params.field == 'all'){
+			query = "SELECT * FROM datasets."+params.table+" WHERE put_public ='true' AND user_id !='"+userID+"';";
+			if (userID != '1') query += "SELECT * FROM datasets."+params.table+" WHERE user_id='"+userID+"';";
+
+		}
 		else{
-			query = "SELECT "+req.params.field+" FROM datasets."+params.table+" WHERE user_id=$1";
+			query = "SELECT "+req.params.field+", user_id FROM datasets."+params.table+" WHERE user_id='"+userID+"'";
 			if (Object.keys(reqQuery).length == 0) query+=";";
 			else{
 				for (i in reqQuery){
@@ -114,7 +118,7 @@ router.get('/find/:table/:field/', function(req, res, next){
 		  if(err) {
 		    return console.error('could not connect to postgres', err);
 		  }
-		  client.query(query, [userID], function(err, result) {
+		  client.query(query, function(err, result) {
 		    if(err) {
 		      return console.error('error running query', err);
 		    }
@@ -129,7 +133,17 @@ router.get('/find/:table/:field/', function(req, res, next){
 	else user_id = req.user.id;
 
 	findOnTable(user_id, req.params, req.query, function (doc){
-		res.send(doc);
+
+		var toSend = {publicdatasets: [], userdatasets: []};
+		for (i in doc){
+			topass = '';
+			if (req.params.field == 'all') topass = doc[i];
+			else topass = doc[i][req.params.field];
+			if (doc[i].user_id == user_id) toSend.userdatasets.push(topass);
+			//else toSend.userdatasets.push(topass);
+			if (doc[i].put_public == true) toSend.publicdatasets.push(topass);
+		}
+		res.send(toSend);
 	});
 	
 });
@@ -152,10 +166,6 @@ router.put('/update/:table/:field/', function(req, res, next){
 		    //datasetID = result.rows[0].id;
 
 		    //console.log(reqBody.change, userID, reqBody.dataset_id);
-		console.log(reqBody.change);
-		console.log(params.table);
-		console.log(params.field);
-		console.log('AQUI');
 
 		    if (params.table == 'all'){
 		    	query = "UPDATE datasets.datasets SET "+params.field+" = '"+reqBody.change+"' WHERE user_id = '"+userID+"' AND dataset_id = '"+reqBody.dataset_id+"';" +

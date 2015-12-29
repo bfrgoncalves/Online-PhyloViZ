@@ -44,8 +44,8 @@ block normalBody
 					ul.nav.nav-stacked
 						li
 							div
-								h5(id='datasetNameDiv') Dataset Name: 
-								h5(id='numberOfNodes') Number of nodes: 
+								h5(id='datasetNameDiv') Dataset name: 
+								h5(id='numberOfNodes') Dataset size: 
 								form(id='searchForm')
 									div.input-group.input-group-sm
 										input.form-control(type='text' id='nodeid' style='color:black' placehorder="Search")
@@ -56,6 +56,9 @@ block normalBody
 							div(id='toggleLayout')
 								i.glyphicon.glyphicon-pause(id='iconPauseLayout') 
 								i(id='pauseLayout') Pause Layout
+							div(id='divReset')
+								i.glyphicon.glyphicon-refresh(id='iconResetLayout') 
+								i(id='resetPositionButton') Reset Positions
 							br
 								
 							
@@ -101,7 +104,7 @@ block normalBody
 									div.collapse(id='LayoutGraphics')
 										div.well(id='LayoutAttributes')
 											label Drag Coefficient
-											input(type='range',id='DragSlider', name='points1', value = 3, min='1', max='50')
+											input(type='range',id='DragSlider', name='points1', value = 30, min='1', max='100')
 											br
 											label Spring Coefficient
 											input(type='range',id='SpringCoefSlider', name='points1', value = 1, min='1', max='200')
@@ -184,6 +187,7 @@ block normalBody
 				div(id="divprofiles")
 					div(id="exportprofiles")
 				br
+				div(id="countProfileSize") Profile Size:
 				br
 				div.pieRegion
 					//div.numberOfColumns(id='numberOfColumnsprofiles')
@@ -208,6 +212,8 @@ block normalBody
 					div(id="divClearDistances")
 						button.btn-md.btn-danger(id="clearDistanceMatrix") Clear Distances
 				br
+
+				div(id="countSelectedNodes", style="display:none") Selected Nodes:
 				div(id="divdistances")
 
 
@@ -220,9 +226,9 @@ block normalBody
 
 block scripts
 	script(type='text/javascript').
-		var compute = !{JSON.stringify(precompute)};
+		//var compute = !{JSON.stringify(precompute)};
 		var datasetID = !{JSON.stringify(datasetID)};
-		var idealSpringLength = !{JSON.stringify(springLength)};
+		//var ispublic = !{JSON.stringify(isPublic)};
 	script(type='text/javascript', src='/javascripts/dependencies/d3.min.js')
 	script(type='text/javascript', src='/javascripts/dependencies/seedrandom.js')
 	script(type='text/javascript', src='/javascripts/dependencies/vivagraph.js')

@@ -30,7 +30,7 @@ $(document).ready(function(){
     var dataToGraph = {};
 
     var img = document.getElementById('GIFimage');
-    $("#GIFimage").attr("src", '../../images/waitingGIF.gif');
+    $("#GIFimage").attr("src", '/images/waitingGIF.gif');
     $(".waitingImage").css({'width': '20%'});
     $(".tab-pane").css({'opacity': '0'});
 

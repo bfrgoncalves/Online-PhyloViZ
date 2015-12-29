@@ -6,12 +6,17 @@ function status(message) {
 
 function submitTree(NameToID){
 
-    var table = $('#TableDatasets').DataTable();
-    var datasetData = table.rows('.selected').data();
+    var tablepublic = $('#tablepublic').DataTable();
+    var publicselectedrow = tablepublic.rows('.selected').data();
 
-    if(datasetData[0] != undefined){
-      //console.log('AQUI');
-      window.location.replace("/main/dataset/" + NameToID[datasetData[0][0]]);
+    var tableuser = $('#tableuser').DataTable();
+    var userselectedrow = tableuser.rows('.selected').data();
+
+    if(publicselectedrow[0] != undefined){
+      window.location.replace("/main/dataset/public/" + NameToID["public"][0][publicselectedrow[0][0]]);
+    }
+    else if(userselectedrow[0] != undefined){
+      window.location.replace("/main/dataset/" + NameToID["user"][0][userselectedrow[0][0]]);
     }
     else if ($('#datasetName').val() == '') $('#status').text('Dataset name is required.');
     else if ($('#possibleInputFormats').find(":selected")[0].index == 1 && $('#uploadProfile').val() == '') $('#status').text('Profile file is required.');
@@ -47,6 +52,7 @@ function uploadFiles(){
   var fileSelectNewick = document.getElementById('uploadNewick');
   var fileSelectFasta = document.getElementById('uploadFasta');
   var datasetName = document.getElementById('datasetName');
+  var makePublic = document.getElementById('makepublic').checked;
 
   countNumberOfFiles = 0;
 
@@ -64,6 +70,7 @@ function uploadFiles(){
   fd.append( 'datasetName', $('#datasetName').val());
   fd.append( 'dataset_description', $('#dataset_description').val());
   fd.append( 'numberOfFiles', countNumberOfFiles);
+  fd.append( 'makePublic', makePublic);
   
 
   $.ajax({
@@ -101,23 +108,6 @@ function getLinks(datasetID){
 
 }
 
-// function parseNewick(datasetName){
-
-//   $.ajax({
-//     url: '/api/utils/newickParser',
-//     data: $.param({name: datasetName, save: true}),
-//     processData: false,
-//     contentType: false,
-//     type: 'GET',
-//     success: function(data){
-//       status('Done!');
-//       window.location.replace("/main?datasetName=" + data.datasetName);
-//     }
-
-//   });
-
-// }
-
 
 function checkIfNameExists(datasetName, callback){
     
@@ -130,7 +120,7 @@ function checkIfNameExists(datasetName, callback){
       contentType: false,
       type: 'GET',
       success: function(data){
-        if(data.length > 0) status('Dataset name already exists!');
+        if(isUser && data.userdatasets.length > 0 || !isUser && data.publicdatasets.length > 0) status('Dataset name already exists!');
         else callback();
       }
 

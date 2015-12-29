@@ -1,0 +1,156 @@
+extends layout
+
+block moreStyle
+	link(rel='stylesheet', href='/stylesheets/indexAppStyle.css')
+
+block login
+	div(id='userLocation')
+		if (!user)
+			a(href="/users/login") Login
+			= '	'
+			a(href="/users/register") Register
+		if (user)
+			p Welcome, #{user.name}! 
+				= ' '
+				a(href="/users/logout") Logout
+
+block counter
+	div(id="statCounterDiv")
+		div.statcounter
+			a(title="shopify stats" href="http://statcounter.com/shopify/" target="_blank")
+			img.statcounter(src="http://c.statcounter.com/10743500/0/0b6fd4b1/0/" alt="shopify stats")
+
+block normalBody
+
+	div(id='inputDiv')
+		img.phylovizImage(src = '/images/logo.png')
+		label.title #{title}
+
+		br
+
+		div(id="useExistingDatasets", style="text-align:center;")
+			br
+			//button.btn-info.resizable_button(id="buttonPublicDatasets") Public Datasets
+			button.btn-info.resizable_button(id="buttonExistingDatasets") User Datasets
+			button.btn-info.resizable_button(id="buttonUploadDatasets") Upload Datasets
+
+		br
+
+		//div(id="publicDataset", style="display:none;")
+		//	br
+		//	label Public datasets
+		//	br
+		//	br
+		//	div(id='publicDatasets')
+		//		div(id='publicdatabasesLocation')
+		//		div(id='publicisolatesLocation')
+
+
+		div(id="useDataset")
+			br
+			label Existing datasets
+			p Select one dataset from the table.
+			div(id='existingDatasets')
+			if (user)
+				div(id="divDeleteDataset")
+					button.btn.btn-sm.btn-danger.resizable_button_submit(id="buttonDeleteDataset", style ="display:none") Delete
+
+			if (user)
+				div(id="changeDescriptionDiv", style ="display:none")
+					br
+					br
+					br
+					br
+					div.input-group.input-sm
+						input.form-control(id="changeDatasetName", type="text", placeholder="Change Dataset Name")
+						span.input-group-addon(id="buttonChangeDatasetName") Change Dataset Name
+
+					div.input-group.input-sm
+						input.form-control(id ='changeDescription', type="text", placeholder="Change description", aria-describedby="sizing-addon1")
+						span.input-group-addon(id="buttonChangeDescription") Change Description
+
+
+		div(id="uploadDiv", style="display:none;")
+			br
+			div(id="useOwnDataset")
+				label Upload your own data
+				if (!user)
+					p Note: Without registration your datasets will be made public
+			br
+			div(id="possibleInputs")
+				label.input-formats Possible Input Formats	
+				div(id='possibleInputFormats')
+			
+			br
+
+			div(id="inputButtons")
+				div(id="newickButton")
+					div.input-group.input-sm
+						input.form-control.justVisual(id = 'textNewick', type="text", placeholder="Upload Newick file", aria-describedby="sizing-addon1")
+						span.input-group-addon(id="Newick", onclick="getFile(this.id)") Browse
+
+				div(id="fastaButton")
+					div.input-group.input-sm
+						input.form-control.justVisual(id = 'textFasta', type="text", placeholder="Upload Fasta file", aria-describedby="sizing-addon1")
+						span.input-group-addon(id="Fasta", onclick="getFile(this.id)") Browse
+
+				div(id="profileButton")
+					div.input-group.input-sm
+						input.form-control.justVisual(id = 'textProfile', type="text", placeholder="Upload Profile Data", aria-describedby="sizing-addon1")
+						span.input-group-addon(id="Profile", onclick="getFile(this.id)") Browse
+
+				div(id="metadataButton")
+					div.input-group.input-sm
+						input.form-control.justVisual(id = 'textMetadata', type="text", placeholder="Upload Metadata", aria-describedby="sizing-addon1")
+						span.input-group-addon(id="Metadata", onclick="getFile(this.id)") Browse
+
+
+				form(id ='inputForm')
+					h5 Dataset Name
+					input.form-control.input-sm(id="datasetName", type="text", placeholder="Select a name for the dataset", required)
+					h5 Dataset Description
+					input.form-control.input-sm(id="dataset_description", type="text", placeholder="Description")
+					div(style='height: 0px;width:0px; overflow:hidden;')
+						input(id="uploadProfile", type="file", value="upload", onchange = 'getFileName(this.id)' )
+						input(id="uploadMetadata", type="file", value="upload", onchange = 'getFileName(this.id)' )
+						input(id="uploadNewick", type="file", value="upload", onchange = 'getFileName(this.id)' )
+						input(id="uploadFasta", type="file", value="upload", onchange = 'getFileName(this.id)' )
+			
+
+				br
+
+		br
+		br
+		div(id="LaunchButton", style="text-align:center;")
+			br
+			button.btn.btn-primary.resizable_button_submit(id="submitForm") Launch Tree
+
+		br
+
+		div(id="divMessage")
+
+		br
+
+		div(id = 'waitingGif')
+			img(id = 'GIFimage')
+		
+		br
+
+		span(id ='status')
+
+
+
+block scripts
+	script(type='text/javascript', src='/javascripts/dependencies/jquery-2.1.3.min.js')
+	script(type='text/javascript', src='/javascripts/dependencies/jquery.form.js')
+	script(type='text/javascript', src='/javascripts/dependencies/jquery-ui.min.js')
+	script(type='text/javascript', src='/javascripts/dependencies/bootstrap.js')
+	script(type='text/javascript', src='/javascripts/dependencies/bootstrap-select.js')
+	script(type='text/javascript', src='/javascripts/dependencies/datatables.min.js')
+	script(type='text/javascript', src='/javascripts/dependencies/jquery.dataTables.js')
+	script(type='text/javascript', src='/javascripts/App/adjustElements/adjustElementsIndex.js')
+	script(type='text/javascript', src='/javascripts/App/indexApp/checkDatasets.js')
+	script(type='text/javascript', src='/javascripts/App/indexApp/uploadfiles.js')
+	script(type='text/javascript', src='/javascripts/App/indexApp/inputButton.js')
+	script(type='text/javascript', src='/javascripts/App/indexApp/statCounter.js')
+	script(type='text/javascript', src='/javascripts/App/indexApp/index.js')

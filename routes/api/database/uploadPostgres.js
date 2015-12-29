@@ -38,6 +38,10 @@ router.post('/', multer({
   countProgress = 0;
   //console.log(req.user);
   dataToDB.datasetName = req.body.datasetName;
+  dataToDB.makePublic = req.body.makePublic;
+
+  if (dataToDB.makePublic) dataToDB.is_public = true;
+  else dataToDB.is_public = false;
   
   if (!req.isAuthenticated()) dataToDB.userID = "1";
   else dataToDB.userID = req.user.id;
@@ -87,7 +91,7 @@ function readCSVfile(pathToFile, fileType, dataToDB, callback){
   var identifier;
   var headers = [];
 
-  csv.fromStream(stream, {headers : true, delimiter:'\t'})
+    csv.fromStream(stream, {headers : true, delimiter:'\t', quote: null})
       .on("data", function(data){
         if (getHeaders){
           for (i in data) headers.push(i);
@@ -108,12 +112,14 @@ function readCSVfile(pathToFile, fileType, dataToDB, callback){
           dataToDB[fileType + '_headers'] = headers; //remove first element from array. remove the identifier
           getHeaders = false;
         }
+        for (i in data) data[i] = data[i].replace(/\'/g, '');
         dataToDB[fileType].push(data);
       })
       .on("end", function(){
         console.log("done");
         callback(dataToDB);
       });
+
 
 }
 
@@ -238,14 +244,13 @@ function uploadToDatabase(data, callback){
     if (data['is_fileFasta']) data.data_type = 'fasta';
     if (data['is_fileProfile']) data.data_type = 'profile';
 
-    query = "INSERT INTO datasets.datasets (name, key, user_id, dataset_id, data_type, description) VALUES ('"+data.datasetName+"', '"+data.key+"', '"+userID+"', '"+data.datasetID+"', '"+data.data_type+"', '" + data.dataset_description + "');" +
-            "INSERT INTO datasets.profiles (user_id, data, schemeGenes, dataset_id) VALUES ('"+userID+"', '"+JSON.stringify(profiles)+"', '{"+data['fileProfile_headers']+"}', '"+data.datasetID+"');" +
-            "INSERT INTO datasets.isolates (user_id, data, metadata, dataset_id) VALUES ('"+userID+"', '"+JSON.stringify(isolates)+"', '{"+data['fileMetadata_headers']+"}', '"+data.datasetID+"');" +
-            "INSERT INTO datasets.positions (user_id, data, dataset_id) VALUES ('"+userID+"', '"+JSON.stringify(positions)+"', '"+data.datasetID+"');" +
-            "INSERT INTO datasets.links (user_id, data, dataset_id) VALUES ('"+userID+"', '"+JSON.stringify(links)+"', '"+data.datasetID+"');" +
-            "INSERT INTO datasets.newick (user_id, data, dataset_id) VALUES ('"+userID+"', '"+JSON.stringify(newick)+"', '"+data.datasetID+"');"; 
+    query = "INSERT INTO datasets.datasets (name, key, user_id, dataset_id, data_type, description, put_public, is_public) VALUES ('"+data.datasetName+"', '"+data.key+"', '"+userID+"', '"+data.datasetID+"', '"+data.data_type+"', '" + data.dataset_description +"', '"+ data.makePublic +"', '"+ data.is_public + "');" +
+            "INSERT INTO datasets.profiles (user_id, data, schemeGenes, dataset_id, put_public, is_public) VALUES ('"+userID+"', '"+JSON.stringify(profiles)+"', '{"+data['fileProfile_headers']+"}', '"+data.datasetID+"', '"+ data.makePublic +"', '"+ data.is_public + "');" +
+            "INSERT INTO datasets.isolates (user_id, data, metadata, dataset_id, put_public, is_public) VALUES ('"+userID+"', '"+JSON.stringify(isolates)+"', '{"+data['fileMetadata_headers']+"}', '"+data.datasetID+"', '"+ data.makePublic +"', '"+ data.is_public + "');" +
+            "INSERT INTO datasets.positions (user_id, data, dataset_id, put_public, is_public) VALUES ('"+userID+"', '"+JSON.stringify(positions)+"', '"+data.datasetID+"', '"+ data.makePublic +"', '"+ data.is_public + "');" +
+            "INSERT INTO datasets.links (user_id, data, dataset_id, put_public, is_public) VALUES ('"+userID+"', '"+JSON.stringify(links)+"', '"+data.datasetID+"', '"+ data.makePublic +"', '"+ data.is_public + "');" +
+            "INSERT INTO datasets.newick (user_id, data, dataset_id, put_public, is_public) VALUES ('"+userID+"', '"+JSON.stringify(newick)+"', '"+data.datasetID+"', '"+ data.makePublic +"', '"+ data.is_public + "');";
 
-    console.log(query);
     var client = new pg.Client(connectionString);
     client.connect(function(err) {
       if(err) {

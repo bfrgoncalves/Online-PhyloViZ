@@ -10,12 +10,26 @@ function loadButtonFunctions(){
 
 		},
 
+		profileLength: function(graphObject){
+
+			var profileLength = graphObject.graphInput.nodes[0].profile.length;
+
+			$('#countProfileSize').append(' '+ profileLength);
+
+		},
+
 		datasetName: function(graphObject){
 
 			var graph = graphObject.graphInput;
 
 			$('#datasetNameDiv').append(' '+ graph.dataset_name);
 
+		},
+
+		resetPositionButton: function(graphObject){
+			$('#resetPositionButton').click(function(e) {
+				graphObject.renderer.reset();
+			});
 		},
 
 		pauseButton: function(graphObject){

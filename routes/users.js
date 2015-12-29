@@ -153,12 +153,12 @@ router.post('/register', function(req, res, next){
 	
 });
 
-
 router.post('/login', passport.authenticate('local', { 
 	successRedirect: '/',
     failureRedirect: '/users/login' ,
     failureFlash: true
 }));
+
 
 router.get('/logout', function(req, res, next) {
     req.logout();

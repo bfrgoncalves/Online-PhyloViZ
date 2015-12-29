@@ -99,7 +99,7 @@ function changeDragCoefficient(newValue, max, graphObject){
     var layout = graphObject.layout;
     var graph = graphObject.graphInput;
 
-    layout.simulator.dragCoeff(parseInt(newValue) * 0.0001);
+    layout.simulator.dragCoeff(parseInt(newValue) * 0.001);
 
     if(graphObject.isLayoutPaused){
         renderer.resume();

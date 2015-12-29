@@ -59,6 +59,7 @@ function getDataset(datasetID, userID, callback) {
 
 				var dataset = {};
 
+				console.log(result.rows);
 			    for(i in result.rows){
 			    	for(x in result.rows[i]){
 			    		//console.log(x);
@@ -79,7 +80,7 @@ function getDataset(datasetID, userID, callback) {
 			    		console.log(x);
 			    	}
 			    }
-			    //console.log(dataset.profiles.length);
+			    //console.log(dataset.profiles);
 			    client.end();
 			    callback([dataset]);
 			});
