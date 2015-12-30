@@ -1,14 +1,15 @@
 extends layout
 
 block title
-	div.titleLocation(onclick="javascript:location.href='/'")
-		div.float_title
-			img.phylovizImage(src = '/images/logo.png')
-			label.title #{title}
+	div.indextitleLocation(onclick="javascript:location.href='/'")
+		img.phylovizImage(src = '/images/logo.png')
+		label.title #{title}
+
+block login
+	div(id="indexuserLocation")
+		p API
 
 block API
-	div.apiTitle
-		h3 API 
 	div.apiBody
 		p Upload data
 		p Here you can find information about the different methods and services than can be used to interact with the application.

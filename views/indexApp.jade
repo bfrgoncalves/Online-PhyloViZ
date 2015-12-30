@@ -32,7 +32,7 @@ block normalBody
 						button.btn-info(id="buttonHome", style="width: 100%") Home
 				li
 					div(id="divAbout")
-						button.btn-info(id="buttonHome", style="width: 100%") About
+						button.btn-info(id="buttonAbout", style="width: 100%") About
 				li
 					div(id="divAPI")
 						button.btn-info(id="buttonAPI", style="width: 100%") API
@@ -74,6 +74,41 @@ block normalBody
 						img.exampleTree(src="/images/mainpageimage1.png")
 						img.exampleMatrix(src="/images/nlvimage1.png")
 						img.exampleNLV(src="/images/matriximage1.png")
+
+			div(id="AboutDiv", style="display:none;")
+				img.phylovizImageHome(src = '/images/logo.png')
+				label.titleHome #{title}
+				div(id="phylovizAbout")
+					h4 Web-based tool for visualization, phylogenetic inference, analysis and sharing of minimum spanning trees
+					br
+					p PHYLOViZ Online is a Web version of the standalone available at 
+						a(src="http://www.phyloviz.net/") http://www.phyloviz.net/
+					p The application is at the moment fully functional using <b>Google Chrome</b> and <b>Firefox</b> Web browsers. <b>Mobile versions</b> still have some limitations that we expect to surpass in a near future.
+					br
+					br
+					div(id="phylovizAboutContacts")
+						label Contacts:
+						p Bruno Gonçalves
+						img(id="bfmail" src="http://safemail.justlikeed.net/e/05b6e142ea4b42144803c4b3e4b1f550.png" border="0" align="absbottom")
+						br
+						br
+						p João André Carriço
+						img(id="jcmail" src="http://safemail.justlikeed.net/e/82648ea0b144fe29dfbf754ac3f3a33a.png" border="0" align="absbottom")
+						br
+						br
+
+
+			div(id="APIDiv", style="display:none;")
+				img.phylovizImageHome(src = '/images/logo.png')
+				label.titleHome #{title}
+				div(id="phylovizDescription")
+					h4 Web-based tool for visualization, phylogenetic inference, analysis and sharing of minimum spanning trees
+					br
+					p Access to the API documentation 
+						a(href="./api") here!
+					br
+					br
+			
 
 			div(id="publicDataset", style="display:none;")
 				label Public datasets

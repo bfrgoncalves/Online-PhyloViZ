@@ -1,14 +1,15 @@
 extends layout
 
 block title
-	div.titleLocation(onclick="javascript:location.href='/'")
-		div.float_title
-			img.phylovizImage(src = '/images/logo.png')
-			label.title #{title}
+	div.indextitleLocation(onclick="javascript:location.href='/'")
+		img.phylovizImage(src = '/images/logo.png')
+		label.title #{title}
+
+block login
+	div(id="indexuserLocation")
+		p API
 
 block API
-	div.apiTitle
-		h3 API 
 	div.apiBody
 		p goeBURST algorithm
 		p This service lets you get the graph links for a given dataset based on the
@@ -24,9 +25,9 @@ block API
 		div /api/algorithms/goeBURST
 		br
 		label Example:
-		div 
-			/api/algorithms/goeBURST?dataset_id='test'
-			p Gets the results for the dataset with the name 'test'.
+		div(style="border-bottom: 2px solid black; width: 70%") 
+			/api/algorithms/goeBURST?dataset_id=54d88d9322202175624ce50efbed198fbc4d85b7c4e2cf2476a8407b9f87776a97
+			p Gets the results for the dataset with the id above (Acinetobacter baumannii)
 
 
 

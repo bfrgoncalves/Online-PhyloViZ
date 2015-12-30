@@ -1,14 +1,15 @@
 extends layout
 
 block title
-	div.titleLocation(onclick="javascript:location.href='/'")
-		div.float_title
-			img.phylovizImage(src = '/images/logo.png')
-			label.title #{title}
+	div.indextitleLocation(onclick="javascript:location.href='/'")
+		img.phylovizImage(src = '/images/logo.png')
+		label.title #{title}
+
+block login
+	div(id="indexuserLocation")
+		p API
 
 block API
-	div.apiTitle
-		h3 API 
 	div.apiBody
 		p Table data
 		p This service lets you get profile data or metadata of a given dataset to be used on tables. Results are given in an array with the different rows and with the headers.
@@ -17,12 +18,12 @@ block API
 		div GET 
 		br
 		label URL:
-		div /api/utils/tableData&dataset_id=[datasetID]&parameter=[isolates|profiles]
+		div /api/utils/tableData?dataset_id=[datasetID] & parameter=[isolates|profiles]
 		br
 		label Example:
-		div 
-			/api/utils/tableData&dataset_id=test&parameter=isolates
-			p Gets the isolate data for the test dataset.
+		div(style="border-bottom: 2px solid black; width: 70%")  
+			/api/utils/tableData?dataset_id=54d88d9322202175624ce50efbed198fbc4d85b7c4e2cf2476a8407b9f87776a97 & parameter=isolates
+			p Gets the isolate data for the "Acinetobacter baumannii" dataset.
 
 
 

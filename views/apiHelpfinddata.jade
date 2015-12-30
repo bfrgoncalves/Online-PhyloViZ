@@ -1,17 +1,37 @@
 extends layout
 
 block title
-	div.titleLocation(onclick="javascript:location.href='/'")
-		div.float_title
-			img.phylovizImage(src = '/images/logo.png')
-			label.title #{title}
+	div.indextitleLocation(onclick="javascript:location.href='/'")
+		img.phylovizImage(src = '/images/logo.png')
+		label.title #{title}
+
+block login
+	div(id="indexuserLocation")
+		p API
 
 block API
-	div.apiTitle
-		h3 API 
 	div.apiBody
 		p Find data
-		p Here you can find information about the different methods and services than can be used to interact with the application.
+		p Find data in our databases. NOTE: You can only get your user datasets if you are logged into the application. 
+		br
+		label Methods supported: 
+		div GET 
+		br
+		label URL:
+		div /api/db/postgres/find/:table/:field/
+		br
+		label Examples:
+		div(style="border-bottom: 2px solid black; width: 70%") 
+			p /api/db/postgres/find/datasets/name
+			p Gets all datasets names 
+		br
+		div(style="border-bottom: 2px solid black; width: 70%") 
+			p /api/db/postgres/find/datasets/dataset_id?name=acinetobacter%20baumannii
+			p Get the dataset id for the dataset with the name "acinetobacter baumannii"
+		br
+		div(style="border-bottom: 2px solid black; width: 70%") 
+			p /api/db/postgres/find/isolates/data?dataset_id=54d88d9322202175624ce50efbed198fbc4d85b7c4e2cf2476a8407b9f87776a97
+			p Get the isolates data on the dataset with the id above (Acinetobacter baumanni)
 
 
 

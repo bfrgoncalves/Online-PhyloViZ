@@ -1,14 +1,14 @@
 extends layout
 
 block title
-	div.titleLocation(onclick="javascript:location.href='/'")
-		div.float_title
-			img.phylovizImage(src = '/images/logo.png')
-			label.title #{title}
+	div.indextitleLocation(onclick="javascript:location.href='/'")
+		img.phylovizImage(src = '/images/logo.png')
+		label.title #{title}
 
+block login
+	div(id="indexuserLocation")
+		p API
 block API
-	div.apiTitle
-		h3 API 
 	div.apiBody
 		p Welcome to PHYLOViZ Online API!
 		p Here you can find information about the different methods and services than can be used to interact with the application.
@@ -16,20 +16,20 @@ block API
 		label(for="#phylovizDataUpload") Data Upload
 		div(id="phylovizDataUpload")
 			li
-				a(href="api/help/login") Remote login
+				a(href="#") Remote login (Under Construction)
 			li
-				a(href="api/help/upload") Upload data
+				a(href="#") Upload data (Under Construction)
 			li
-				a(href="api/help/finddata") Find data
+				a(href="./help/finddata") Find data
 		br
 		label(for="#phylovizUtils") Utils
 		div(id="phylovizUtils")
 			li
-				a(href="api/help/phylovizinput") PHYLOViZ Online input
+				a(href="./help/phylovizinput") PHYLOViZ Online input
 			li
-				a(href="api/help/goeBURST") goeBURST algorithm
+				a(href="./help/goeBURST") goeBURST algorithm
 			li
-				a(href="api/help/tabledata") Table data
+				a(href="./help/tabledata") Table data
 
 
 block scripts
