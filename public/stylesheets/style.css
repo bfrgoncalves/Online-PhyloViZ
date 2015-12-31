@@ -55,6 +55,14 @@ a {
   height: auto; 
 }
 
+#testDatasetDiv{
+  font-size: 120%;
+}
+
+#testUserDiv{
+  font-size: 120%;
+}
+
 /*#buttonExistingDatasets{
   width: 30%;
 }
