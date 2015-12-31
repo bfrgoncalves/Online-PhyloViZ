@@ -112,19 +112,21 @@ router.get('/find/:table/:field/', function(req, res, next){
 				query += ";";
 			}
 
-			if (userID != '1') query += "SELECT "+req.params.field+", user_id, put_public FROM datasets."+params.table+" WHERE user_id='"+userID+"'";
-			if (Object.keys(reqQuery).length == 0) query+=";";
-			else{
-				for (i in reqQuery){
-					if(i != 'user_id'){
-						query += " AND ";
-						query += i + " = '" + reqQuery[i] + "'";
-					}
+			if (userID != '1'){
+				query += "SELECT "+req.params.field+", user_id, put_public FROM datasets."+params.table+" WHERE user_id='"+userID+"'";
+				if (Object.keys(reqQuery).length == 0) query+=";";
+				else{
+					for (i in reqQuery){
+						if(i != 'user_id'){
+							query += " AND ";
+							query += i + " = '" + reqQuery[i] + "'";
+						}
 
+					}
+					//query = query.substring(0, query.length - 5);
+					query += ";";
 				}
-				//query = query.substring(0, query.length - 5);
-				query += ";";
-			}
+			} 
 		}
 
 		console.log(query);
