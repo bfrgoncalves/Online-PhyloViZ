@@ -98,9 +98,20 @@ router.get('/find/:table/:field/', function(req, res, next){
 
 		}
 		else{
-			console.log(userID);
-			console.log(req.params.field);
 			query = "SELECT "+req.params.field+", user_id, put_public FROM datasets."+params.table+" WHERE put_public ='true' AND user_id !='"+userID+"'";
+			if (Object.keys(reqQuery).length == 0) query+=";";
+			else{
+				for (i in reqQuery){
+					if(i != 'user_id'){
+						query += " AND ";
+						query += i + " = '" + reqQuery[i] + "'";
+					}
+
+				}
+				//query = query.substring(0, query.length - 5);
+				query += ";";
+			}
+
 			if (userID != '1') query += "SELECT "+req.params.field+", user_id, put_public FROM datasets."+params.table+" WHERE user_id='"+userID+"'";
 			if (Object.keys(reqQuery).length == 0) query+=";";
 			else{
@@ -115,6 +126,8 @@ router.get('/find/:table/:field/', function(req, res, next){
 				query += ";";
 			}
 		}
+
+		console.log(query);
 
 		var client = new pg.Client(connectionString);
 		client.connect(function(err) {
