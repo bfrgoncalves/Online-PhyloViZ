@@ -136,7 +136,7 @@ function createTable(data, divID, usertype, callback){
         "data": tableData,
         "columns": columns,
         "bSort" : false,
-        "scrollY":        "100px",
+        "scrollY":        "200px",
         "scrollCollapse": true,
         "paging":         false,
         columnDefs: [
