@@ -100,6 +100,12 @@ function constructGraph(graph, datasetID){
         $("#waitingGifMain").css('display', 'none');
         $(".tab-pane").css({'opacity': '1'});
         status("");
+
+        //var map = new Datamap({
+        //  element: document.getElementById('mapLocation'),
+        //  width: graphObject.width,
+        //  height: graphObject.height
+        //});
       }
 
 

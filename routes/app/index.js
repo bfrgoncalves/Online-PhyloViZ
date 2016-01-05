@@ -11,5 +11,14 @@ router.get('/', function(req, res, next) {
   });
 
 });
+/* GET home page. */
+router.get('/inputinfo', function(req, res, next) {
+  res.render('inputInformation', { 
+  	  title: 'PHYLOViZ Online',
+      isAuthenticated: req.isAuthenticated(), //function given by passport
+      user: req.user //also given by passport. an user object
+  });
+
+});
 
 module.exports = router;

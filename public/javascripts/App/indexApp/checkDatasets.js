@@ -114,6 +114,8 @@ function createTable(data, divID, usertype, callback){
 
 
 	columns.push({'title': 'Name'});
+  columns.push({'title': 'Owner'});
+  columns.push({'title': 'Data type'});
 	columns.push({'title': 'Description'});
 
   divID = divID + usertype;
@@ -123,6 +125,8 @@ function createTable(data, divID, usertype, callback){
 	for( i in data ) {
 		var row = [];
     row.push(data[i].name);
+    row.push(data[i].owner);
+    row.push(data[i].data_type);
 		if (data[i].description == undefined || data[i].description == "undefined") row.push("");
 		else row.push(data[i].description);
 		tableData.push(row);
@@ -136,9 +140,9 @@ function createTable(data, divID, usertype, callback){
         "data": tableData,
         "columns": columns,
         "bSort" : false,
-        "scrollY":        "200px",
-        "scrollCollapse": true,
-        "paging":         false,
+        //"scrollY":        "200px",
+        //"scrollCollapse": true,
+        "paging":         true,
         columnDefs: [
           { className: "dt-center", targets: ["_all"]}
         ],

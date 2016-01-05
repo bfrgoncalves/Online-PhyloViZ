@@ -35,6 +35,8 @@ block normalBody
 					a(data-target="#isolateContent", data-toggle="mainTab") Auxiliary Data
 				li(id="distanceTab")
 					a(data-target="#distanceContent", data-toggle="mainTab") Distances
+				//li(id="geographyTab")
+				//	a(data-target="#geographyContent", data-toggle="mainTab") Geography
 
 
 		div.tab-content
@@ -216,6 +218,9 @@ block normalBody
 				div(id="countSelectedNodes", style="display:none") Selected Nodes:
 				div(id="divdistances")
 
+			//div.tab-pane(id="geographyContent")
+			//	div(id="mapLocation")
+
 
 	a(id="imageDownloadLocation" download="phylovizTree.png" style="display:none;")
 
@@ -242,6 +247,8 @@ block scripts
 	script(type='text/javascript', src='/javascripts/dependencies/pdfmake.min.js')
 	script(type='text/javascript', src='/javascripts/dependencies/jszip.js')
 	script(type='text/javascript', src='/javascripts/dependencies/vfs_fonts.js')
+	script(type='text/javascript', src="/javascripts/dependencies/topojson.min.js")
+	script(type='text/javascript', src='/javascripts/dependencies/datamaps.world.min.js')
 	//script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/customPieChartShader.js')
 	script(type='text/javascript', src='/javascripts/App/adjustElements/adjustElementsMain.js')
 	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/pieNodeWebGl.js')

@@ -27,13 +27,13 @@ router.get('/init', function(req, res, next){ //to change
 
 	function initDataset(callback){
 
-		var query = 'CREATE TABLE datasets.links (id SERIAL PRIMARY KEY, user_id text NOT NULL, dataset_id text NOT NULL, is_public boolean, data jsonb, distanceMatrix jsonb, put_public boolean);' +
-					'CREATE TABLE datasets.profiles (id SERIAL PRIMARY KEY, user_id text NOT NULL, schemeGenes text[], dataset_id text NOT NULL, is_public boolean, data jsonb, put_public boolean);' +
-					'CREATE TABLE datasets.isolates (id SERIAL PRIMARY KEY, user_id text NOT NULL, metadata text[], dataset_id text NOT NULL, is_public boolean, data jsonb, put_public boolean);' +
-					'CREATE TABLE datasets.positions (id SERIAL PRIMARY KEY, user_id text NOT NULL, dataset_id text NOT NULL, is_public boolean, data jsonb, put_public boolean);' +
-					'CREATE TABLE datasets.newick (id SERIAL PRIMARY KEY, user_id text NOT NULL, dataset_id text NOT NULL, is_public boolean, data jsonb, put_public boolean);' +
-					'CREATE TABLE datasets.users (id SERIAL PRIMARY KEY, username text UNIQUE, user_id text UNIQUE, salt text, pass text, email text, put_public boolean);' +
-					'CREATE TABLE datasets.datasets (id SERIAL PRIMARY KEY, user_id text NOT NULL, name text NOT NULL, dataset_id text NOT NULL, key text NOT NULL, is_public boolean, description text, data_type text NOT NULL, put_public boolean);' +
+		var query = 'CREATE TABLE datasets.links (id SERIAL PRIMARY KEY, user_id text NOT NULL, dataset_id text NOT NULL, is_public boolean, data jsonb, distanceMatrix jsonb, put_public boolean, data_timestamp timestamp);' +
+					'CREATE TABLE datasets.profiles (id SERIAL PRIMARY KEY, user_id text NOT NULL, schemeGenes text[], dataset_id text NOT NULL, is_public boolean, data jsonb, put_public boolean, data_timestamp timestamp);' +
+					'CREATE TABLE datasets.isolates (id SERIAL PRIMARY KEY, user_id text NOT NULL, metadata text[], dataset_id text NOT NULL, is_public boolean, data jsonb, put_public boolean, data_timestamp timestamp);' +
+					'CREATE TABLE datasets.positions (id SERIAL PRIMARY KEY, user_id text NOT NULL, dataset_id text NOT NULL, is_public boolean, data jsonb, put_public boolean, data_timestamp timestamp);' +
+					'CREATE TABLE datasets.newick (id SERIAL PRIMARY KEY, user_id text NOT NULL, dataset_id text NOT NULL, is_public boolean, data jsonb, put_public boolean, data_timestamp timestamp);' +
+					'CREATE TABLE datasets.users (id SERIAL PRIMARY KEY, username text UNIQUE, user_id text UNIQUE, salt text, pass text, email text, put_public boolean, data_timestamp timestamp);' +
+					'CREATE TABLE datasets.datasets (id SERIAL PRIMARY KEY, user_id text NOT NULL, name text NOT NULL, dataset_id text NOT NULL, key text NOT NULL, is_public boolean, description text, data_type text NOT NULL, put_public boolean, data_timestamp timestamp);' +
 					
 					"INSERT INTO datasets.users(username, user_id, salt, pass) VALUES('public', 'public', '1', 'public');";
 
@@ -90,6 +90,29 @@ router.post('/insert/:table', function(req, res, next){
 
 router.get('/find/:table/:field/', function(req, res, next){
 
+	function getusernames(userIDs, callback){
+		
+		query = '';
+		for (i in userIDs){
+			query += "SELECT username FROM datasets.users WHERE user_id='" + userIDs[i] + "';";
+		}
+
+		var client = new pg.Client(connectionString);
+		client.connect(function(err) {
+		  if(err) {
+		    return console.error('could not connect to postgres', err);
+		  }
+		  client.query(query, function(err, result) {
+		    if(err) {
+		      return console.error('error running query', err);
+		    }
+		    client.end();
+		    callback(result.rows);
+		  });
+		});
+
+	}
+
 	function findOnTable(userID, params, reqQuery, callback){
 
 		if (params.field == 'all'){
@@ -129,8 +152,6 @@ router.get('/find/:table/:field/', function(req, res, next){
 			} 
 		}
 
-		console.log(query);
-
 		var client = new pg.Client(connectionString);
 		client.connect(function(err) {
 		  if(err) {
@@ -153,15 +174,31 @@ router.get('/find/:table/:field/', function(req, res, next){
 	findOnTable(user_id, req.params, req.query, function (doc){
 
 		var toSend = {publicdatasets: [], userdatasets: []};
+		var publicUserIDs = [];
 		for (i in doc){
 			topass = '';
+			if(doc[i].hasOwnProperty('salt') && doc[i].hasOwnProperty('pass')){ 
+				delete doc[i]['salt'];
+				delete doc[i]['pass'];
+			}
 			if (req.params.field == 'all') topass = doc[i];
 			else topass = doc[i][req.params.field];
-			if (doc[i].user_id == user_id) toSend.userdatasets.push(topass);
+			if (doc[i].user_id == user_id){
+				topass.owner = req.user.name;
+				toSend.userdatasets.push(topass);
+			}
 			//else toSend.userdatasets.push(topass);
-			if (doc[i].put_public == true) toSend.publicdatasets.push(topass);
+			if (doc[i].put_public == true){
+				publicUserIDs.push(doc[i].user_id);
+				toSend.publicdatasets.push(topass);
+			}
 		}
-		res.send(toSend);
+		getusernames(publicUserIDs, function(doc){
+			for (i in doc){
+				toSend.publicdatasets[i].owner = doc[i].username;
+			}
+			res.send(toSend);
+		});
 	});
 	
 });
@@ -254,5 +291,7 @@ router.delete('/delete', function(req, res){
 	});
 
 });
+
+
 
 module.exports = router;

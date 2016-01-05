@@ -29,6 +29,10 @@ function loadButtonFunctions(){
 		resetPositionButton: function(graphObject){
 			$('#resetPositionButton').click(function(e) {
 				graphObject.renderer.reset();
+				if(graphObject.isLayoutPaused){
+			        graphObject.renderer.resume();
+			        setTimeout(function(){ graphObject.renderer.pause();}, 50);
+			    }
 			});
 		},
 

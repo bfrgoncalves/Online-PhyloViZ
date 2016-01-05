@@ -278,6 +278,46 @@ function createDatasetButtons(onButtons){
 		onButtons.uploaddatasets = true;
       });
 
+	$('#logInFree').click(function(){
+		status("");
+		var table = $('#tableuser').DataTable();
+		table.$('tr').removeClass('selected');
+		var table = $('#tablepublic').DataTable();
+		table.$('tr').removeClass('selected');
+		var propertyToCheck = $('#possibleInputFormats').find(":selected");
+		if (propertyToCheck[0].index == 0) $('#LaunchButton').css({ 'display': 'none'});
+
+        if (onButtons.uploaddatasets) return false;
+		else if (onButtons.userdatasets){
+			$('#userDataset').toggle();
+			onButtons.userdatasets = false;
+		}
+		else if (onButtons.publicdatasets){
+			$('#publicDataset').toggle();
+			onButtons.publicdatasets = false;
+		}
+		else if (onButtons.home){
+			$('#homeDiv').toggle();
+			onButtons.home = false;
+		}
+		else if (onButtons.about){
+			$('#AboutDiv').toggle();
+			onButtons.about = false;
+		}
+		else if (onButtons.api){
+			$('#APIDiv').toggle();
+			onButtons.api = false;
+		}
+		$('#uploadDiv').toggle();
+		$('#publicDataset').css({"display": "none"});
+        $('#userDataset').css({"display": "none"});
+        $('#homeDiv').css({"display": "none"});
+        $('#AboutDiv').css({"display": "none"});
+        $('#APIDiv').css({"display": "none"});
+        tutorialFunctions.uploaddatasets();
+		onButtons.uploaddatasets = true;
+      });
+
 }
 
 

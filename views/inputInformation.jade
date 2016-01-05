@@ -1,0 +1,88 @@
+extends layout
+
+block title
+	div.indextitleLocation(onclick="javascript:location.href='/'")
+		img.phylovizImage(src = '/images/logo.png')
+		label.title #{title}
+
+block login
+	div(id="indexuserLocation")
+		p Input Formats
+
+block API
+	div.apiBody
+		div(style="width:100%; text-align:center;margin-bottom: 2%;")
+			h3 Input formats
+		div(style="width:100%;")
+			table(style="width:100%")
+				th
+					tr(style="border-bottom: 2px solid black; font-size:150%;")
+						td(style="width:25%;margin:1%;text-align:center;") Possible input
+						td(style="width:25%;margin:1%;text-align:center;") Usage
+						td(style="width:25%;margin:1%;text-align:center;") Examples
+						td(style="width:25%;margin:1%;text-align:center;") Samples
+				tbody
+					tr(style="border-bottom: 1px solid black;")
+						td(style="width:25%;")
+							div(style="margin:5%")
+								h5(style="text-align:center") Tab separated
+								p(style="text-align:justify;height:10%;") A tab-separated values file is a simple text format for storing data in a tabular structure (e.g. database or spreadsheet data). Each record in the table is one line of the text file and Eeach field value of a record is separated from the next by a tab character.
+						td(style="width:25%;")
+							div(style="margin:5%")
+								h5(style="text-align:center") Profile and Auxiliary data
+								p(style="text-align:justify;height:10%;") Tab-separated files are used in PHYLOViZ Online to load profile data and auxiliary data. These files must have headers and the first header from the profile data file <b>MUST</b> be equal to the first header of auxiliary data so that linking is possible.
+						td(style="width:25%;margin:5%;")
+							div(style="margin:5%")
+								img(src="/images/exampleprofile.png", style="width:100%; height:auto;")
+						td(style="width:25%; margin:5%;")
+							div(style="margin:5%")
+								li 
+									<a href="http://www.phyloviz.net/wiki/sampledatasets/sampleAPfile.txt">Profile data</a>
+								li
+									<a href="http://www.phyloviz.net/wiki/sampledatasets/sampleADfile.txt">Auxiliary data</a>
+
+					tr(style="border-bottom: 1px solid black;")
+						td(style="width:25%;")
+							div(style="margin:5%")
+								h5(style="text-align:center") Newick
+								p(style="text-align:justify;height:10%;") Newick format is a way of representing the tree topology with edge lengths using parentheses and commas.
+						td(style="width:25%;")
+							div(style="margin:5%")
+								h5(style="text-align:center") Tree data
+								p(style="text-align:justify;height:10%;") Newick format files are used in PHYLOViZ Online to load user provided tree topology and link distances. In the current version of PHYLOViZ Online, newick files with bootstrap values are not compatible. To link the newick trees to the auxiliary data, the identifiers of the nodes <b>MUST</b> match to the first column of the auxiliary data.
+						td(style="width:25%;margin:5%;")
+							div(style="margin:5%")
+								img(src="/images/newickexample.png")
+						td(style="width:25%; margin:5%;")
+							div(style="margin:5%")
+								li 
+									<a href="/data/example_tree.nwk">Newick data</a>
+								li
+									<a href="/data/example_tree.csv">Auxiliary data</a>
+					tr(style="border-bottom: 1px solid black;")
+						td(style="width:25%;")
+							div(style="margin:5%")
+								h5(style="text-align:center") Fasta
+								p(style="text-align:justify;height:10%;") FASTA format is a text-based format for representing either nucleotide sequences or peptide sequences by single letters, where the sequence names the sequences with the '>' character.
+						td(style="width:25%;")
+							div(style="margin:5%")
+								h5(style="text-align:center") SNP based profile data
+								p(style="text-align:justify;height:10%;") To perform phylogenetic inference based on sequences first we need to create a profile. To create this profile, ALL sequences from the Fasta file be of the same size. Then, PHYLOViZ Online creates a profile and constructs the tree based on the differences between sequences.
+						td(style="width:25%;margin:5%;")
+							div(style="margin:5%")
+								img(src="/images/snpexample.png", style="width:100%; height:auto;")
+						td(style="width:25%; margin:5%;")
+							div(style="margin:5%")
+
+
+
+
+block scripts
+	script(type='text/javascript', src='/javascripts/dependencies/jquery-2.1.3.min.js')
+	script(type='text/javascript', src='/javascripts/dependencies/jquery.form.js')
+	script(type='text/javascript', src='/javascripts/dependencies/jquery-ui.min.js')
+	script(type='text/javascript', src='/javascripts/dependencies/bootstrap.js')
+	script(type='text/javascript', src='/javascripts/dependencies/bootstrap-select.js')
+	script(type='text/javascript', src='/javascripts/dependencies/datatables.min.js')
+	script(type='text/javascript', src='/javascripts/dependencies/jquery.dataTables.js')
+	script(type='text/javascript', src='/javascripts/App/adjustElements/adjustElementsAPI.js')

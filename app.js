@@ -21,6 +21,9 @@ var config = require('./config');
 var parseGoe = require('goeBURSTparser');
 var flash = require('connect-flash');
 
+var CronJob = require('cron').CronJob;
+var cronFunctions = require('./cronJobs/cronFunctions');
+
 var users = require('./routes/users');
 
 var upload = require('./routes/api/database/uploadPostgres');
@@ -129,6 +132,19 @@ server.listen(config.port, function(){  //https server is listening
 
 // CODE to generate certificate
 // openssl req -x509 -nodes -days 365 -newkey rsa:1024 -out my.crt -keyout my.key
+
+var cronJobs = cronFunctions();
+
+var job = new CronJob('00 00 00 * * 1-7', function() {
+  var connectionString = "pg://" + config.databaseUserString + "@localhost/"+ config.db;
+  var timeInterval = '24 hours';
+  cronJobs.deletePublic(connectionString, timeInterval);
+  }, function () {
+    /* This function is executed when the job stops */
+  },
+  true /* Start the job right now */
+  //'Portugal/Lisboa' /* Time zone of this job. */
+);
 
 
 module.exports = app;

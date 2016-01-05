@@ -44,9 +44,9 @@ block normalBody
 					li
 						div(id="divUserDatasets")
 							button.btn-info(id="buttonUserDatasets", style="width: 100%") User Datasets
-					li
-						div(id="divUploadDatasets")
-							button.btn-info(id="buttonUploadDatasets", style="width: 100%") Upload Datasets
+				li
+					div(id="divUploadDatasets")
+						button.btn-info(id="buttonUploadDatasets", style="width: 100%") Upload Datasets
 
 
 		div(id="divbuttonHelp")
@@ -59,21 +59,26 @@ block normalBody
 				img.phylovizImageHome(src = '/images/logo.png')
 				label.titleHome #{title}
 				div(id="phylovizDescription")
-					h4 Web-based tool for visualization, phylogenetic inference, analysis and sharing of minimum spanning trees
+					h4 Web-based tool for visualization, phylogenetic inference, analysis and sharing
 					br
 					p PHYLOViZ Online is an online version of the software PHYLOViZ, a software that allows the analysis of sequence-based typing methods that generate allelic profiles and their associated epidemiological data. Our motivation was to give an user-friendly solution for data analysis and sharing without installing any specific software.
 					br
 					div(id="onlineTutorial")
 						p 
 							b CHECK OUT THE ONLINE VIDEO TUTORIAL 
-								a(href="https://youtu.be/PieHvfcqaAg") HERE!
+								a(href="https://youtu.be/PieHvfcqaAg") IN YOUTUBE
 						br
-						div(id="testDatasetDiv")
-							p Try out the sample dataset <a href="http://node.phyloviz.net/main/dataset/public/cfa81215a2ce3fd3c8cb03c71d7ab342bf03fa8a9910ed7e">here!</a>
-							p NOTE: The sample dataset profile data is <a href="http://www.phyloviz.net/wiki/sampledatasets/sampleAPfile.txt">here</a> and the auxiliary metadata can be found <a href="http://www.phyloviz.net/wiki/sampledatasets/sampleADfile.txt">here</a>
-						br
-						div(id="testUserDiv")
-							p Test PHYLOViZ Online data upload using the user: <b><i>demo</i></b> and pass: <b><i>demo</i></b>.
+					div(id="testArea", style="width: 100%;height:150px;")
+						div(id="testDatasetDiv", style="text-align: left; width: 50%; height:100%; float: left;")
+							p <b>A sample dataset is available:</b>
+							p - <a href="http://www.phyloviz.net/wiki/sampledatasets/sampleAPfile.txt">Profile data</a>
+							p - <a href="http://www.phyloviz.net/wiki/sampledatasets/sampleADfile.txt">Auxiliary data</a>
+							p More information on the data formats can be found <a id="inputFormatlink" href="/index/inputinfo">here</a>.
+						div(id="testUserDiv", style="text-align: left; width: 50%; height:100%; float: right;")
+							p <b>Test PHYLOViZ Online data upload using:</b>
+							p - <a id="logInFree" href="#">Log in free</a> upload.
+							p - The common user: <b><i>demo</i></b> and password: <b><i>demo</i></b>.
+							p - Using public datasets.
 					br
 					div(id="exampleTreeImage")
 						img.exampleTree(src="/images/mainpageimage1.png")
@@ -84,7 +89,7 @@ block normalBody
 				img.phylovizImageHome(src = '/images/logo.png')
 				label.titleHome #{title}
 				div(id="phylovizAbout")
-					h4 Web-based tool for visualization, phylogenetic inference, analysis and sharing of minimum spanning trees
+					h4 Web-based tool for visualization, phylogenetic inference, analysis and sharing
 					br
 					p PHYLOViZ Online is a Web version of the standalone available at 
 						a(src="http://www.phyloviz.net/") http://www.phyloviz.net/
@@ -92,6 +97,8 @@ block normalBody
 					br
 					div(id="phylovizAboutContacts")
 						label Contacts:
+						br
+						br
 						p <b>Bruno Gonçalves (1) - </b>
 							img(id="bfmail" src="http://safemail.justlikeed.net/e/05b6e142ea4b42144803c4b3e4b1f550.png" border="0" align="absbottom")
 						p <b>João André Carriço (1) - </b>
@@ -112,7 +119,7 @@ block normalBody
 				img.phylovizImageHome(src = '/images/logo.png')
 				label.titleHome #{title}
 				div(id="phylovizDescription")
-					h4 Web-based tool for visualization, phylogenetic inference, analysis and sharing of minimum spanning trees
+					h4 Web-based tool for visualization, phylogenetic inference, analysis and sharing
 					br
 					p Access to the API documentation 
 						a(href="./api") here!
@@ -153,6 +160,8 @@ block normalBody
 				br
 				div(id="useOwnDataset")
 					label Upload your own data
+					if !(user)
+						p <b>NOTE: Without registration your data will not be saved and erased 24 hours after uploading.</b>
 					p Select one of the possible input formats
 				
 				div(id="possibleInputs")
@@ -189,9 +198,14 @@ block normalBody
 						h5 Dataset Description
 						input.form-control.input-sm(id="dataset_description", type="text", placeholder="Description")
 						br
-						div(id="publiccheckbox", style="margin-left:3%; text-align:right;")
-							label Make public
-							input(id="makepublic", type="checkbox", style="margin-left:3%;")
+						if (user)
+							div(id="publiccheckbox", style="margin-left:3%; text-align:right;")
+								label Make public
+								input(id="makepublic", type="checkbox", style="margin-left:3%;")
+						else
+							div(id="publiccheckbox", style="margin-left:3%; text-align:right; display:none;")
+								label Make public
+								input(id="makepublic", type="checkbox", style="margin-left:3%;")
 						div(style='height: 0px;width:0px; overflow:hidden;')
 							input(id="uploadProfile", type="file", value="upload", onchange = 'getFileName(this.id)' )
 							input(id="uploadMetadata", type="file", value="upload", onchange = 'getFileName(this.id)' )

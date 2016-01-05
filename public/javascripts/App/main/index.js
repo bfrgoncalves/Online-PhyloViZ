@@ -90,6 +90,10 @@ function createInput(datasetID, callback) {
       contentType: false,
       type: 'GET',
       success: function(data){
+        if (data.error){
+          alert(data.error);
+          window.location.replace("/index");
+        }
         callback(data);
       }
 

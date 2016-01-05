@@ -19,6 +19,9 @@ router.get('/', function(req, res, next){
 
 	    getDataset(datasetID, userID, function(dataset){
 	      createPhyloviZInput(dataset, function(graphInput){
+	      	if (graphInput.error && userID =="1"){
+	      		graphInput.error = 'Dataset as expired. Load it again without log in or create an account and access to it at any time.';
+	      	}
 	      	res.send(graphInput);
 	      });
 	    
