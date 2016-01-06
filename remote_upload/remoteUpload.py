@@ -25,7 +25,7 @@ def main():
 	args = parser.parse_args()
 
 	currentRoot = 'node.phyloviz.net'
-	
+
 	checkDatasets(args, currentRoot)
 	datasetID = remoteUpload(args, currentRoot)
 	rungoeBURST(args, datasetID, currentRoot)
@@ -41,7 +41,8 @@ def login(args, currentRoot):
 
 def checkDatasets(args, currentRoot):
 	print 'Checking if dataset name exists...'
-	login(args)
+	
+	login(args, currentRoot)
 
 	bashCommand = 'curl --cookie jarfile -X GET http://'+currentRoot+'/api/db/postgres/find/datasets/name?name='+ args.d
 	process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
@@ -56,7 +57,7 @@ def checkDatasets(args, currentRoot):
 def remoteUpload(args, currentRoot):
 	print 'Uploading files...'
 
-	login(args)
+	login(args, currentRoot)
 
 	addMetadata = ''
 
@@ -105,7 +106,7 @@ def remoteUpload(args, currentRoot):
 
 def rungoeBURST(args, datasetID, currentRoot):
 
-	login(args)
+	login(args, currentRoot)
 
 	print 'Running goeBURST...'
 
