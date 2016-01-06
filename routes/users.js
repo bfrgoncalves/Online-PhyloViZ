@@ -46,6 +46,8 @@ function verifyCredentials(username, password, done){
   
   query = "SELECT user_id FROM datasets.users WHERE username =$1;";
 
+  console.log(password);
+
   var client = new pg.Client(connectionString);
     client.connect(function(err) {
       if(err) {
@@ -71,8 +73,6 @@ function verifyCredentials(username, password, done){
               crypto.pbkdf2(password, salt, 7000, 256, 
                  function (err, hash) {
                       hash = new Buffer(hash).toString('hex');
-                      console.log(hash);
-                      console.log(pass);
                       if (hash == pass){
                       done(null, { id: userID, name: username });
                     } else{
@@ -154,10 +154,40 @@ router.post('/register', function(req, res, next){
 });
 
 router.post('/login', passport.authenticate('local', { 
-	successRedirect: '/',
+  successRedirect: '/',
     failureRedirect: '/users/login' ,
     failureFlash: true
 }));
+
+router.get('/test', function(req, res, next){
+    console.log('test');
+    res.send({name: req.user});
+});
+
+router.post('/api/login', function(req, res){
+  //console.log(req.body.password);
+
+  var shasum = crypto.createHash('sha256');
+
+  var newPass = shasum.update(req.body.password);
+  var d = shasum.digest('hex');
+
+  req.body.password = d;
+
+  console.log(req.body.password);
+
+  passport.authenticate('local')(req, res, function (err) {
+    res.send(req.user);
+  });
+
+});
+
+
+//{ 
+//	successRedirect: '/',
+//    failureRedirect: '/users/login' ,
+//    failureFlash: true
+//}));
 
 
 router.get('/logout', function(req, res, next) {

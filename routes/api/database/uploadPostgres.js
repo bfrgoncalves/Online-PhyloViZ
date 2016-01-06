@@ -51,6 +51,7 @@ router.post('/', multer({
     readInputFiles(req.files[i].path, i, dataToDB, function(pathToFile, dataToDB){
           fs.unlink(pathToFile);
           countProgress += 1;
+          console.log(req.body.numberOfFiles);
           if (countProgress == req.body.numberOfFiles){
               //console.log(req.user);
               dataToDB.dataset_description = req.body.dataset_description;

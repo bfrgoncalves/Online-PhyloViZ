@@ -83,8 +83,6 @@ function loadProfiles(datasetID, userID, callback){
 	    var schemeGenes = result.rows[1].schemegenes;
 		
 		var existsProfile = {};
-
-		//console.log(profiles);
 		
 		profiles.forEach(function(profile){
 			var arr = [];
