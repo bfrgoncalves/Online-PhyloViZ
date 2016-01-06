@@ -96,7 +96,7 @@ def remoteUpload(args, currentRoot):
 					  ' + dataToAdd + ' \
 					  ' + addMetadata + ' \
 					  -F numberOfFiles='+ str(numberOfFiles) +' \
-					  http://localhost:3000/api/db/postgres/upload'
+					  http://'+currentRoot+'/api/db/postgres/upload'
 
 	process = subprocess.Popen(bashCommandUpload.split(), stdout=subprocess.PIPE)
 	output = process.communicate()[0]
