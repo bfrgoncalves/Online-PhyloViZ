@@ -24,24 +24,26 @@ def main():
 
 	args = parser.parse_args()
 
-	checkDatasets(args)
-	datasetID = remoteUpload(args)
-	rungoeBURST(args, datasetID)
+	currentRoot = 'node.phyloviz.net'
+	
+	checkDatasets(args, currentRoot)
+	datasetID = remoteUpload(args, currentRoot)
+	rungoeBURST(args, datasetID, currentRoot)
 
 	print 'DONE'
 
-def login(args):
+def login(args, currentRoot):
 
-	bashCommand = 'curl --cookie-jar jarfile --data username='+ args.u + '&' + 'password=' + args.p + ' http://localhost:3000/users/api/login'
+	bashCommand = 'curl --cookie-jar jarfile --data username='+ args.u + '&' + 'password=' + args.p + ' http://'+currentRoot+'/users/api/login'
 	process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
 	output = process.communicate()[0]
 
 
-def checkDatasets(args):
+def checkDatasets(args, currentRoot):
 	print 'Checking if dataset name exists...'
 	login(args)
 
-	bashCommand = 'curl --cookie jarfile -X GET http://localhost:3000/api/db/postgres/find/datasets/name?name='+ args.d
+	bashCommand = 'curl --cookie jarfile -X GET http://'+currentRoot+'/api/db/postgres/find/datasets/name?name='+ args.d
 	process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
 	output = process.communicate()[0]
 	io = StringIO(output)
@@ -51,7 +53,7 @@ def checkDatasets(args):
 		print 'dataset name already exists'
 		sys.exit()
 
-def remoteUpload(args):
+def remoteUpload(args, currentRoot):
 	print 'Uploading files...'
 
 	login(args)
@@ -101,13 +103,13 @@ def remoteUpload(args):
 
 	return output
 
-def rungoeBURST(args, datasetID):
+def rungoeBURST(args, datasetID, currentRoot):
 
 	login(args)
 
 	print 'Running goeBURST...'
 
-	bashCommand = 'curl --cookie jarfile -X GET http://localhost:3000/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true'
+	bashCommand = 'curl --cookie jarfile -X GET http://'+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true'
 
 	process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
 	output = process.communicate()[0]
