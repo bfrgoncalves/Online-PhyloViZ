@@ -26,11 +26,11 @@ block API
 						td(style="width:25%;")
 							div(style="margin:5%")
 								h5(style="text-align:center") Tab separated
-								p(style="text-align:justify;height:10%;") A tab-separated values file is a simple text format for storing data in a tabular structure (e.g. database or spreadsheet data). Each record in the table is one line of the text file and Eeach field value of a record is separated from the next by a tab character.
+								p(style="text-align:justify;height:10%;") A tab separated values file is a simple text format for storing data in a tabular structure (e.g. database or spreadsheet data). Each record in the table is one line of the text file and Eeach field value of a record is separated from the next by a tab character.
 						td(style="width:25%;")
 							div(style="margin:5%")
 								h5(style="text-align:center") Profile and Auxiliary data
-								p(style="text-align:justify;height:10%;") Tab-separated files are used in PHYLOViZ Online to load profile data and auxiliary data. These files must have headers and the first header from the profile data file <b>MUST</b> be equal to the first header of auxiliary data so that linking is possible.
+								p(style="text-align:justify;height:10%;") Tab separated files are used in PHYLOViZ Online to load profile data and auxiliary data. These files must have headers and the header of the first column from the profile data file <b>MUST</b> be equal to the some header from the auxiliary data so that linking is possible.
 						td(style="width:25%;margin:5%;")
 							div(style="margin:5%")
 								img(src="/images/exampleprofile.png", style="width:100%; height:auto;")
@@ -67,13 +67,21 @@ block API
 						td(style="width:25%;")
 							div(style="margin:5%")
 								h5(style="text-align:center") SNP based profile data
-								p(style="text-align:justify;height:10%;") To perform phylogenetic inference based on sequences first we need to create a profile. To create this profile, ALL sequences from the Fasta file be of the same size. Then, PHYLOViZ Online creates a profile and constructs the tree based on the differences between sequences.
+								p(style="text-align:justify;height:10%;") To perform phylogenetic inference based on sequences first we need to create a profile. To create this profile, <b>ALL sequences from the Fasta file have to be of the same size</b>. Then, PHYLOViZ Online creates a profile and constructs the tree based on the differences between sequences. To link the Fasta files to the auxiliary data, the Fasta ids in '>' <b>MUST</b> match to the first column of the auxiliary data.
 						td(style="width:25%;margin:5%;")
 							div(style="margin:5%")
 								img(src="/images/snpexample.png", style="width:100%; height:auto;")
 						td(style="width:25%; margin:5%;")
 							div(style="margin:5%")
 
+		br
+		div(style="width:100%; text-align:center;margin-bottom: 2%;")
+			h3 Auxiliary data
+		div(style="width:100%;")
+			p Auxiliary data is a tab separated file that can be loaded and linked to the tree data. This association is made by headers of each file (in case of profile data files) or ids and the first column of the auxiliary data (in case of Newick and Fasta format files). If none of those criteria are satisfied, the auxiliary data will be loaded but will not be linked to the tree.
+		div(style="width:100%;")
+			div(style="width:35%;margin:2%;float:center;")
+				img(src="/images/exampleauxiliary.png" style="width:100%; height:auto;")
 
 
 

@@ -62,7 +62,6 @@ function getDataset(datasetID, userID, callback) {
 
 				var dataset = {};
 
-				console.log(result.rows);
 			    for(i in result.rows){
 			    	for(x in result.rows[i]){
 			    		//console.log(x);
@@ -80,7 +79,6 @@ function getDataset(datasetID, userID, callback) {
 			    		else if( x  == 'newick') dataset.newick = result.rows[i][x]['newick'];
 			    		else if( x  == 'positions') dataset.positions = result.rows[i][x];
 			    		else if( x  == 'name' || x == 'key' || x == 'schemegenes' || x == 'metadata' || x == 'data_type') dataset[x] = result.rows[i][x];
-			    		console.log(x);
 			    	}
 			    }
 			    //console.log(dataset.profiles);

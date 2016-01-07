@@ -61,19 +61,24 @@ $(document).ready(function(){
 
 });
 
-function checkInput(graph, callback){
-  if (graph.nodes.length == 0){
 
-    $.ajax({
+function eraseDataset(){
+
+  $.ajax({
       url: '/api/db/postgres/delete',
       data: {dataset_id: datasetID},
       type: 'DELETE',
       success: function(data){
-        alert('There was an error uploading the dataset. Possible input format error.');
         window.location.replace("/index");
       }
 
     });
+}
+
+function checkInput(graph, callback){
+  if (graph.nodes.length == 0){
+    alert('There was an error uploading the dataset. Possible input format error.');
+    eraseDataset();
   }
   else{
     callback(graph);
@@ -92,7 +97,7 @@ function createInput(datasetID, callback) {
       success: function(data){
         if (data.error){
           alert(data.error);
-          window.location.replace("/index");
+          eraseDataset();
         }
         callback(data);
       }
