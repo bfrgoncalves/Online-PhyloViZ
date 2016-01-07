@@ -40,18 +40,22 @@ router.post('/', multer({
   dataToDB.datasetName = req.body.datasetName;
   dataToDB.makePublic = req.body.makePublic;
 
-  if (dataToDB.makePublic) dataToDB.is_public = true;
+  console.log(dataToDB.is_public);
+
+  if (dataToDB.makePublic == true) dataToDB.is_public = true;
   else dataToDB.is_public = false;
+
+  console.log(dataToDB.is_public);
   
   if (!req.isAuthenticated()) dataToDB.userID = "1";
   else dataToDB.userID = req.user.id;
 
   for (i in req.files){
+    console.log(i);
     dataToDB['is_' + i] = true;
     readInputFiles(req.files[i].path, i, dataToDB, function(pathToFile, dataToDB){
           fs.unlink(pathToFile);
           countProgress += 1;
-          console.log(req.body.numberOfFiles);
           if (countProgress == req.body.numberOfFiles){
               //console.log(req.user);
               dataToDB.dataset_description = req.body.dataset_description;
@@ -244,6 +248,7 @@ function uploadToDatabase(data, callback){
     if (data['is_fileNewick']) data.data_type = 'newick';
     if (data['is_fileFasta']) data.data_type = 'fasta';
     if (data['is_fileProfile']) data.data_type = 'profile';
+
 
     query = "INSERT INTO datasets.datasets (name, key, user_id, dataset_id, data_type, description, put_public, is_public, data_timestamp) VALUES ('"+data.datasetName+"', '"+data.key+"', '"+userID+"', '"+data.datasetID+"', '"+data.data_type+"', '" + data.dataset_description +"', '"+ data.makePublic +"', '"+ data.is_public + "', NOW());" +
             "INSERT INTO datasets.profiles (user_id, data, schemeGenes, dataset_id, put_public, is_public, data_timestamp) VALUES ('"+userID+"', '"+JSON.stringify(profiles)+"', '{"+data['fileProfile_headers']+"}', '"+data.datasetID+"', '"+ data.makePublic +"', '"+ data.is_public + "', NOW());" +

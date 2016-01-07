@@ -28,6 +28,8 @@ function linkTableAndGraph(property, graphObject){
     	keyIndexP = tHeadersP.indexOf(key);
     }
 
+    var prevColumnIndex = -1;
+
 	$('#'+tableToCheck+' thead th').click(function(d){
 
 
@@ -43,21 +45,27 @@ function linkTableAndGraph(property, graphObject){
 	  }
 
       var columnIndex = $(this).index();
-      //if (property == 'profiles') columnIndex += 1;
+
       var table = $('#'+ tableToCheck).DataTable();
 
-      $( table.cells().nodes() ).removeClass( 'highlight' );
+      if (prevColumnIndex != -1) $( table.column( prevColumnIndex ).nodes() ).removeClass( 'highlight' );
+      
       $( table.column( columnIndex ).nodes() ).addClass( 'highlight' );
 
-      if (table.rows('.selected').data().length != 0){
-      	var columnDataInter = table.rows('.selected').data();
+      prevColumnIndex = columnIndex;
+
+      var selectedData = table.rows('.selected').data();
+
+      if (selectedData.length != 0){
+      	//var columnDataInter = table.rows('.selected').data();
       	var columnData = [];
       	var keyData = [];
-      	for(i=0;i<columnDataInter.length;i++){
-      		columnData.push(columnDataInter[i][columnIndex]);
-      		if (property == 'isolates') keyData.push(columnDataInter[i][metadataFilter[0]]);
-      		else if (property == 'profiles') keyData.push(columnDataInter[i][schemeFilter[0]]);
+      	for(i=0;i<selectedData.length;i++){
+      		columnData.push(selectedData[i][columnIndex]);
+      		if (property == 'isolates') keyData.push(selectedData[i][metadataFilter[0]]);
+      		else if (property == 'profiles') keyData.push(selectedData[i][schemeFilter[0]]);
       	}
+      	console.log('AQUI');
       	if (property == 'isolates'){
       		metadataFilter[1] = keyData;
       		metadataFilter[2] = columnData;
@@ -197,14 +205,16 @@ function linkGraphAndTable(property, indexProperty, columnName, key){
 		  	firstTimeFilterProfiles = false;
 		  }
 
-	  	if (table.rows('.selected').data().length != 0){
-	      	var columnDataInter = table.rows('.selected').data();
+		var selectedData = table.rows('.selected').data();
+
+	  	if (selectedData.length != 0){
+	      	//var columnDataInter = table.rows('.selected').data();
 	      	var columnData = [];
 	      	var keyData = [];
-	      	for(i=0;i<columnDataInter.length;i++){
-	      		columnData.push(columnDataInter[i][indexProperty]);
-	      		if (property == 'isolates') keyData.push(columnDataInter[i][metadataFilter[0]]);
-      			else if (property == 'profiles') keyData.push(columnDataInter[i][schemeFilter[0]]);
+	      	for(i=0;i<selectedData.length;i++){
+	      		columnData.push(selectedData[i][indexProperty]);
+	      		if (property == 'isolates') keyData.push(selectedData[i][metadataFilter[0]]);
+      			else if (property == 'profiles') keyData.push(selectedData[i][schemeFilter[0]]);
 	      	}
 	      	if (property == 'isolates'){
       		metadataFilter[1] = keyData;

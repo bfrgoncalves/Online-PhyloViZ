@@ -13,8 +13,8 @@ var connectionString = "postgres://" + config.databaseUserString + "@localhost/"
 var transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-        user: 'phylovizonline@gmail.com',
-        pass: 'phyloviz_online'
+        user: config.email,
+        pass: config.spe
     }
 });
 

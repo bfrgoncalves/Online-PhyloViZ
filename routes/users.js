@@ -46,8 +46,6 @@ function verifyCredentials(username, password, done){
   
   query = "SELECT user_id FROM datasets.users WHERE username =$1;";
 
-  console.log(password);
-
   var client = new pg.Client(connectionString);
     client.connect(function(err) {
       if(err) {
@@ -110,46 +108,72 @@ router.post('/register', function(req, res, next){
     return null;
   }
 
-  crypto.randomBytes(128, function (err, salt) {
-    if (err) { throw err; }
-    salt = new Buffer(salt).toString('hex');
-    crypto.pbkdf2(req.body.password, salt, 7000, 256, 
-      function (err, hash) {
-        hash= new Buffer(hash).toString('hex');
-        if (err) { throw err; }
-        //console.log(config.cipherUser.algorithm);
-        var cipher = crypto.createCipher(config.cipherUser.algorithm, config.cipherUser.pass);
-        var user_id = cipher.update(req.body.username,'utf8','hex');
+  query = "SELECT user_id FROM datasets.users WHERE email='" + req.body.email + "';";
 
-        query = "INSERT INTO datasets.users(username, user_id, salt, pass, email) VALUES('" + req.body.username +"', '"+user_id+"', '"+salt+"', '"+hash+"', '"+req.body.email+"');";
+  var client = new pg.Client(connectionString);
 
-        var client = new pg.Client(connectionString);
-          client.connect(function(err) {
-            if(err) {
-              return console.error('could not connect to postgres', err);
-            }
-            client.query(query, function(err, result) {
-              if(err) {
-                client.end();
-                req.flash('userError', "Username "+req.body.username+" already exists");
-                res.redirect('/users/register');
-                return null;
-              }
-              client.end();
-
-              passport.authenticate('local')(req, res, function (err) {
-                  req.session.save(function (err) {
-                      if (err) {
-                          return next(err);
-                      }
-                      res.redirect('/');
-                  });
-              });
-            });
-          });
-
+  client.connect(function(err) {
+      if(err) {
+        return console.error('could not connect to postgres', err);
+      }
+      client.query(query, function(err, result) {
+        if(err) {
+          return console.error('error running query', err);
+        }
+        if (result.rows.length > 0) {
+          req.flash('userError', 'Email already in use');
+          res.redirect('/users/register');
+          return null;
+        }
+        else addUser();
+        client.end();
       });
   });
+
+  function addUser(){
+
+    crypto.randomBytes(128, function (err, salt) {
+      if (err) { throw err; }
+      salt = new Buffer(salt).toString('hex');
+      crypto.pbkdf2(req.body.password, salt, 7000, 256, 
+        function (err, hash) {
+          hash= new Buffer(hash).toString('hex');
+          if (err) { throw err; }
+          //console.log(config.cipherUser.algorithm);
+          var cipher = crypto.createCipher(config.cipherUser.algorithm, config.cipherUser.pass);
+          var user_id = cipher.update(req.body.username,'utf8','hex');
+
+          query = "INSERT INTO datasets.users(username, user_id, salt, pass, email) VALUES('" + req.body.username +"', '"+user_id+"', '"+salt+"', '"+hash+"', '"+req.body.email+"');";
+
+          var client = new pg.Client(connectionString);
+            client.connect(function(err) {
+              if(err) {
+                return console.error('could not connect to postgres', err);
+              }
+              client.query(query, function(err, result) {
+                if(err) {
+                  client.end();
+                  req.flash('userError', "Username "+req.body.username+" already exists");
+                  res.redirect('/users/register');
+                  return null;
+                }
+                client.end();
+
+                passport.authenticate('local')(req, res, function (err) {
+                    req.session.save(function (err) {
+                        if (err) {
+                            return next(err);
+                        }
+                        res.redirect('/');
+                    });
+                });
+              });
+            });
+
+        });
+    });
+
+  }
 	
 });
 
@@ -159,13 +183,8 @@ router.post('/login', passport.authenticate('local', {
     failureFlash: true
 }));
 
-router.get('/test', function(req, res, next){
-    console.log('test');
-    res.send({name: req.user});
-});
 
 router.post('/api/login', function(req, res){
-  //console.log(req.body.password);
 
   var shasum = crypto.createHash('sha256');
 
@@ -174,20 +193,11 @@ router.post('/api/login', function(req, res){
 
   req.body.password = d;
 
-  console.log(req.body.password);
-
   passport.authenticate('local')(req, res, function (err) {
     res.send(req.user);
   });
 
 });
-
-
-//{ 
-//	successRedirect: '/',
-//    failureRedirect: '/users/login' ,
-//    failureFlash: true
-//}));
 
 
 router.get('/logout', function(req, res, next) {

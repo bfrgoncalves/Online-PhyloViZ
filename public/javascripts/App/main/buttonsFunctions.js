@@ -157,6 +157,10 @@ function loadButtonFunctions(){
 
 		operationsButtons: function(graphObject){
 
+			if (graphObject.graphInput.isPublic == true){
+				$('#generatePublicLinkButton').html('Revoke Public Link');
+			} 
+
 			$('#distanceButton').click(function(e){
 				if (graphObject.selectedNodes.length < 2) alert('To compute distances, first you need to select more than one node.');
 	            else checkLociDifferences(graphObject.selectedNodes, graphObject.graphInput.metadata);
@@ -167,7 +171,7 @@ function loadButtonFunctions(){
 	        });
 
 	        $('#generatePublicLinkButton').click(function(e){
-	            generatePublicLink(graphObject.datasetID);
+	            PublicLink(graphObject);
 	        });
 
 	        $('#saveImageButton1').click(function(e){

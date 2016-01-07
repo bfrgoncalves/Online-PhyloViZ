@@ -55,7 +55,7 @@ function constructTable(tableData, datasetParameter, callback){
         "bSort" : false,
         dom: 'Bfrtip',
         buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print',
+            'copy', 'csv', 'excel', 'print', //'pdf'
             //'selected',
             //'selectedSingle',
             //'selectAll',

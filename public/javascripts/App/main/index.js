@@ -47,12 +47,16 @@ $(document).ready(function(){
 
             if (graph.data_type == 'fasta'){
               status('Loading tree...');
-              constructGraph(graph, datasetID);
+              getPublicInfo(graph, datasetID, function(graph){
+                constructGraph(graph, datasetID);
+              });
             }
             else{
               createTable(datasetID, 'profiles', function(){
                 status('Loading tree...');
-                constructGraph(graph, datasetID);
+                getPublicInfo(graph, datasetID, function(graph){
+                  constructGraph(graph, datasetID);
+                });
               });
             }
           });
@@ -60,6 +64,20 @@ $(document).ready(function(){
     });
 
 });
+
+function getPublicInfo(graph, datasetID, callback){
+  
+  $.ajax({
+      url: '/api/db/postgres/find/datasets/is_public',
+      data: {dataset_id: datasetID},
+      type: 'GET',
+      success: function(data){
+        graph.isPublic = data.userdatasets[0];
+        callback(graph);
+      }
+
+  });
+}
 
 
 function eraseDataset(){
