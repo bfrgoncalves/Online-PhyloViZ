@@ -19,7 +19,7 @@ function tutorial(divId){
 							'<label>2º - Launch the Tree</label>'+
 							'<p>Click on the <i>Launch Tree</i> button to be redirected to the tree visualization.</p>'+
 							'<label>Notes:</label>'+
-							'<p>You can not modify or delete public datasets. If you wish to modify some dataset you have made public, login and access to them from yout user area.</p>'+
+							'<p>You can not modify or delete public datasets. If you wish to modify some dataset you have made public, login and access to it from your user area.</p>'+
 							'</div>';
 			$('#' + divId).append(toAppend);
 		},
