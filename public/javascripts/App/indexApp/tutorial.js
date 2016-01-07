@@ -6,27 +6,27 @@ function tutorial(divId){
 			var toAppend = '<div class="tutorialDiv">'+
 							"<p>Welcome to PHYLOViZ Online! This is the application's index page.</p>"+
 								'<label>Operations:</label>'+
-							'<p>On the left side you have all the operations  you can perform. You can access to public datasets, upload and access your own datasets. </p><label>Note:</label> <p>To upload and to access your own data you have to be registered in the application.</p>'+
+							'<p>On the left side of the page you have all the operations you can perform. You can access to public datasets, upload and access your own datasets. </p><label>Note:</label> <p>To upload and to access your own data you have to be registered in the application.</p>'+
 							'</div>';
 			$('#' + divId).append(toAppend);
 		},
 		publicdatasets: function(){
 			$('#' + divId).empty();
 			var toAppend = '<div class="tutorialDiv">'+
-							'<p>This is the area where you can access to all the public datasets.</p>'+
+							'<p>This is the area where you can access to all public datasets.</p>'+
 								'<label>1º - Select one dataset from the table</label>'+
 							'<p>Select a dataset by clicking on one of the rows.</p>'+
 							'<label>2º - Launch the Tree</label>'+
 							'<p>Click on the <i>Launch Tree</i> button to be redirected to the tree visualization.</p>'+
 							'<label>Notes:</label>'+
-							'<p>You can not modify or delete public datasets. If yu which to modify the datasets you have made public, login and access to them on your user area.</p>'+
+							'<p>You can not modify or delete public datasets. If you wish to modify some dataset you have made public, login and access to them from yout user area.</p>'+
 							'</div>';
 			$('#' + divId).append(toAppend);
 		},
 		userdatasets: function(){
 			$('#' + divId).empty();
 			var toAppend = '<div class="tutorialDiv">'+
-							'<p>This is the area where you can access to all the datasets that you have uploaded.</p>'+
+							'<p>This is the area where you can access to all datasets you have uploaded.</p>'+
 								'<label>1º - Select one dataset from the table</label>'+
 							'<p>Select a dataset by clicking on one of the rows.</p>'+
 							'<label>2º - Launch the Tree</label>'+
