@@ -171,6 +171,9 @@ a {
 
 #countSelectedNodes{
   font-weight: bold;
+  float: left;
+  width:100%;
+  margin:3%;
 }
 
 
@@ -419,6 +422,16 @@ select {
   width: 100%;
 }
 
+#firstContainer{
+  width:100%;
+  height: 70%;
+}
+
+#secondContainer{
+  margin-top: 5%;
+}
+
+
 #divdistances{
   width: 100%;
   height: 55%;
@@ -426,10 +439,18 @@ select {
 }
 
 #distanceMatrix{
-  width: 100%;
-  height:70%;
+  width: 45%;
+  height:100%;
   margin-left: 1%;
   margin-top: 1%;
+  float: left;
+}
+
+#distanceUtils{
+  width: 50%;
+  height:100%;
+  margin-top: 1%;
+  float:right;
 }
 
 #divsvg{
@@ -440,26 +461,45 @@ select {
 
 #groupSVG{
   float: left;
-  width: 20%;
-  height: 50%;
+  width: 33%;
+  height: 30%;
   margin-left: 2%;
+  margin-right: 2%;
   margin-top: 3%;
+  overflow-x: auto;
 }
 
 #divCheckboxList{
   display:none;
-  width: 20%;
+  width: 33%;
+  height: 27%;
+  float:left;
+  margin-top: 3%;
+  margin-right: 2%;
+}
+
+#divClearDistances{
+  display:none;
+  width: 33%;
   height: 30%;
   float:left;
   margin-top: 3%;
 }
 
-#divClearDistances{
+#divClearTable{
+  margin-top: 5%;
+  float: right;
   display:none;
-  width: 20%;
-  height: 30%;
-  float:left;
-  margin-top: 3%;
+}
+
+#tableOver thead td{
+  border: 2px solid black;
+  margin: 5%;
+}
+
+#tableOver tbody td{
+  border-bottom: 1px solid black;
+  margin: 5%;
 }
 
 #labelcheckbox{
@@ -467,6 +507,7 @@ select {
 }
 
 #checkboxListContent{
+  height: 100%;
   overflow-y: auto;
 }
 

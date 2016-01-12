@@ -21,6 +21,8 @@ block normalBody
 
 	div(id="processingElement")
 
+	div(id="dialog")
+
 	//div.phylovizNavbar
 
 	div.tab_Region
@@ -133,14 +135,15 @@ block normalBody
 									div.well(id='OperationsToMake')
 										div(id="computeDistances")
 											button(type='button',id='distanceButton', name='distances1') Compute Distances
+											button(type='button',id='exportSelectedDataButton', name='distances1') Export Selected Data
 										if (user && !isPublic)
 											br
 											button(type='button',id='savePositionsButton', name='downloadPositions1') Save Positions
 											br
 											button(type='button',id='generatePublicLinkButton', name='publicLink1') Generate Public Link
-										br
 										button(type='button',id='saveImageButton1', name='saveImage1') Save Image
 										div(id='downloadContainer', style='display:none')
+
 
 
 				div(id="col_information")
@@ -193,25 +196,40 @@ block normalBody
 					div(id="divbuttonlinkpieprofiles")
 
 			div.tab-pane(id="distanceContent")
-				div(id="distanceMatrix")
-					div(id="divsvg")
-						div(id="divOrder", style="display: none")
-							p Order 
-								select(id="order")
-					div(id="groupSVG")
-						div(id="divsvgLegend")
-						br
-						div(id="divOverMatrix")
-					div(id="divCheckboxList")
-						label(id="labelcheckbox", for="#divCheckboxList") Select Metadata
-						br
-						div(id="checkboxListContent")
-					div(id="divClearDistances")
-						button.btn-md.btn-danger(id="clearDistanceMatrix") Clear Distances
-				br
 
-				div(id="countSelectedNodes", style="display:none") Selected Nodes:
-				div(id="divdistances")
+				div(id="firstContainer")
+					div(id="distanceMatrix")
+						div(id="divsvg")
+							div(id="divOrder", style="display: none")
+								p Order 
+									select(id="order")
+
+					div(id="distanceUtils")
+						div(id="groupSVG")
+							div(id="divsvgLegend")
+							br
+						div(id="divCheckboxList")
+							label(id="labelcheckbox", for="#divCheckboxList") Select Metadata
+							br
+							div(id="checkboxListContent")
+						div(id="divClearDistances")
+							button.btn-md.btn-danger(id="clearDistanceMatrix") Clear Distances
+						br
+						div(id="countSelectedNodes", style="display:none")
+						div(id="tableOverMatrix")
+							div(id="divtableMatrix" style ="width:100%;overflow-y: auto;")
+								table(id="tableOver" style="text-align:center;width:100%;")
+									thead
+									tbody
+							div(id="divClearTable")
+								button.btn-md.btn-info(type='button',id='exportMatrixDataButton', name='distances1') Export Selected Data
+								button.btn-md.btn-danger(id="clearClickTable") Clear Table
+
+						//div(id="divOverMatrix")
+					br
+				br
+				div(id="secondContainer")
+					div(id="divdistances")
 
 			//div.tab-pane(id="geographyContent")
 			//	div(id="mapLocation")

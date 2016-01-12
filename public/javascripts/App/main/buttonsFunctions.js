@@ -163,7 +163,7 @@ function loadButtonFunctions(){
 
 			$('#distanceButton').click(function(e){
 				if (graphObject.selectedNodes.length < 2) alert('To compute distances, first you need to select more than one node.');
-	            else checkLociDifferences(graphObject.selectedNodes, graphObject.graphInput.metadata);
+	            else checkLociDifferences(graphObject);
 	        });
 
 	        $('#savePositionsButton').click(function(e){
@@ -172,6 +172,10 @@ function loadButtonFunctions(){
 
 	        $('#generatePublicLinkButton').click(function(e){
 	            PublicLink(graphObject);
+	        });
+
+	        $('#exportSelectedDataButton').click(function(e){
+	            exportSelectedDataTree(graphObject);
 	        });
 
 	        $('#saveImageButton1').click(function(e){
@@ -195,6 +199,7 @@ function loadButtonFunctions(){
 	        $('#NLVnumber').change(function(e){
             	NLVgraph(graphObject, this.value);
           });
+
 		},
 
 		searchButton: function(graphObject){

@@ -31,7 +31,10 @@ function hamming(p, q) {
   return res;
 }
 
-function checkLociDifferences(arrayOfNodes, metadata){
+function checkLociDifferences(graphObject){
+
+	var arrayOfNodes = graphObject.selectedNodes;
+	var metadata = graphObject.graphInput.metadata;
 	var distanceMatrix = {};
 	var NodesToConstructTable = [];
 	var maxDistance = -1;
@@ -56,10 +59,11 @@ function checkLociDifferences(arrayOfNodes, metadata){
 			distanceMatrix[arrayOfNodes[i].id].push(iDistances);
 		}
 
+
 		for (i in arrayOfNodes) NodesToConstructTable.push(arrayOfNodes[i]);
 
 		constructDistanceTable(distanceMatrix);
-		createDistanceTable(NodesToConstructTable, distanceMatrix, metadata, maxDistance);
+		createDistanceTable(NodesToConstructTable, distanceMatrix, metadata, maxDistance, graphObject);
 
 		$("#waitingGifMain").css('display', 'none');
 		status('');
@@ -168,3 +172,86 @@ function restoreLinkSearch(graphObject){
         setTimeout(function(){ renderer.pause();}, 5);
       }
 }
+
+function exportSelectedDataTree(graphObject){
+
+	var selectedNodes = graphObject.selectedNodes;
+
+	if (selectedNodes.length < 1){
+		alert("first you need to select some nodes");
+		return false;
+	}
+
+	var stringToIsolates = "data:text/csv;charset=utf-8,";
+	var stringToProfiles = "data:text/csv;charset=utf-8,";
+
+
+	stringToIsolates += graphObject.graphInput.metadata.join('\t') + '\n';
+	stringToProfiles += graphObject.graphInput.schemeGenes.join('\t') + '\n';
+
+	for (i in selectedNodes){
+		var data = selectedNodes[i].data;
+		for (j in data.isolates) stringToIsolates += data.isolates[j].join('\t') + '\n';
+		stringToProfiles += selectedNodes[i].data.key + '\t' + data.profile.join('\t') + '\n';
+	}
+
+	var encodedUriIsolates = encodeURI(stringToIsolates);
+	var encodedUriProfiles = encodeURI(stringToProfiles);
+
+	$('#dialog').empty();
+
+	var a = $('<p>Download <a id="linkDownloadIsolateSelectedData">isolate data</a></p><p>Download <a id="linkDownloadProfileSelectedData">profile data</a></p>');
+
+	$('#dialog').append(a);
+	$('#linkDownloadIsolateSelectedData').attr("href", encodedUriIsolates).attr('download', "isolateData.tab");
+	$('#linkDownloadProfileSelectedData').attr("href", encodedUriProfiles).attr('download', "profileData.tab");
+	$('#dialog').dialog();
+	//window.open(encodedUriIsolates);
+
+}
+
+
+function exportSelectedDataMatrix(graphObject, selectedNodes, stored){
+
+	if (stored.length < 1){
+		alert("first you need to select some nodes from the matrix");
+		return false;
+	}
+
+	var stringToIsolates = "data:text/csv;charset=utf-8,";
+	var stringToProfiles = "data:text/csv;charset=utf-8,";
+
+	stringToIsolates += graphObject.graphInput.metadata.join('\t') + '\n';
+	stringToProfiles += graphObject.graphInput.schemeGenes.join('\t') + '\n';
+
+	for (i in stored){
+		var index = stored[i].y;
+		var data = selectedNodes[index].data;
+		for (j in data.isolates) stringToIsolates += data.isolates[j].join('\t') + '\n';
+		stringToProfiles += selectedNodes[index].data.key + '\t' + data.profile.join('\t') + '\n';
+	}
+
+	var encodedUriIsolates = encodeURI(stringToIsolates);
+	var encodedUriProfiles = encodeURI(stringToProfiles);
+
+	$('#dialog').empty();
+
+	var a = $('<p>Download <a id="linkDownloadIsolateSelectedData">isolate data</a></p><p>Download <a id="linkDownloadProfileSelectedData">profile data</a></p>');
+
+	$('#dialog').append(a);
+	$('#linkDownloadIsolateSelectedData').attr("href", encodedUriIsolates).attr('download', "isolateData.tab");
+	$('#linkDownloadProfileSelectedData').attr("href", encodedUriProfiles).attr('download', "profileData.tab");
+	$('#dialog').dialog();
+
+}
+
+
+
+
+
+
+
+
+
+
+
