@@ -22,7 +22,10 @@ function createDistanceTable(selectedNodes, distanceMatrix, metadata, maxDistanc
 
   createSelect(metadata, function(){
     $('#countSelectedNodes').empty();
+    $('#matrixTableInfo').empty();
     $('#countSelectedNodes').append('<h5>Selected Nodes: ' + selectedNodes.length + '</h5>');
+    $('#matrixTableInfo').append('<h6>Table\'s information after selection of an <b>auxiliary data field</b> only depends on each of the columns at the matrix visualization. Also, at the moment only <b>one isolate per selection</b> can be displayed.</h6>');
+    $("#matrixTableInfo").css({display: 'block'});
     $("#countSelectedNodes").css({display: 'block'});
     constructMatrix(selectedNodes, distanceMatrix, metadata, maxDistance, svg, svgHeight, graphObject);
     $("#divClearDistances").css({display: 'block'});
@@ -36,6 +39,7 @@ function allowClearDistances(){
     $('divsvg').empty();
     $("#divOrder").css({display: 'none'});
     $("#countSelectedNodes").css({display: 'none'});
+    $("#matrixTableInfo").css({display: 'none'});
     d3.select("#divsvg svg").remove();
     d3.select("#divsvgLegend svg").remove();
     $("#checkboxListContent").empty();

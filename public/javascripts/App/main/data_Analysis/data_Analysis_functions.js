@@ -224,11 +224,16 @@ function exportSelectedDataMatrix(graphObject, selectedNodes, stored){
 	stringToIsolates += graphObject.graphInput.metadata.join('\t') + '\n';
 	stringToProfiles += graphObject.graphInput.schemeGenes.join('\t') + '\n';
 
+	var alreadyExported = [];
+
 	for (i in stored){
-		var index = stored[i].y;
-		var data = selectedNodes[index].data;
-		for (j in data.isolates) stringToIsolates += data.isolates[j].join('\t') + '\n';
-		stringToProfiles += selectedNodes[index].data.key + '\t' + data.profile.join('\t') + '\n';
+		if ($.inArray(stored[i].x, alreadyExported) < 0){
+			var index = stored[i].x;
+			var data = selectedNodes[index].data;
+			for (j in data.isolates) stringToIsolates += data.isolates[j].join('\t') + '\n';
+			stringToProfiles += selectedNodes[index].data.key + '\t' + data.profile.join('\t') + '\n';
+			alreadyExported.push(stored[i].x);
+		}
 	}
 
 	var encodedUriIsolates = encodeURI(stringToIsolates);
