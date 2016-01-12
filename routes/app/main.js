@@ -8,7 +8,7 @@ var config = require('../../config.js');
 /* GET home page. */
 router.get('/dataset/:datasetID', function(req, res, next) {
 
-  if(!req.isAuthenticated()) return res.redirect("/");
+  //if(!req.isAuthenticated()) return res.redirect("/");
 
   springLength = 1;
   if (req.query.springLength != undefined) springLength = req.query.springLength;
