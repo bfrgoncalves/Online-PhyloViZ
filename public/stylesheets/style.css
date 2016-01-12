@@ -176,6 +176,12 @@ a {
   margin:3%;
 }
 
+#matrixTableInfo{
+  font-weight: bold;
+  float: left;
+  width:100%;
+}
+
 
 .waitingImage{
   height: auto;
