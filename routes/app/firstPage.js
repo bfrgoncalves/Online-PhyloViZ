@@ -5,7 +5,7 @@ var config = require('../../config.js');
 
 var https_redirect = function(req, res, next) {
   if (!req.secure) {
-      return res.redirect('https://localhost:3000' + req.url);
+      return res.redirect('https://' + config.currentRoot.substring(0, config.currentRoot.length - 1) + req.url);
   } else {
     return next();
   }
