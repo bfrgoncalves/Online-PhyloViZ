@@ -70,7 +70,6 @@ function loadProfiles(datasetID, userID, callback){
 	    //else{
 	    	//datasetID = result.rows[0].id;
 
-	    console.log(datasetID);
 		query = "SELECT data FROM datasets.profiles WHERE dataset_id = '"+datasetID+"';" +
 				"SELECT schemeGenes FROM datasets.profiles WHERE dataset_id = '"+datasetID+"';";
 		

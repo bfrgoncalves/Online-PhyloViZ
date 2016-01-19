@@ -65,7 +65,6 @@ function linkTableAndGraph(property, graphObject){
       		if (property == 'isolates') keyData.push(selectedData[i][metadataFilter[0]]);
       		else if (property == 'profiles') keyData.push(selectedData[i][schemeFilter[0]]);
       	}
-      	console.log('AQUI');
       	if (property == 'isolates'){
       		metadataFilter[1] = keyData;
       		metadataFilter[2] = columnData;

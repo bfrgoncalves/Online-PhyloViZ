@@ -15,8 +15,6 @@ router.get('/', function(req, res, next){
 		if (!req.isAuthenticated()) var userID = "1";
 		else var userID = req.user.id;
 
-		console.log(userID);
-
 		var isNewick = false;
 
 	    getDataset(datasetID, userID, function(dataset){

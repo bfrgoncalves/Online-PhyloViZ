@@ -9,16 +9,18 @@ function makeid(length)
     return text;
 }
 
-var port = '<port(integer)>';
+var port = 'port(integer)';
 
 module.exports = {
-	db : '<databaseName>',
-	databaseUserString: '<username:password>',
+	db : 'databaseName',
+	databaseUserString: 'username:password',
 	randomId : makeid,
 	title : "PHYLOViZ Online",
-	cipherUser: { algorithm: 'aes-256-ctr', pass: '<password>'},
+	email: 'phylovizonline@gmail.com',
+	spe: 'phyloviz_online',
+	cipherUser: { algorithm: 'aes-256-ctr', pass: 'passwordCipher'},
 	currentRoot: 'https://localhost:'+String(port) + '/',
-	certPath: '<certificatePath>',
-	keyPath: '<keyPath>',
+	//certPath: 'certificatePath',
+	//keyPath: 'keyPath',
 	port: port
 }

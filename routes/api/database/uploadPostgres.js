@@ -59,14 +59,17 @@ router.post('/', multer({
           if (countProgress == req.body.numberOfFiles){
               //console.log(req.user);
               dataToDB.dataset_description = req.body.dataset_description;
+              
               uploadToDatabase(dataToDB, function(){
                 res.send(dataToDB.datasetID);
               });
+              
           }
     });
   }
   
 });
+
 
 function readInputFiles(pathToFile, fileType, dataToDB, callback){
   if (fileType == 'fileNewick') {
