@@ -34,7 +34,7 @@ def main():
 
 def login(args, currentRoot):
 
-	bashCommand = 'curl --cookie-jar jarfile --data username='+ args.u + '&' + 'password=' + args.p + ' http://'+currentRoot+'/users/api/login'
+	bashCommand = 'curl --cookie-jar jarfile --data username='+ args.u + '&' + 'password=' + args.p + ' ' +currentRoot+'/users/api/login'
 	process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
 	output = process.communicate()[0]
 
@@ -44,7 +44,7 @@ def checkDatasets(args, currentRoot):
 	
 	login(args, currentRoot)
 
-	bashCommand = 'curl --cookie jarfile -X GET http://'+currentRoot+'/api/db/postgres/find/datasets/name?name='+ args.d
+	bashCommand = 'curl --cookie jarfile -X GET '+currentRoot+'/api/db/postgres/find/datasets/name?name='+ args.d
 	process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
 	output = process.communicate()[0]
 	io = StringIO(output)
@@ -97,7 +97,7 @@ def remoteUpload(args, currentRoot):
 					  ' + dataToAdd + ' \
 					  ' + addMetadata + ' \
 					  -F numberOfFiles='+ str(numberOfFiles) +' \
-					  http://'+currentRoot+'/api/db/postgres/upload'
+					  '+currentRoot+'/api/db/postgres/upload'
 
 	process = subprocess.Popen(bashCommandUpload.split(), stdout=subprocess.PIPE)
 	output = process.communicate()[0]
@@ -110,7 +110,7 @@ def rungoeBURST(args, datasetID, currentRoot):
 
 	print 'Running goeBURST...'
 
-	bashCommand = 'curl --cookie jarfile -X GET http://'+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true'
+	bashCommand = 'curl --cookie jarfile -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true'
 
 	process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
 	output = process.communicate()[0]
