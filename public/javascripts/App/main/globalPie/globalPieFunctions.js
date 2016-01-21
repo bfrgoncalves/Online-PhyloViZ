@@ -17,6 +17,7 @@ function destroyPie(pieID){
 function gatherPieData(dataArray, callback){
 	var gatherData = {};
 	var dataToPie = [];
+	console.log(dataArray);
 	
 	for(i in dataArray){
 		//console.log(i);
@@ -57,6 +58,8 @@ function GlobalPie(classname, data, startWidth, startHeight, r, pieID, columnNam
             .value(function(d) {
             return d.value;
         });;
+
+        console.log(data);
 
         if (pieID.indexOf('isolates') > -1){
         	arrayColorsIsolates = [];

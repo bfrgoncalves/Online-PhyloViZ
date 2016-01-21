@@ -102,7 +102,7 @@ var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDista
   nodes.forEach(function(node, i) {
     node.index = i;
     node.count = 0;
-    matrix[i] = d3.range(n).map(function(j) { return { value: -1, x: j, y: i}; });
+    matrix[i] = d3.range(n).map(function(j) { return { value: -1, x: j, y: i, source: node, target: nodes[j] }; });
   });
 
   if (metadata.length != 0) existsMetadata = true;
@@ -285,30 +285,68 @@ var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDista
     tableBody.empty();
     tableHead.empty();
 
-    toHead = '<tr><td>Line</td><td>Column</td><td>Distance</td>';
+    toHead = '<tr><td>Position</td><td>Node ID</td><td>Distance</td>';
+
+    var toBody = '';
+
+    var toCheck = ["source", "target"];
     
     for (j in stored){
-      toBody = '<tr><td>'+nodes[stored[j].y].id+'</td><td>'+nodes[stored[j].x].id+'</td><td>'+distanceMatrix[selectedNodes[stored[j].y].id][0][selectedNodes[stored[j].x].id]+'</td>';
+
+      countU = 0;
+      for(u in toCheck){
+        countU ++;
+        if (countU == 1) toBody = '<tr><td>Line</td><td>'+stored[j][toCheck[u]].id+'</td><td rowspan="2">'+distanceMatrix[selectedNodes[stored[j].y].id][0][selectedNodes[stored[j].x].id]+'</td>';
+        else toBody = '<tr style="border-bottom:2px solid black;"><td>Column</td><td>'+stored[j][toCheck[u]].id+'</td>';
+      //toBody = '<tr><td>'+nodes[stored[j].y].id+'</td><td>'+nodes[stored[j].x].id+'</td><td>'+distanceMatrix[selectedNodes[stored[j].y].id][0][selectedNodes[stored[j].x].id]+'</td>';
+      
+        for (i in currentShowValues){
+          var isolateInfo = '';
+          if(currentShowValues[i]){
+            for(s in stored[j][toCheck[u]].data.isolates){
+                indexToCheck = metadata.indexOf(i);
+                isolateInfo += stored[j][toCheck[u]].data.isolates[s][indexToCheck] + '\;';
+            }
+            toBody += '<td>' + isolateInfo + '</td>';
+          }
+        }
+        toBody += '</tr>';
+        tableBody.append(toBody);
+      }
+
+
+    }
+
+    countU = 0;
+
+    for(u in toCheck){
+      countU ++;
+      if (countU == 1) toBody = '<tr style="background-color:#f8e7e1;"><td>Line</td><td>'+p[toCheck[u]].id+'</td><td rowspan="2">'+distanceMatrix[selectedNodes[p.y].id][0][selectedNodes[p.x].id]+'</td>';
+      else toBody = '<tr style="background-color:#f8e7e1;"><td>Column</td><td>'+p[toCheck[u]].id+'</td>';
+
       for (i in currentShowValues){
-          toBody += '<td>' + stored[j][i] + '</td>';
+        var isolateInfo = '';
+        if(currentShowValues[i]){
+          for(s in p[toCheck[u]].data.isolates){
+              indexToCheck = metadata.indexOf(i);
+              isolateInfo += p[toCheck[u]].data.isolates[s][indexToCheck] + '\;'; 
+          }
+          toBody += '<td>' + isolateInfo + '</td>';
+        }
       }
       toBody += '</tr>';
       tableBody.append(toBody);
-
     }
 
-    toBody = '<tr style="background-color:#f8e7e1;"><td>'+nodes[p.y].id+'</td><td>'+nodes[p.x].id+'</td><td>'+distanceMatrix[selectedNodes[p.y].id][0][selectedNodes[p.x].id]+'</td>';
-
     for (i in currentShowValues){
+      if(currentShowValues[i]){
         toHead += '<td>' + i + '</td>';
-        toBody += '<td>' + p[i] + '</td>';
+      }
     }
 
     toHead += '</tr>';
-    toBody += '</tr>';
 
     tableHead.append(toHead);
-    tableBody.append(toBody);
 
 
     d3.selectAll(".line_" + p.y ).style("fill", function(d, i) { 

@@ -226,13 +226,16 @@ function exportSelectedDataMatrix(graphObject, selectedNodes, stored){
 
 	var alreadyExported = [];
 
+	var toCheck = ["source", "target"];
+
 	for (i in stored){
-		if ($.inArray(stored[i].x, alreadyExported) < 0){
-			var index = stored[i].x;
-			var data = selectedNodes[index].data;
-			for (j in data.isolates) stringToIsolates += data.isolates[j].join('\t') + '\n';
-			stringToProfiles += selectedNodes[index].data.key + '\t' + data.profile.join('\t') + '\n';
-			alreadyExported.push(stored[i].x);
+		for (j in toCheck){
+			if ($.inArray(stored[i][toCheck[j]].id, alreadyExported) < 0){
+				var dataToCheck = stored[i][toCheck[j]];
+				for (j in dataToCheck.data.isolates) stringToIsolates += dataToCheck.data.isolates[j].join('\t') + '\n';
+				stringToProfiles += dataToCheck.data.key + '\t' + dataToCheck.data.profile.join('\t') + '\n';
+				alreadyExported.push(stored[i][toCheck[j]].id);
+			}
 		}
 	}
 

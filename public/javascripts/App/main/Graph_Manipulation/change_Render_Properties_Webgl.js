@@ -250,7 +250,6 @@ function NLVgraph(graphObject, value) {
         for (i in addedLinks){
             if (addedLinks[i].data.value > value) {
                 graphGL.removeLink(addedLinks[i]);
-
                 delete addedLinks[i];
             }    
         }
@@ -263,11 +262,15 @@ function NLVgraph(graphObject, value) {
         graphGL.forEachNode(function(node){
 
             for (i=1; i<graph.distanceMatrix[countNodes].length-1; i++){
-                if (graph.distanceMatrix[countNodes][i] == value && graph.distanceMatrix[countNodes][i] != 0){
+                if (graph.distanceMatrix[countNodes][i] <= value && graph.distanceMatrix[countNodes][i] != 0){
                     targetIndex = parseInt(countNodes) + parseInt(i);
 
                     LinkID = graph.nodes[countNodes].key + "👉 " + graph.nodes[targetIndex].key;
+                    if (addedLinks.hasOwnProperty(LinkID)){
+                        continue;
+                    }
                     if (!treeLinks.hasOwnProperty(LinkID)){
+
                         graphGL.addLink(graph.nodes[countNodes].key, graph.nodes[targetIndex].key, { connectionStrength: graph.distanceMatrix[countNodes][i] , value: graph.distanceMatrix[countNodes][i], color: "#00ff00"});
                         var link = graphGL.getLink(graph.nodes[countNodes].key, graph.nodes[targetIndex].key);
 

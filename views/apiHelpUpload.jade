@@ -12,7 +12,14 @@ block login
 block API
 	div.apiBody
 		p Upload data
-		p Here you can find information about the different methods and services than can be used to interact with the application.
+		p This service allows you to upload files to your user area by interacting with the application's REST API.
+		p Because the data upload is a combination of different steps, we have developed a Phyton program to indirectly interact with the REST API. The code can be found 
+			a(href='//github.com/bfrgoncalves/Online-PhyloViZ/tree/postgres_version/remote_upload') here
+		br
+		label Usage:
+		div(style="border-bottom: 2px solid black; width: 70%")  
+			p python remoteUpload.py -u 'username' -p 'pass' -sdt profile -sd 'sampleAPfile.txt' -d 'test'
+			p Uploads the 'sampleAPfile.txt' profile data to the user area of 'username'
 
 
 
