@@ -42,9 +42,10 @@ function uploadFiles(){
 
   var img = document.getElementById('GIFimage');
   $("#GIFimage").attr("src", 'images/waitingGIF.gif').attr('width' , '50px').attr('height' , '50px');
+  $("#waitingGif").css({'display': 'block'});
 
 
-  event.preventDefault();
+  //event.preventDefault();
 
   var form = document.getElementById('inputForm');
   var fileSelectProfile = document.getElementById('uploadProfile');
@@ -100,13 +101,85 @@ function getLinks(datasetID){
     contentType: false,
     type: 'GET',
     success: function(data){
-      status('Done!');
-      window.location.replace("/main/dataset/" + data.datasetID);
+      if(data.dupProfiles.length > 0 || data.dupIDs.length >0){
+        popDialog(data);
+      }
+      else{
+        status('Done!');
+        window.location.replace("/main/dataset/" + data.datasetID);
+      }
     }
 
   });
 
 }
+
+function popDialog(data){
+  var toShow = '<p>Duplicate profiles:' ;
+  var interText = '';
+  var countD = 0;
+  
+  for (i in data.dupProfiles){
+    countD ++;
+    interText += '<p>ID - ' + data.dupProfiles[i][0] + ', Profile: ' + data.dupProfiles[i][1] + '</p>';
+  }
+  toShow += String(countD) + '\n';
+  toShow += interText + '</p>';
+  countD = 0;
+  interText = '';
+  toShow += '<br><p>Duplicate IDs:' ;
+  
+  for (i in data.dupIDs){
+    countD ++;
+    interText += '<p>ID - ' + data.dupIDs[i] + '</p>';
+  }
+  toShow += String(countD) + '\n';
+  toShow += interText + '</p>';
+
+  var buttons = '';
+
+  if(data.dupIDs.length > 0){
+    toShow += '<br>Since there are multiple profiles with same ID, only the first one is used. Do you wish to continue anyway?'
+    buttons += '<button id="cancelButton" class="btn btn-danger" style="margin:1%;">Cancel</button>';
+  }
+  buttons += '<button id="acceptButton" class="btn btn-info" style="margin:1%;">Ok</button>';
+
+  $('#dialog').empty();
+
+  var a = $('<p>' + toShow + '</p>');
+  var b = $(buttons);
+  $('#dialog').append(a);
+  $('#dialog').append(b);
+  $('#dialog').dialog();
+
+  $('#acceptButton').click(function(){
+    status('Done!');
+    window.location.replace("/main/dataset/" + data.datasetID);
+  });
+
+  $('#cancelButton').click(function(){
+      eraseDataset(data);
+      status('');
+      $("#waitingGif").css({'display': 'none'});
+      $('#dialog').dialog('close');
+  });
+}
+
+
+function eraseDataset(data){
+
+  $.ajax({
+      url: '/api/db/postgres/delete',
+      data: {dataset_id: data.datasetID},
+      type: 'DELETE',
+      success: function(data){
+        console.log('dataset deleted');
+      }
+
+    });
+}
+
+
 
 
 function checkIfNameExists(datasetName, callback){

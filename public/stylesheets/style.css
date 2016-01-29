@@ -603,6 +603,16 @@ select {
   text-align: center;
 }
 
+#top-link-block{
+  position: fixed;
+  bottom:2%;
+  right:0%;
+}
+
+.tutorialParts{
+  margin: 2%;
+}
+
 
     
     

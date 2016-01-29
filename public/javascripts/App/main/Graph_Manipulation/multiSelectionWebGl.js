@@ -1,5 +1,4 @@
 
-
 function startMultiSelect(graphObject) {
 
   var graph = graphObject.graphGL;

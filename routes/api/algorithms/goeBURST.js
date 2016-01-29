@@ -21,16 +21,16 @@ router.get('/', function(req, res, next){
 		if (req.query.algorithm) var algorithmToUse = req.query.algorithm;
 		else var algorithmToUse = 'prim';
 
-		loadProfiles(datasetID, userID, function(profileArray, identifiers, datasetID){
+		loadProfiles(datasetID, userID, function(profileArray, identifiers, datasetID, dupProfiles, dupIDs){
 			datasetId = datasetID;
 			
 			goeBURST(profileArray, identifiers, algorithmToUse, function(links, distanceMatrix){
 				if(req.query.save){
 					saveLinks(datasetID, links, distanceMatrix, function(){
-						res.send({datasetID: req.query.dataset_id, links: links, distanceMatrix: distanceMatrix});
+						res.send({datasetID: req.query.dataset_id, links: links, distanceMatrix: distanceMatrix, dupProfiles: dupProfiles, dupIDs: dupIDs});
 					});
 				}
-				else res.send({datasetID: req.query.dataset_id, links: links, distanceMatrix: distanceMatrix});
+				else res.send({datasetID: req.query.dataset_id, links: links, distanceMatrix: distanceMatrix, dupProfiles: dupProfiles, dupIDs: dupIDs});
 			});
 		});
 
@@ -82,6 +82,9 @@ function loadProfiles(datasetID, userID, callback){
 	    var schemeGenes = result.rows[1].schemegenes;
 		
 		var existsProfile = {};
+		var dupProfiles = [];
+		var dupIDs = [];
+		var existsIdentifiers = {}
 		
 		profiles.forEach(function(profile){
 			var arr = [];
@@ -91,20 +94,27 @@ function loadProfiles(datasetID, userID, callback){
 			//arr.reverse();
 			
 			if(existsProfile[String(arr)]) {
+				dupProfiles.push([identifier, String(arr)]);
 				console.log('Profile already exists');
 				//console.log(identifier);
+			}
+			else if(existsIdentifiers[identifier]){
+				dupIDs.push(identifier);
+				console.log('Duplicate ID');
 			}
 			
 			else{
 				existsProfile[String(arr)] = true;
 				identifiers[countProfiles] = identifier;
+				existsIdentifiers[identifier] = true;
 				countProfiles += 1; 
 				profileArray.push(arr);
 
 			}
 		});
 		client.end();
-		callback(profileArray, identifiers, datasetID);
+		callback(profileArray, identifiers, datasetID, dupProfiles, dupIDs);
+
 
 	  });
 	    //}
