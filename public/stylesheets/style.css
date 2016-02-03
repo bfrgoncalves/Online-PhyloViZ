@@ -609,10 +609,56 @@ select {
   right:0%;
 }
 
+.subtitle{
+  width:100%; 
+  border-bottom: 3px solid black;
+}
+
 .tutorialParts{
+  margin: 4%;
+}
+
+.tutorialParts h4{
+  font-size: 200%;
+}
+
+.tutorialParts img{
+  cursor: pointer;
+}
+
+.tutorialsubsections{
+  margin: 2%;
+  margin-bottom: 4%;
+}
+
+div.tutorialsubsections h5{
+  color: #820d16;
+  font-size: 150%;
   margin: 2%;
 }
 
+.subrow{
+  text-align: center;
+}
 
-    
+.othercolumns{
+  padding: 2%;
+  text-align: center;
+}
+
+.tutorialcolumns{
+  padding: 1.5%;
+  width:20%;
+  border-top: 2px solid black;
+  border-right: 1px solid black;
+  border-bottom: 2px solid black;
+}   
+
+.bodyText{
+  margin-top: 2%;
+  margin-bottom: 2%;
+  font-size: 130%;
+  text-align: justify;
+}
+
     

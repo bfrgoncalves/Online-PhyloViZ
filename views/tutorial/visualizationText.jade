@@ -1,21 +1,128 @@
 li
-	h4 2.4 - Visualization
-	p Here you can find information about the tree visualization.
+	h4.subtitle 2.2.1 - Tree visualization
+	p Tree visualization is the default tab that is opened after accessing to <b>Main</b> page. This tab links to all others using the <b><i>Features</i></b> bar located at the page's left side. The Minimmum Spanning Tree located at the center is generated using the <a href="www.phyloviz.net/goeburst/">goeBURST algorithm</a> and the <a href="github.com/anvaka/VivaGraphJS">VivaGraphJS library</a> for visual rendering. The information area located at the bottom shows distinct information <i>on node click</i> depending on the Feature that is selected. Below we have a description of all the features.
 	br
+	div(style="width:100%; text-align:center;")
+		img(id="visualization1" href="/images/visualization1.png" style="width:40%; height: auto;" src="/images/visualization1.png")
 	ul
 		li
-			div(id="assigncolors")
+			div.tutorialsubsections(id="assigncolors")
 				h5 Assign Colors
+				table
+					tr.subrow
+						td.tutorialcolumns
+							img(id="assigncolors1" href="/images/assigncolors1.png" style="width:60%; height: auto;" src="/images/assigncolors1.png")
+						td.othercolumns
+							<span class="glyphicon glyphicon-arrow-right"></span>
+						td(style="text-align:justify")
+							p Colors can be assigned to Tree nodes depending on different fields of the input files. Colors can be assign by profile or auxiliary data.
+					tr.subrow
+						td.tutorialcolumns
+							img(id="assigncolors2" href="/images/assigncolors2.png" style="width:60%; height:auto;" src="/images/assigncolors2.png")
+						td.othercolumns
+							<span class="glyphicon glyphicon-arrow-right"></span>
+						td(style="text-align:justify")
+							p In the <b>color By Profile</b> option, users can select one of the different <b><i>locus ID in case of profile-based methods</i></b>. If using <b>Fasta</b> files, <i>locus ID is substituted with nucleotide position</i>. In case of <b>Newick</b> files, this <i>option is not available</i>.
+					tr.subrow
+						td.tutorialcolumns
+							img(id="assigncolors3" href="/images/assigncolors3.png" style="width:60%; height:auto;" src="/images/assigncolors3.png")
+						td.othercolumns
+							<span class="glyphicon glyphicon-arrow-right"></span>
+						td(style="text-align:justify")
+							p In the <b>color By Auxiliary Data</b> option, users can select one of the different fields available at the auxiliary data file. In our example, we are going to select <b><i>Strain</i></b>.
+					tr.subrow
+						td.tutorialcolumns
+							img(id="assigncolors4" href="/images/assigncolors4.png" style="width:60%; height:auto;" src="/images/assigncolors4.png")
+						td.othercolumns
+							<span class="glyphicon glyphicon-arrow-right"></span>
+						td(style="text-align:justify")
+							p After field selection, a color is attributed to different values of the selected field and <b>nodes are colored according to the data available for that node</b>. In addition, a <i><a href="#linktotree">Pie Chart</a></i> with global information is also displayed in the Tree visualization tab.
 		li
-			div(id="graphicproperties")
+			div.tutorialsubsections(id="graphicproperties")
 				h5 Graphic Properties
+				table
+					tr.subrow
+						td.tutorialcolumns
+							img(id="graphicprop1" href="/images/graphicprop1.png" style="width:60%; height: auto;" src="/images/graphicprop1.png")
+						td.othercolumns
+							<span class="glyphicon glyphicon-arrow-right"></span>
+						td(style="text-align:justify")
+							p Users can change the graphic properties of the Tree through changes in the properties of <b>nodes</b>, <b>links</b>, and in the <b>force-directed layout</b>.
+					tr.subrow
+						td.tutorialcolumns
+							img(id="graphicprop2" href="/images/graphicprop2.png" style="width:60%; height:auto;" src="/images/graphicprop2.png")
+						td.othercolumns
+							<span class="glyphicon glyphicon-arrow-right"></span>
+						td(style="text-align:justify")
+							p On the <b>Nodes</b> section, it is possible to change <i>Node size</i> and <i>Label size</i>. By default, Nodes do not have Labels activated. To do that, users need to check the <b><i>Add Node Labels</i></b> button.
+					tr.subrow
+						td.tutorialcolumns
+							img(id="graphicprop3" href="/images/graphicprop3.png" style="width:60%; height:auto;" src="/images/graphicprop3.png")
+						td.othercolumns
+							<span class="glyphicon glyphicon-arrow-right"></span>
+						td(style="text-align:justify")
+							p On the <b>Links</b> section, it is possible to change <i>Link size</i> and <i>Label size</i>. Similar to Nodes, by default, Link also do not have Labels activated. To do that, users need to check the <b><i>Add Link Labels</i></b> button.
+							p In case of large distances between profiles, links tend to be extended and this difficults the tree visualizaton. To diminish the large distance factor, users can select the <b><i>Log Scale</i></b> button.
+					tr.subrow
+						td.tutorialcolumns
+							img(id="graphicprop4" href="/images/graphicprop4.png" style="width:60%; height:auto;" src="/images/graphicprop4.png")
+						td.othercolumns
+							<span class="glyphicon glyphicon-arrow-right"></span>
+						td(style="text-align:justify")
+							p Regarding the <b>Layout</b> section, there are a series of parameters that can be changed:
+							ul
+								li <b><i>Drag force coefficient</i></b>: Used to slow down system. The closer it is to 0 the less tight system will be.
+								li <b><i>Hook's law coefficient (Spring coeficcient)</i></b>: Closer to 0 links are more loose.
+								li <b><i>Gravity</i></b>: Negative numbers lead to nodes repel.
+								li <b><i>Theta</i></b>: global charge force.
+								li <b><i>Mass Ratio</i></b>: Bigger values lead to more attraction between nodes.
 		li
-			div(id="selection")
-				h5 Selection
+			div.tutorialsubsections(id="selection")
+				h5 Node selection
+				table
+					tr.subrow
+						td.tutorialcolumns
+							img(id="selection1" href="/images/selection1.png" style="width:60%; height: auto;" src="/images/selection1.png")
+						td.othercolumns
+							<span class="glyphicon glyphicon-arrow-right"></span>
+						td(style="text-align:justify")
+							p Selection can be made in two different ways: <b><i>Single</i></b> or <b><i>Multiple</i></b>. Single selection is made holding the <b>Ctrl key</b> and clicking on the desired nodes. The Multiple selection in made by holding the <b>Shift key</b> and dragging the cursor over the nodes (image on the left).
+							p To clear all selections, simply type <b><i>Shift</i></b>.
+
 		li
-			div(id="search")
-				h5 Search
+			div.tutorialsubsections(id="search")
+				h5 Search/Pause/Reset
+				table
+					tr.subrow
+						td.tutorialcolumns
+							img(id="search1" href="/images/search1.png" style="width:60%; height: auto;" src="/images/search1.png")
+						td.othercolumns
+							<span class="glyphicon glyphicon-arrow-right"></span>
+						td(style="text-align:justify")
+							p Users can search for a given node <b> by its identifier</b> (the one in the Profile/Fasta/Newick file). After performing a search, the Layout pauses and the application zooms into the desired node (if exists).
+					tr.subrow
+						td.tutorialcolumns
+							img(id="layout1" href="/images/layout1.png" style="width:60%; height: auto;" src="/images/layout1.png")
+						td.othercolumns
+							<span class="glyphicon glyphicon-arrow-right"></span>
+						td(style="text-align:justify")
+							p Users can pause and resume the layout whenever they want using the <b><i>Pause/Resume Layout</i></b> button. The Tree can also be placed back to its inicial place using the <b><i>Reset Positions</i></b> button.
 		li
-			div(id="exportvisual")
+			div.tutorialsubsections(id="exportvisual")
 				h5 Export
+				table
+					tr.subrow
+						td.tutorialcolumns
+							img(id="export1" href="/images/export1.png" style="width:60%; height: auto;" src="/images/export1.png")
+						td.othercolumns
+							<span class="glyphicon glyphicon-arrow-right"></span>
+						td(style="text-align:justify")
+							p After <a href="#selection">selection</a> of some nodes, users can export this selected data by clicking on the <b><i>Export Selected Data</i></b> located at the <b>Operations</b> section. The results are two files: one with the profiles and other with the associated auxiliary data.
+					tr.subrow
+						td.tutorialcolumns
+							img(id="export2" href="/images/export2.png" style="width:60%; height:auto;" src="/images/export2.png")
+						td.othercolumns
+							<span class="glyphicon glyphicon-arrow-right"></span>
+						td(style="text-align:justify")
+							p The Tree can also be exported simply by selecting the Save Image button. This opens a <b>new window</b> with only the relevant information for users. <i>Only the visible part of the Tree is exported</i>. If users have <a href="#assigncolors">assigned colors</a> to the Tree, then the Pie Chart will also make part.
 

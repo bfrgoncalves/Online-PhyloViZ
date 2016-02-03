@@ -1,5 +1,8 @@
 extends ../layout
 
+block moreStyle
+	link(rel='stylesheet', href='/stylesheets/colorbox.css')
+
 block title
 	div.indextitleLocation(onclick="javascript:location.href='/'")
 		img.phylovizImage(src = '/images/logo.png')
@@ -11,108 +14,125 @@ block login
 
 block API
 	div.apiBody
+		div(id="dialog" style="text-align:center;")
 		div(style="width:100%; text-align:center;margin-bottom: 2%;")
-			h1 Tutorial
+			h1(style="font-size:500%;") Tutorial
 		div(style="width:100%;")
-			ol
-				li 
-					a(href="#indroduction") Introduction
-				li 
-					a(href="#sections") Sections
-					ul
-						li(data-toggle="collapse" data-target="#loginCollapse") 
-							a Login
-						div(id="loginCollapse" class="collapse")
+			div(style="margin:3%;border-top:4px solid black; border-bottom: 4px solid black")
+				div(style="margin:5%;")
+					ol(style="font-size: 140%;")
+						li 
+							a(href="#indroduction") Introduction
+						li 
+							a(href="#sections") Sections
 							ul
 								li
-									a(href="#requirements") Requirements
+									a(href="#indextab") Index
+									ul
+										li Login
+										div(id="loginCollapse")
+											ul
+												li
+													a(href="#steps") Logging in
+										li Upload
+										div(id="uploadCollapse")
+											ul
+												li
+													a(href="#dataformats") Data formats
+												li
+													a(href="#dataupload") Data upload
+										li Public data sets
+										div(id="publicCollapse")
+											ul
+												li
+													a(href="#selectpublic") Select public data sets
+												li
+													a(href="#putpublic") Make publicy available
 								li
-									a(href="#steps") Steps
-								li
-									a(href="#advantages") Advantages
-						li(data-toggle="collapse" data-target="#uploadCollapse") 
-							a Upload
-						div(id="uploadCollapse" class="collapse")
-							ul
-								li
-									a(href="#dataformats") Data formats
-								li
-									a(href="#publicorprivate") Public or private
-						li(data-toggle="collapse" data-target="#publicCollapse") 
-							a Public data bases
-						div(id="publicCollapse" class="collapse")
-							ul
-								li
-									a(href="#selectpublic") Select public data sets
-								li
-									a(href="#putpublic") Put public
-						li(data-toggle="collapse" data-target="#visualCollapse") 
-							a Visualization
-						div(id="visualCollapse" class="collapse")
-							ul
-								li
-									a(href="#assigncolors") Assign Colors
-								li
-									a(href="#graphicproperties") Graphic Properties
-								li
-									a(href="#selection") Selection
-								li
-									a(href="#search") Search
-								li
-									a(href="#exportvisual") Export
-						li(data-toggle="collapse" data-target="#tablesCollapse") 
-							a Tables
-						div(id="tablesCollapse" class="collapse")
-							ul
-								li
-									a(href="#filter") Filter
-								li
-									a(href="#linktotree") Link to Tree
-								li
-									a(href="#exporttable") Export
-						li(data-toggle="collapse" data-target="#operationsCollapse") 
-							a Operations
-						div(id="operationsCollapse" class="collapse")
-							ul
-								li
-									a(href="#nlv") n Locus Variant (nLV)
-								li
-									a(href="#treecut") Tree cut-off
-						li(data-toggle="collapse" data-target="#matrixCollapse") 
-							a Distance Matrix
-						div(id="matrixCollapse" class="collapse")
-							ul
-								li
-									a(href="#compute") Compute distances
-								li
-									a(href="#order") Order
-								li
-									a(href="#select") Select
-								li
-									a(href="#exportmatrix") Export
+									a(href="#maintab") Main
+									ul
+										li Tree visualization
+										div(id="visualCollapse")
+											ul
+												li
+													a(href="#assigncolors") Assign Colors
+												li
+													a(href="#graphicproperties") Graphic Properties
+												li
+													a(href="#selection") Node selection
+												li
+													a(href="#search") Search/Pause/Reset
+												li
+													a(href="#exportvisual") Export
+										li Operations
+										div(id="operationsCollapse")
+											ul
+												li
+													a(href="#nlv") n Locus Variant (nLV)
+												li
+													a(href="#treecut") Tree cut-off
+												li
+													a(href="#sharable") Sharable link 
+										li Tables
+										div(id="tablesCollapse")
+											ul
+												li
+													a(href="#filter") Filter
+												li
+													a(href="#linktotree") Link to Tree
+												li
+													a(href="#exporttable") Export
+										li Distance Matrix
+										div(id="matrixCollapse")
+											ul
+												li
+													a(href="#compute") Compute distances
+												li
+													a(href="#order") Order
+												li
+													a(href="#select") Select/Export
 
 
 			div.tutorialParts(id="introduction")
-				h3 1 - INTRODUCTION
-				include introduction.jade
+				h3(style="font-size:300%;") 1 - INTRODUCTION
+				div.bodyText
+					include introduction.jade
 
 
 			div.tutorialParts(id="sections")
-				h3 2 - SECTIONS
-				div.tutorialParts(id="loginText")
-					include loginText.jade
-				div.tutorialParts(id="uploadText")
-					include uploadText.jade
-				div.tutorialParts(id="publicDataText")
-					include publicDataText.jade
-				div.tutorialParts(id="visualizationText")
-					include visualizationText.jade
-				div.tutorialParts(id="tablesText")
-					include tablesText.jade
-				div.tutorialParts(id="operationsText")
-					include operationsText.jade
-				div.tutorialParts(id="distanceText")
-					include distanceText.jade
+				h3(style="font-size:300%;") 2 - SECTIONS
+				ul
+					li(id="indextab")
+						h3.subtitle(style="font-size:250%;margin: 2%;") 2.1 - Index
+						div.bodyText
+							include indexText.jade
+						div(style="width:100%; text-align:center;")
+							img(id="index1" href="/images/index1.png" style="width:40%; height: auto;" src="/images/index1.png")
+						ul
+							div.bodyText
+								div.tutorialParts(id="loginText")
+									include loginText.jade
+								div.tutorialParts(id="uploadText")
+									include uploadText.jade
+								div.tutorialParts(id="publicDataText")
+									include publicDataText.jade
+					li(id="maintab")
+						h3.subtitle(style="font-size:250%;margin: 2%;") 2.2 - Main
+						div.bodyText
+							include mainText.jade
+						div.bodyText
+							ul
+								div.tutorialParts(id="visualizationText")
+									include visualizationText.jade
+							ul
+								div.tutorialParts(id="operationsText")
+									include operationsText.jade
+							ul
+								div.tutorialParts(id="tablesText")
+									include tablesText.jade
+							ul
+								div.tutorialParts(id="distanceText")
+									include distanceText.jade
 
 			div(id="top-link-block" style="display:none;")
 				button(href="#top" class="btn btn-info"  onclick="$('html,body').animate({scrollTop:0},'slow');return false;") Back to Top
@@ -128,6 +148,7 @@ block scripts
 	script(type='text/javascript', src='/javascripts/dependencies/bootstrap.js')
 	script(type='text/javascript', src='/javascripts/dependencies/bootstrap-select.js')
 	script(type='text/javascript', src='/javascripts/dependencies/datatables.min.js')
+	script(type='text/javascript', src='/javascripts/dependencies/jquery.colorbox.js')
 	script(type='text/javascript', src='/javascripts/dependencies/jquery.dataTables.js')
 	script(type='text/javascript', src='/javascripts/App/adjustElements/adjustElementsAPI.js')
 	script(type='text/javascript', src='/javascripts/App/adjustElements/backToTop.js')

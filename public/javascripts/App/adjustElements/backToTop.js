@@ -4,3 +4,7 @@ $(window).scroll(function(e){
 	else $('#top-link-block').css({"display": "none"});
 
 });
+
+$("img").click(function() {
+	$('#' + this.id).colorbox({transition:"fade"});
+});

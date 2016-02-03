@@ -1,13 +1,52 @@
 li
-	h4 2.2 - Upload
-	p Here you can find information on uploading data.
+	h4.subtitle 2.1.2 - Upload
+	p Data upload to PHYLOViZ Online can be made using one of two options: <b><i>without registration (default)</i></b>, and <b><i>with registration</i></b>. With the first option, data sets can be used in a span time of 24 hours. After that, they are erased. In other hand, the registration option gives users access to an area where all their data sets are placed. They can manage and change permissions of their data so that other users can visualize it.
 	br
 	ul
 		li
-			div(id="dataformats")
+			div.tutorialsubsections(id="dataformats")
 				h5 Data formats
+				p The data that is used in the application is divided into two categories: <b><i>data used to construct the Tree (profile, Fasta, or Newick)</i></b>, and <b><i>auxiliary data</i></b>. The auxiliary data is used to link information to the <i>Tree nodes</i> or <i>Distance Matrix</i> using its <b>ID</b> (the first column of each file). More information about data formats can be found 
+					a(href="/index/inputinfo") here.
+
 		li
-			div(id="publicorprivate")
-				h5 Public or Private
+			div.tutorialsubsections(id="dataupload")
+				h5 Data upload
+				table
+					tr.subrow
+						td.tutorialcolumns
+							img(id="upload5" href="/images/upload5.png" style="width:60%; height: auto;" src="/images/upload5.png")
+						td.othercolumns
+							<span class="glyphicon glyphicon-arrow-right"></span>
+						td(style="text-align:justify")
+							p To upload our data set, first we need to click on the <i>Upload dataset</i> at the <b><i>Features</i></b> tab.
+					tr.subrow
+						td.tutorialcolumns
+							img(id="upload1" href="/images/upload1.png" style="width:60%; height: auto;" src="/images/upload1.png")
+						td.othercolumns
+							<span class="glyphicon glyphicon-arrow-right"></span>
+						td(style="text-align:justify")
+							p Then we need to choose one of the possible input formats to construct the Tree (Profile, Fasta, or Newick). In our example, we have profile-based data so we need to choose the <b><i>Profile</i></b> option.
+					tr.subrow
+						td.tutorialcolumns
+							img(id="upload2" href="/images/upload2.png" style="width:60%; height:auto;" src="/images/upload2.png")
+						td.othercolumns
+							<span class="glyphicon glyphicon-arrow-right"></span>
+						td(style="text-align:justify")
+							p After selecting the input format, new options pop up. Now we can enter our files, data set name, and description. The <b><i>first file is the profile</b></i> one and the <b><i>second is the auxiliary data</i></b>.
+					tr.subrow
+						td.tutorialcolumns
+							img(id="upload3" href="/images/upload3.png" style="width:60%; height:auto;" src="/images/upload3.png")
+						td.othercolumns
+							<span class="glyphicon glyphicon-arrow-right"></span>
+						td(style="text-align:justify")
+							p If users are logged in the application, the <b><i>Make public</i></b> option will apear. This allow users to access to this data set from the <b><i><a href="#publicDataText">Public data sets</a></i></b>.
+					tr.subrow
+						td.tutorialcolumns
+							img(id="launchTree1" href="/images/launchTree.png" style="width:60%; height:auto;" src="/images/launchTree.png")
+						td.othercolumns
+							<span class="glyphicon glyphicon-arrow-right"></span>
+						td(style="text-align:justify")
+							p After the previous steps, we can now <b><i>Launch</i></b> our Tree.
 
 

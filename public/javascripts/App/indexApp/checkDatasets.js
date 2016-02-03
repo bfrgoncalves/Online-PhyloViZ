@@ -143,6 +143,7 @@ function createTable(data, divID, usertype, callback){
         //"scrollY":        "200px",
         //"scrollCollapse": true,
         "paging":         true,
+        "pageLength": 5,
         columnDefs: [
           { className: "dt-center", targets: ["_all"]}
         ],

@@ -1,12 +1,53 @@
 li
-	h4 2.6 - Operations
-	p Here you can find information regarding the operations that users can perform to modify the tree structure.
+	h4.subtitle 2.2.2 - Operations
+	p PHYLOViZ Online offers some aditional features that modify some aspects of the Minimum Spanning Tree and others that allow users to share data without making it publicly available, only reachable through a sharable link.
 	br
 	ul
 		li
-			div(id="nlv")
+			div.tutorialsubsections(id="nlv")
 				h5 n Locus Variant (nLV)
+				table
+					tr.subrow
+						td.tutorialcolumns
+							img(id="nlv2" href="/images/nlv2.png" style="width:60%; height: auto;" src="/images/nlv2.png")
+						td.othercolumns
+							<span class="glyphicon glyphicon-arrow-right"></span>
+						td(style="text-align:justify")
+							p The <b><i>nLV</i></b> feature can be accessed in the <b>Operations</b> section. Its values go from 0 to the maximmum number of differences between profiles. In the case of Newick input data, this option is not available.
+					tr.subrow
+						td.tutorialcolumns
+							img(id="nlv1" href="/images/nlv1.png" style="width:60%; height: auto;" src="/images/nlv1.png")
+						td.othercolumns
+							<span class="glyphicon glyphicon-arrow-right"></span>
+						td(style="text-align:justify")
+							p In this example, we have taken our sample data set and generated the graph with a nLV of level 2. This means that <i>all profiles with distances equal or below 2 are now connected</i>. These changes in the Tree can be undone simply by reducing the level of the nLV feature.
 		li
-			div(id="treecut")
+			div.tutorialsubsections(id="treecut")
 				h5 Tree cut-off
+				table
+					tr.subrow
+						td.tutorialcolumns
+							img(id="cut2" href="/images/cut2.png" style="width:60%; height: auto;" src="/images/cut2.png")
+						td.othercolumns
+							<span class="glyphicon glyphicon-arrow-right"></span>
+						td(style="text-align:justify")
+							p The <b><i>Tree cut-off</i></b> is also available in the <b>Operations</b> section. Its values vary from 0 to the maximmum number of differences. Like in the nLV feature, this option is not available with Newick format files.
+					tr.subrow
+						td.tutorialcolumns
+							img(id="cut1" href="/images/cut1.png" style="width:60%; height: auto;" src="/images/cut1.png")
+						td.othercolumns
+							<span class="glyphicon glyphicon-arrow-right"></span>
+						td(style="text-align:justify")
+							p In the example on the left, we are again using our sample data set. Using the Tree cut-off at level 4 we can see that there are two groups. These groups are separated because <i>all links between nodes with profiles with 4 or more differences are deleted</i>. These changes in the Tree can also be undone by increasing the level of the Tree cut-off feature.
+		li
+			div.tutorialsubsections(id="sharable")
+				h5 Sharable link
+				table
+					tr.subrow
+						td.tutorialcolumns
+							img(id="share1" href="/images/share1.png" style="width:60%; height: auto;" src="/images/share1.png")
+						td.othercolumns
+							<span class="glyphicon glyphicon-arrow-right"></span>
+						td(style="text-align:justify")
+							p Users can allow others to visualize their data by creating a <b>sharable link</b>. This option is intermedian to to a public data set because the <i>data set is not available to all, only to the ones how have the sharable link</i>. At any time, the owner of the data can allow or revoke this access by clicking on the <b><i>Generate/Revoke Public Link</i></b>. Once generated, the sharable link gets available to the user.
 
