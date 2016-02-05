@@ -28,6 +28,9 @@ function startMultiSelect(graphObject) {
 
     selectedNodes = [];
 
+    overlay.topLeft = topLeft;
+    overlay.bottomRight = bottomRight;
+
     graph.forEachNode(higlightIfInside);
     //renderer.rerender();
 
@@ -111,6 +114,9 @@ function createOverlay(overlayDom) {
     destroy: function () {
       overlayDom.style.display = 'none';
       dragndrop.release();
+    },
+    selectedArea: function(){
+      return selectedArea;
     }
   };
 

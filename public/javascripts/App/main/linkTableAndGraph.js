@@ -240,6 +240,7 @@ function linkGraphAndTable(property, indexProperty, columnName, key){
 
 	  	var pieHeight = $('#col_info').height();
 		var pieWidth = $('#col_info').width();
+
   	  	var radious = pieHeight * 0.2;
   	  	//var legendRectSize = $('#pauseLayout').height();
   	  	var legendRectSize = radious / 5;

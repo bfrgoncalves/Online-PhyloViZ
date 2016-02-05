@@ -316,6 +316,7 @@ function loadGraphFunctions(){
 			graphObject.selectedNodes = [],
 			graphObject.nodesToCheckLinks = [], 
 			graphObject.toRemove = "";
+			graphObject.multiSelectOverlay;
 
 
 	        var ctrlDown = false, altDown = false, remakeSelection = false, multipleselection = false;
@@ -334,13 +335,17 @@ function loadGraphFunctions(){
 	            else if (ctrlDown) SelectNodes(node, graphObject);
 	        });
 
-	        var multiSelectOverlay;
+	        //var multiSelectOverlay;
 
 	          document.addEventListener('keydown', function(e) {
 
 	            if (e.which == 18) altDown = true;
+
+	            if (e.which === 16 && graphObject.multiSelectOverlay) {
+	              graphObject.multiSelectOverlay = null;
+	            }
 	          
-	            if (e.which === 16 && !multiSelectOverlay) { // shift key
+	            if (e.which === 16 && !graphObject.multiSelectOverlay) { // shift key
 	              multipleselection = false;
 	              for (i in graphObject.selectedNodes){
 	                var nodeToUse = graphics.getNodeUI(graphObject.selectedNodes[i].id);
@@ -353,7 +358,7 @@ function loadGraphFunctions(){
 			        setTimeout(function(){ renderer.pause();}, 5);
 			      }
 	              
-	              multiSelectOverlay = startMultiSelect(graphObject);
+	              graphObject.multiSelectOverlay = startMultiSelect(graphObject);
 	            }
 
 	            if (e.which === 17){
@@ -392,9 +397,11 @@ function loadGraphFunctions(){
 	          });
 	          document.addEventListener('keyup', function(e) {
 
-	            if (e.which === 16 && multiSelectOverlay) {
-	              multiSelectOverlay.destroy();
-	              multiSelectOverlay = null;
+	            if (e.which === 16 && graphObject.multiSelectOverlay) {
+	              graphObject.multiSelectOverlay.destroy();
+	              //graphObject.multiSelectOverlay = null;
+
+	              selectProperties = graphObject.multiSelectOverlay.selectedArea();
 
 	              graphGL.forEachNode(function(node){
 	                var currentNodeUI = graphics.getNodeUI(node.id);

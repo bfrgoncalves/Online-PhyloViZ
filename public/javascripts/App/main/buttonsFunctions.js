@@ -6,7 +6,7 @@ function loadButtonFunctions(){
 
 			var graph = graphObject.graphInput;
 
-			$('#numberOfNodes').append(' '+ graph.nodes.length);
+			$('#numberOfNodes').append(' <b>' + graph.nodes.length + '</b>');
 
 		},
 
@@ -14,7 +14,7 @@ function loadButtonFunctions(){
 
 			var profileLength = graphObject.graphInput.nodes[0].profile.length;
 
-			$('#countProfileSize').append(' '+ profileLength);
+			$('#countProfileSize').append(' <b>' + profileLength + '</b>');
 
 		},
 
@@ -22,13 +22,14 @@ function loadButtonFunctions(){
 
 			var graph = graphObject.graphInput;
 
-			$('#datasetNameDiv').append(' '+ graph.dataset_name);
+			$('#datasetNameDiv').append(' <b>'+ graph.dataset_name + '</b>');
 
 		},
 
 		resetPositionButton: function(graphObject){
 			$('#resetPositionButton').click(function(e) {
 				graphObject.renderer.reset();
+				graphObject.graphFunctions.adjustScale(graphObject);
 				if(graphObject.isLayoutPaused){
 			        graphObject.renderer.resume();
 			        setTimeout(function(){ graphObject.renderer.pause();}, 50);
@@ -179,7 +180,7 @@ function loadButtonFunctions(){
 	        });
 
 	        $('#saveImageButton1').click(function(e){
-	            printDiv(graphObject.width, graphObject.height);
+	            printDiv(graphObject);
 	        });
 
 	        $("#SplitTreeSlider").attr({

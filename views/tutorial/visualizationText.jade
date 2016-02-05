@@ -1,6 +1,6 @@
 li
 	h4.subtitle 2.2.1 - Tree visualization
-	p Tree visualization is the default tab that is opened after accessing to <b>Main</b> page. This tab links to all others using the <b><i>Features</i></b> bar located at the page's left side. The Minimmum Spanning Tree located at the center is generated using the <a href="//www.phyloviz.net/goeburst/">goeBURST algorithm</a> and the <a href="//github.com/anvaka/VivaGraphJS">VivaGraphJS library</a> for visual rendering. The information area located at the bottom shows distinct information <i>on node click</i> depending on the Feature that is selected. Below we have a description of all the features.
+	p Tree visualization is the default tab that is opened after accessing to the <b>Data Analysis and Visualization</b> page. This tab links to all others using the <b><i>Features</i></b> menu located at the page's left side. The Minimmum Spanning Tree located at the center is generated using the <a href="//www.phyloviz.net/goeburst/">goeBURST algorithm</a> and the <a href="//github.com/anvaka/VivaGraphJS">VivaGraphJS library</a> for visual rendering. The information area located at the bottom shows distinct information <i>on node click</i> depending on the Feature that is selected. Below we have a description of all features.
 	br
 	div(style="width:100%; text-align:center;")
 		img(id="visualization1" href="/images/visualization1.png" style="width:40%; height: auto;" src="/images/visualization1.png")
@@ -88,6 +88,7 @@ li
 						td(style="text-align:justify")
 							p Selection can be made in two different ways: <b><i>Single</i></b> or <b><i>Multiple</i></b>. Single selection is made holding the <b>Ctrl key</b> and clicking on the desired nodes. The Multiple selection in made by holding the <b>Shift key</b> and dragging the cursor over the nodes (image on the left).
 							p To clear all selections, simply type <b><i>Shift</i></b>.
+							p Node selection is essencial for <a href="#compute">Distance Matrix</a> calculation and for <a href="#exportvisual">exporting</a> the desired data from the Tree.
 
 		li
 			div.tutorialsubsections(id="search")
@@ -124,5 +125,5 @@ li
 						td.othercolumns
 							<span class="glyphicon glyphicon-arrow-right"></span>
 						td(style="text-align:justify")
-							p The Tree can also be exported simply by selecting the Save Image button. This opens a <b>new window</b> with only the relevant information for users. <i>Only the visible part of the Tree is exported</i>. If users have <a href="#assigncolors">assigned colors</a> to the Tree, then the Pie Chart will also make part.
+							p The Tree can also be exported simply by selecting the Save Image button. This opens a <b>new window</b> with only the relevant information for users. <i>Only the visible part of the Tree or the current area selected using <a href="#selection">Node selection</a> is exported</i>. If users have <a href="#assigncolors">assigned colors</a> to the Tree, then the Pie Chart will also make part.
 

@@ -17,7 +17,6 @@ function destroyPie(pieID){
 function gatherPieData(dataArray, callback){
 	var gatherData = {};
 	var dataToPie = [];
-	console.log(dataArray);
 	
 	for(i in dataArray){
 		//console.log(i);
@@ -59,7 +58,6 @@ function GlobalPie(classname, data, startWidth, startHeight, r, pieID, columnNam
             return d.value;
         });;
 
-        console.log(data);
 
         if (pieID.indexOf('isolates') > -1){
         	arrayColorsIsolates = [];
@@ -91,10 +89,12 @@ function GlobalPie(classname, data, startWidth, startHeight, r, pieID, columnNam
         d3.select('#' + pieID).selectAll('svg').remove();
         d3.select('#legend' + pieID).selectAll('svg').remove();
 
-        if( pieID.search('currentpieplace') > -1 ) increment = $('#col_info').width() - r * 2;
+        if( pieID.search('currentpieplace') > -1 ){
+			increment = $('#col_info').width() - r * 2;
+        } 
         else increment = r;
 
-        var pie = d3.select('#' + pieID).append('svg').attr('id', "SV" + pieID).style('width', r * 2 + increment).style('height', r*2 + fontSize1 * 5)
+        var pie = d3.select('#' + pieID).append('svg').attr('id', "SV" + pieID).style('width', String(r * 2 + increment) + 'px').style('height', String(r*2 + fontSize1 * 5) + 'px')
             .append("svg:g").attr('id', 'P' + pieID).attr("transform", "translate(" + (r * 1.5) + "," + (r + fontSize1) +")")
                 //.data([data.sort(d3.descending)])
                 .data([data])
@@ -174,12 +174,13 @@ function GlobalPie(classname, data, startWidth, startHeight, r, pieID, columnNam
 
         if(maxStringLength == 1) maxStringLength = 2;
 
-        var fontSize = $('#pauseLayout').css('font-size');
+        //var fontSize = $('#pauseLayout').css('font-size');
+
 
         var legend = d3.select('#legend' + pieID).append("svg")
+        				.style("width", String(maxStringLength * fontSize1) + 'px')
+					    .style("height", String(total * (startHeight * 1.5)) + 'px')
 					    .attr("class", "legend")
-					    .style("width", maxStringLength * fontSize)
-					    .style("height", total * (startHeight * 1.5))
 					    .selectAll("g")
 					    .data(data)
 					    .enter().append("g")
@@ -187,8 +188,8 @@ function GlobalPie(classname, data, startWidth, startHeight, r, pieID, columnNam
 
 
 		legend.append("rect")
-		    .attr("width", startHeight)
-		    .attr("height", startHeight)
+		    .attr("width", String(startHeight) + 'px')
+		    .attr("height", String(startHeight) + 'px')
 		    .style("fill", function(d, i) { return color(i); });
 
 		legend.append("text")
@@ -222,6 +223,7 @@ function GlobalPie(classname, data, startWidth, startHeight, r, pieID, columnNam
 
         legendHeight = $('#SV' + pieID).height();
 
-        $('#legend' + pieID).css('height', legendHeight);
+         $('#legend' + pieID).css('height', String(legendHeight - (fontSize1 * 3)) + 'px');
+        //$('#legendcurrentpiePlace').css({'height': legendHeight, "overflow-y": "auto"});
 
     }

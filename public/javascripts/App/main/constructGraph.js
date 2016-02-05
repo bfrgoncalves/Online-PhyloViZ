@@ -25,6 +25,8 @@ function constructGraph(graph, datasetID){
 
       var graphFunctions = loadGraphFunctions();  //Functions to be applied to the graphObject object. graphFunctions.js
 
+      graphObject.graphFunctions = graphFunctions;
+
       graphFunctions.init(graphObject);
       graphFunctions.initLayout(graphObject);
 
@@ -86,14 +88,29 @@ function constructGraph(graph, datasetID){
 
         $('#tabs li a').on('click', function(d){
 
-          if(loaded && tocheckTableIsolatesHeight && this.innerText == 'Auxiliary Data') {
+          if(loaded && tocheckTableIsolatesHeight && $(d.target).text() == 'Auxiliary Data') {
             graphObject.tableIsolatesHeight = $("#tableisolates_wrapper").height();
             tocheckTableIsolatesHeight = false;
           }
-          else if(loaded && tocheckTableProfilesHeight && this.innerText == 'Profiles'){
+          else if(loaded && tocheckTableProfilesHeight && $(d.target).text() == 'Profiles'){
             graphObject.tableProfilesHeight = $("#tableprofiles_wrapper").height();
             tocheckTableProfilesHeight = false;
           }
+
+          if(graphObject.selectedNodes.length < 1 && $(d.target).text() == "Distances"){
+            $('#noDistances').css({"display": "block"});
+          }
+          else $('#noDistances').css({"display": "none"});
+
+          if(graphObject.graphInput.metadata.length < 1 && $(d.target).text() == "Auxiliary Data"){
+            $('#noIsolates').css({"display": "block"});
+          }
+          else $('#noIsolates').css({"display": "none"});
+
+          if(graphObject.graphInput.schemeGenes.length < 1 && $(d.target).text() == "Profiles"){
+            $('#noProfiles').css({"display": "block"});
+          }
+          else $('#noProfiles').css({"display": "none"});
 
         })
 

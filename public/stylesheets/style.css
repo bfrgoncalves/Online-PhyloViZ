@@ -158,15 +158,15 @@ a {
 }
 
 #numberOfNodes{
-  font-weight: bold;
+  font-size: 120%;
 }
 
 #datasetNameDiv{
-  font-weight: bold;
+  font-size: 120%;
 }
 
 #countProfileSize{
-  font-weight: bold;
+  font-size: 120%;
 }
 
 #countSelectedNodes{
@@ -264,8 +264,8 @@ td.highlight {
 
 #legendcurrentpiePlace {
   width: 90%;
-  overflow-y: auto;
-  overflow-x: auto;
+  overflow-y:auto;
+  overflow-x:auto;
   display:inline-block;
 }
 
@@ -643,6 +643,7 @@ div.tutorialsubsections h5{
 
 .othercolumns{
   padding: 2%;
+  width:10%;
   text-align: center;
 }
 

@@ -294,32 +294,69 @@ function NLVgraph(graphObject, value) {
 
 }
 
-function printDiv(width, height) 
+function printDiv(graphObject) 
 {
 
-  var divWithLabels=document.getElementById('visual');
-  var divWithpieChart = document.getElementById('col_info');
+  var width = graphObject.width;
+  var height = graphObject.height;
+
+  if(graphObject.multiSelectOverlay.bottomRight){
+    selectProperties = graphObject.multiSelectOverlay.selectedArea();
+    //copyCanvasPart(selectProperties, "canvas");
+
+    for (i in graphObject.selectedNodes){
+        var nodeToUse = graphObject.graphics.getNodeUI(graphObject.selectedNodes[i].id);
+        nodeToUse.colorIndexes = nodeToUse.backupColor;
+      } 
+    graphObject.selectedNodes = [];
+
+    setTimeout(runPrint, 500);
+  }
+  else{
+    selectProperties = {
+        x: 0,
+        y: 0,
+        width:width,
+        height:height
+    }
+  }
+
+  function runPrint(){
 
 
-  var canvas = document.getElementById("canvas");
-    var img    = canvas.toDataURL("image/jpeg", 1.0);
-
-  //console.log(divToPrint.innerHTML);
-
-  toAddImage = '<img width="'+width+'" height="'+height+'" src="'+img+'">';
+      var divWithLabels=document.getElementById('visual');
+      var divWithpieChart = document.getElementById('col_info');
 
 
-  var newWin=window.open('','Print-Window','width="'+width+'",height="'+height+'"');
+      var canvas = document.getElementById("canvas");
+      var img    = canvas.toDataURL("image/jpeg", 1.0);
+
+      //console.log(divToPrint.innerHTML);
+
+      toAddImage = '<div style="width:'+selectProperties.width+'px;height:'+selectProperties.height+'px; overflow:hidden;">' +
+                    '<img src="'+img+'"; style="margin-left:-'+selectProperties.x+ ';margin-top:-'+selectProperties.y+';">' + 
+                    '</div>';
+
+      var newWin=window.open('','Print-Window','width="'+selectProperties.width+'",height="'+selectProperties.height+'"');
 
 
-  newWin.document.open();
+      newWin.document.open();
 
-  newWin.document.write('<html><body onload="window.print()">'+toAddImage+divWithpieChart.innerHTML+divWithLabels.innerHTML+'</body></html>');
-  newWin.document.getElementById('canvas').remove();
+      newWin.document.write('<html><body onload="window.print()">'+toAddImage+divWithpieChart.innerHTML+divWithLabels.innerHTML+'</body></html>');
+      newWin.document.getElementById('canvas').remove();
 
 
-  newWin.document.close();
+      newWin.document.close();
+  }
 
-  //setTimeout(function(){newWin.close();},1000);
 
 }
+
+
+
+
+
+
+
+
+

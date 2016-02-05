@@ -48,8 +48,8 @@ block normalBody
 					ul.nav.nav-stacked
 						li
 							div
-								h5(id='datasetNameDiv') Dataset name: 
-								h5(id='numberOfNodes') Dataset size: 
+								p(id='datasetNameDiv') Dataset name:
+								p(id='numberOfNodes') Dataset size:
 								form(id='searchForm')
 									div.input-group.input-group-sm
 										input.form-control(type='text' id='nodeid' style='color:black' placehorder="Search")
@@ -164,8 +164,6 @@ block normalBody
 				div(id="col_info")
 					div(id="piePlace")
 						div(id="currentpiePlace")
-						br
-						br
 						div(id="legendcurrentpiePlace")
 
 				div(id='visual',oncontextmenu='return false;')
@@ -173,6 +171,8 @@ block normalBody
 
 			
 			div.tab-pane(id="isolateContent")
+				div(id="noIsolates", style="width:100%; text-align:center; display:none;font-size:150%;position:absolute; top:50%;")
+					p There is no information available.
 				div(id="divisolates")
 					div(id="exportisolates")
 				br
@@ -184,6 +184,8 @@ block normalBody
 					div(id="divbuttonlinkpieisolates")
 
 			div.tab-pane(id="profileContent")
+				div(id="noProfiles", style="width:100%; text-align:center; display:none;font-size:150%;position:absolute; top:50%;")
+					p There is no information available.
 				div(id="divprofiles")
 					div(id="exportprofiles")
 				br
@@ -196,6 +198,8 @@ block normalBody
 					div(id="divbuttonlinkpieprofiles")
 
 			div.tab-pane(id="distanceContent")
+				div(id="noDistances", style="width:100%; text-align:center; display:none;font-size:150%;position:absolute; top:50%;")
+					p To visualize the Distance Matrix, first select some nodes on the <b>Tree tab</b> and select <b>Compute distances</b> located at the <b>Operations</b> section.
 
 				div(id="firstContainer")
 					div(id="distanceMatrix")
