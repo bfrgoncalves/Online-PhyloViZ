@@ -290,13 +290,15 @@ var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDista
     var toBody = '';
 
     var toCheck = ["source", "target"];
+
+    var profileSize = p.source.data.profile.length;
     
     for (j in stored){
 
       countU = 0;
       for(u in toCheck){
         countU ++;
-        if (countU == 1) toBody = '<tr><td>Line</td><td>'+stored[j][toCheck[u]].id+'</td><td rowspan="2">'+distanceMatrix[selectedNodes[stored[j].y].id][0][selectedNodes[stored[j].x].id]+'</td>';
+        if (countU == 1) toBody = '<tr><td>Line</td><td>'+stored[j][toCheck[u]].id+'</td><td rowspan="2">'+distanceMatrix[selectedNodes[stored[j].y].id][0][selectedNodes[stored[j].x].id] +' (' + (distanceMatrix[selectedNodes[stored[j].y].id][0][selectedNodes[stored[j].x].id] / profileSize).toFixed(2) + ')</td>';
         else toBody = '<tr style="border-bottom:2px solid black;"><td>Column</td><td>'+stored[j][toCheck[u]].id+'</td>';
       //toBody = '<tr><td>'+nodes[stored[j].y].id+'</td><td>'+nodes[stored[j].x].id+'</td><td>'+distanceMatrix[selectedNodes[stored[j].y].id][0][selectedNodes[stored[j].x].id]+'</td>';
       
@@ -321,7 +323,7 @@ var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDista
 
     for(u in toCheck){
       countU ++;
-      if (countU == 1) toBody = '<tr style="background-color:#f8e7e1;"><td>Line</td><td>'+p[toCheck[u]].id+'</td><td rowspan="2">'+distanceMatrix[selectedNodes[p.y].id][0][selectedNodes[p.x].id]+'</td>';
+      if (countU == 1) toBody = '<tr style="background-color:#f8e7e1;"><td>Line</td><td>'+p[toCheck[u]].id+'</td><td rowspan="2">'+distanceMatrix[selectedNodes[p.y].id][0][selectedNodes[p.x].id]+' (' + (distanceMatrix[selectedNodes[p.y].id][0][selectedNodes[p.x].id] / profileSize).toFixed(2) + ')</td>';
       else toBody = '<tr style="background-color:#f8e7e1;"><td>Column</td><td>'+p[toCheck[u]].id+'</td>';
 
       for (i in currentShowValues){

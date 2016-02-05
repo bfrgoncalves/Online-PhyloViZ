@@ -62,7 +62,7 @@ li
 							<span class="glyphicon glyphicon-arrow-right"></span>
 						td(style="text-align:justify")
 							p On the <b>Links</b> section, it is possible to change <i>Link size</i> and <i>Label size</i>. Similar to Nodes, by default, Link also do not have Labels activated. To do that, users need to check the <b><i>Add Link Labels</i></b> button.
-							p In case of large distances between profiles, links tend to be extended and this difficults the tree visualizaton. To diminish the large distance factor, users can select the <b><i>Log Scale</i></b> button.
+							p  In case of link representing  large distances between profiles, their length can  difficult the tree visualization . In those cases, users are recommend to select the <b><i>Log Scale</i></b> button, to facilitate the large tree visualization.
 					tr.subrow
 						td.tutorialcolumns
 							img(id="graphicprop4" href="/images/graphicprop4.png" style="width:60%; height:auto;" src="/images/graphicprop4.png")
@@ -71,7 +71,7 @@ li
 						td(style="text-align:justify")
 							p Regarding the <b>Layout</b> section, there are a series of parameters that can be changed:
 							ul
-								li <b><i>Drag force coefficient</i></b>: Used to slow down system. The closer it is to 0 the less tight system will be.
+								li <b><i>Drag force coefficient</i></b>: Slows down animation  speed and the closer two 0 the farthest the nodes will be.
 								li <b><i>Hook's law coefficient (Spring coeficcient)</i></b>: Closer to 0 links are more loose.
 								li <b><i>Gravity</i></b>: Negative numbers lead to nodes repel.
 								li <b><i>Theta</i></b>: global charge force.
@@ -86,9 +86,9 @@ li
 						td.othercolumns
 							<span class="glyphicon glyphicon-arrow-right"></span>
 						td(style="text-align:justify")
-							p Selection can be made in two different ways: <b><i>Single</i></b> or <b><i>Multiple</i></b>. Single selection is made holding the <b>Ctrl key</b> and clicking on the desired nodes. The Multiple selection in made by holding the <b>Shift key</b> and dragging the cursor over the nodes (image on the left).
-							p To clear all selections, simply type <b><i>Shift</i></b>.
-							p Node selection is essencial for <a href="#compute">Distance Matrix</a> calculation and for <a href="#exportvisual">exporting</a> the desired data from the Tree.
+							p <b><i>Single</i></b> node selection or <b><i>Multiple</i></b>node selections can be made. Single selection is made holding the <b>Ctrl key</b> and clicking on the desired nodes. The Multiple selection in made by holding the <b>Shift key</b> and dragging the cursor over the nodes (image on the left).
+							p To clear all selections, simply press the <b><i>Shift</i></b> key.
+							p Node selection is a requirement for <a href="#compute">Distance Matrix</a> calculation and for <a href="#exportvisual">exporting</a> the desired data from the Tree.
 
 		li
 			div.tutorialsubsections(id="search")
@@ -100,7 +100,7 @@ li
 						td.othercolumns
 							<span class="glyphicon glyphicon-arrow-right"></span>
 						td(style="text-align:justify")
-							p Users can search for a given node <b> by its identifier</b> (the one in the Profile/Fasta/Newick file). After performing a search, the Layout pauses and the application zooms into the desired node (if exists).
+							p Users can search for a given node <b> by its identifier</b> by its identifier (the first column in the Profile/Fasta/Newick files). After performing a search, the Layout pauses and the application zooms into the desired node (if exists).
 					tr.subrow
 						td.tutorialcolumns
 							img(id="layout1" href="/images/layout1.png" style="width:60%; height: auto;" src="/images/layout1.png")
@@ -125,5 +125,5 @@ li
 						td.othercolumns
 							<span class="glyphicon glyphicon-arrow-right"></span>
 						td(style="text-align:justify")
-							p The Tree can also be exported simply by selecting the Save Image button. This opens a <b>new window</b> with only the relevant information for users. <i>Only the visible part of the Tree or the current area selected using <a href="#selection">Node selection</a> is exported</i>. If users have <a href="#assigncolors">assigned colors</a> to the Tree, then the Pie Chart will also make part.
+							p The Tree can also be exported simply by selecting the Save Image button. This opens a <b>new window</b> with only the relevant information for users. <i>Only the visible part of the Tree or the current area selected using <a href="#selection">Node selection</a> is exported</i>. If users have <a href="#assigncolors">assigned colors</a> to the Tree, then the Pie Chart legend information will also be exported.
 

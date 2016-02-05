@@ -98,6 +98,10 @@ function constructGraph(graph, datasetID){
           }
 
           if(graphObject.selectedNodes.length < 1 && $(d.target).text() == "Distances"){
+            if(graphObject.graphInput.data_type == "newick"){
+              $('#noDistances').empty();
+              $('#noDistances').append('<p>Distance Matrix is <b>NOT</b> available for <b>Newick</b> format input files.</p>')
+            } 
             $('#noDistances').css({"display": "block"});
           }
           else $('#noDistances').css({"display": "none"});
@@ -107,8 +111,10 @@ function constructGraph(graph, datasetID){
           }
           else $('#noIsolates').css({"display": "none"});
 
-          if(graphObject.graphInput.schemeGenes.length < 1 && $(d.target).text() == "Profiles"){
+          if((graphObject.graphInput.schemeGenes.length < 1 || graphObject.graphInput.schemeGenes[0] =="undefined") && $(d.target).text() == "Profiles"){
             $('#noProfiles').css({"display": "block"});
+            $('#countProfileSize').css({"display": "none"});
+            
           }
           else $('#noProfiles').css({"display": "none"});
 

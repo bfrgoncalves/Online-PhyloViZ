@@ -300,7 +300,7 @@ function printDiv(graphObject)
   var width = graphObject.width;
   var height = graphObject.height;
 
-  if(graphObject.multiSelectOverlay.bottomRight){
+  if(graphObject.multiSelectOverlay && graphObject.multiSelectOverlay.bottomRight){
     selectProperties = graphObject.multiSelectOverlay.selectedArea();
     //copyCanvasPart(selectProperties, "canvas");
 
@@ -319,6 +319,7 @@ function printDiv(graphObject)
         width:width,
         height:height
     }
+    setTimeout(runPrint, 500);
   }
 
   function runPrint(){
@@ -326,6 +327,7 @@ function printDiv(graphObject)
 
       var divWithLabels=document.getElementById('visual');
       var divWithpieChart = document.getElementById('col_info');
+      var divWithtablePercentages = document.getElementById('divtablePercentages');
 
 
       var canvas = document.getElementById("canvas");
@@ -337,12 +339,12 @@ function printDiv(graphObject)
                     '<img src="'+img+'"; style="margin-left:-'+selectProperties.x+ ';margin-top:-'+selectProperties.y+';">' + 
                     '</div>';
 
-      var newWin=window.open('','Print-Window','width="'+selectProperties.width+'",height="'+selectProperties.height+'"');
+      var newWin=window.open('','Print-Window','width="'+graphObject.width+'",height="'+graphObject.height+'"');
 
 
       newWin.document.open();
 
-      newWin.document.write('<html><body onload="window.print()">'+toAddImage+divWithpieChart.innerHTML+divWithLabels.innerHTML+'</body></html>');
+      newWin.document.write('<html><body onload="window.print()"><div style="width:100%;">'+toAddImage+'</div><div style="width:100%;">'+divWithpieChart.innerHTML+'</div><div style="width:100%;"><div style="width:40%;float:left;">'+divWithLabels.innerHTML+'</div><div style="width:40%;float:right;">'+divWithtablePercentages.innerHTML+'</div></div></body></html>');
       newWin.document.getElementById('canvas').remove();
 
 

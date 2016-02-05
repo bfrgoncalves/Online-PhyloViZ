@@ -177,6 +177,7 @@ function loadGraphFunctions(){
                       label.innerText = parseFloat(link.data.connectionStrength.toFixed(4));
                       treeLinks[link.id] = true;
                       linkLabels[link.id] = label;
+                      linkLabels[link.id + 'default'] = parseFloat(link.data.connectionStrength.toFixed(4));
                       container.appendChild(label);
                       countLinks += 1;
                     

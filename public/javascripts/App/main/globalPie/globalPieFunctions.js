@@ -2,9 +2,9 @@
 
 function constructPie(dataArray, columnIndex, columnName, pieID, startWidth, startHeight, r){
 
-	gatherPieData(dataArray, function(dataToPie){
+	gatherPieData(dataArray, function(dataToPie, totalCounts){
 		GlobalPie('pie', dataToPie, startWidth, startHeight, r, pieID, columnName);
-		//linkToGraph(dataToPie, columnIndex, graph, graphics, renderer);
+		if(String(pieID) == 'currentpiePlace') percentageTable(dataToPie, totalCounts);
 	});
 }
 
@@ -17,6 +17,8 @@ function destroyPie(pieID){
 function gatherPieData(dataArray, callback){
 	var gatherData = {};
 	var dataToPie = [];
+
+	var totalCounts = 0;
 	
 	for(i in dataArray){
 		//console.log(i);
@@ -29,10 +31,26 @@ function gatherPieData(dataArray, callback){
 	//console.log(gatherData);
 
 	for(i in gatherData){
+		totalCounts += parseInt(gatherData[i]);
 	 	dataToPie.push({label: i, value: gatherData[i]});
 	}
 
-	callback(dataToPie);
+	callback(dataToPie, totalCounts);
+}
+
+function percentageTable(dataToPie, totalCounts){
+
+	var toAppendBody = "";
+	var toAppendHead = '<tr><td style="border: 1px solid black;padding: 10px;">Name</td><td style="border: 1px solid black;padding: 10px;">Absolute Counts</td><td style="border: 1px solid black;padding: 10px;">Relative Counts</td>';
+
+	for(i=0; i<dataToPie.length; i++){
+		toAppendBody += '<tr><td style="border: 1px solid black;padding: 10px;">' + dataToPie[i].label + '</td><td style="border: 1px solid black;padding: 10px;">' + dataToPie[i].value + '</td><td style="border: 1px solid black;padding: 10px;">' + (dataToPie[i].value/totalCounts).toFixed(2) + '</tr>';
+	}
+
+	$('#tablePercentages tbody').empty();
+	$('#tablePercentages thead').empty();
+	$('#tablePercentages tbody').append(toAppendBody);
+	$('#tablePercentages thead').append(toAppendHead);
 }
 
 
@@ -111,7 +129,7 @@ function GlobalPie(classname, data, startWidth, startHeight, r, pieID, columnNam
 					    .attr("dy", ".35em")
 					    .style("text-anchor", "middle")
 					    .attr("class", "textTop")
-					    .text( "TOTAL" )
+					    .text( "TOTAL Categories" )
 					    .attr("y", fontSize1*2 + r);
 		
 		var textBottom = pie.append("text")
@@ -139,9 +157,9 @@ function GlobalPie(classname, data, startWidth, startHeight, r, pieID, columnNam
 					                    .duration(200)
 					                    .attr("d", arcOver)
 					                
-					                textTop.text(d3.select(this).datum().data.label)
+					                textTop.text('Category: ' + d3.select(this).datum().data.label)
 					                    .attr("y", fontSize1*2 + r);
-					                textBottom.text(d3.select(this).datum().data.value.toFixed(0))
+					                textBottom.text('Counts: ' + d3.select(this).datum().data.value.toFixed(0))
 					                    .attr("y", fontSize1*3 + r);
 					            })
 					            .on("mouseout", function(d) {
@@ -149,7 +167,7 @@ function GlobalPie(classname, data, startWidth, startHeight, r, pieID, columnNam
 					                    .duration(100)
 					                    .attr("d", arc);
 					                
-					                textTop.text( "TOTAL" )
+					                textTop.text( "TOTAL Categories" )
 					                    .attr("y", fontSize1*2 + r);
 					                textBottom.text(total.toFixed(0));
 					            });

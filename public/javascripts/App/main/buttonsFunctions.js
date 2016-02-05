@@ -140,6 +140,7 @@ function loadButtonFunctions(){
 
           	$('#AddLinkLabels').change(function(e){
 	            if (this.checked){
+	              if(graphObject.graphInput.data_type != "newick") $('#divselectLabelType').css({"display": "block"});
 	              $('.link-label').css('display','block');
 	              for (i in graphObject.removedLinks){
 	                var labelStyle = linkLabels[graphObject.removedLinks[i].id].style;
@@ -148,9 +149,32 @@ function loadButtonFunctions(){
 	              graphObject.tovisualizeLinkLabels = true;
 	            } 
 	            else{
+	              if(graphObject.graphInput.data_type != "newick") $('#divselectLabelType').css({"display": "none"});
+	              $('#divselectLabelType').css({"display": "none"});
 	              $('.link-label').css('display','none');
 	              graphObject.tovisualizeLinkLabels = false;
 	            } 
+          	});
+
+          	$('#labelType').change(function(e){
+          		if(this.value == 'relative'){
+
+          			var profileSize = graphObject.graphInput.nodes[0].profile.length;
+
+          			graphObject.graphGL.forEachLink(function(link) {
+                      //console.log(link.id);
+                      graphObject.linkLabels[link.id].innerText = (parseFloat(graphObject.linkLabels[link.id + 'default']) / profileSize).toFixed(2);                    
+                  	});
+
+          		}
+          		else{
+          			var profileSize = graphObject.graphInput.nodes[0].profile.length;
+
+          			graphObject.graphGL.forEachLink(function(link) {
+                      //console.log(link.id);
+                      graphObject.linkLabels[link.id].innerText = parseInt(graphObject.linkLabels[link.id + 'default']);                    
+                  	});
+          		}
           	});
 
 		},
