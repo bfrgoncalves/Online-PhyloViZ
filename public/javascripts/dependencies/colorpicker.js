@@ -206,7 +206,8 @@
 				cal.data('colorpicker').onBeforeShow.apply(this, [cal.get(0)]);
 				var pos = $(this).offset();
 				var viewPort = getViewport();
-				var top = pos.top + this.offsetHeight;
+				//var top = pos.top + this.offsetHeight;
+				var top = pos.top;
 				var left = pos.left;
 				if (top + 176 > viewPort.t + viewPort.h) {
 					top -= this.offsetHeight + 176;
