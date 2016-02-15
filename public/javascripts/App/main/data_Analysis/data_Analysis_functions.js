@@ -62,8 +62,19 @@ function checkLociDifferences(graphObject){
 
 		for (i in arrayOfNodes) NodesToConstructTable.push(arrayOfNodes[i]);
 
-		constructDistanceTable(distanceMatrix);
+		//constructDistanceTable(distanceMatrix);
 		createDistanceTable(NodesToConstructTable, distanceMatrix, metadata, maxDistance, graphObject);
+
+
+		var tutorialFunctions = tutorial('col_tutorial_main');
+        tutorialFunctions.distances();
+
+        $('#divdistances').append('<div></div>');
+
+		$('.nav-tabs > li.active').removeClass('active');
+	  	$('.tab-pane.active').removeClass('active');
+	  	$('#distanceTab').addClass('active');
+	  	$('#distanceContent').addClass('active');
 
 		$("#waitingGifMain").css('display', 'none');
 		status('');
@@ -232,7 +243,9 @@ function exportSelectedDataMatrix(graphObject, selectedNodes, stored){
 		for (j in toCheck){
 			if ($.inArray(stored[i][toCheck[j]].id, alreadyExported) < 0){
 				var dataToCheck = stored[i][toCheck[j]];
-				for (j in dataToCheck.data.isolates) stringToIsolates += dataToCheck.data.isolates[j].join('\t') + '\n';
+				for (k in dataToCheck.data.isolates){
+					stringToIsolates += dataToCheck.data.isolates[k].join('\t') + '\n';
+				} 
 				stringToProfiles += dataToCheck.data.key + '\t' + dataToCheck.data.profile.join('\t') + '\n';
 				alreadyExported.push(stored[i][toCheck[j]].id);
 			}
@@ -252,6 +265,40 @@ function exportSelectedDataMatrix(graphObject, selectedNodes, stored){
 	$('#dialog').dialog();
 
 }
+
+function exportMatrix(graphObject){
+	var matrixToUse = graphObject.currentdistanceMatrix;
+	var selectedNodes = graphObject.selectedNodes;
+
+	var stringToMatrix = "data:text/csv;charset=utf-8,";
+	firstLine = true;
+
+	for (i in selectedNodes){
+		if(firstLine == true){
+			for (k in selectedNodes){
+				stringToMatrix += selectedNodes[k].id + '\t';
+			}
+			stringToMatrix = stringToMatrix.substring(0, stringToMatrix.length-1) + '\n';
+			firstLine = false;
+		}
+	    stringToMatrix += selectedNodes[i].id;
+	    for (j in selectedNodes){
+	      stringToMatrix += '\t' + matrixToUse[selectedNodes[i].id][0][selectedNodes[j].id];
+	    }
+	    stringToMatrix += '\n';
+	}
+
+
+	var encodedUriMatrix = encodeURI(stringToMatrix);
+
+	var a = $('<p>Download <a id="linkDownloadMatrix">Distance Matrix</a></p>');
+
+	$('#dialog').append(a);
+	$('#linkDownloadMatrix').attr("href", encodedUriMatrix).attr('download', "distanceMatrix.tab");
+	$('#dialog').dialog();
+}
+
+
 
 
 

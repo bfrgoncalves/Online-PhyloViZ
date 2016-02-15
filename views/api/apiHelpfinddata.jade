@@ -1,0 +1,46 @@
+extends ../layout
+
+block title
+	div.indextitleLocation(onclick="javascript:location.href='/'")
+		img.phylovizImage(src = '/images/logo.png')
+		label.title #{title}
+
+block login
+	div(id="indexuserLocation")
+		p API
+
+block API
+	div.apiBody
+		p Find data
+		p Find data in our databases. NOTE: You can only get your user datasets if you are logged into the application. 
+		br
+		label Methods supported: 
+		div GET 
+		br
+		label URL:
+		div /api/db/postgres/find/:table/:field/
+		br
+		label Examples:
+		div(style="border-bottom: 2px solid black; width: 70%") 
+			p https://node.phyloviz.net/api/db/postgres/find/datasets/name
+			p Gets all datasets names 
+		br
+		div(style="border-bottom: 2px solid black; width: 70%") 
+			p https://node.phyloviz.net/api/db/postgres/find/datasets/dataset_id?name=Acinetobacter%20baumannii
+			p Get the dataset id for the dataset with the name "Acinetobacter baumannii"
+		br
+		div(style="border-bottom: 2px solid black; width: 70%") 
+			p https://node.phyloviz.net/api/db/postgres/find/isolates/data?dataset_id=cfa81215a2ce3fd3c8cb31c51964ba53f005fa9d8c06fa2ade5512c4d7151b1ff0
+			p Get the isolates data on the dataset with the id above (Acinetobacter baumanni)
+
+
+
+block scripts
+	script(type='text/javascript', src='/javascripts/dependencies/jquery-2.1.3.min.js')
+	script(type='text/javascript', src='/javascripts/dependencies/jquery.form.js')
+	script(type='text/javascript', src='/javascripts/dependencies/jquery-ui.min.js')
+	script(type='text/javascript', src='/javascripts/dependencies/bootstrap.js')
+	script(type='text/javascript', src='/javascripts/dependencies/bootstrap-select.js')
+	script(type='text/javascript', src='/javascripts/dependencies/datatables.min.js')
+	script(type='text/javascript', src='/javascripts/dependencies/jquery.dataTables.js')
+	script(type='text/javascript', src='/javascripts/App/adjustElements/adjustElementsAPI.js')

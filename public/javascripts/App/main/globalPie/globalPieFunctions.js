@@ -180,6 +180,7 @@ function GlobalPie(classname, data, startWidth, startHeight, r, pieID, columnNam
 
 
         var paths = arcs.append("svg:path")
+           .attr("class", function(d,i){ return 'piearc' + String(i); })
            .attr("fill", function(d, i) { return color(i); });
         
         var tweenPie = function (b) {
@@ -208,6 +209,12 @@ function GlobalPie(classname, data, startWidth, startHeight, r, pieID, columnNam
 		legend.append("rect")
 		    .attr("width", String(startHeight) + 'px')
 		    .attr("height", String(startHeight) + 'px')
+		    .attr("class", function(d,i){ 
+		    	if(pieID.search('currentpiePlace') > -1) return 'Colorpick legendrect' + String(i); 
+		    	else return 'legendrect' + String(i); 
+		    })
+		    .attr("indexColor", function(d, i){ return i; })
+		    .attr("value", function(d, i) { return color(i); })
 		    .style("fill", function(d, i) { return color(i); });
 
 		legend.append("text")

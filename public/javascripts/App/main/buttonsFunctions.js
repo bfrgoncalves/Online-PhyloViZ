@@ -115,6 +115,21 @@ function loadButtonFunctions(){
 	            changeMass(this.value, this.max, graphObject);
 	        });
 
+	        $('#resetLayout').on('click', function(e){
+
+	        	$("#ThetaSlider").val(graphObject.defaultLayoutParams.theta);
+	        	$("#GravitySlider").val(graphObject.defaultLayoutParams.gravity);
+	        	$("#DragSlider").val(graphObject.defaultLayoutParams.dragCoeff);
+	        	$("#SpringCoefSlider").val(graphObject.defaultLayoutParams.springCoeff);
+	        	$("#MassSlider").val(graphObject.defaultLayoutParams.massratio);
+
+	        	changeMass(graphObject.defaultLayoutParams.massratio, 20, graphObject);
+	        	changeTheta(graphObject.defaultLayoutParams.theta, 100, graphObject);
+	        	changeGravity(graphObject.defaultLayoutParams.gravity, 1, graphObject);
+	        	changeSpringCoefficient(graphObject.defaultLayoutParams.springCoeff, 10, graphObject);
+	        	changeDragCoefficient(graphObject.defaultLayoutParams.dragCoeff, 100, graphObject);
+	        });
+
 
 	        $('#AddLabels').change(function(e){
 	            if (this.checked){

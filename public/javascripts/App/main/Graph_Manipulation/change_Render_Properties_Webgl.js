@@ -147,7 +147,7 @@ function changeTheta(newValue, max, graphObject){
     var layout = graphObject.layout;
     var graph = graphObject.graphInput;
 
-    layout.simulator.theta(parseInt(newValue) * 0.01);
+    layout.simulator.theta(parseInt(newValue) * 0.1);
 
     if(graphObject.isLayoutPaused){
         renderer.resume();
@@ -163,8 +163,10 @@ function changeMass(newValue, max, graphObject){
     var layout = graphObject.layout;
     var graph = graphObject.graphInput;
 
+
     graphObject.graphGL.forEachNode(function(node){
-        graphObject.layout.getBody(node.id).mass = graphObject.layout.getBody(node.id).defaultMass * ((graphObject.layout.getBody(node.id).defaultMass / parseFloat(newValue)));
+        if(parseInt(newValue) == 1) graphObject.layout.getBody(node.id).mass = graphObject.layout.getBody(node.id).defaultMass;
+        else graphObject.layout.getBody(node.id).mass = graphObject.layout.getBody(node.id).defaultMass * ((graphObject.layout.getBody(node.id).defaultMass / parseFloat(newValue)));
     });
 
     if(graphObject.isLayoutPaused){

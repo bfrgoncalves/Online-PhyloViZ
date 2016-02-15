@@ -17,27 +17,29 @@ router.get('/', function(req, res, next){
 
 		var isNewick = false;
 
-	    getDataset(datasetID, userID, function(dataset){
-	      createPhyloviZInput(dataset, function(graphInput){
-	      	//if (graphInput.error && userID =="1"){
-	      	//	graphInput.error = 'Dataset as expired. Load it again without log in or create an account and access to it at any time.';
-	      	//}
-	      	res.send(graphInput);
-	      });
-	    
-	    });
+		checkIfpublic(datasetID, userID, function(isPublic){
+
+			getDataset(datasetID, userID, isPublic, function(dataset){
+		      createPhyloviZInput(dataset, function(graphInput){
+		      	res.send(graphInput);
+		      });
+		    
+		    });
+
+		});
 
 	}
 	else res.send(false);
 		
 });
 
-function getDataset(datasetID, userID, callback) {
+function checkIfpublic(datasetID, userID, callback){
 
 	var pg = require("pg");
 	var connectionString = "postgres://" + config.databaseUserString + "@localhost/"+ config.db;
 
-	var datasetID;
+	//var datasetID;
+	var isPublic = false;
 
 	//query = "SELECT id FROM datasets.datasets WHERE dataset_id = '"+datasetID+"' AND user_id=$1;";
 
@@ -47,6 +49,56 @@ function getDataset(datasetID, userID, callback) {
 		    return console.error('could not connect to postgres', err);
 		  }
 
+		    query = "SELECT name FROM datasets.datasets WHERE dataset_id='"+datasetID+"' AND put_public='t' LIMIT 1;";
+
+		    client.query(query, function(err, result) {
+			    if(err) {
+			      return console.error('error running query', err);
+			    }
+
+				var dataset = {};
+
+				if (result.rows.length > 0){
+					isPublic = true;
+				}
+
+			    client.end();
+			    callback(isPublic);
+			});
+
+		});
+
+
+}
+
+function getDataset(datasetID, userID, isPublic, callback) {
+
+	var pg = require("pg");
+	var connectionString = "postgres://" + config.databaseUserString + "@localhost/"+ config.db;
+
+	//var datasetID;
+
+	//query = "SELECT id FROM datasets.datasets WHERE dataset_id = '"+datasetID+"' AND user_id=$1;";
+
+	var client = new pg.Client(connectionString);
+		client.connect(function(err) {
+		  if(err) {
+		    return console.error('could not connect to postgres', err);
+		  }
+
+		  if(isPublic == true){
+
+		  	query = "SELECT data AS profiles, schemeGenes FROM datasets.profiles WHERE dataset_id='"+datasetID+"' LIMIT 1;" +
+		    		"SELECT data AS isolates, metadata FROM datasets.isolates WHERE dataset_id='"+datasetID+"' LIMIT 1;" +
+		    		"SELECT data AS links FROM datasets.links WHERE dataset_id='"+datasetID+"' LIMIT 1;" +
+		    		"SELECT distanceMatrix FROM datasets.links WHERE dataset_id='"+datasetID+"' LIMIT 1;" +
+		    		"SELECT data AS newick FROM datasets.newick WHERE dataset_id='"+datasetID+"' LIMIT 1;" +
+		    		"SELECT data AS positions FROM datasets.positions WHERE dataset_id='"+datasetID+"' LIMIT 1;" +
+		    		"SELECT name, key, data_type FROM datasets.datasets WHERE dataset_id='"+datasetID+"' LIMIT 1;";
+
+		  }
+		  else{
+
 		    query = "SELECT data AS profiles, schemeGenes FROM datasets.profiles WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;" +
 		    		"SELECT data AS isolates, metadata FROM datasets.isolates WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;" +
 		    		"SELECT data AS links FROM datasets.links WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;" +
@@ -54,6 +106,10 @@ function getDataset(datasetID, userID, callback) {
 		    		"SELECT data AS newick FROM datasets.newick WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;" +
 		    		"SELECT data AS positions FROM datasets.positions WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;" +
 		    		"SELECT name, key, data_type FROM datasets.datasets WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;";
+		  }
+
+		  //console.log(query);
+
 
 		    client.query(query, function(err, result) {
 			    if(err) {

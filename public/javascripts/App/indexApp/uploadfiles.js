@@ -80,11 +80,21 @@ function uploadFiles(){
     processData: false,
     contentType: false,
     type: 'POST',
-    success: function(datasetID){
+    success: function(data){
       //console.log(datasetName);
-      if (fileSelectNewick.files[0] != undefined) window.location.replace("/main/dataset/" + datasetID);
-      else getLinks(datasetID);
-      status('Computing links...');
+      console.log(data);
+      if(data.hasError == true){
+        $("#dialog").empty();
+        $("#dialog").append('<p>' + data.errorMessage + '</p>');
+        status('');
+        $("#waitingGif").css({'display': 'none'});
+        $("#dialog").dialog();
+      }
+      else{
+        if (fileSelectNewick.files[0] != undefined) window.location.replace("/main/dataset/" + data.datasetID);
+        else getLinks(data.datasetID);
+        status('Computing links...');
+      }
     }
 
   });

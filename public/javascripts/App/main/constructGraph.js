@@ -66,7 +66,7 @@ function constructGraph(graph, datasetID){
           graphObject.layout.getBody(node.id).defaultMass = graphObject.layout.getBody(node.id).mass;
         });
 
-        colorAttributes(graphObject.graphInput, graphObject.graphics, graphObject.renderer); //function which links the colors of the pieCharts to the data
+        colorAttributes(graphObject); //function which links the colors of the pieCharts to the data
         //graphObject.layout.simulator.gravity(-1000)
         //console.log(graphObject.layout.simulator.gravity());
         linkTableAndGraph('isolates', graphObject); //link between operations from the tables and the graph tab
@@ -86,7 +86,62 @@ function constructGraph(graph, datasetID){
 
         loaded = true;
 
+        $('#buttonHelp').click(function(){
+          $('#col_tutorial_main').toggle();
+        });
+
+        var tutorialFunctions = tutorial('col_tutorial_main');
+        tutorialFunctions.tree();
+
+        $('#assignc').on('click', function(){
+          $('#GraphicsProperties').collapse("hide");
+          $('#collapseOperations').collapse("hide");
+        });
+
+         $('#profilec').on('click', function(){
+          $('#MetadataColor').collapse("hide");
+        });
+
+          $('#auxc').on('click', function(){
+          $('#SchemeColor').collapse("hide");
+        });
+
+        $('#graphicp').on('click', function(){
+          $('#collapseColor').collapse("hide");
+          $('#collapseOperations').collapse("hide");
+        });
+
+        $('#treeop').on('click', function(){
+          $('#collapseColor').collapse("hide");
+          $('#GraphicsProperties').collapse("hide");
+        });
+
+        $('#nodesc').on('click', function(){
+          $('#LayoutGraphics').collapse("hide");
+          $('#LinksGraphics').collapse("hide");
+        });
+
+        $('#linksc').on('click', function(){
+          $('#NodesGraphics').collapse("hide");
+          $('#LayoutGraphics').collapse("hide");
+        });
+
+        $('#layoutc').on('click', function(){
+          $('#NodesGraphics').collapse("hide");
+          $('#LinksGraphics').collapse("hide");
+        });
+
         $('#tabs li a').on('click', function(d){
+
+          if($(d.target).text() == 'Auxiliary Data'){
+            tutorialFunctions.auxiliary();
+          }else if($(d.target).text() == 'Profiles'){
+            tutorialFunctions.profiles();
+          }else if($(d.target).text() == 'Tree'){
+            tutorialFunctions.tree();
+          }else if($(d.target).text() == 'Distances'){
+            tutorialFunctions.distances();
+          }
 
           if(loaded && tocheckTableIsolatesHeight && $(d.target).text() == 'Auxiliary Data') {
             graphObject.tableIsolatesHeight = $("#tableisolates_wrapper").height();
@@ -97,7 +152,7 @@ function constructGraph(graph, datasetID){
             tocheckTableProfilesHeight = false;
           }
 
-          if(graphObject.selectedNodes.length < 1 && $(d.target).text() == "Distances"){
+          if(graphObject.selectedNodes.length < 1 && $(d.target).text() == "Distances" && $('#divdistances').is(':empty')){
             if(graphObject.graphInput.data_type == "newick"){
               $('#noDistances').empty();
               $('#noDistances').append('<p>Distance Matrix is <b>NOT</b> available for <b>Newick</b> format input files.</p>')
@@ -129,6 +184,11 @@ function constructGraph(graph, datasetID){
         //  width: graphObject.width,
         //  height: graphObject.height
         //});
+
+        runColorPicker(graphObject);
+
+
+
       }
 
 

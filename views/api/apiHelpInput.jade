@@ -1,4 +1,4 @@
-extends layout
+extends ../layout
 
 block title
 	div.indextitleLocation(onclick="javascript:location.href='/'")
@@ -8,26 +8,26 @@ block title
 block login
 	div(id="indexuserLocation")
 		p API
+
 block API
 	div.apiBody
-		p Welcome to PHYLOViZ Online API!
-		p Here you can find information about the different methods and services than can be used to interact with the application.
-
-		label(for="#phylovizDataUpload") Data Upload
-		div(id="phylovizDataUpload")
-			li
-				a(href="api/help/upload") Upload data
-			li
-				a(href="api/help/finddata") Find data
+		p PHYLOViZ input
+		p This service lets you get the phyloviz input JSON object for a given dataset.
+		label NOTE: Without login in the application, only public datasets will be available.
 		br
-		label(for="#phylovizUtils") Utils
-		div(id="phylovizUtils")
-			li
-				a(href="api/help/phylovizinput") PHYLOViZ Online input
-			li
-				a(href="api/help/goeBURST") goeBURST algorithm
-			li
-				a(href="api/help/tabledata") Table data
+		br
+		label Methods supported: 
+		div GET 
+		br
+		label URL:
+		div /api/utils/phylovizInput
+		br
+		label Example:
+		div(style="border-bottom: 2px solid black; width: 70%") 
+			p https://node.phyloviz.net/api/utils/phylovizInput?dataset_id=cfa81215a2ce3fd3c8cb31c51964ba53f005fa9d8c06fa2ade5512c4d7151b1ff0
+			p Gets the results for the dataset with the id above (Acinetobacter baumannii).
+
+
 
 
 block scripts

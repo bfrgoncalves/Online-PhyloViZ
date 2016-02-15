@@ -123,6 +123,9 @@ function createLinkButton(property, columnIndex, columnData, columnName){
       	$('#treeTab').addClass('active');
       	$('#treeContent').addClass('active');
 
+      	var tutorialFunctions = tutorial('col_tutorial_main');
+        tutorialFunctions.tree();
+
 		$('#divButtonLegend').css('display', 'block');
 		$('#col_info').css('display', 'block');
 

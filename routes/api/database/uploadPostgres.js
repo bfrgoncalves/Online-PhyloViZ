@@ -40,12 +40,10 @@ router.post('/', multer({
   dataToDB.datasetName = req.body.datasetName;
   dataToDB.makePublic = req.body.makePublic;
 
-  console.log(dataToDB.is_public);
 
   if (dataToDB.makePublic == true) dataToDB.is_public = true;
   else dataToDB.is_public = false;
 
-  console.log(dataToDB.is_public);
   
   if (!req.isAuthenticated()) dataToDB.userID = "1";
   else dataToDB.userID = req.user.id;
@@ -54,16 +52,19 @@ router.post('/', multer({
     console.log(i);
     dataToDB['is_' + i] = true;
     readInputFiles(req.files[i].path, i, dataToDB, function(pathToFile, dataToDB){
-          fs.unlink(pathToFile);
+          if(dataToDB['hasError'] != true || dataToDB['hasError'] == true && i == 'fileFasta') fs.unlink(pathToFile);
           countProgress += 1;
-          if (countProgress == req.body.numberOfFiles){
+          if (countProgress == req.body.numberOfFiles && dataToDB['hasError'] != true){
               //console.log(req.user);
               dataToDB.dataset_description = req.body.dataset_description;
               
               uploadToDatabase(dataToDB, function(){
-                res.send(dataToDB.datasetID);
+                res.send(dataToDB);
               });
               
+          }
+          else if(dataToDB['hasError'] == true){
+            res.send(dataToDB);
           }
     });
   }
@@ -98,6 +99,8 @@ function readCSVfile(pathToFile, fileType, dataToDB, callback){
   var getHeaders = true;
   var identifier;
   var headers = [];
+  var callbackLaunched = false;
+
 
     csv.fromStream(stream, {headers : true, delimiter:'\t', quote: null})
       .on("data", function(data){
@@ -126,6 +129,14 @@ function readCSVfile(pathToFile, fileType, dataToDB, callback){
       .on("end", function(){
         console.log("done");
         callback(dataToDB);
+      })
+      .on("error",function(err){
+        dataToDB['hasError'] = true;
+        dataToDB['errorMessage'] = err.toString();
+        if(callbackLaunched != true){
+          callbackLaunched = true;
+          callback(dataToDB);
+        }
       });
 
 
@@ -170,6 +181,11 @@ function readFastafile(pathToFile, fileType, dataToDB, callback){
         else{
          sequenceToPush += lines[i].trim();
         }
+      }
+      if(fastaIDs.length == 0){
+        dataToDB['hasError'] = true;
+        dataToDB['errorMessage'] = 'Error: There was an error uploading the FASTA file';
+        return callback(dataToDB);
       }
 
       var splitSequence = sequenceToPush.split('');
@@ -263,20 +279,24 @@ function uploadToDatabase(data, callback){
     var client = new pg.Client(connectionString);
     client.connect(function(err) {
       if(err) {
-        return console.error('could not connect to postgres', err);
+        data.hasError = true;
+        data.errorMessage = 'could not connect to postgres: ' + err.toString();
+        return callback(data);
       }
       client.query(query, function(err, result) {
         if(err) {
-          return console.error('error running query', err);
+          data.hasError = true;
+          data.errorMessage = 'error running query: ' + err.toString();
+          return callback(data);
         }
         client.end();
-        callback();
+        callback(data);
       });
     });
   }
 
-  uploadDataset(data, function(){
-    callback();
+  uploadDataset(data, function(dataObject){
+    callback(dataObject);
   })
 
   

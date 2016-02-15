@@ -1,4 +1,4 @@
-extends layout
+extends ../layout
 
 block title
 	div.indextitleLocation(onclick="javascript:location.href='/'")
@@ -11,23 +11,19 @@ block login
 
 block API
 	div.apiBody
-		p goeBURST algorithm
-		p This service lets you get the graph links for a given dataset based on the
-			= " "
-			a(href="http://www.biomedcentral.com/1471-2105/10/152") goeBURST algorithm
-			= " "
-			| (Francisco AP, et.al).
+		p Table data
+		p This service lets you get profile data or metadata of a given dataset to be used on tables. Results are given in an array with the different rows and with the headers.
 		br
 		label Methods supported: 
 		div GET 
 		br
 		label URL:
-		div /api/algorithms/goeBURST
+		div /api/utils/tableData?dataset_id=[datasetID] & parameter=[isolates|profiles]
 		br
 		label Example:
-		div(style="border-bottom: 2px solid black; width: 70%") 
-			p https://node.phyloviz.net/api/algorithms/goeBURST?dataset_id=cfa81215a2ce3fd3c8cb31c51964ba53f005fa9d8c06fa2ade5512c4d7151b1ff0
-			p Gets the results for the dataset with the id above (Acinetobacter baumannii)
+		div(style="border-bottom: 2px solid black; width: 70%")  
+			p https://node.phyloviz.net/api/utils/tableData?dataset_id=cfa81215a2ce3fd3c8cb31c51964ba53f005fa9d8c06fa2ade5512c4d7151b1ff0 & parameter=isolates
+			p Gets the isolate data for the "Acinetobacter baumannii" dataset.
 
 
 

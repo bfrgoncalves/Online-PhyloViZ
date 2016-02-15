@@ -40,15 +40,15 @@ block normalBody
 						button.btn-info(id="buttonAPI", style="width: 100%") API
 				li
 					div(id="divPublicDatasets")
-						button.btn-info(id="buttonPublicDatasets", style="width: 100%") Public Datasets
+						button.btn-info(id="buttonPublicDatasets", style="width: 100%") Public Data sets
 				
 				if (user)
 					li
 						div(id="divUserDatasets")
-							button.btn-info(id="buttonUserDatasets", style="width: 100%") User Datasets
+							button.btn-info(id="buttonUserDatasets", style="width: 100%") User Data sets
 				li
 					div(id="divUploadDatasets")
-						button.btn-info(id="buttonUploadDatasets", style="width: 100%") Upload Datasets
+						button.btn-info(id="buttonUploadDatasets", style="width: 100%") Upload Data sets
 
 
 		div(id="divbuttonHelp")
@@ -64,11 +64,11 @@ block normalBody
 					h4 Web-based tool for visualization, phylogenetic inference, analysis and sharing
 					br
 					p PHYLOViZ Online is an online version of the software PHYLOViZ, a software that allows the analysis of sequence-based typing methods that generate allelic profiles and their associated epidemiological data. Our motivation was to give an user-friendly solution for data analysis and sharing without installing any specific software.
+					p <b>The application is freely available to all users and there is no login requirement.</b> All users can upload and perform data analysis. There is the additional possibility of storing data on the application for future access upon registration. 
 					br
 					div(id="onlineTutorial")
 						p 
-							b CHECK OUT THE ONLINE VIDEO TUTORIAL 
-								a(href="//youtu.be/PieHvfcqaAg") IN YOUTUBE
+							b CHECK OUT THE ONLINE VIDEO TUTORIAL<a href="//youtu.be/PieHvfcqaAg"> IN YOUTUBE</a> OR THE <a href="/index/tutorial/">WALKTHROUGH</a> OF THE AVAILABLE FEATURES
 						br
 						//p 
 							b
@@ -81,7 +81,7 @@ block normalBody
 							p - <a href="/data/sampleADfile.txt">Auxiliary data</a>
 							p More information on the data formats can be found <a id="inputFormatlink" href="/index/inputinfo">here</a>.
 						div(id="testUserDiv", style="text-align: left; width: 50%; height:100%; float: right;")
-							p <b>Test PHYLOViZ Online data upload using:</b>
+							p <b>Try all PHYLOViZ Online different functionalities using:</b>
 							p - <a id="logInFree" href="#">Login-free</a> upload.
 							p - The common user: <b><i>demo</i></b> and password: <b><i>demo</i></b>.
 							p - Using public datasets.
@@ -126,8 +126,18 @@ block normalBody
 				div(id="phylovizDescription")
 					h4 Web-based tool for visualization, phylogenetic inference, analysis and sharing
 					br
-					p Access to the API documentation 
-						a(href="./api") here!
+					p A RESTful API was developed to allow the access to a range of services so that more advanced users can programmatically use some of PHYLOViZ Online features without using the application's graphical interface.
+					br
+					div(style="text-align:left;")
+						p Currently, the applications allows:
+						ul
+							li Remote login
+							li Remote data set upload
+							li Querying on stored data sets
+							li Get PHYLOViZ Online input data object
+							li Get table data array
+						p For more information, access to the API documentation 
+							a(href="./api") here!
 					br
 					br
 			
@@ -144,7 +154,8 @@ block normalBody
 				div(id='existingDatasetsuser')
 				if (user)
 					div(id="divDeleteDatasetuser")
-						button.btn.btn-sm.btn-danger.resizable_button_submit(id="buttonDeleteDatasetuser", style ="display:none") Delete
+						button.btn.btn-sm.btn-danger.resizable_button_submit(id="buttonDeleteDatasetuser", style ="display:none; margin:1%;") Delete
+						button.btn.btn-sm.btn-info.resizable_button_submit(id="buttonPutPublicDatasetuser", style ="display:none; margin:1%;") Put public
 
 				if (user)
 					div(id="changeDescriptionDivuser", style ="display:none")
@@ -250,6 +261,7 @@ block scripts
 	else
 		script(type='text/javascript').
 			var isUser = false;
+	
 	script(type='text/javascript', src='/javascripts/dependencies/jquery-2.1.3.min.js')
 	script(type='text/javascript', src='/javascripts/dependencies/jquery.form.js')
 	script(type='text/javascript', src='/javascripts/dependencies/jquery-ui.min.js')

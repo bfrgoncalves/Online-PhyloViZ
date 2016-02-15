@@ -1,4 +1,8 @@
-var colorAttributes = function(graph, graphics, renderer){
+var colorAttributes = function(graphObject){
+
+  graph = graphObject.graphInput; 
+  graphics = graphObject.graphics;
+  renderer = graphObject.renderer;
 
   var color = d3.scale.category20();
 	
@@ -40,14 +44,28 @@ $('#selectByScheme').change(function(d){
 
   if (changeFromTable == false){
     linkGraphAndTable('profiles', propertyIndex, propertyToCheck, graph.key);
-    $('#divButtonLegend').css('display', 'block');
-    $('#col_info').css('display', 'block');
+    if(propertyIndex == -1){
+      $('#divButtonLegend').css({'display':'none', 'right': '10.5%'});
+      $('#col_info').css('display', 'none');
+    }
+    else{
+      $('#divButtonLegend').css('display', 'block');
+      $('#col_info').css('display', 'block');
+    }
   }
   else{
+
     gatherSchemeData(graph, propertyToCheck, schemeFilter, function(objectOfTotal, objectOfType, countProperties){
-         changeNodeUIData(objectOfType, graphics, property_IndexProfiles, arrayColorsProfiles, renderer);
+         graphObject.objectOfType = objectOfType;
+         graphObject.property_index = property_IndexProfiles;
+         changeNodeUIData(graphObject.objectOfType, graphics, graphObject.property_index, arrayColorsProfiles, renderer);
          changeFromTable = false;
     });
+
+    if (propertyIndex == -1){
+      $('#divButtonLegend').css({'display':'none', 'right': '10.5%'});
+      $('#col_info').css('display', 'none');
+    }
   }
 
 
@@ -58,18 +76,26 @@ $('#selectByMetadata').change(function(d){
  	propertyToCheck = element.find(":selected").text();
   propertyIndex = graph.metadata.indexOf(propertyToCheck);
 
-
   if (changeFromTable == false){
     linkGraphAndTable('isolates', propertyIndex, propertyToCheck, graph.key);
-    $('#divButtonLegend').css('display', 'block');
-    $('#col_info').css('display', 'block');
+    if(propertyIndex == -1){
+      $('#divButtonLegend').css({'display':'none', 'right': '10.5%'});
+      $('#col_info').css('display', 'none');
+    }
+    else{
+      $('#divButtonLegend').css('display', 'block');
+      $('#col_info').css('display', 'block');
+    }
   }
   else{
-    gatherMetadata(graph, propertyToCheck, metadataFilter, function(objectOfTotal, objectOfType, countProperties){
-       changeNodeUIData(objectOfType, graphics, property_IndexIsolates, arrayColorsIsolates, renderer);
 
+    gatherMetadata(graph, propertyToCheck, metadataFilter, function(objectOfTotal, objectOfType, countProperties){
+       graphObject.objectOfType = objectOfType;
+       graphObject.property_index = property_IndexIsolates;
+       changeNodeUIData(graphObject.objectOfType, graphics, graphObject.property_index, arrayColorsIsolates, renderer);
        changeFromTable = false;
     });
+
     
   }
 

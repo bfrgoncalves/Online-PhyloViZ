@@ -29,11 +29,20 @@ $(document).ready( function(){
 	$('#possibleInputFormats').change(function(){
 		$('#inputButtons').css({ 'display': 'block'});
 		$('#LaunchButton').css({ 'display': 'block'});
+		$('#uploadProfile').val('');
+		$('#textProfile').attr('placeholder', 'Upload Profile Data');
+  		$('#uploadMetadata').val('');
+  		$('#textMetadata').attr('placeholder', 'Upload Auxiliary Data');
+  		$('#uploadNewick').val('');
+  		$('#textNewick').attr('placeholder', 'Upload Newick file');
+  		$('#uploadFasta').val('');
+  		$('#textFasta').attr('placeholder', 'Upload Fasta file');
 		var propertyToCheck = $('#possibleInputFormats').find(":selected");
 		if (propertyToCheck[0].index == 0){
 			$('#inputButtons').css({ 'display': 'none'});
 			$('#LaunchButton').css({ 'display': 'none'});
 		}
+		$("#File1").val('');
 		if (propertyToCheck[0].index == 1) showProfileButton();
 		else if (propertyToCheck[0].index == 2) showNewickButton();
 		else if (propertyToCheck[0].index == 3) showFastaButton();
@@ -124,7 +133,7 @@ function createDatasetButtons(onButtons){
         $('#publicDataset').css({"display": "none"});
         $('#homeDiv').css({"display": "none"});
         $('#APIDiv').css({"display": "none"});
-        tutorialFunctions.home();
+        tutorialFunctions.about();
 		onButtons.about = true;
 	});
 
@@ -162,7 +171,7 @@ function createDatasetButtons(onButtons){
         $('#publicDataset').css({"display": "none"});
         $('#homeDiv').css({"display": "none"});
         $('#AboutDiv').css({"display": "none"});
-        tutorialFunctions.home();
+        tutorialFunctions.api();
 		onButtons.api = true;
 	});
 

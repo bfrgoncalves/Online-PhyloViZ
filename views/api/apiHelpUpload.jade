@@ -1,4 +1,4 @@
-extends layout
+extends ../layout
 
 block title
 	div.indextitleLocation(onclick="javascript:location.href='/'")
@@ -11,22 +11,15 @@ block login
 
 block API
 	div.apiBody
-		p PHYLOViZ input
-		p This service lets you get the phyloviz input JSON object for a given dataset.
-		label NOTE: Without login in the application, only public datasets will be available.
+		p Upload data
+		p This service allows you to upload files to your user area by interacting with the application's REST API.
+		p Because the data upload is a combination of different steps, we have developed a Phyton program to indirectly interact with the REST API. The code can be found 
+			a(href='//github.com/bfrgoncalves/Online-PhyloViZ/tree/postgres_version/remote_upload') here
 		br
-		br
-		label Methods supported: 
-		div GET 
-		br
-		label URL:
-		div /api/utils/phylovizInput
-		br
-		label Example:
-		div(style="border-bottom: 2px solid black; width: 70%") 
-			p https://node.phyloviz.net/api/utils/phylovizInput?dataset_id=cfa81215a2ce3fd3c8cb31c51964ba53f005fa9d8c06fa2ade5512c4d7151b1ff0
-			p Gets the results for the dataset with the id above (Acinetobacter baumannii).
-
+		label Usage:
+		div(style="border-bottom: 2px solid black; width: 70%")  
+			p python remoteUpload.py -u 'username' -p 'pass' -sdt profile -sd 'sampleAPfile.txt' -d 'test'
+			p Uploads the 'sampleAPfile.txt' profile data to the user area of 'username'
 
 
 

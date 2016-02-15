@@ -136,8 +136,12 @@ a {
 	background-color: #6497b1;
 }
 
-.actionButton.sel{
-  background-color: #005b96;
+.submenu{
+  background-color: #e89d48;
+}
+
+.submenu:hover{
+  background-color: #b36a20;
 }
 
 .node text {
@@ -219,14 +223,18 @@ a {
 #pieisolates {display:inline-block;}
 #divbuttonlinkpieisolates {display:inline-block;}
 
+#isolateContent{
+  margin-top: 2%;
+}
+
 #divisolates{
-  margin-top: 1%;
+  margin-top: 0%;
   width: 100%;
   overflow-x: auto;
 }
 
 #divprofiles{
-  margin-top: 1%;
+  margin-top: 2%;
   width: 100%;
   overflow-x: auto;
 }
@@ -350,12 +358,31 @@ td.highlight {
 
 #col_tutorial{
   position:fixed;
+  padding: 1%;
   top: 10%;
   right:1%;
   border-left: 1px solid;
   border-color: black;
   width: 17.5%;
   height: 90%;
+  font-size:90%;
+  overflow-y:auto;
+  z-index:2;
+}
+
+#col_tutorial_main{
+  position:fixed;
+  padding: 1%;
+  top: 10%;
+  right:1%;
+  border-left: 1px solid;
+  border-color: black;
+  width: 17%;
+  height: 90%;
+  z-index:3;
+  font-size:90%;
+  overflow-y:auto;
+  background-color:white;
 }
 
 #divbuttonHelp{
@@ -364,6 +391,7 @@ td.highlight {
   right:1%;
   width: 5%;
   height: 20%;
+  z-index:2;
 }
 
 #col_visual{
@@ -405,9 +433,8 @@ td.highlight {
 
 #divButtonLegend{
   position: absolute;
-  width: 10%;
-  top: 7%;
-  left: 82.5%; 
+  top: 10%;
+  right: 10.5%;
   display:none;
   z-index: 2;
 }
@@ -492,6 +519,10 @@ select {
   margin-top: 3%;
 }
 
+#buttonExportMatrix{
+  margin-top: 3%;
+}
+
 #divClearTable{
   margin-top: 5%;
   float: right;
@@ -521,8 +552,8 @@ select {
 #col_info{
   text-align: center;
   position: absolute;
-  top: 10%;
-  left: 82%; 
+  top: 12%;
+  right: 1%; 
   height: 40%;
   width: 15%;
   border-radius: 10px;

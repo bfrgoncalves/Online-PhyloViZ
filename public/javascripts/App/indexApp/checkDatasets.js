@@ -17,6 +17,15 @@ function checkDatasets(callback){
 
            $('#userDataset').css({"display": "none"});
            $('#publicDataset').css({"display": "none"});
+
+           $('#buttonPutPublicDatasetuser').click(function(){
+              tableToCheck = 'tableuser';
+              var tableUser = $('#tableuser').DataTable();
+              selectedDataUser = tableUser.rows('.selected').data();
+              publicvalue = selectedDataUser[0][4];
+              putDatasetPublic(tableToCheck, 'user', publicvalue, datasetObject);
+            });
+
         	 callback(datasetObject);
           });
         });
@@ -57,6 +66,67 @@ function deleteDataset(tableToCheck, usertype, datasetObject){
 
 }
 
+function putDatasetPublic(tableToCheck, usertype, value, datasetObject){
+  var table = $('#' + tableToCheck).DataTable();
+  selectedData = table.rows('.selected').data();
+  var publictable = $('#tablepublic').DataTable();
+  selectedData = table.rows('.selected').data();
+  selectedDatapublic = publictable.rows().data();
+
+  urlToUse = '/api/db/postgres/update/datasets/put_public';
+  var valToUse = false;
+
+  if (value == true) valToUse = false;
+  else valToUse = true;
+
+  
+  $.ajax({
+    url: urlToUse,
+    type: 'PUT',
+    data: {
+                dataset_id: datasetObject['user'][0][selectedData[0][0]],
+                change: valToUse,
+          },
+    dataType: "json",
+    success: function(data){
+      if(valToUse==true){
+        selectedData[0][4] = true;
+        status('The data set is now Public');
+      } 
+      else {
+        selectedData[0][4] = false;
+        status('The data set is now Private');
+      }
+      if(valToUse==true){
+        selectedData[0][4] = true;
+        $('#buttonPutPublicDataset' + usertype).html('Set as Private');
+        datasetObject['public'][0][selectedData[0][0]] = datasetObject['user'][0][selectedData[0][0]];
+        publictable.row.add(selectedData[0]).draw(false);
+      } 
+      else{
+        selectedData[0][4] = false;
+        $('#buttonPutPublicDataset' + usertype).html('Set as Public');
+        delete datasetObject['public'][selectedData[0][0]];
+
+        for (i = 0; i <selectedDatapublic.length; i++){
+          if (selectedDatapublic[i][0] == selectedData[0][0] && selectedDatapublic[i][1] == selectedData[0][1]) {
+            publictable.row(i).remove().draw( false );
+          }
+        }
+      } 
+
+      table.cell('.selected', 4).data(valToUse).draw(false);
+
+      table.$('tr.selected').removeClass('selected');
+      $('#changeDescriptionDiv' + usertype).css('display', 'none');
+      $('#buttonDeleteDataset' + usertype).css('display', 'none');
+      $('#buttonPutPublicDataset' + usertype).css({'display': 'none'});
+
+    }
+  });
+
+}
+
 
 function changeDescription(tableToCheck, datasetObject, description){
 
@@ -68,7 +138,7 @@ function changeDescription(tableToCheck, datasetObject, description){
       data: {change: description, dataset_id: datasetObject[selectedData[0][0]]},
       type: 'PUT',
       success: function(data){
-        table.cell('.selected', 1).data(description).draw(false);
+        table.cell('.selected', 3).data(description).draw(false);
         status('Description updated');
         $('#changeDescription').val("");
 
@@ -111,12 +181,14 @@ function createTable(data, divID, usertype, callback){
 	var columns = [];
 	var tableData = [];
 	var datasetObject = {};
+  var publicvalue = false;
 
 
 	columns.push({'title': 'Name'});
   columns.push({'title': 'Owner'});
   columns.push({'title': 'Data type'});
 	columns.push({'title': 'Description'});
+  columns.push({'title': 'Public'});
 
   divID = divID + usertype;
   tableToCheck = 'table' + usertype;
@@ -129,6 +201,7 @@ function createTable(data, divID, usertype, callback){
     row.push(data[i].data_type);
 		if (data[i].description == undefined || data[i].description == "undefined") row.push("");
 		else row.push(data[i].description);
+    row.push(data[i].put_public);
 		tableData.push(row);
 		datasetObject[data[i].name] = data[i].dataset_id;
 	}
@@ -152,18 +225,33 @@ function createTable(data, divID, usertype, callback){
 
     $('#' + tableToCheck+' tbody').on( 'click', 'tr', function () {
     	//console.log($(this).find('td').hasClass('dataTables_empty'));
+      var table = $('#' + tableToCheck).DataTable();   
+
     	if (!$(this).find('td').hasClass('dataTables_empty') ){
     		if ( $(this).hasClass('selected') ) {
 	            $(this).removeClass('selected');
+              $('#changeDescriptionDiv' + usertype).css('display', 'none');
+              $('#buttonDeleteDataset' + usertype).css('display', 'none');
+              $('#buttonPutPublicDataset' + usertype).css({'display': 'none'});
 	        }
 	        else {
               $('#changeDescriptionDiv' + usertype).css('display', 'block');
 	            table.$('tr.selected').removeClass('selected');
 	            $(this).addClass('selected');
+
+              var tableUser = $('#table' + usertype).DataTable();
+              selectedDataUser = tableUser.rows('.selected').data();
+              publicvalue = selectedDataUser[0][4];
+              if(publicvalue==true) $('#buttonPutPublicDataset' + usertype).html('Set as Private');
+              else $('#buttonPutPublicDataset' + usertype).html('Set as Public');
+
 	            $('#buttonDeleteDataset' + usertype).css('float', 'right');
 	            $('#buttonDeleteDataset' + usertype).css('display', 'block');
+              $('#buttonPutPublicDataset' + usertype).css({'float': 'right'});
+              $('#buttonPutPublicDataset' + usertype).css({'display': 'block'});
               //$('#buttonChangeDescription').css('display', 'block');
               //$('#buttonChangeDatasetName').css('display', 'block');
+
 	        }
     	}
     } );
@@ -172,6 +260,7 @@ function createTable(data, divID, usertype, callback){
       tableToCheck = 'table' + usertype;
     	deleteDataset(tableToCheck, usertype, datasetObject);
     });
+
 
     $('#buttonChangeDescription' + usertype).click(function(){
       var description = $('#changeDescription' + usertype).val();

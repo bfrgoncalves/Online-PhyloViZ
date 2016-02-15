@@ -47,38 +47,38 @@ $('#toggle_col_legend').click(function(){
           this.innerHTML =  "Show Legend";
 
           $("#divButtonLegend").animate({
-                left: '94%'
+                right: '0%'
           });
-          $("#divButtonLegend").animate({deg: 90}, {
-                step: function(now) {
+          //$("#divButtonLegend").animate({deg: 90}, {
+          //      step: function(now) {
                       // in the step-callback (that is fired each step of the animation),
                       // you can use the `now` paramter which contains the current
                       // animation-position (`0` up to `angle`)
-                      $("#divButtonLegend").css({
-                          transform: 'rotate(-' + now + 'deg)',
-                      });
+          //            $("#divButtonLegend").css({
+          //                transform: 'rotate(-' + now + 'deg)',
+          //            });
 
-                }
-            });
+          //      }
+          //  });
         }
         else if (this.innerHTML.search('Show') > -1){
           this.innerHTML = "Hide Legend";
           $("#divButtonLegend").animate({
-                left: '82.5%'
+                right: '10.5%'
                 //opacity: 0
             });
 
-          $("#divButtonLegend").animate({deg: 0}, {
-                step: function(now) {
+          //$("#divButtonLegend").animate({deg: 0}, {
+          //      step: function(now) {
                       // in the step-callback (that is fired each step of the animation),
                       // you can use the `now` paramter which contains the current
                       // animation-position (`0` up to `angle`)
-                      $("#divButtonLegend").css({
-                          transform: 'rotate(-' + now + 'deg)',
-                      });
+          //            $("#divButtonLegend").css({
+          //                transform: 'rotate(-' + now + 'deg)',
+          //            });
 
-                }
-            });
+          //      }
+          //  });
         }
         $('#col_info').toggle(1000);
       });

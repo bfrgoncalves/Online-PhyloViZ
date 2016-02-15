@@ -6,6 +6,8 @@ adjustElements = function () {
 
     var heightTab = $(window).height() - $("#tabs_headers").height() - 50;
 
+    heightTab = heightTab - heightTab * 0.06;
+
     var assignColorHeight = $("#assignCol").height();
 
     var width = $(window).width() - $(window).width() * 0.02,

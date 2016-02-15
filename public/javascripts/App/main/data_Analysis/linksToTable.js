@@ -1,6 +1,11 @@
 function createDistanceTable(selectedNodes, distanceMatrix, metadata, maxDistance, graphObject){
 
-  svgHeight = $("#distanceMatrix").width() * 0.80;
+  var heightTab = $(window).height() - $("#tabs_headers").height() - 50;
+
+  heightTab = heightTab - heightTab * 0.2;
+
+  //svgHeight = $("#distanceMatrix").width() * 0.80;
+  svgHeight = heightTab;
 
   $("#divsvg").css({ 'width': svgHeight, 'height': svgHeight});
 
@@ -89,9 +94,13 @@ var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDista
 
   if(maxDistance < colors.length) colors = colors.slice(0, maxDistance);
 
-  var colorScale = d3.scale.quantile()
+  graphObject.matrixColors = colors;
+  graphObject.maxdistanceMatrix = maxDistance;
+  graphObject.currentdistanceMatrix = distanceMatrix;
+
+  graphObject.matrixcolorScale = d3.scale.quantile()
     .domain([0, maxDistance]) //d3.max(nodes, function (d) { return d.value; })
-    .range(colors);
+    .range(graphObject.matrixColors);
 
   var matrix = [],
       nodes = selectedNodes,
@@ -180,7 +189,7 @@ var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDista
   column.append("line")
       .attr("x1", -width);
 
-  var quantileNumbers = [0].concat(colorScale.quantiles());
+  var quantileNumbers = [0].concat(graphObject.matrixcolorScale.quantiles());
 
   var legendHeight = svgHeight / 2; 
 
@@ -196,7 +205,12 @@ var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDista
             .attr("x", 0)
             .attr("y", function(d, i) { return legendHeight/colors.length * i; })
             .attr("width", legendHeight/15)
+            .attr("class", function(d,i){
+              return 'ColorpickerMatrix legendmatrix' + String(i);
+            })
+            .attr("indexColor", function(d, i) { return i; })
             .attr("height", legendHeight/colors.length)
+            .attr("value", function(d, i) { return colors[i]; })
             .style("fill", function(d, i) { return colors[i]; });
 
           legend.append("text")
@@ -228,7 +242,7 @@ var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDista
         .attr("width", x.rangeBand())
         .attr("height", x.rangeBand())
         //.style("fill-opacity", function(d) { return z(d.z); })
-        .style("fill", function(d) { return colorScale(distanceMatrix[selectedNodes[d.y].id][0][selectedNodes[d.x].id]); })
+        .style("fill", function(d) { return graphObject.matrixcolorScale(distanceMatrix[selectedNodes[d.y].id][0][selectedNodes[d.x].id]); })
         .on("mouseover", mouseover)
         .on("mouseout", mouseout)
         .on("click", click);
@@ -244,7 +258,7 @@ var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDista
     $('#tableOver thead').empty();
 
     d3.selectAll(".cell").style("fill", function(d) { 
-      return colorScale(distanceMatrix[selectedNodes[d.y].id][0][selectedNodes[d.x].id]); 
+      return graphObject.matrixcolorScale(distanceMatrix[selectedNodes[d.y].id][0][selectedNodes[d.x].id]); 
     }).attr("stroke-width", function(d,i){
       return false;
     }).attr("stroke", function(d,i){
@@ -255,6 +269,11 @@ var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDista
 
   $('#exportMatrixDataButton').click(function(){
     exportSelectedDataMatrix(graphObject, selectedNodes, stored);
+    //console.log(selectedNodes);
+  });
+
+  $('#buttonExportMatrix').click(function(){
+    exportMatrix(graphObject);
     //console.log(selectedNodes);
   });
 
@@ -353,7 +372,7 @@ var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDista
 
     d3.selectAll(".line_" + p.y ).style("fill", function(d, i) { 
       if (d.y == p.y && d.x == p.x) return 'red';
-      else return colorScale(distanceMatrix[selectedNodes[d.y].id][0][selectedNodes[d.x].id]);
+      else return graphObject.matrixcolorScale(distanceMatrix[selectedNodes[d.y].id][0][selectedNodes[d.x].id]);
     }).attr("stroke", function(d,i){
       if ($.inArray(String(d.y + '--' + d.x), onclick) > -1) return 'red';
       else if (d.y == p.y || d.x == p.x) return 'black';
@@ -364,7 +383,7 @@ var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDista
 
     d3.selectAll(".col_" + p.x ).style("fill", function(d, i) { 
       if (d.y == p.y && d.x == p.x) return 'red';
-      else return colorScale(distanceMatrix[selectedNodes[d.y].id][0][selectedNodes[d.x].id]);
+      else return graphObject.matrixcolorScale(distanceMatrix[selectedNodes[d.y].id][0][selectedNodes[d.x].id]);
     }).attr("stroke", function(d,i){
       if ($.inArray(String(d.y + '--' + d.x), onclick) > -1) return 'red';
       else if (d.y == p.y || d.x == p.x) return 'black';
@@ -381,7 +400,7 @@ var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDista
     $('#divOverMatrix').empty();
 
     d3.selectAll(".col_" + prevCellSelected.x).style("fill", function(d, i) { 
-      return colorScale(distanceMatrix[selectedNodes[d.y].id][0][selectedNodes[d.x].id]);
+      return graphObject.matrixcolorScale(distanceMatrix[selectedNodes[d.y].id][0][selectedNodes[d.x].id]);
     }).attr("stroke", function(d,i){
       if ($.inArray(String(d.y + '--' + d.x), onclick) > -1) return 'red';
       return false;
@@ -391,7 +410,7 @@ var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDista
     });
 
     d3.selectAll(".line_" + prevCellSelected.y).style("fill", function(d, i) { 
-      return colorScale(distanceMatrix[selectedNodes[d.y].id][0][selectedNodes[d.x].id]);
+      return graphObject.matrixcolorScale(distanceMatrix[selectedNodes[d.y].id][0][selectedNodes[d.x].id]);
     }).attr("stroke", function(d,i){
       if ($.inArray(String(d.y + '--' + d.x), onclick) > -1) return 'red';
       return false;

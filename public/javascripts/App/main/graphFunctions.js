@@ -30,11 +30,20 @@ function loadGraphFunctions(){
 
 			var idealSpringLength = 1;
 			var graphGL = graphObject.graphGL;
+			
+			graphObject.defaultLayoutParams = {
+				springLength : idealSpringLength,
+			    springCoeff : '1',
+				dragCoeff : '1',
+				gravity : '-10',
+				theta: '8',
+				massratio: '1'
+			}
 
 			graphObject.layout = Viva.Graph.Layout.forceDirected(graphGL, {
 						    	    springLength : idealSpringLength,
 						    	    springCoeff : 0.0001,
-						    	    dragCoeff : 0.0001,
+						    	    dragCoeff : 0.001,
 						    	    gravity : -10,
 						    	    theta: 0.8,
 
