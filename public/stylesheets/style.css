@@ -26,6 +26,11 @@ a {
     width: 5%;
 }
 
+#firefoxversionInfo{
+  width: 50%;
+  height: 50%;
+}
+
 #globalContainer{
   width: 100%;
   height: 100%;
@@ -324,11 +329,12 @@ td.highlight {
   margin-top: 3%;
   position:fixed;
   text-align: center;
+  overflow-y:auto;
 }
 
 #homeDiv{
   width:100%;
-  height: 100%;
+  height: 80%;
 }
 
 #exampleTreeImage{
@@ -340,18 +346,18 @@ td.highlight {
 }
 
 .exampleTree{
-  width: 33%;
+  width: 25%;
   float: center;
   height: auto; 
 }
 
 .exampleMatrix{
-  width: 33%;
+  width: 25%;
   float: left;
   height: auto; 
 }
 .exampleNLV{
-  width: 33%;
+  width: 25%;
   float: right;
   height: auto; 
 }
@@ -691,6 +697,11 @@ div.tutorialsubsections h5{
   margin-bottom: 2%;
   font-size: 130%;
   text-align: justify;
+}
+
+.ui-dialog.success-dialog {
+    font-size: 80%;
+    background: white;
 }
 
 

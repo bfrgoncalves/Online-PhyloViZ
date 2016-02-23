@@ -193,8 +193,8 @@ function exportSelectedDataTree(graphObject){
 		return false;
 	}
 
-	var stringToIsolates = "data:text/csv;charset=utf-8,";
-	var stringToProfiles = "data:text/csv;charset=utf-8,";
+	var stringToIsolates = "";
+	var stringToProfiles = "";
 
 
 	stringToIsolates += graphObject.graphInput.metadata.join('\t') + '\n';
@@ -206,8 +206,8 @@ function exportSelectedDataTree(graphObject){
 		stringToProfiles += selectedNodes[i].data.key + '\t' + data.profile.join('\t') + '\n';
 	}
 
-	var encodedUriIsolates = encodeURI(stringToIsolates);
-	var encodedUriProfiles = encodeURI(stringToProfiles);
+	var encodedUriIsolates = 'data:text/csv;charset=utf-8,' + encodeURIComponent(stringToIsolates);
+	var encodedUriProfiles = 'data:text/csv;charset=utf-8,' + encodeURIComponent(stringToProfiles);
 
 	$('#dialog').empty();
 
@@ -229,8 +229,8 @@ function exportSelectedDataMatrix(graphObject, selectedNodes, stored){
 		return false;
 	}
 
-	var stringToIsolates = "data:text/csv;charset=utf-8,";
-	var stringToProfiles = "data:text/csv;charset=utf-8,";
+	var stringToIsolates = "";
+	var stringToProfiles = "";
 
 	stringToIsolates += graphObject.graphInput.metadata.join('\t') + '\n';
 	stringToProfiles += graphObject.graphInput.schemeGenes.join('\t') + '\n';
@@ -252,8 +252,8 @@ function exportSelectedDataMatrix(graphObject, selectedNodes, stored){
 		}
 	}
 
-	var encodedUriIsolates = encodeURI(stringToIsolates);
-	var encodedUriProfiles = encodeURI(stringToProfiles);
+	var encodedUriIsolates = 'data:text/csv;charset=utf-8,' + encodeURIComponent(stringToIsolates);
+	var encodedUriProfiles = 'data:text/csv;charset=utf-8,' + encodeURIComponent(stringToProfiles);
 
 	$('#dialog').empty();
 
@@ -270,8 +270,10 @@ function exportMatrix(graphObject){
 	var matrixToUse = graphObject.currentdistanceMatrix;
 	var selectedNodes = graphObject.selectedNodes;
 
-	var stringToMatrix = "data:text/csv;charset=utf-8,";
+	var stringToMatrix = "";
 	firstLine = true;
+	console.log(matrixToUse);
+	console.log(selectedNodes);
 
 	for (i in selectedNodes){
 		if(firstLine == true){
@@ -287,12 +289,16 @@ function exportMatrix(graphObject){
 	    }
 	    stringToMatrix += '\n';
 	}
+	//console.log(stringToMatrix);
 
 
-	var encodedUriMatrix = encodeURI(stringToMatrix);
+	var encodedUriMatrix = 'data:text/csv;charset=utf-8,' + encodeURIComponent(stringToMatrix);
+	//var encodedUriMatrix = encodedUriMatrix.replace(/!!!/g, "#");
+	console.log(encodedUriMatrix);
 
 	var a = $('<p>Download <a id="linkDownloadMatrix">Distance Matrix</a></p>');
 
+	$('#dialog').empty();
 	$('#dialog').append(a);
 	$('#linkDownloadMatrix').attr("href", encodedUriMatrix).attr('download', "distanceMatrix.tab");
 	$('#dialog').dialog();

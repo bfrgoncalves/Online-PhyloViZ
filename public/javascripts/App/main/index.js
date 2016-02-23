@@ -27,6 +27,25 @@ $(document).ready(function(){
 
     $('#visual').css({width:width, height: height, position: "relative"});
 
+    if(navigator.userAgent.toLowerCase().indexOf('chrome') < 0)
+    {
+        var toAdd = 'We Apologize, but currently only Google Chrome is <b>fully  supported</b>. Performance is considerably higher if you use Chrome.<br>' +
+                 '<br>We are hoping (and working) to increase browser support soon.<br>' +
+                  'In the meantime you can <b>Download Chrome</b> <a href="//www.google.com/chrome/browser/desktop/index.html">here</a>.<br>' +
+                    '<br>You can use other web-browsers but be aware of known issues.<br>';
+         
+         $('#firefoxversionInfo').empty();
+         $('#firefoxversionInfo').append('<div>'+toAdd+'</div>');
+         $('#firefoxversionInfo').dialog({
+              height: $(window).height() * 0.2,
+              width: $(window).width() * 0.2,
+              modal: true,
+              resizable: true,
+              dialogClass: 'no-close success-dialog'
+          });
+
+    }
+
     var dataToGraph = {};
 
     var img = document.getElementById('GIFimage');

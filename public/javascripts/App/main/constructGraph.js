@@ -134,8 +134,12 @@ function constructGraph(graph, datasetID){
         $('#tabs li a').on('click', function(d){
 
           if($(d.target).text() == 'Auxiliary Data'){
+            var tableToUse = $('#tableisolates').DataTable();
+            tableToUse.columns.adjust().draw();
             tutorialFunctions.auxiliary();
           }else if($(d.target).text() == 'Profiles'){
+            var tableToUse = $('#tableprofiles').DataTable();
+            tableToUse.columns.adjust().draw();
             tutorialFunctions.profiles();
           }else if($(d.target).text() == 'Tree'){
             tutorialFunctions.tree();

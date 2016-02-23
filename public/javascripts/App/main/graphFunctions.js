@@ -168,7 +168,8 @@ function loadGraphFunctions(){
                     if (node.id.search('TransitionNode') < 0){
                       var label = document.createElement('span');
                       label.classList.add('node-label');
-                      label.innerText = node.id;
+                      if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) label.textContent = node.id;
+                      else label.innerText = node.id;
                       nodeLabels[node.id] = label;
                       container.appendChild(label);
                     }
@@ -183,7 +184,8 @@ function loadGraphFunctions(){
                       //console.log(link.id);
                       var label = document.createElement('span');
                       label.classList.add('link-label');
-                      label.innerText = parseFloat(link.data.connectionStrength.toFixed(4));
+                      if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) label.textContent = parseFloat(link.data.connectionStrength.toFixed(4));
+                      else label.innerText = parseFloat(link.data.connectionStrength.toFixed(4));
                       treeLinks[link.id] = true;
                       linkLabels[link.id] = label;
                       linkLabels[link.id + 'default'] = parseFloat(link.data.connectionStrength.toFixed(4));
