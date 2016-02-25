@@ -33,18 +33,19 @@ function hamming(p, q) {
 
 function calculateDistanceMatrix(graphObject, callback){
 	var distanceMatrix = [];
-	for (var i = 0; i < graphObject.nodes.length-1; i++) {
-		setTimeout(function(){
-			//status('Computing Distance Matrix... ' + (i+1) + ' of ' + graphObject.nodes.length);
+	setTimeout(function(){
+		status('Computing Distance Matrix...');
+		for (var i = 0; i < graphObject.nodes.length-1; i++) {
 			distanceMatrix.push([0]);
 	    	for (var j = i+1; j < graphObject.nodes.length; j++) {
 		      var diff = hamming(graphObject.nodes[i].profile, graphObject.nodes[j].profile) - 1;
 		      distanceMatrix[i].push(diff);
 		    }
-		}, 10);
-    }
-    graphObject.distanceMatrix = distanceMatrix;
-    callback(graphObject);
+	    }
+	    graphObject.distanceMatrix = distanceMatrix;
+	    callback(graphObject);
+	}, 10);
+
 }
 
 function checkLociDifferences(graphObject){

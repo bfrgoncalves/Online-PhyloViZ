@@ -59,7 +59,7 @@ $(document).ready(function(){
       //console.log(graph);
       checkInput(graph, function(graph){
 
-          status('Calculating Distance Matrix...');
+          status('Computing Distance Matrix...');
           calculateDistanceMatrix(graph, function(graph){
 
             status('Loading tables...');
