@@ -4,6 +4,10 @@ var colorAttributes = function(graphObject){
   graphics = graphObject.graphics;
   renderer = graphObject.renderer;
 
+  graphObject.arrayOfCurrentCategories = [];
+  graphObject.changeFromFilterCategories = false;
+  graphObject.modalMaxCategories = false;
+
   var color = d3.scale.category20();
 	
 	options = '';
@@ -43,7 +47,7 @@ $('#selectByScheme').change(function(d){
   propertyIndex = graph.schemeGenes.indexOf(propertyToCheck);
 
   if (changeFromTable == false){
-    linkGraphAndTable('profiles', propertyIndex, propertyToCheck, graph.key);
+    linkGraphAndTable('profiles', propertyIndex, propertyToCheck, graph.key, graphObject);
     if(propertyIndex == -1){
       $('#divButtonLegend').css({'display':'none', 'right': '10.5%'});
       $('#col_info').css('display', 'none');
@@ -55,11 +59,18 @@ $('#selectByScheme').change(function(d){
   }
   else{
 
-    gatherSchemeData(graph, propertyToCheck, schemeFilter, function(objectOfTotal, objectOfType, countProperties){
+    gatherSchemeData(graph, propertyToCheck, schemeFilter, function(objectOfTotal, objectOfType, countProperties, hasMultipleFields){
          graphObject.objectOfType = objectOfType;
          graphObject.property_index = property_IndexProfiles;
+
+         if (hasMultipleFields == false && graphObject.currentNodeProgram == 'buildCircleNodeShader') setNewProgram(graphObject, buildSimpleCircleNodeShader);
+         else if (hasMultipleFields == true && graphObject.currentNodeProgram == 'buildSimpleCircleNodeShader') setNewProgram(graphObject, buildCircleNodeShader);
+         graphObject.linkMethod = 'profiles';
          changeNodeUIData(graphObject.objectOfType, graphics, graphObject.property_index, arrayColorsProfiles, renderer);
          changeFromTable = false;
+
+         graphObject.arrayOfCurrentCategories = [];
+         graphObject.changeFromFilterCategories = false;
     });
 
     if (propertyIndex == -1){
@@ -77,7 +88,7 @@ $('#selectByMetadata').change(function(d){
   propertyIndex = graph.metadata.indexOf(propertyToCheck);
 
   if (changeFromTable == false){
-    linkGraphAndTable('isolates', propertyIndex, propertyToCheck, graph.key);
+    linkGraphAndTable('isolates', propertyIndex, propertyToCheck, graph.key, graphObject);
     if(propertyIndex == -1){
       $('#divButtonLegend').css({'display':'none', 'right': '10.5%'});
       $('#col_info').css('display', 'none');
@@ -89,11 +100,17 @@ $('#selectByMetadata').change(function(d){
   }
   else{
 
-    gatherMetadata(graph, propertyToCheck, metadataFilter, function(objectOfTotal, objectOfType, countProperties){
+    gatherMetadata(graph, propertyToCheck, metadataFilter, function(objectOfTotal, objectOfType, countProperties, hasMultipleFields){
        graphObject.objectOfType = objectOfType;
        graphObject.property_index = property_IndexIsolates;
+       if (hasMultipleFields == false && graphObject.currentNodeProgram == 'buildCircleNodeShader') setNewProgram(graphObject, buildSimpleCircleNodeShader);
+       else if (hasMultipleFields == true && graphObject.currentNodeProgram == 'buildSimpleCircleNodeShader') setNewProgram(graphObject, buildCircleNodeShader);
+       graphObject.linkMethod = 'isolates';
        changeNodeUIData(graphObject.objectOfType, graphics, graphObject.property_index, arrayColorsIsolates, renderer);
        changeFromTable = false;
+
+       graphObject.arrayOfCurrentCategories = [];
+       graphObject.changeFromFilterCategories = false;
     });
 
     

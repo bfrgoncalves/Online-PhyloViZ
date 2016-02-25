@@ -132,11 +132,12 @@ function saveLinks(datasetID, links, distanceMatrix, callback){
 	var connectionString = "pg://" + config.databaseUserString + "@localhost/"+ config.db;
 	var linksToUse = { links: links };
 	var distanceMatrixToUse =  { distanceMatrix: distanceMatrix };
+	//distanceMatrixToUse = {distanceMatrix: []};
 
 	var client = new pg.Client(connectionString);
 
-		query = "UPDATE datasets.links SET data = '"+JSON.stringify(linksToUse)+"' WHERE dataset_id ='"+datasetID+"';" + 
-				"UPDATE datasets.links SET distanceMatrix = '"+JSON.stringify(distanceMatrixToUse)+"' WHERE dataset_id ='"+datasetID+"';";
+		query = "UPDATE datasets.links SET data = '"+JSON.stringify(linksToUse)+"' WHERE dataset_id ='"+datasetID+"';";
+				//"UPDATE datasets.links SET distanceMatrix = '"+JSON.stringify(distanceMatrixToUse)+"' WHERE dataset_id ='"+datasetID+"';";
 		
 		client.connect(function(err) {
 		  if(err) {

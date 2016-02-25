@@ -59,26 +59,30 @@ $(document).ready(function(){
       //console.log(graph);
       checkInput(graph, function(graph){
 
-          console.log(graph);
+          status('Calculating Distance Matrix...');
+          calculateDistanceMatrix(graph, function(graph){
 
-          status('Loading tables...');
-          createTable(datasetID, 'isolates', function(){
+            status('Loading tables...');
+            createTable(datasetID, 'isolates', function(){
 
-            if (graph.data_type == 'fasta'){
-              status('Loading tree...');
-              getPublicInfo(graph, datasetID, function(graph){
-                constructGraph(graph, datasetID);
-              });
-            }
-            else{
-              createTable(datasetID, 'profiles', function(){
+              if (graph.data_type == 'fasta'){
                 status('Loading tree...');
                 getPublicInfo(graph, datasetID, function(graph){
                   constructGraph(graph, datasetID);
                 });
-              });
-            }
+              }
+              else{
+                createTable(datasetID, 'profiles', function(){
+                  status('Loading tree...');
+                  getPublicInfo(graph, datasetID, function(graph){
+                    constructGraph(graph, datasetID);
+                  });
+                });
+              }
+            });
+
           });
+
       });
     });
 

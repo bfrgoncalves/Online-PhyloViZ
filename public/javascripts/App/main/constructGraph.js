@@ -68,7 +68,7 @@ function constructGraph(graph, datasetID){
 
         colorAttributes(graphObject); //function which links the colors of the pieCharts to the data
         //graphObject.layout.simulator.gravity(-1000)
-        //console.log(graphObject.layout.simulator.gravity());
+        console.log(graphObject);
         linkTableAndGraph('isolates', graphObject); //link between operations from the tables and the graph tab
         linkTableAndGraph('profiles', graphObject);
 

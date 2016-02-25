@@ -181,6 +181,8 @@ block normalBody
 					div(id="piePlace")
 						div(id="currentpiePlace")
 						div(id="legendcurrentpiePlace")
+						div(style="text-align:center;margin:1%")
+							button(type='button',id='Choosecategories', name='categories1') Choose categories
 
 				div(id="divtablePercentages" style="display:none;")
 					div(id="tableContainer")
@@ -298,6 +300,7 @@ block scripts
 	//script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/customPieChartShader.js')
 	script(type='text/javascript', src='/javascripts/App/adjustElements/adjustElementsMain.js')
 	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/pieNodeWebGl.js')
+	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/CustomNodeWebGl.js')
 	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/CustomLinkProgram.js')
 	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/searchNodesWebGl.js')
 	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/multiSelectionWebGl.js')
@@ -317,6 +320,7 @@ block scripts
 	script(type='text/javascript', src='/javascripts/App/main/buttonsFunctions.js')
 	script(type='text/javascript', src='/javascripts/App/main/constructGraph.js')
 	script(type='text/javascript', src='/javascripts/App/main/globalPie/runColorPicker.js')
+	script(type='text/javascript', src='/javascripts/App/main/globalPie/chooseCategories.js')
 	//script(type='text/javascript', src='/javascripts/App/main/iterativeGraph.js')
 	script(type='text/javascript', src='/javascripts/App/main/index.js')
 

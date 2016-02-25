@@ -57,6 +57,7 @@ function deleteDataset(tableToCheck, usertype, datasetObject){
         }
         $('#buttonDeleteDataset' + usertype).css('display', 'none');
         $('#changeDescriptionDiv' + usertype).css('display', 'none');
+        $('#buttonPutPublicDataset' + usertype).css('display', 'none');
         $('#changeDescription' + usertype).val("");
         $('#changeDatasetName' + usertype).val("");
 

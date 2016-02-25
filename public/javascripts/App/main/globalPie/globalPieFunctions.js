@@ -1,10 +1,11 @@
 
 
-function constructPie(dataArray, columnIndex, columnName, pieID, startWidth, startHeight, r){
+function constructPie(dataArray, columnIndex, columnName, pieID, startWidth, startHeight, r, graphObject){
 
 	gatherPieData(dataArray, function(dataToPie, totalCounts){
-		GlobalPie('pie', dataToPie, startWidth, startHeight, r, pieID, columnName);
+		GlobalPie('pie', dataToPie, startWidth, startHeight, r, pieID, columnName, graphObject);
 		if(String(pieID) == 'currentpiePlace') percentageTable(dataToPie, totalCounts);
+		//else if(pieID=='pieisolates') console.log(pieID);
 	});
 }
 
@@ -54,13 +55,64 @@ function percentageTable(dataToPie, totalCounts){
 }
 
 
-function GlobalPie(classname, data, startWidth, startHeight, r, pieID, columnName)
+function GlobalPie(classname, data, startWidth, startHeight, r, pieID, columnName, graphObject)
     { 
         //color could be made a parameter
 
-        var total = data.length;
-
         var maxStringLength = 0;
+        var dataNormalized = [];
+        var countData = 0;
+        var dataInOthers = [];
+        var countOthers = 0;
+
+        if (data.length > 19 && graphObject.modalMaxCategories == false){
+        	$('#dialog').empty();
+        	var toAppenddialog = '<div style="font-size:150%;text-align:center;">By default, only the top 20 results are displayed when assigning colours to the Tree Visualization. All the others are classified as <b><i>Others</i></b>.'+
+        	'<br>To selected which categories you want to visualize, filter them by <i>performing queries on Tables</i> or by choosing categories using the <b><i>Choose categories</i></b> button located in the right side of the screen, in the Pie Chart legend.</div>';
+        	$('#dialog').append(toAppenddialog);
+        	$('#dialog').dialog({
+		      height: $(window).height() * 0.3,
+		      width: $(window).width() * 0.3,
+		      modal: true,
+		      resizable: true,
+		      dialogClass: 'no-close success-dialog'
+			});
+        	graphObject.modalMaxCategories = true;
+
+        }
+
+        for(i in data){
+        	if(countData > 18 && graphObject.changeFromFilterCategories != true){
+        		//newObject.label = 'Others';
+        		dataInOthers.push(data[i]);
+        		countOthers++;
+        	}
+        	else if (graphObject.changeFromFilterCategories == true && graphObject.arrayOfCurrentCategories.indexOf(data[i].label) > -1){
+        		dataNormalized.push(data[i]);
+        	}
+        	else if (graphObject.changeFromFilterCategories == true && graphObject.arrayOfCurrentCategories.indexOf(data[i].label) < 0){
+        		dataInOthers.push(data[i]);
+        		countOthers++;
+        	}
+        	else if(graphObject.changeFromFilterCategories != true){
+        		dataNormalized.push(data[i]);
+        	}
+        	countData++;
+        }
+
+        if(dataInOthers.length > 0){
+        	dataNormalized.push({label: 'Others', value: countOthers, data: dataInOthers});
+        }
+
+        var total = dataNormalized.length;
+
+        graphObject.categoriesThatCanBeAdded = dataInOthers;
+        if(dataNormalized[dataNormalized.length -1].label == 'Others'){
+        	var addedCategories = dataNormalized.slice(0, dataNormalized.length -1);
+        }
+        else var addedCategories = dataNormalized;
+        
+        graphObject.categoriesAdded = addedCategories;
 
 
        	for(i in data){
@@ -80,20 +132,30 @@ function GlobalPie(classname, data, startWidth, startHeight, r, pieID, columnNam
         if (pieID.indexOf('isolates') > -1){
         	arrayColorsIsolates = [];
         	property_IndexIsolates = {};
-
-        	for (i in data){
+        	for (i in dataNormalized){
 	    		arrayColorsIsolates.push(color(i).replace('#', '0x'));
-	    		property_IndexIsolates[data[i].label] = i;
+	    		if(dataNormalized[i].label =='Others'){
+	    			for(j in dataNormalized[i].data){
+	    				property_IndexIsolates[dataNormalized[i].data[j].label] = i;
+	    			}
+	    		}
+	    		else property_IndexIsolates[dataNormalized[i].label] = i;
 	    	}
         }
         else if(pieID.indexOf('profiles') > -1){
         	arrayColorsProfiles = [];
         	property_IndexProfiles = {};
 
-        	for (i in data){
+        	for (i in dataNormalized){
 	    		arrayColorsProfiles.push(color(i).replace('#', '0x'));
-	    		property_IndexProfiles[data[i].label] = i;
+	    		if(dataNormalized[i].label =='Others'){
+	    			for(j in dataNormalized[i].data){
+	    				property_IndexProfiles[dataNormalized[i].data[j].label] = i;
+	    			}
+	    		}
+	    		else property_IndexProfiles[dataNormalized[i].label] = i;
 	    	}
+
         }
 
         var SVheight = $('#col_info').height() - $('#currentpiePlace').height();
@@ -115,7 +177,7 @@ function GlobalPie(classname, data, startWidth, startHeight, r, pieID, columnNam
         var pie = d3.select('#' + pieID).append('svg').attr('id', "SV" + pieID).style('width', String(r * 2 + increment) + 'px').style('height', String(r*2 + fontSize1 * 5) + 'px')
             .append("svg:g").attr('id', 'P' + pieID).attr("transform", "translate(" + (r * 1.5) + "," + (r + fontSize1) +")")
                 //.data([data.sort(d3.descending)])
-                .data([data])
+                .data([dataNormalized])
                 .attr("class", classname);
 
         var textIdentifier = pie.append("text")
@@ -201,7 +263,7 @@ function GlobalPie(classname, data, startWidth, startHeight, r, pieID, columnNam
 					    .style("height", String(total * (startHeight * 1.5)) + 'px')
 					    .attr("class", "legend")
 					    .selectAll("g")
-					    .data(data)
+					    .data(dataNormalized)
 					    .enter().append("g")
 					    .attr("transform", function(d, i) { return "translate(0," + i * startHeight * 1.5  + ")"; });
 

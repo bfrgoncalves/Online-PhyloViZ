@@ -94,16 +94,16 @@ function linkTableAndGraph(property, graphObject){
   	  var radious = pieHeight / 6;
   	  var legendRectSize = radious / 6;
       
-      createLinkButton(property, columnIndex, columnData, columnName);
+      createLinkButton(property, columnIndex, columnData, columnName, graphObject);
       
-      constructPie(columnData, columnIndex, columnName, 'pie' + property, radious, legendRectSize, radious);
+      constructPie(columnData, columnIndex, columnName, 'pie' + property, radious, legendRectSize, radious, graphObject);
 
   	});
 
 }
 
 
-function createLinkButton(property, columnIndex, columnData, columnName){
+function createLinkButton(property, columnIndex, columnData, columnName, graphObject){
 	
 	$("#divbuttonlinkpie" + property).empty();
 	
@@ -135,7 +135,7 @@ function createLinkButton(property, columnIndex, columnData, columnName){
   	  	//var legendRectSize = $('#pauseLayout').height();
   	  	var legendRectSize = radious / 5;
 
-		constructPie(columnData, columnIndex, columnName, 'currentpiePlace', pieWidth, legendRectSize, radious); //tree tab pie
+		constructPie(columnData, columnIndex, columnName, 'currentpiePlace', pieWidth, legendRectSize, radious, graphObject); //tree tab pie
 
       	fontSize = ButtonfontSize.replace('px', '');
         fontSize1 = parseFloat(fontSize);
@@ -162,7 +162,7 @@ function destroyLink(property){
 	$("#divbuttonlinkpie" + property).empty();
 }
 
-function linkGraphAndTable(property, indexProperty, columnName, key){
+function linkGraphAndTable(property, indexProperty, columnName, key, graphObject){
 	
 	var tableToCheck = 'table' + property;
 	
@@ -248,14 +248,14 @@ function linkGraphAndTable(property, indexProperty, columnName, key){
   	  	//var legendRectSize = $('#pauseLayout').height();
   	  	var legendRectSize = radious / 5;
 	  	
-	  	constructPie(columnData, indexProperty, columnName, 'pie' + property, radious, legendRectSize, radious); //table tab pie
+	  	constructPie(columnData, indexProperty, columnName, 'pie' + property, radious, legendRectSize, radious, graphObject); //table tab pie
 
 	  	var radious = pieHeight * 0.14;
   	  	//var legendRectSize = $('#pauseLayout').height();
   	  	var legendRectSize = radious / 5;
 
 
-	  	constructPie(columnData, indexProperty, columnName, 'currentpiePlace', pieWidth, legendRectSize, radious); //tree tab pie
+	  	constructPie(columnData, indexProperty, columnName, 'currentpiePlace', pieWidth, legendRectSize, radious, graphObject); //tree tab pie
 
 	  	$('#buttonlink' + 'pie' + property).remove();
 	  	//createLinkButton(property, indexProperty);

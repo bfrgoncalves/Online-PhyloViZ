@@ -337,9 +337,6 @@ td.highlight {
   height: 80%;
 }
 
-#exampleTreeImage{
-  width: 100%;
-}
 
 .tutorialDiv{
   margin: 3%;
@@ -347,13 +344,22 @@ td.highlight {
 
 .exampleTree{
   width: 25%;
-  float: center;
+  float: left;
   height: auto; 
+}
+
+#exampleTreeImage{
+  width: 100%;
+}
+
+#phylovizDescription{
+  width:100%;
+  height: 25%;
 }
 
 .exampleMatrix{
   width: 25%;
-  float: left;
+  float: center;
   height: auto; 
 }
 .exampleNLV{

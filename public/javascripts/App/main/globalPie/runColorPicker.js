@@ -24,14 +24,16 @@ function runColorPicker(graphObject){
 			        d3.select(currentpicker).attr('value', '#' + hex);
 			        d3.selectAll('.legendrect' + indexOnArray).style('fill', '#' + hex);
 			        d3.selectAll('.piearc' + indexOnArray).style('fill', '#' + hex);
-			        if(!$('divisolates').is(':empty')){
+			        if(graphObject.linkMethod=='isolates'){
 			          arrayColorsIsolates[indexOnArray] = '0x' + hex;
 			          arrayOfcol = arrayColorsIsolates;
 			        }
-			        else if(!$('divisolates').is(':empty')){
+			        else if(graphObject.linkMethod=='profiles'){
+			          console.log(arrayColorsProfiles);
 			          arrayColorsProfiles[indexOnArray] = '0x' + hex;
 			          arrayOfcol = arrayColorsProfiles;
 			        } 
+			        //console.log(arrayOfcol);
 			        changeNodeUIData(graphObject.objectOfType, graphics, graphObject.property_index, arrayOfcol, renderer);
 			        $(el).val(hex);
 			        $(el).ColorPickerHide();

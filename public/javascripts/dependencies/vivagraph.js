@@ -4249,12 +4249,20 @@ function renderer(graph, settings) {
         updateCenter();
         listenToEvents();
 
-        rendererInitialized = true;
+        rendererInitialized = false;
       }
 
       renderIterations(iterationsCount);
 
       return this;
+    },
+
+    initDom: function(){
+      initDom();
+    },
+
+    updateCenter: function(){
+      updateCenter();
     },
 
     reset: function() {
@@ -5294,7 +5302,7 @@ function webglGraphics(options) {
             container = c;
 
             updateSize();
-            resetScaleInternal();
+            //resetScaleInternal();
             container.appendChild(graphicsRoot);
 
 
@@ -5330,6 +5338,18 @@ function webglGraphics(options) {
             if (typeof initCallback === "function") {
                 initCallback(graphicsRoot);
             }
+        },
+        getNodeProgram: function(){
+          return nodeProgram;
+        },
+        getgl: function(){
+          return gl;
+        },
+        getWidthAndHeight: function(){
+          return [width, height];
+        },
+        transformUniform: function(){
+          updateTransformUniform();
         },
 
         /**
@@ -5472,7 +5492,8 @@ function webglGraphics(options) {
                 // and let initialization logic take care about the rest.
                 nodeProgram = newProgram;
             } else if (newProgram) {
-                throw "Not implemented. Cannot swap shader on the fly... Yet.";
+                nodeProgram = newProgram;
+                //throw "Not implemented. Cannot swap shader on the fly... Yet.";
                 // TODO: unload old shader and reinit.
             }
         },

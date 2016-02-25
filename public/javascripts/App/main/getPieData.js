@@ -9,17 +9,22 @@ function gatherMetadata(graph, propertyIndex, metadataFilter, callback){
 	var maxDiffProperties = 1;
 
 	propertyIndex = graph.metadata.indexOf(propertyToCheck);
+	var hasMultipleFields = false;
 
 	graph.nodes.forEach(function(node){
 
 		objectOfType[node.key] = [];
 		var numberTypes = 0;
+		var prevProperty = null;
 
 		if (propertyToCheck != 'None'){
 
 			if (node.isolates.length > 0){
 
+
 			  for (i = 0; i < node.isolates.length; i++){
+
+			  	  if (prevProperty != null && prevProperty != node.isolates[i][propertyIndex]) hasMultipleFields = true;
 
 			      if(objectOfTotal[String(node.isolates[i][propertyIndex])]) objectOfTotal[String(node.isolates[i][propertyIndex])] += 1;
 			      else{
@@ -34,13 +39,15 @@ function gatherMetadata(graph, propertyIndex, metadataFilter, callback){
 				        objectOfType[node.key][String(node.isolates[i][propertyIndex])] = 1;
 				      } 
 			      }
+
+			      prevProperty = node.isolates[i][propertyIndex];
 			  }
 			}
 		}
 
   	});
 
-  	callback(objectOfTotal, objectOfType, countProperties);
+  	callback(objectOfTotal, objectOfType, countProperties, hasMultipleFields);
 
 }
 
@@ -50,17 +57,21 @@ function gatherSchemeData(graph, propertyToCheck, schemeFilter, callback){
 	var objectOfTotal = {};
 	var objectOfProfile = {};
 	var countProperties = 0;
+	var hasMultipleFields = false;
 
 	graph.nodes.forEach(function(node){
 
 	    objectOfProfile[node.key] = [];
 	    var numberTypes = 0;
+	    var prevProperty = null;
 
 	    if (propertyToCheck != 'None'){
 	    	var schemeGenes = graph.schemeGenes.slice();
   			schemeGenes.shift();
 
 	        propertyIndex = schemeGenes.indexOf(propertyToCheck);
+
+	        if (prevProperty != null && prevProperty != node.isolates[i][propertyIndex]) hasMultipleFields = true;
 
 	        if(objectOfTotal[String(node.profile[propertyIndex])]) objectOfTotal[String(node.profile[propertyIndex])] += 1;
 	        else{
@@ -79,7 +90,7 @@ function gatherSchemeData(graph, propertyToCheck, schemeFilter, callback){
 
 	});
 
-	callback(objectOfTotal, objectOfProfile, countProperties);
+	callback(objectOfTotal, objectOfProfile, countProperties, hasMultipleFields);
 
 }
 
@@ -95,7 +106,6 @@ function changeNodeUIData(objectOfType, graphics, propertyIndexes, arrayColors, 
 	    if(!$.isEmptyObject(objectOfType[i])){
 
 		    nodeUI.rawData = objectOfType[i];
-
 		    for (j in objectOfType[i]){
 		      dataToChange.push(objectOfType[i][j]);
 		      indexes.push(arrayColors[propertyIndexes[j]]);
@@ -119,6 +129,5 @@ function changeNodeUIData(objectOfType, graphics, propertyIndexes, arrayColors, 
         renderer.resume();
         setTimeout(function(){ renderer.pause();}, 50);
     }
-
 
 }

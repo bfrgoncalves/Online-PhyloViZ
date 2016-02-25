@@ -71,8 +71,10 @@ function loadGraphFunctions(){
 			graphObject.graphics = Viva.Graph.View.webglGraphics(graphicsOptions);
 			var graphics = graphObject.graphics;
 
-			var circleNode = buildCircleNodeShader();
+			//var circleNode = buildCircleNodeShader();
+			var circleNode = buildSimpleCircleNodeShader();
 	        graphics.setNodeProgram(circleNode);
+	        graphObject.currentNodeProgram = 'buildSimpleCircleNodeShader';
 
 	        var DefaultnodeSize = graphObject.DefaultnodeSize;
 	        var nodeColor = graphObject.nodeColor;
@@ -209,6 +211,7 @@ function loadGraphFunctions(){
 		          $('.link-label').css('display','none');
 
                   graphics.placeNode(function(ui, pos) {
+                  	  if (graphObject.tovisualizeLabels == false) return false;
 	                  // This callback is called by the renderer before it updates
 	                  // node coordinate. We can use it to update corresponding DOM
 	                  // label position;
@@ -244,6 +247,7 @@ function loadGraphFunctions(){
                 	});
 
 		          graphics.placeLink(function(ui, pos) {
+		          		  if (graphObject.tovisualizeLinkLabels == false) return false;
 		                  // This callback is called by the renderer before it updates
 		                  // node coordinate. We can use it to update corresponding DOM
 		                  // label position;

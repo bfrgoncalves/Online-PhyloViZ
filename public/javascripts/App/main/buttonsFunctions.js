@@ -203,11 +203,16 @@ function loadButtonFunctions(){
 
 			$('#distanceButton').click(function(e){
 				if (graphObject.selectedNodes.length < 2) alert('To compute distances, first you need to select more than one node.');
+				else if (graphObject.selectedNodes.length >= 500) alert('To much nodes selected. The maximum number is currently 500.');
 	            else checkLociDifferences(graphObject);
 	        });
 
 	        $('#savePositionsButton').click(function(e){
 	            saveTreePositions(graphObject);
+	        });
+
+	        $('#Choosecategories').click(function(e){
+	            chooseCategories(graphObject, graphObject.linkMethod);
 	        });
 
 	        $('#generatePublicLinkButton').click(function(e){

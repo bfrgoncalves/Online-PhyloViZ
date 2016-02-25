@@ -284,7 +284,10 @@ function buildCircleNodeShader() {
                 /**
                  * Called by webgl renderer to load the shader into gl context.
                  */
-                load : function (glContext) {
+                load : function (glContext, Nodescount) {
+                    if (Nodescount){
+                        nodesCount = Nodescount;
+                    }
                     gl = glContext;
                     webglUtils = Viva.Graph.webgl(glContext);
 
@@ -393,6 +396,7 @@ function buildCircleNodeShader() {
                         gl.drawArrays(gl.POINTS, 0, allNodesNumberAttr[i]);
                         
                     }
+                    //gl.deleteBuffer(buffer);
 
                 },
 

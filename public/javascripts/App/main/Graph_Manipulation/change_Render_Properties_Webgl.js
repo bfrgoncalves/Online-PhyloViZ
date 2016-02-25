@@ -1,4 +1,22 @@
 
+function setNewProgram(graphObject, newProgram){
+     //graphObject.graphics.release();
+     var newCircleNode = newProgram();
+     var prevProgram = graphObject.graphics.getNodeProgram();
+     //prevProgram.releaseResources();
+     var currentContext = graphObject.graphics.getgl();
+     var canvasSize = graphObject.graphics.getWidthAndHeight();
+
+     graphObject.graphics.setNodeProgram(newCircleNode);
+     graphObject.currentNodeProgram = newProgram.name;
+     newCircleNode.load(currentContext, graphObject.graphInput.nodes.length);
+     newCircleNode.updateSize(canvasSize[0] / 2, canvasSize[1] / 2);
+     graphObject.graphics.transformUniform();
+     //graphObject.graphics.updateSize();
+     //graphObject.renderer.initDom();
+     //graphObject.renderer.updateCenter();
+}
+
 //adjust Node Size
 function NodeSize(newSize, max, graphObject){
 
