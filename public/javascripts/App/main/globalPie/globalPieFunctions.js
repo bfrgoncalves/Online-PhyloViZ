@@ -65,6 +65,12 @@ function GlobalPie(classname, data, startWidth, startHeight, r, pieID, columnNam
         var dataInOthers = [];
         var countOthers = 0;
 
+        function orderDescending(a, b){
+        	return parseFloat(b.value) - parseFloat(a.value);
+        }
+
+        data = data.sort(orderDescending);
+
         if (data.length > 19 && graphObject.modalMaxCategories == false){
         	$('#dialog').empty();
         	var toAppenddialog = '<div style="font-size:150%;text-align:center;">By default, only the top 20 results are displayed when assigning colours to the Tree Visualization. All the others are classified as <b><i>Others</i></b>.'+

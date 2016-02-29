@@ -135,6 +135,10 @@ function loadButtonFunctions(){
 	            if (this.checked){
 	              $('.node-label').css('display','block');
 	              graphObject.tovisualizeLabels = true;
+	              if(graphObject.isLayoutPaused == true){
+	              	graphObject.renderer.resume();
+        			setTimeout(function(){ graphObject.renderer.pause();}, 50);
+	              }
 	            } 
 	            else{
 	              $('.node-label').css('display','none');
@@ -162,6 +166,10 @@ function loadButtonFunctions(){
 	                labelStyle.display = "none";
 	              }
 	              graphObject.tovisualizeLinkLabels = true;
+	              if(graphObject.isLayoutPaused == true){
+	              	graphObject.renderer.resume();
+        			setTimeout(function(){ graphObject.renderer.pause();}, 50);
+	              }
 	            } 
 	            else{
 	              if(graphObject.graphInput.data_type != "newick") $('#divselectLabelType').css({"display": "none"});
@@ -209,6 +217,10 @@ function loadButtonFunctions(){
 
 	        $('#savePositionsButton').click(function(e){
 	            saveTreePositions(graphObject);
+	        });
+
+	        $('#updateMetadata').click(function(e){
+	            updateMetadata(graphObject);
 	        });
 
 	        $('#Choosecategories').click(function(e){

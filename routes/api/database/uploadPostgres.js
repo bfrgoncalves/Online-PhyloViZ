@@ -8,7 +8,7 @@ var crypto = require('crypto');
 
 var done = true;
 
-var fileNames = {};
+//var fileNames = {};
 var countProgress = 0;
 
 var config = require('../../../config.js');
@@ -27,7 +27,7 @@ router.post('/', multer({
   },
   onFileUploadComplete: function (file) {
     console.log(file.fieldname + ' uploaded to  ' + file.path);
-    fileNames[file.fieldname] = file.path;
+    //fileNames[file.fieldname] = file.path;
     //if(numberOfFiles == 2) done = true;
   }
 }), function(req, res) {
@@ -59,6 +59,63 @@ router.post('/', multer({
               dataToDB.dataset_description = req.body.dataset_description;
               
               uploadToDatabase(dataToDB, function(){
+                res.send(dataToDB);
+              });
+              
+          }
+          else if(dataToDB['hasError'] == true){
+            res.send(dataToDB);
+          }
+    });
+  }
+  
+});
+
+router.post('/metadata', multer({
+  dest: './uploads/',
+  rename: function (fieldname, filename) {
+    return filename+Date.now() + fieldname;
+  },
+  onFileUploadStart: function (file) {
+    console.log(file.originalname + ' is starting ...')
+  },
+  limits: {
+    files: 1
+  },
+  onFileUploadComplete: function (file) {
+    console.log(file.fieldname + ' uploaded to  ' + file.path);
+    //fileNames[file.fieldname] = file.path;
+    //if(numberOfFiles == 2) done = true;
+  }
+}), function(req, res) {
+  // Here you can check `Object.keys(req.files).length`
+  // or for specific fields like `req.files.imageField`
+  //console.log(req.body.numberOfFiles);
+  var dataToDB = {};
+  countProgress = 0;
+  //console.log(req.user);
+  dataToDB.datasetID = req.body.datasetID;
+  //dataToDB.makePublic = req.body.makePublic;
+
+
+  //if (dataToDB.makePublic == true) dataToDB.is_public = true;
+  //else dataToDB.is_public = false;
+
+  
+  if (!req.isAuthenticated()) dataToDB.userID = "1";
+  else dataToDB.userID = req.user.id;
+
+  for (i in req.files){
+    console.log(i);
+    dataToDB['is_' + i] = true;
+    readInputFiles(req.files[i].path, i, dataToDB, function(pathToFile, dataToDB){
+          if(dataToDB['hasError'] != true || dataToDB['hasError'] == true && i == 'fileFasta') fs.unlink(pathToFile);
+          countProgress += 1;
+          if (countProgress == req.body.numberOfFiles && dataToDB['hasError'] != true){
+              //console.log(req.user);
+              //dataToDB.dataset_description = req.body.dataset_description;
+              
+              uploadMetadataToDatabase(dataToDB, function(){
                 res.send(dataToDB);
               });
               
@@ -275,6 +332,45 @@ function uploadToDatabase(data, callback){
             "INSERT INTO datasets.positions (user_id, data, dataset_id, put_public, is_public, data_timestamp) VALUES ('"+userID+"', '"+JSON.stringify(positions)+"', '"+data.datasetID+"', '"+ data.makePublic +"', '"+ data.is_public + "', NOW());" +
             "INSERT INTO datasets.links (user_id, data, dataset_id, put_public, is_public, data_timestamp) VALUES ('"+userID+"', '"+JSON.stringify(links)+"', '"+data.datasetID+"', '"+ data.makePublic +"', '"+ data.is_public + "', NOW());" +
             "INSERT INTO datasets.newick (user_id, data, dataset_id, put_public, is_public, data_timestamp) VALUES ('"+userID+"', '"+JSON.stringify(newick)+"', '"+data.datasetID+"', '"+ data.makePublic +"', '"+ data.is_public + "', NOW());";
+
+    var client = new pg.Client(connectionString);
+    client.connect(function(err) {
+      if(err) {
+        data.hasError = true;
+        data.errorMessage = 'could not connect to postgres: ' + err.toString();
+        return callback(data);
+      }
+      client.query(query, function(err, result) {
+        if(err) {
+          data.hasError = true;
+          data.errorMessage = 'error running query: ' + err.toString();
+          return callback(data);
+        }
+        client.end();
+        callback(data);
+      });
+    });
+  }
+
+  uploadDataset(data, function(dataObject){
+    callback(dataObject);
+  })
+
+  
+}
+
+function uploadMetadataToDatabase(data, callback){
+
+  var pg = require("pg");
+  var connectionString = "postgres://" + config.databaseUserString + "@localhost/"+ config.db;
+
+
+  function uploadDataset(data, callback){
+    userID = data.userID;
+    isolates = { isolates : data.fileMetadata};
+
+    query = "UPDATE datasets.isolates SET data = '"+JSON.stringify(isolates)+"' WHERE user_id = '"+userID+"' AND dataset_id = '"+data.datasetID+"';" + 
+            "UPDATE datasets.isolates SET metadata = '{"+data['fileMetadata_headers']+"}' WHERE user_id = '"+userID+"' AND dataset_id = '"+data.datasetID+"';";
 
     var client = new pg.Client(connectionString);
     client.connect(function(err) {

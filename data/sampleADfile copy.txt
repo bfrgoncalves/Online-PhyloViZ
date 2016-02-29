@@ -1,0 +1,2 @@
+Strain	emm type	Group carbohydrate	ST	Location	Collection
+168554	stG485	G	47	Portugal	balelas

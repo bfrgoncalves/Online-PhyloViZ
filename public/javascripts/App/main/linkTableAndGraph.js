@@ -13,14 +13,14 @@ function linkTableAndGraph(property, graphObject){
 	var headers = [];
 
 
-    if (firstTimeFilterIsolates && property == 'isolates'){
+    if (property == 'isolates'){
     	var tHeadersI = [];
     	$('#'+tableToCheck+' thead th').each(function(i, header){
     		tHeadersI.push(header.innerHTML);
     	});
     	keyIndexI = tHeadersI.indexOf(key);
     }
-    if (firstTimeFilterProfiles && property == 'profiles'){
+    if (property == 'profiles'){
     	var tHeadersP = [];
     	$('#'+tableToCheck+' thead th').each(function(i, header){
     		tHeadersP.push(header.innerHTML);
@@ -31,7 +31,6 @@ function linkTableAndGraph(property, graphObject){
     var prevColumnIndex = -1;
 
 	$('#'+tableToCheck+' thead th').click(function(d){
-
 
 	  if (firstTimeFilterIsolates){
 	  	metadataFilter = new Array(3);
@@ -88,8 +87,14 @@ function linkTableAndGraph(property, graphObject){
 
   	  columnName = table.column(columnIndex).header().innerHTML;
 
-  	  if (property == 'isolates') var pieHeight = graphObject.tableIsolatesHeight;
-  	  else if (property == 'profiles')var pieHeight = graphObject.tableProfilesHeight;
+  	  if (property == 'isolates'){
+  	  	if(graphObject.tableIsolatesHeight == null) graphObject.tableIsolatesHeight = $("#tableisolates_wrapper").height();
+  	  	var pieHeight = graphObject.tableIsolatesHeight;
+  	  }
+  	  else if(property == 'profiles'){
+  	  	if(graphObject.tableProfilesHeight == null) graphObject.tableProfilesHeight = $("#tableprofiles_wrapper").height();
+  	  	var pieHeight = graphObject.tableProfilesHeight;
+  	  }
 
   	  var radious = pieHeight / 6;
   	  var legendRectSize = radious / 6;
@@ -183,6 +188,17 @@ function linkGraphAndTable(property, indexProperty, columnName, key, graphObject
     	keyIndexP = tHeadersP.indexOf(key);
     }
 
+    if (firstTimeFilterIsolates){
+	  	metadataFilter = new Array(3);
+	  	metadataFilter[0] = keyIndexI;
+	  	firstTimeFilterIsolates = false;
+	  }
+	  if (firstTimeFilterProfiles){
+	  	schemeFilter = new Array(3);
+	  	schemeFilter[0] = keyIndexP;
+	  	firstTimeFilterProfiles = false;
+	  }
+
 	if (indexProperty == -1){
 
 		destroyPie('pie' + property);
@@ -196,17 +212,6 @@ function linkGraphAndTable(property, indexProperty, columnName, key, graphObject
 	
 		var table = $('#'+ tableToCheck).DataTable();
 	  	//var columnData = table.column(indexProperty).data();
-	  	if (firstTimeFilterIsolates){
-		  	metadataFilter = new Array(3);
-		  	metadataFilter[0] = keyIndexI;
-		  	firstTimeFilterIsolates = false;
-		  }
-		  if (firstTimeFilterProfiles){
-		  	schemeFilter = new Array(3);
-		  	schemeFilter[0] = keyIndexP;
-		  	firstTimeFilterProfiles = false;
-		  }
-
 		var selectedData = table.rows('.selected').data();
 
 	  	if (selectedData.length != 0){

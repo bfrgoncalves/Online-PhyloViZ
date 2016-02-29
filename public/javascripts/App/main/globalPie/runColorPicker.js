@@ -34,7 +34,7 @@ function runColorPicker(graphObject){
 			          arrayOfcol = arrayColorsProfiles;
 			        } 
 			        //console.log(arrayOfcol);
-			        changeNodeUIData(graphObject.objectOfType, graphics, graphObject.property_index, arrayOfcol, renderer);
+			        changeNodeUIData(graphObject.objectOfType, graphObject.graphics, graphObject.property_index, arrayOfcol, graphObject.renderer);
 			        $(el).val(hex);
 			        $(el).ColorPickerHide();
 			      },

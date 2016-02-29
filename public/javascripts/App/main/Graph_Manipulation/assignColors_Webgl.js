@@ -1,8 +1,8 @@
 var colorAttributes = function(graphObject){
 
-  graph = graphObject.graphInput; 
-  graphics = graphObject.graphics;
-  renderer = graphObject.renderer;
+  var graph = graphObject.graphInput; 
+  var graphics = graphObject.graphics;
+  var renderer = graphObject.renderer;
 
   graphObject.arrayOfCurrentCategories = [];
   graphObject.changeFromFilterCategories = false;
@@ -12,6 +12,7 @@ var colorAttributes = function(graphObject){
 	
 	options = '';
 	var parent = $('#colorAttributesScheme');
+  parent.empty();
   var countValues = 1;
   options += '<option value=' + countValues + '>None</option>';
 
@@ -29,6 +30,7 @@ var colorAttributes = function(graphObject){
 	options = '';
   var countValues = 1;
   var parent = $('#colorAttributesMetadata');
+  parent.empty();
   options += '<option value=' + countValues + '>None</option>';
 
 	for (var Nnodes in graph.metadata){

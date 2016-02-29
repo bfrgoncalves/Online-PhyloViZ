@@ -38,6 +38,11 @@ function constructTable(tableData, datasetParameter, callback){
 
    $('#export'+datasetParameter).empty();
 
+
+  //$('#pie'+datasetParameter).empty();
+  //$('#legendpie'+datasetParameter).empty();
+  //$('#divbuttonlink'+datasetParameter).empty();
+
 	$('#'+ divToCheck).html( '<table cellpadding="0" cellspacing="0" border="0" class="display" id="'+tableToCheck+'"></table>' );
 
 

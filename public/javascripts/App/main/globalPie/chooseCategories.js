@@ -19,14 +19,14 @@ function chooseCategories(graphObject, method){
 	var countCategoriesS = 0;
 	for(i in graphObject.categoriesAdded){
 		countCategoriesS++;
-		optionsSelected += '<option id="selectedC'+countCategoriesS+'" value="' + graphObject.categoriesAdded[i].label + '" counts="'+ graphObject.categoriesAdded[i].value +'">' + graphObject.categoriesAdded[i].label + ' (' + graphObject.categoriesAdded[i].value + ')</option>';
+		optionsSelected += '<option id="selectedC'+countCategoriesS+'" value="' + graphObject.categoriesAdded[i].label + '" counts="'+ graphObject.categoriesAdded[i].value +'">' + graphObject.categoriesAdded[i].label + ' (n=' + graphObject.categoriesAdded[i].value + ')</option>';
 	}
 
 	var optionstoSelect = '';
 	var countCategoriesUs = 0;
 	for(i in graphObject.categoriesThatCanBeAdded){
 		countCategoriesUs++;
-		optionstoSelect += '<option id="toselectC'+countCategoriesUs+'" value="' + graphObject.categoriesThatCanBeAdded[i].label + '" counts="'+graphObject.categoriesThatCanBeAdded[i].value+'">' + graphObject.categoriesThatCanBeAdded[i].label + ' (' + graphObject.categoriesThatCanBeAdded[i].value + ')</option>';
+		optionstoSelect += '<option id="toselectC'+countCategoriesUs+'" value="' + graphObject.categoriesThatCanBeAdded[i].label + '" counts="'+graphObject.categoriesThatCanBeAdded[i].value+'">' + graphObject.categoriesThatCanBeAdded[i].label + ' (n=' + graphObject.categoriesThatCanBeAdded[i].value + ')</option>';
 	}
 
 	$("#selectedCategories"+method).append(optionsSelected);
@@ -52,15 +52,14 @@ function chooseCategories(graphObject, method){
 			if(graphObject.currentCategorySelected[1] == 'wasSelected'){
 				$('#' + graphObject.currentCategorySelected[2]).remove();
 				countCategoriesUs++;
-				var toUnselected = '<option id="toselectC'+countCategoriesUs+'" value="' + graphObject.currentCategorySelected[0] + '" counts="'+graphObject.currentCategorySelected[3]+'">' + graphObject.currentCategorySelected[0] + ' (' + graphObject.currentCategorySelected[3] + ')</option>';
+				var toUnselected = '<option id="toselectC'+countCategoriesUs+'" value="' + graphObject.currentCategorySelected[0] + '" counts="'+graphObject.currentCategorySelected[3]+'">' + graphObject.currentCategorySelected[0] + ' (n=' + graphObject.currentCategorySelected[3] + ')</option>';
 				$("#toSelectCategories"+method).append(toUnselected);
 
 			}
 			else if(graphObject.currentCategorySelected[1] == 'wasUnselected'){
 				$('#' + graphObject.currentCategorySelected[2]).remove();
 				countCategoriesS++;
-				console.log(graphObject.currentCategorySelected);
-				var toSelected = '<option id="selectedC'+countCategoriesS+'" value="' + graphObject.currentCategorySelected[0] + '" counts="'+graphObject.currentCategorySelected[3]+'">' + graphObject.currentCategorySelected[0] + ' (' + graphObject.currentCategorySelected[3] + ')</option>';
+				var toSelected = '<option id="selectedC'+countCategoriesS+'" value="' + graphObject.currentCategorySelected[0] + '" counts="'+graphObject.currentCategorySelected[3]+'">' + graphObject.currentCategorySelected[0] + ' (n=' + graphObject.currentCategorySelected[3] + ')</option>';
 				$("#selectedCategories"+method).append(toSelected);
 			}
 		}

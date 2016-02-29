@@ -195,8 +195,11 @@ block normalBody
 
 			
 			div.tab-pane(id="isolateContent")
-				div(id="noIsolates", style="width:100%; text-align:center; display:none;font-size:150%;position:absolute; top:50%;")
-					p There is no information available.
+				div(id="noIsolates", style="width:100%; text-align:center; display:none;font-size:150%;position:absolute; top:20%;")
+					p There is no information available. To insert auxiliary data, click on <i>Update Auxiliary Data</i>
+				if (user && !isPublic)
+					div(id="updateMetadatDiv" style="position:fixed; width: 100%; text-align:center;z-index:2;")
+						button.btn.btn-primary.btn-sm(type='button',id='updateMetadata', name='publicLink1') Update Auxiliary Data
 				div(id="divisolates")
 					div(id="exportisolates")
 				br
@@ -208,7 +211,7 @@ block normalBody
 					div(id="divbuttonlinkpieisolates")
 
 			div.tab-pane(id="profileContent")
-				div(id="noProfiles", style="width:100%; text-align:center; display:none;font-size:150%;position:absolute; top:50%;")
+				div(id="noProfiles", style="width:100%; text-align:center; display:none;font-size:150%;position:absolute; top:20%;")
 					p There is no information available.
 				div(id="divprofiles")
 					div(id="exportprofiles")
@@ -321,6 +324,7 @@ block scripts
 	script(type='text/javascript', src='/javascripts/App/main/constructGraph.js')
 	script(type='text/javascript', src='/javascripts/App/main/globalPie/runColorPicker.js')
 	script(type='text/javascript', src='/javascripts/App/main/globalPie/chooseCategories.js')
+	script(type='text/javascript', src='/javascripts/App/main/updateMetadata.js')
 	//script(type='text/javascript', src='/javascripts/App/main/iterativeGraph.js')
 	script(type='text/javascript', src='/javascripts/App/main/index.js')
 

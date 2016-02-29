@@ -21,7 +21,6 @@ function gatherMetadata(graph, propertyIndex, metadataFilter, callback){
 
 			if (node.isolates.length > 0){
 
-
 			  for (i = 0; i < node.isolates.length; i++){
 
 			  	  if (prevProperty != null && prevProperty != node.isolates[i][propertyIndex]) hasMultipleFields = true;
@@ -111,7 +110,7 @@ function changeNodeUIData(objectOfType, graphics, propertyIndexes, arrayColors, 
 		      indexes.push(arrayColors[propertyIndexes[j]]);
 		    }
 		}
-		noDataColor = 0xDEDEDE; //Color to use when there is no associated data to the nodes
+		noDataColor = 0xa5a5a5; //Color to use when there is no associated data to the nodes
 	    if (dataToChange.length < 1) newValues = assignQuadrant(getDataPercentage([1]), [noDataColor]);
 	    else newValues = assignQuadrant(getDataPercentage(dataToChange), indexes);
 	    

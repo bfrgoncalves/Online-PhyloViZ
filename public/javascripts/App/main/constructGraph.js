@@ -4,7 +4,7 @@ function constructGraph(graph, datasetID){
 
           graphInput: graph, //phyloviz input format
           graphGL: Viva.Graph.graph(), //graph format used by Vivagraph
-          nodeColor: 0x009ee8, //default nodeColor for the application
+          nodeColor: 0xa5a5a5, //default nodeColor for the application
           DefaultnodeSize: 25, //default node size for the application
           datasetID: datasetID, //id of the dataset
           width: width, //canvas width
@@ -68,7 +68,7 @@ function constructGraph(graph, datasetID){
 
         colorAttributes(graphObject); //function which links the colors of the pieCharts to the data
         //graphObject.layout.simulator.gravity(-1000)
-        console.log(graphObject);
+        //console.log(graphObject);
         linkTableAndGraph('isolates', graphObject); //link between operations from the tables and the graph tab
         linkTableAndGraph('profiles', graphObject);
 
