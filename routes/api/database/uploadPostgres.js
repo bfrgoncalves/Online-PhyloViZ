@@ -65,6 +65,9 @@ router.post('/', multer({
               
           }
           else if(dataToDB['hasError'] == true && alreadyError != true){
+            if(pathToFile.indexOf('.xls') > -1){
+              dataToDB.errorMessage = "Excel files are not supported. Please convert it to a <i>Tab separated file</i>. More information on input files available <a href='/index/inputinfo'>here</a>.";
+            }
             alreadyError = true;
             res.send(dataToDB);
           }
@@ -97,6 +100,7 @@ router.post('/metadata', multer({
   countProgress = 0;
   //console.log(req.user);
   dataToDB.datasetID = req.body.datasetID;
+  var alreadyError = false;
   //dataToDB.makePublic = req.body.makePublic;
 
 
@@ -122,9 +126,12 @@ router.post('/metadata', multer({
               });
               
           }
-          else if(dataToDB['hasError'] == true){
-            console.log('AQUI');
-            return res.send(dataToDB);
+          else if(dataToDB['hasError'] == true && alreadyError != true){
+            if(pathToFile.indexOf('.xls') > -1){
+              dataToDB.errorMessage = "Excel files are not supported. Please convert it to a <i>Tab separated file</i>. More information on input files available <a href='/index/inputinfo'>here</a>.";
+            }
+            alreadyError = true;
+            res.send(dataToDB);
           }
     });
   }

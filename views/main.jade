@@ -196,7 +196,10 @@ block normalBody
 			
 			div.tab-pane(id="isolateContent")
 				div(id="noIsolates", style="width:100%; text-align:center; display:none;font-size:150%;position:absolute; top:20%;")
-					p There is no information available. To insert auxiliary data, click on <i>Update Auxiliary Data</i>
+					if (user && !isPublic)
+						p There is no information available. To insert auxiliary data, click on <i>Update Auxiliary Data</i>
+					else
+						p There is no information available.
 				if (user && !isPublic)
 					div(id="updateMetadatDiv" style="position:fixed; width: 100%; text-align:center;z-index:2;")
 						button.btn.btn-primary.btn-sm(type='button',id='updateMetadata', name='publicLink1') Update Auxiliary Data
