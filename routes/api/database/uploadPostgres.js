@@ -36,6 +36,7 @@ router.post('/', multer({
   //console.log(req.body.numberOfFiles);
   var dataToDB = {};
   countProgress = 0;
+  var alreadyError = false;
   //console.log(req.user);
   dataToDB.datasetName = req.body.datasetName;
   dataToDB.makePublic = req.body.makePublic;
@@ -63,7 +64,8 @@ router.post('/', multer({
               });
               
           }
-          else if(dataToDB['hasError'] == true){
+          else if(dataToDB['hasError'] == true && alreadyError != true){
+            alreadyError = true;
             res.send(dataToDB);
           }
     });
@@ -121,7 +123,8 @@ router.post('/metadata', multer({
               
           }
           else if(dataToDB['hasError'] == true){
-            res.send(dataToDB);
+            console.log('AQUI');
+            return res.send(dataToDB);
           }
     });
   }
