@@ -68,6 +68,9 @@ router.post('/', multer({
             if(pathToFile.indexOf('.xls') > -1){
               dataToDB.errorMessage = "Excel files are not supported. Please convert it to a <i>Tab separated file</i>. More information on input files available <a href='/index/inputinfo'>here</a>.";
             }
+            else {
+              dataToDB.errorMessage = "Possible unsupported file type. For information on supported file types click <a href='/index/inputinfo'>here</a>."
+            }
             alreadyError = true;
             res.send(dataToDB);
           }
@@ -129,6 +132,9 @@ router.post('/metadata', multer({
           else if(dataToDB['hasError'] == true && alreadyError != true){
             if(pathToFile.indexOf('.xls') > -1){
               dataToDB.errorMessage = "Excel files are not supported. Please convert it to a <i>Tab separated file</i>. More information on input files available <a href='/index/inputinfo'>here</a>.";
+            }
+            else {
+              dataToDB.errorMessage = "Possible unsupported file type. For information on supported file types click <a href='/index/inputinfo'>here</a>."
             }
             alreadyError = true;
             res.send(dataToDB);
@@ -347,13 +353,13 @@ function uploadToDatabase(data, callback){
     client.connect(function(err) {
       if(err) {
         data.hasError = true;
-        data.errorMessage = 'could not connect to postgres: ' + err.toString();
+        data.errorMessage = 'Could not connect to database.'; //+ err.toString();
         return callback(data);
       }
       client.query(query, function(err, result) {
         if(err) {
           data.hasError = true;
-          data.errorMessage = 'error running query: ' + err.toString();
+          data.errorMessage = 'Could not upload input data. Possible unsupported file type. For information on supported file types click <a href="/index/inputinfo">here</a>.'; //+ err.toString();
           return callback(data);
         }
         client.end();
@@ -386,13 +392,13 @@ function uploadMetadataToDatabase(data, callback){
     client.connect(function(err) {
       if(err) {
         data.hasError = true;
-        data.errorMessage = 'could not connect to postgres: ' + err.toString();
+        data.errorMessage = 'Could not connect to database.'; //+ err.toString();
         return callback(data);
       }
       client.query(query, function(err, result) {
         if(err) {
           data.hasError = true;
-          data.errorMessage = 'error running query: ' + err.toString();
+          data.errorMessage = 'Could not update auxiliary data. Possible unsupported file type. For information on supported file types click <a href="/index/inputinfo">here</a>.'; //+ err.toString();
           return callback(data);
         }
         client.end();
