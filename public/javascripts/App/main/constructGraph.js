@@ -5,7 +5,7 @@ function constructGraph(graph, datasetID){
           graphInput: graph, //phyloviz input format
           graphGL: Viva.Graph.graph(), //graph format used by Vivagraph
           nodeColor: 0xa5a5a5, //default nodeColor for the application
-          DefaultnodeSize: 25, //default node size for the application
+          DefaultnodeSize: 35, //default node size for the application
           datasetID: datasetID, //id of the dataset
           width: width, //canvas width
           height: height, //canvas height

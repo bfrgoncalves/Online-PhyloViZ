@@ -135,7 +135,7 @@ function buildCircleNodeShader() {
             // For each primitive we need 4 attributes: x, y, color and size.
             var ATTRIBUTES_PER_PRIMITIVE = 8,
                 nodesFS = [
-                'precision mediump float;',
+                'precision highp float;',
                 'varying float quadrant;',
 
                 'varying vec4 color;',

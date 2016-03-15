@@ -289,8 +289,6 @@ function exportMatrix(graphObject){
 
 	var stringToMatrix = "";
 	firstLine = true;
-	console.log(matrixToUse);
-	console.log(selectedNodes);
 
 	for (i in selectedNodes){
 		if(firstLine == true){

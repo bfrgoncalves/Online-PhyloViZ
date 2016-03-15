@@ -27,7 +27,8 @@ function NodeSize(newSize, max, graphObject){
     graph.nodes.forEach(function(node){
         var nodeUI = graphics.getNodeUI(node.key);
 
-        nodeUI.size = nodeUI.backupSize + (nodeUI.backupSize * 2 * (parseInt(newSize) / parseInt(max))); 
+        if (graphObject.isLogScaleNodes) nodeUI.size = (Math.log10(nodeUI.backupSize) * graphObject.DefaultnodeSize) + (nodeUI.backupSize * 2 * (parseInt(newSize) / parseInt(max)));
+        else nodeUI.size = nodeUI.backupSize + (nodeUI.backupSize * 2 * (parseInt(newSize) / parseInt(max))); 
     });
 
     if(graphObject.isLayoutPaused){
@@ -78,6 +79,30 @@ function changeLogScale(graphObject){
             else spring.length = linkUI.data.connectionStrength;
 
         })
+
+    if(graphObject.isLayoutPaused){
+        renderer.resume();
+        setTimeout(function(){ renderer.pause();}, 50);
+    }
+}
+
+function changeLogScaleNodes(graphObject){
+
+    var renderer = graphObject.renderer;
+    var graphGL = graphObject.graphGL;
+    var layout = graphObject.layout;
+    var graph = graphObject.graphInput;
+
+    if(!graphObject.isLogScaleNodes) $("#NodeSizeSlider").val(1);
+
+    graph.nodes.forEach(function(node){
+
+            var nodeUI = graphObject.graphics.getNodeUI(node.key);
+            if (graphObject.isLogScaleNodes) nodeUI.size = Math.log10(nodeUI.backupSize) * graphObject.DefaultnodeSize;
+            else nodeUI.size = nodeUI.backupSize;
+
+
+    });
 
     if(graphObject.isLayoutPaused){
         renderer.resume();

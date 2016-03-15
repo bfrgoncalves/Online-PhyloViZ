@@ -4,7 +4,7 @@ function buildSimpleCircleNodeShader() {
     // For each primitive we need 4 attributes: x, y, color and size.
     var ATTRIBUTES_PER_PRIMITIVE = 4,
         nodesFS = [
-        'precision mediump float;',
+        'precision highp float;',
         'varying vec4 color;',
         'void main(void) {',
         '   if ((gl_PointCoord.x - 0.5) * (gl_PointCoord.x - 0.5) + (gl_PointCoord.y - 0.5) * (gl_PointCoord.y - 0.5) < 0.25) {',

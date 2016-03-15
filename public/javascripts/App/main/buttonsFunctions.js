@@ -146,6 +146,17 @@ function loadButtonFunctions(){
 	            } 
           	});
 
+          	$('#AddLogScaleNodes').change(function(e){
+	            if (this.checked){
+	              graphObject.isLogScaleNodes = true;	
+	              changeLogScaleNodes(graphObject);
+	            } 
+	            else{
+	              graphObject.isLogScaleNodes = false;	
+	              changeLogScaleNodes(graphObject);
+	            } 
+          	});
+
           	$('#AddLogScale').change(function(e){
 	            if (this.checked){
 	              graphObject.isLogScale = true;	
@@ -198,6 +209,14 @@ function loadButtonFunctions(){
                       graphObject.linkLabels[link.id].innerText = parseInt(graphObject.linkLabels[link.id + 'default']);                    
                   	});
           		}
+          	});
+
+          	$('#zoomIn').click(function(){
+          		graphObject.renderer.zoomIn();
+          	});
+
+          	$('#zoomOut').click(function(){
+          		graphObject.renderer.zoomOut();
           	});
 
 		},

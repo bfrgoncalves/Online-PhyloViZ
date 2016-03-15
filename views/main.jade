@@ -65,6 +65,7 @@ block normalBody
 										input.form-control(type='text' id='nodeid' style='color:black' placehorder="Search")
 										span.input-group-btn
 											button.btn.btn-default.btn-search(type='submit') Search
+
 						li
 							br
 							div(id='toggleLayout')
@@ -74,6 +75,13 @@ block normalBody
 								i.glyphicon.glyphicon-refresh(id='iconResetLayout') 
 								i(id='resetPositionButton') Reset Positions
 							br
+						li
+							div(style="width:100%;")
+								div(style="text-align:center;")
+									button(id="zoomOut" class="glyphicon glyphicon-minus")
+									button(id="zoomIn" class="glyphicon glyphicon-plus")
+								div
+									p(style="text-align:center;") Zoom
 								
 							
 						li(id="assignCol")
@@ -95,7 +103,10 @@ block normalBody
 									div.collapse(id='NodesGraphics')
 										div.well(id='NodesSizeAttributes')
 											label Nodes Size
-											input(type='range',id='NodeSizeSlider', name='points1', value = 1, min='1', max='30')
+											input(type='range',id='NodeSizeSlider', name='points1', value = 1, min='1', max='100')
+											div(id="logScaleNodesDiv")
+												label Log Scale
+												input(type='checkbox',id='AddLogScaleNodes')
 											br
 											label Node Labels Size
 											input(type='range',id='NodeLabelSizeSlider', name='points1', value = 20, min='1', max='50')
