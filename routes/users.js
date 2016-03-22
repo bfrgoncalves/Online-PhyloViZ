@@ -134,8 +134,12 @@ router.post('/register', function(req, res, next){
 
     crypto.randomBytes(128, function (err, salt) {
       if (err) { throw err; }
+      if (req.body.encrypt){
+        pass = crypto.createHash('sha256').update(req.body.password).digest('hex');
+      }
+      else pass = req.body.password;
       salt = new Buffer(salt).toString('hex');
-      crypto.pbkdf2(req.body.password, salt, 7000, 256, 
+      crypto.pbkdf2(pass, salt, 7000, 256, 
         function (err, hash) {
           hash= new Buffer(hash).toString('hex');
           if (err) { throw err; }
@@ -159,14 +163,21 @@ router.post('/register', function(req, res, next){
                 }
                 client.end();
 
-                passport.authenticate('local')(req, res, function (err) {
-                    req.session.save(function (err) {
-                        if (err) {
-                            return next(err);
-                        }
-                        res.redirect('/');
-                    });
-                });
+                if (req.body.encrypt){
+                  return res.send('Success!');
+                }
+                else{
+
+                  passport.authenticate('local')(req, res, function (err) {
+                      req.session.save(function (err) {
+                          if (err) {
+                              return next(err);
+                          }
+                          res.redirect('/');
+                      });
+                  });
+
+                }
               });
             });
 

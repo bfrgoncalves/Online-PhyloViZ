@@ -24,13 +24,17 @@ def main():
 
 	args = parser.parse_args()
 
-	currentRoot = 'https://node.phyloviz.net'
+	currentRoot = 'https://online.phyloviz.net'
 
 	checkDatasets(args, currentRoot)
-	datasetID = remoteUpload(args, currentRoot)
-	rungoeBURST(args, datasetID, currentRoot)
+	dataset = remoteUpload(args, currentRoot)
+	rungoeBURST(args, dataset['datasetID'], currentRoot)
 
-	print 'DONE'
+	if args.e:
+		print "\nAccess the tree at: " + currentRoot + '/main/dataset/' + dataset['datasetID']
+	else:
+		print "\nLogin to PHYLOViZ Online and access the tree at: " + currentRoot + '/main/dataset/' + dataset['datasetID']
+
 
 def login(args, currentRoot): #Required before each of the tasks
 
@@ -100,7 +104,7 @@ def remoteUpload(args, currentRoot): #upload the input files to the database
 					  '+currentRoot+'/api/db/postgres/upload'
 
 	process = subprocess.Popen(bashCommandUpload.split(), stdout=subprocess.PIPE)
-	output = process.communicate()[0]
+	output = json.loads(process.communicate()[0])
 
 	return output
 
