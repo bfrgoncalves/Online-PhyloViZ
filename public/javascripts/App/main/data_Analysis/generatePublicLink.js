@@ -7,13 +7,21 @@ function PublicLink(graphObject){
       if (isPublic == true){
             revokeLink(datasetID);
             graphObject.graphInput.isPublic = false;
-            $('#generatePublicLinkButton').html('Generate Public Link');
+            $('#generatePublicLinkButton').html('Generate Data Set Link');
       } 
       else {
             generateLink(datasetID);
             graphObject.graphInput.isPublic = true;
-            $('#generatePublicLinkButton').html('Revoke Public Link');
+            $('#generatePublicLinkButton').html('Revoke Data Set Link');
       }
+}
+
+function getLink(graphObject){
+
+      var datasetID = graphObject.datasetID;
+      var isPublic = graphObject.graphInput.isPublic;
+
+      alert('Here is the link to your dataset! It will work for 24 hours past upload time. \n\n' + window.location.href);
 }
 
 function generateLink(datasetID){

@@ -232,14 +232,24 @@ a {
   margin-top: 2%;
 }
 
+#FASTAContent{
+  margin-top: 2%;
+}
+
 #divisolates{
-  margin-top: 0%;
+  margin-top: 4%;
   width: 100%;
   overflow-x: auto;
 }
 
 #divprofiles{
-  margin-top: 2%;
+  margin-top: 4%;
+  width: 100%;
+  overflow-x: auto;
+}
+
+#FASTALocation{
+  margin-top: 4%;
   width: 100%;
   overflow-x: auto;
 }
@@ -404,6 +414,11 @@ td.highlight {
   width: 5%;
   height: 20%;
   z-index:2;
+}
+
+#updateMetadatDiv{
+  position:fixed;
+  top: 7%;
 }
 
 #col_visual{

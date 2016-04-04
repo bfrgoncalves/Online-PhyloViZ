@@ -35,6 +35,7 @@ function NodeSize(newSize, max, graphObject){
         renderer.resume();
         setTimeout(function(){ renderer.pause();}, 50);
     }
+    else renderer.resume();
 }
 
 //adjust Node Size
@@ -76,7 +77,7 @@ function changeLogScale(graphObject){
             var spring = layout.getSpring(link.source, link.target);
 
             if (graphObject.isLogScale) spring.length = Math.log10(spring.length);
-            else spring.length = linkUI.data.connectionStrength;
+            else spring.length = graphObject.defaultLayoutParams.springLength * linkUI.data.connectionStrength;
 
         })
 
@@ -84,6 +85,7 @@ function changeLogScale(graphObject){
         renderer.resume();
         setTimeout(function(){ renderer.pause();}, 50);
     }
+    else renderer.resume();
 }
 
 function changeLogScaleNodes(graphObject){
@@ -108,6 +110,7 @@ function changeLogScaleNodes(graphObject){
         renderer.resume();
         setTimeout(function(){ renderer.pause();}, 50);
     }
+    else renderer.resume();
 }
 
 function changeSpringLength(newValue, max, graphObject){
@@ -123,8 +126,8 @@ function changeSpringLength(newValue, max, graphObject){
 
             var spring = layout.getSpring(link.source, link.target);
 
-            if (graphObject.isLogScale) spring.length = Math.log10(1 + linkUI.data.value) + (200 * Math.log10(1 + linkUI.data.value * (newValue/max)));
-            else spring.length = linkUI.data.value + (200 * (1 + Math.log10(linkUI.data.value)) * (newValue/max));
+            if (graphObject.isLogScale) spring.length = graphObject.defaultLayoutParams.springLength * (Math.log10(1 + linkUI.data.value) + (20 * Math.log10(1 + linkUI.data.value * (newValue/max))));
+            else spring.length = graphObject.defaultLayoutParams.springLength * (linkUI.data.value + (20 * (1 + Math.log10(linkUI.data.value)) * (newValue/max)));
 
         })
 
@@ -132,6 +135,7 @@ function changeSpringLength(newValue, max, graphObject){
         renderer.resume();
         setTimeout(function(){ renderer.pause();}, 50);
     }
+    else renderer.resume();
 
 }
 
@@ -148,6 +152,7 @@ function changeDragCoefficient(newValue, max, graphObject){
         renderer.resume();
         setTimeout(function(){ renderer.pause();}, 50);
     }
+    else renderer.resume();
 
 }
 
@@ -164,6 +169,7 @@ function changeSpringCoefficient(newValue, max, graphObject){
         renderer.resume();
         setTimeout(function(){ renderer.pause();}, 50);
     }
+    else renderer.resume();
 
 }
 
@@ -180,6 +186,7 @@ function changeGravity(newValue, max, graphObject){
         renderer.resume();
         setTimeout(function(){ renderer.pause();}, 50);
     }
+    else renderer.resume();
 
 }
 
@@ -196,6 +203,7 @@ function changeTheta(newValue, max, graphObject){
         renderer.resume();
         setTimeout(function(){ renderer.pause();}, 50);
     }
+    else renderer.resume();
 
 }
 
@@ -216,6 +224,7 @@ function changeMass(newValue, max, graphObject){
         renderer.resume();
         setTimeout(function(){ renderer.pause();}, 50);
     }
+    else renderer.resume();
 
 }
 
@@ -224,6 +233,39 @@ function linkThickness(newSize, renderer, graph, graphics){
 	graph.links.forEach(function(link){
 	        var linkUI = graphics.getLinkUI();
 	    })
+
+}
+
+function scaleLink(newScale, graphObject){
+
+    var renderer = graphObject.renderer;
+    var graphGL = graphObject.graphGL;
+    var layout = graphObject.layout;
+    var graph = graphObject.graphInput;
+
+    if(newScale < 1) newScale = 1;
+
+    var prevScale = graphObject.defaultLayoutParams.springLength;
+
+    graphObject.defaultLayoutParams.springLength = newScale;
+
+    graph.links.forEach(function(link){
+
+            var linkUI = graphGL.getLink(link.source, link.target);
+
+            var spring = layout.getSpring(link.source, link.target);
+
+            prevValue = spring.length;
+
+            spring.length = graphObject.defaultLayoutParams.springLength * (spring.length / prevScale);
+
+        })
+
+    if(graphObject.isLayoutPaused){
+        renderer.resume();
+        setTimeout(function(){ renderer.pause();}, 50);
+    }
+    else renderer.resume();
 
 }
 
@@ -289,7 +331,7 @@ function NLVgraph(graphObject, value) {
     var treeLinks = graphObject.treeLinks;
     var renderer = graphObject.renderer;
 
-    value = parseInt(value);
+    value = parseFloat(value);
 
     if (value < prevValue){
         for (i in addedLinks){
@@ -305,21 +347,30 @@ function NLVgraph(graphObject, value) {
         nodesLength = graph.nodes.length;
 
         graphGL.forEachNode(function(node){
+            //console.log(countNodes);
 
-            for (i=1; i<graph.distanceMatrix[countNodes].length-1; i++){
-                if (graph.distanceMatrix[countNodes][i] <= value && graph.distanceMatrix[countNodes][i] != 0){
-                    targetIndex = parseInt(countNodes) + parseInt(i);
+            if(node.id.indexOf('TransitionNode') < 0) {
 
-                    LinkID = graph.nodes[countNodes].key + "👉 " + graph.nodes[targetIndex].key;
-                    if (addedLinks.hasOwnProperty(LinkID)){
-                        continue;
-                    }
-                    if (!treeLinks.hasOwnProperty(LinkID)){
+                for (i=1; i<graph.distanceMatrix[countNodes].length-1; i++){
+                    if (graph.distanceMatrix[countNodes][i] <= value && graph.distanceMatrix[countNodes][i] != 0){
+                        //console.log(graph.distanceMatrix[countNodes][i]);
+                        targetIndex = parseInt(countNodes) + parseInt(i);
 
-                        graphGL.addLink(graph.nodes[countNodes].key, graph.nodes[targetIndex].key, { connectionStrength: graph.distanceMatrix[countNodes][i] , value: graph.distanceMatrix[countNodes][i], color: "#00ff00"});
-                        var link = graphGL.getLink(graph.nodes[countNodes].key, graph.nodes[targetIndex].key);
+                        if(graph.nodes[targetIndex].key.indexOf('TransitionNode') < 0){
 
-                        addedLinks[LinkID] = link;
+                            LinkID = graph.nodes[countNodes].key + "👉 " + graph.nodes[targetIndex].key;
+                            if (addedLinks.hasOwnProperty(LinkID)){
+                                continue;
+                            }
+                            if (!treeLinks.hasOwnProperty(LinkID)){
+
+                                graphGL.addLink(graph.nodes[countNodes].key, graph.nodes[targetIndex].key, { connectionStrength: graph.distanceMatrix[countNodes][i] , value: graph.distanceMatrix[countNodes][i], color: "#00ff00"});
+                                var link = graphGL.getLink(graph.nodes[countNodes].key, graph.nodes[targetIndex].key);
+
+                                addedLinks[LinkID] = link;
+                            }
+
+                        }
                     }
                 }
             }
@@ -367,33 +418,85 @@ function printDiv(graphObject)
     setTimeout(runPrint, 500);
   }
 
+
+  function convertImage(imageID, callback){
+
+    html2canvas($('#' + imageID), {
+          onrendered: function(canvasLabels) {
+            var labelsImage = Canvas2Image.convertToImage(canvasLabels, width, height);
+            callback(labelsImage);
+          }
+      });
+  }
+
   function runPrint(){
 
+      var width = $(window).width() - $(window).width() * 0.02,
+      height = $(window).height() - $('#tabs').height() - $(window).width() * 0.02;
+    
+      //$('#visual').css({width: width, height: height, position: "relative"});
+      $('#labelsDiv').css({width: width, height: height, position: "absolute"});
 
-      var divWithLabels=document.getElementById('visual');
-      var divWithpieChart = document.getElementById('col_info');
-      var divWithtablePercentages = document.getElementById('divtablePercentages');
+      var labelsViz = '';
+      var canvasViz = '';
 
+      convertImage('labelsDiv', function(labelsCan){
+        labelsViz = labelsCan;
+        labelsViz.setAttribute('width', '100%');
+        labelsViz.setAttribute('height', 'auto');
+        canvasViz = Canvas2Image.convertToImage(document.getElementById("canvas"), width, height);
+        canvasViz.setAttribute('width', '100%');
+        canvasViz.setAttribute('height', 'auto');
+        continuePrinting();
+      });
 
-      var canvas = document.getElementById("canvas");
-      var img    = canvas.toDataURL("image/jpeg", 1.0);
+      /*
+      html2canvas($('#labelsDiv'), {
+          onrendered: function(canvasLabels) {
+            console.log(canvasLabels);
+            labelsImage = Canvas2Image.convertToImage(canvasLabels, width, height);
+            continuePrinting();
+            console.log(labelsCanvas);
+            labelsImage.setAttribute('width', '100%');
+            labelsImage.setAttribute('height', 'auto');
+            //document.body.appendChild(canvasLabels);
+          }
+      });*/
 
-      //console.log(divToPrint.innerHTML);
+      function continuePrinting(){
 
-      toAddImage = '<div style="width:'+selectProperties.width+'px;height:'+selectProperties.height+'px; overflow:hidden;">' +
-                    '<img src="'+img+'"; style="margin-left:-'+selectProperties.x+ ';margin-top:-'+selectProperties.y+';">' + 
-                    '</div>';
+          //var divWithLabels=document.getElementById('labels');
+          var divWithpieChart = document.getElementById('col_info');
+          var divWithtablePercentages = document.getElementById('divtablePercentages');
 
-      var newWin=window.open('','Print-Window','width="'+graphObject.width+'",height="'+graphObject.height+'"');
+          //var canvas = document.getElementById("canvas");
+          //var canvaswidth = $("#canvas").width();
+          //var canvasheight = $("#canvas").height();
+          //var img    = canvasViz.toDataURL("image/jpeg", 1.0);
+          //console.log(divToPrint.innerHTML);
 
+          toAddImage = '<div id="divViz" style="width:75%;display:inline-block;">' +
+                        '</div>';
+          toAddLabels = '<div id="divLabel" style="width:75%;display:inline-block;">' +
+                        '</div>';
 
-      newWin.document.open();
+          var newWin=window.open('','Print-Window','width=21cm','height=29.7cm');
 
-      newWin.document.write('<html><body onload="window.print()"><div style="width:100%;">'+toAddImage+'</div><div style="width:100%;">'+divWithpieChart.innerHTML+'</div><div style="width:100%;"><div style="width:40%;float:left;">'+divWithLabels.innerHTML+'</div><div style="width:40%;float:right;">'+divWithtablePercentages.innerHTML+'</div></div></body></html>');
-      newWin.document.getElementById('canvas').remove();
+          newWin.document.open();
 
+          newWin.document.write('<html><body style="width:100%;height:100%;"><div style="width:100%;height:100%;"><div id="canvasImage" style="width:100%;height:auto;position:absolute;top:0;text-align:center;">'+toAddImage+'</div><div style="width:100%; height:auto;position:absolute;top:0;text-align:center;">'+toAddLabels+'</div></div><div style="width:100%;">'+divWithpieChart.innerHTML+'</div><div style="width:50%;float:right;">'+divWithtablePercentages.innerHTML+'</div></body></html>');
+          newWin.document.getElementById('divViz').appendChild(canvasViz);
+          newWin.document.getElementById('divLabel').appendChild(labelsViz);
 
-      newWin.document.close();
+          $(newWin.document).contents().find('#Choosecategories').remove();
+
+          setTimeout(function(){ newWin.window.print();}, 100);
+          //newWin.document.getElementById('canvas').remove();
+
+      }
+
+      //console.log(divWithpieChart);
+
   }
 
 

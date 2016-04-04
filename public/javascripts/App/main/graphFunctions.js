@@ -18,7 +18,8 @@ function loadGraphFunctions(){
 
 		    for (j in graph.links){
 		        if (maxLinkValue < graph.links[j].value) maxLinkValue = graph.links[j].value;
-			    graphGL.addLink(graph.links[j].source, graph.links[j].target, { connectionStrength: graph.links[j].value , value: graph.links[j].value, color: "#000"});
+		        var toBoot = graph.data_type == 'newick'? graph.links[j].bootstrap : "";
+			    graphGL.addLink(graph.links[j].source, graph.links[j].target, { connectionStrength: graph.links[j].value , value: graph.links[j].value, color: "#000", bootstrap: toBoot});
 		    }
 
 		     maxLinkValue += 1;
@@ -28,8 +29,12 @@ function loadGraphFunctions(){
 
 		initLayout: function(graphObject){
 
-			var idealSpringLength = 1;
+			var idealSpringLength = 7;
 			var graphGL = graphObject.graphGL;
+			var graph = graphObject.graphInput;
+
+			var maxLinked = 0;
+    		var TopNode = '';
 			
 			graphObject.defaultLayoutParams = {
 				springLength : idealSpringLength,
@@ -37,7 +42,9 @@ function loadGraphFunctions(){
 				dragCoeff : '1',
 				gravity : '-10',
 				theta: '8',
-				massratio: '1'
+				massratio: '1',
+				labelSize: '10',
+				idealSpringLength: idealSpringLength
 			}
 
 			graphObject.layout = Viva.Graph.Layout.forceDirected(graphGL, {
@@ -51,9 +58,27 @@ function loadGraphFunctions(){
 							          // layout, that we want to change length of each physical spring
 							          // by overriding `springTransform` method:
 							          springTransform: function (link, spring) {
-							            spring.length = idealSpringLength * link.data.connectionStrength;
+							            spring.length = graphObject.defaultLayoutParams.idealSpringLength * link.data.connectionStrength;
 							          }
 						      	});
+
+			if (Object.keys(graph.positions).length == 0){
+
+				graphObject.layout.setNodePosition(graphObject.graphInput.nodes[0].key, 20, -20);
+
+		    	graphObject.graphGL.forEachNode(function(node){
+		    		if(maxLinked < node.links.length){
+		    			maxLinked = node.links.length;
+		    			TopNode = node;
+		    		}
+				});
+
+				graphObject.TopNode = TopNode;
+		    	
+		    	graphObject.layout.setNodePosition(graphObject.TopNode.id, 0, 0);
+		    	graphObject.layout.pinNode(TopNode, true);
+		    }
+
 		},
 
 		initGraphics: function(graphObject){
@@ -114,15 +139,24 @@ function loadGraphFunctions(){
 			var graph = graphObject.graphInput;
 			var layout = graphObject.layout;
 
-			//console.log(graph);
+			var graphSpace = graphObject.layout.getGraphRect();
+
+			var cx = (graphSpace.x2 + graphSpace.x1) / 2;
+    		var cy = (graphSpace.y2 + graphSpace.y1) / 2;
+
+    		var maxLinked = 0;
+    		var TopNode = '';
+
+    		graphObject.renderer.moveTo(cx, cy);
 
 			if (Object.keys(graph.positions).length > 0){
 		        for (nodeLocation in graph.positions.nodes[0]){
 		          var nodeX = graph.positions.nodes[0][nodeLocation][0].x;
 		          var nodeY = graph.positions.nodes[0][nodeLocation][0].y;
+
 		          layout.setNodePosition(nodeLocation, nodeX, nodeY);
 		        }
-		      }
+		    }
 		},
 
 		precompute: function myself(graphObject, iterations, callback) { //define name inside function to be able to call it from inside
@@ -165,6 +199,11 @@ function loadGraphFunctions(){
 
 			var containerPosition = container.getBoundingClientRect();
 
+			var labelsContainer = document.createElement('div');
+			labelsContainer.setAttribute("id", "labelsDiv");
+			labelsContainer.setAttribute("position", "absolute");
+			container.appendChild(labelsContainer);
+
 			var nodeLabels = Object.create(null);
                   graphGL.forEachNode(function(node) {
                     if (node.id.search('TransitionNode') < 0){
@@ -172,8 +211,10 @@ function loadGraphFunctions(){
                       label.classList.add('node-label');
                       if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) label.textContent = node.id;
                       else label.innerText = node.id;
+                      var labelStyle = label.style;
+            		  labelStyle.fontSize = graphObject.defaultLayoutParams.labelSize + 'px';
                       nodeLabels[node.id] = label;
-                      container.appendChild(label);
+                      labelsContainer.appendChild(label);
                     }
                     
                   });
@@ -188,10 +229,12 @@ function loadGraphFunctions(){
                       label.classList.add('link-label');
                       if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) label.textContent = parseFloat(link.data.connectionStrength.toFixed(4));
                       else label.innerText = parseFloat(link.data.connectionStrength.toFixed(4));
+                      var labelStyle = label.style;
+            		  labelStyle.fontSize = graphObject.defaultLayoutParams.labelSize + 'px';
                       treeLinks[link.id] = true;
                       linkLabels[link.id] = label;
                       linkLabels[link.id + 'default'] = parseFloat(link.data.connectionStrength.toFixed(4));
-                      container.appendChild(label);
+                      labelsContainer.appendChild(label);
                       countLinks += 1;
                     
                     
@@ -287,6 +330,12 @@ function loadGraphFunctions(){
 		                    }
 		                  }
 		          });
+				
+				function adjustLabelPositions(){
+					containerPosition = container.getBoundingClientRect();
+				}
+
+				graphObject.adjustLabelPositions = adjustLabelPositions;
 		},
 
 		adjustScale: function(graphObject){
@@ -299,8 +348,9 @@ function loadGraphFunctions(){
 	        var screenSize = Math.min(document.body.clientWidth, document.body.clientHeight);
 
 	        var desiredScale = screenSize / graphSize;
+	        graphObject.renderer.pause();
 
-	        zoomOut(desiredScale, 1, renderer);
+	        zoomOut(desiredScale, 1, graphObject);
 		},
 
 		searchNodeByID: function(graphObject, inputID){
@@ -421,7 +471,7 @@ function loadGraphFunctions(){
 
 	              graphGL.forEachNode(function(node){
 	                var currentNodeUI = graphics.getNodeUI(node.id);
-	                if (currentNodeUI.colorIndexes[0][0] == 0xFFA500ff) graphObject.selectedNodes.push(node);
+	                if (currentNodeUI.colorIndexes[0][0] == 0xFFA500ff && node.id.indexOf('TransitionNode') < 0) graphObject.selectedNodes.push(node);
 	              });
 	              multipleselection = true;
 

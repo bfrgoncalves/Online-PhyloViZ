@@ -42,13 +42,13 @@ block normalBody
 				li.active(id="treeTab")
 					a(data-target="#treeContent", data-toggle="mainTab") Tree
 				li
-					a(data-target="#profileContent", data-toggle="mainTab") Profiles
+					a(data-target="#profileContent", data-toggle="mainTab") Primary Data
 				li
 					a(data-target="#isolateContent", data-toggle="mainTab") Auxiliary Data
 				li(id="distanceTab")
 					a(data-target="#distanceContent", data-toggle="mainTab") Distances
-				//li(id="geographyTab")
-				//	a(data-target="#geographyContent", data-toggle="mainTab") Geography
+				li(id="FASTATab")
+					a(data-target="#FASTAContent", data-toggle="mainTab") Sequences
 
 
 		div.tab-content
@@ -82,6 +82,15 @@ block normalBody
 									button(id="zoomIn" class="glyphicon glyphicon-plus")
 								div
 									p(style="text-align:center;") Zoom
+						li
+							div(style="width:100%;")
+								if (user && !isPublic)
+									div(style="text-align:center;")
+										button(type='button',id='generatePublicLinkButton', name='publicLink1') Generate Data Set Link
+								else if (!isAuthenticated)
+									div(style="text-align:center;")
+										button(type='button',id='getLinkButton', name='publicLink1') Get Data Set Link
+							br
 								
 							
 						li(id="assignCol")
@@ -109,26 +118,31 @@ block normalBody
 												input(type='checkbox',id='AddLogScaleNodes')
 											br
 											label Node Labels Size
-											input(type='range',id='NodeLabelSizeSlider', name='points1', value = 20, min='1', max='50')
+											input(type='range',id='NodeLabelSizeSlider', name='points1', value = 10, min='5', max='20')
 											label Add Node Labels
 											input(type='checkbox',id='AddLabels')
 									a.btn.btn-primary.actionButton.submenu(data-toggle='collapse', href='#LinksGraphics', aria-expanded="false", aria-controls="collapseExample" id="linksc") Links
 									div.collapse(id='LinksGraphics')
 										div.well(id='LinksSizeAttributes')
 											label Link Length
-											input(type='range',id='SpringLengthSlider', name='points3', value = 1, min='1', max='100') 
+											input(type='range',id='SpringLengthSlider', name='points3', value = 1, min='5', max='100')
+											label Scaling Factor
+											input(type='number',id='scaleLink', name='points10', value = 7, min='1', max='50')
 											div(id="logScaleDiv")
 												label Log Scale
 												input(type='checkbox',id='AddLogScale')
 											br
 											label Link Labels Size
-											input(type='range',id='LinkLabelSizeSlider', name='points1', value = 20, min='1', max='50')
+											input(type='range',id='LinkLabelSizeSlider', name='points1', value = 10, min='5', max='20')
 											label Add Link Labels
 											input(type='checkbox',id='AddLinkLabels')
 											div(id="divselectLabelType" style="display:none")
 												select(id="labelType")
 													option(value="absolute") Absolute
 													option(value="relative") Relative
+												select(id="labelTypeNewick")
+													option(value="linkLength") Link length
+													option(value="bootstrap") Bootstrap
 									a.btn.btn-primary.actionButton.submenu(data-toggle='collapse', href='#LayoutGraphics', aria-expanded="false", aria-controls="collapseExample" id="layoutc") Layout
 									div.collapse(id='LayoutGraphics')
 										div.well(id='LayoutAttributes')
@@ -156,18 +170,18 @@ block normalBody
 										br
 										br
 										div(id="NLVgraph")
-											label NLV graph
+											label(id="nlvgraphLabel") NLV graph
 											input(type='number',id='NLVnumber', name='points2', value = 7, min='0', max='7')
 
 									div.well(id='OperationsToMake')
+										div(id="viewSequences")
+											button(type='button',id='viewSequencesButton', name='saveImage1') View Sequences
 										div(id="computeDistances")
 											button(type='button',id='distanceButton', name='distances1') Compute Distances
 											button(type='button',id='exportSelectedDataButton', name='distances1') Export Selected Data
 										if (user && !isPublic)
 											br
 											button(type='button',id='savePositionsButton', name='downloadPositions1') Save Positions
-											br
-											button(type='button',id='generatePublicLinkButton', name='publicLink1') Generate Public Link
 										button(type='button',id='saveImageButton1', name='saveImage1') Save Image
 										div(id='downloadContainer', style='display:none')
 
@@ -279,8 +293,13 @@ block normalBody
 				div(id="secondContainer")
 					div(id="divdistances")
 
-			//div.tab-pane(id="geographyContent")
-			//	div(id="mapLocation")
+			div.tab-pane(id="FASTAContent")
+				div(id="FASTALocation")
+					div(id="clearFASTALocation")
+						button.btn-md.btn-danger(id="clearFASTA") Clear Sequences
+					div(id="menuLocation")
+					br
+					div(id="alignmentLocation")
 
 
 	a(id="imageDownloadLocation" download="phylovizTree.png" style="display:none;")
@@ -305,15 +324,19 @@ block scripts
 	script(type='text/javascript', src='/javascripts/dependencies/bootstrap-select.js')
 	script(type='text/javascript', src='/javascripts/dependencies/datatables.min.js')
 	script(type='text/javascript', src='/javascripts/dependencies/jquery.dataTables.js')
+	script(type='text/javascript', src='/javascripts/dependencies/nwk.parser.js')
 	script(type="text/javascript" src="/javascripts/dependencies/colorpicker.js")
 	//script(type="text/javascript" src="/javascripts/dependencies/eye.js")
 	//script(type="text/javascript" src="/javascripts/dependencies/utils.js")
 	//script(type="text/javascript" src="/javascripts/dependencies/layout.js")
 	script(type='text/javascript', src='/javascripts/dependencies/pdfmake.min.js')
 	script(type='text/javascript', src='/javascripts/dependencies/jszip.js')
+	script(type='text/javascript', src='/javascripts/dependencies/msa.js')
 	script(type='text/javascript', src='/javascripts/dependencies/vfs_fonts.js')
 	script(type='text/javascript', src="/javascripts/dependencies/topojson.min.js")
-	script(type='text/javascript', src='/javascripts/dependencies/datamaps.world.min.js')
+	script(type='text/javascript', src="/javascripts/dependencies/html2canvas.js")
+	script(type='text/javascript', src="/javascripts/dependencies/canvas2image.js")
+	//script(type='text/javascript', src='/javascripts/dependencies/datamaps.world.min.js')
 	//script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/customPieChartShader.js')
 	script(type='text/javascript', src='/javascripts/App/adjustElements/adjustElementsMain.js')
 	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/pieNodeWebGl.js')
@@ -336,6 +359,7 @@ block scripts
 	script(type='text/javascript', src='/javascripts/App/main/graphFunctions.js')
 	script(type='text/javascript', src='/javascripts/App/main/buttonsFunctions.js')
 	script(type='text/javascript', src='/javascripts/App/main/constructGraph.js')
+	script(type='text/javascript', src='/javascripts/App/main/msa_tab.js')
 	script(type='text/javascript', src='/javascripts/App/main/globalPie/runColorPicker.js')
 	script(type='text/javascript', src='/javascripts/App/main/globalPie/chooseCategories.js')
 	script(type='text/javascript', src='/javascripts/App/main/updateMetadata.js')

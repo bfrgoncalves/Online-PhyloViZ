@@ -70,7 +70,8 @@ function loadProfiles(datasetID, userID, callback){
 	    //else{
 	    	//datasetID = result.rows[0].id;
 
-		query = "SELECT data FROM datasets.profiles WHERE dataset_id = '"+datasetID+"';" +
+		query = "SELECT data_type FROM datasets.datasets WHERE dataset_id = '"+datasetID+"';" +
+				"SELECT data FROM datasets.profiles WHERE dataset_id = '"+datasetID+"';" +
 				"SELECT schemeGenes FROM datasets.profiles WHERE dataset_id = '"+datasetID+"';";
 		
 		client.query(query, function(err, result) {
@@ -78,8 +79,10 @@ function loadProfiles(datasetID, userID, callback){
 	      return console.error('error running query', err);
 	    }
 
-	    var profiles = result.rows[0].data.profiles;
-	    var schemeGenes = result.rows[1].schemegenes;
+	    var data_type = result.rows[0].data_type;
+	    var profiles = result.rows[1].data.profiles;
+	    var schemeGenes = result.rows[2].schemegenes;
+
 		
 		var existsProfile = {};
 		var dupProfiles = [];
@@ -87,6 +90,9 @@ function loadProfiles(datasetID, userID, callback){
 		var existsIdentifiers = {}
 		
 		profiles.forEach(function(profile){
+
+			if(data_type == 'fasta') var profile = profile.profile;
+			
 			var arr = [];
 			for (i in schemeGenes) arr.push(profile[schemeGenes[i]]);
 			//var arr = Object.keys(profile).map(function(k) { return profile[k] });

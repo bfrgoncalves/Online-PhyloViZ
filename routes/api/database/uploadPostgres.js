@@ -297,7 +297,7 @@ function readFastafile(pathToFile, fileType, dataToDB, callback){
 
       for(i in fastaProfiles){
         fastaProfiles[i][dataToDB.key] = fastaIDs[i];
-        dataToDB[fileType].push(fastaProfiles[i]);
+        dataToDB[fileType].push({profile: fastaProfiles[i], sequence: fastaSequences[i].join("")});
       }
       headerArray = [];
 
@@ -335,12 +335,11 @@ function uploadToDatabase(data, callback){
     newick = { newick : data.fileNewick[0]};
 
     var cipher = crypto.createCipher(config.cipherUser.algorithm, config.cipherUser.pass);
-    dataset_id = userID + data.datasetName;
+    dataset_id = userID + data.datasetName + getDateTime();
     data.datasetID = cipher.update(dataset_id,'utf8','hex');
     if (data['is_fileNewick']) data.data_type = 'newick';
     if (data['is_fileFasta']) data.data_type = 'fasta';
-    if (data['is_fileProfile']) data.data_type = 'profile';
-
+    if (data['is_fileProfile']) data.data_type = 'profile'; 
 
     query = "INSERT INTO datasets.datasets (name, key, user_id, dataset_id, data_type, description, put_public, is_public, data_timestamp) VALUES ('"+data.datasetName+"', '"+data.key+"', '"+userID+"', '"+data.datasetID+"', '"+data.data_type+"', '" + data.dataset_description +"', '"+ data.makePublic +"', '"+ data.is_public + "', NOW());" +
             "INSERT INTO datasets.profiles (user_id, data, schemeGenes, dataset_id, put_public, is_public, data_timestamp) VALUES ('"+userID+"', '"+JSON.stringify(profiles)+"', '{"+data['fileProfile_headers']+"}', '"+data.datasetID+"', '"+ data.makePublic +"', '"+ data.is_public + "', NOW());" +
@@ -412,6 +411,31 @@ function uploadMetadataToDatabase(data, callback){
   })
 
   
+}
+
+function getDateTime() {
+
+    var date = new Date();
+
+    var hour = date.getHours();
+    hour = (hour < 10 ? "0" : "") + hour;
+
+    var min  = date.getMinutes();
+    min = (min < 10 ? "0" : "") + min;
+
+    var sec  = date.getSeconds();
+    sec = (sec < 10 ? "0" : "") + sec;
+
+    var year = date.getFullYear();
+
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+
+    return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
+
 }
 
 

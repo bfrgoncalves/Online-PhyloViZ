@@ -59,6 +59,13 @@ $(document).ready(function(){
       //console.log(graph);
       checkInput(graph, function(graph){
 
+          if(graph.data_type != 'fasta'){
+            $("#FASTATab").css('display', 'none');
+            $("#FASTAContent").css('display', 'none');
+            $("#viewSequences").css('display', 'none');
+            
+          }
+
           status('Computing Distance Matrix...');
           calculateDistanceMatrix(graph, function(graph){
 
@@ -117,8 +124,9 @@ function eraseDataset(){
 }
 
 function checkInput(graph, callback){
+  console.log(graph);
   if (graph.nodes.length == 0){
-    alert('There was an error uploading the dataset. Possible input format error.');
+    //alert('There was an error uploading the dataset. Possible input format error.');
     eraseDataset();
   }
   else{

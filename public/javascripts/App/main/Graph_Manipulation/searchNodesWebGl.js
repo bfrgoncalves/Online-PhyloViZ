@@ -54,11 +54,13 @@ function zoomInNode(desiredScale, currentScale,renderer,pos){
   	}
 }
 
-function zoomOut(desiredScale, currentScale,renderer){
+function zoomOut(desiredScale, currentScale, graphObject){
+	renderer = graphObject.renderer;
 	currentScale = renderer.zoomOut();
 	if (desiredScale < currentScale) {
 	  	setTimeout(function () {
-	      zoomOut(desiredScale, currentScale,renderer);
-	  	}, 1);
+	      zoomOut(desiredScale, currentScale, graphObject);
+	  	},1);
   	}
+  	else graphObject.renderer.resume();
 }

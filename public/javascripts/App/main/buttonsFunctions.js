@@ -29,7 +29,12 @@ function loadButtonFunctions(){
 		resetPositionButton: function(graphObject){
 			$('#resetPositionButton').click(function(e) {
 				graphObject.renderer.reset();
+				graphObject.renderer.reset();
+				graphObject.adjustLabelPositions();
+				graphObject.layout.setNodePosition(graphObject.TopNode.id, 0, 0);
+				graphObject.renderer.moveTo(0,0);
 				graphObject.graphFunctions.adjustScale(graphObject);
+
 				if(graphObject.isLayoutPaused){
 			        graphObject.renderer.resume();
 			        setTimeout(function(){ graphObject.renderer.pause();}, 50);
@@ -87,6 +92,10 @@ function loadButtonFunctions(){
             	LabelSize(this.value, graphObject, graphObject.linkLabels, 'link');
           	});
 
+          	$('#scaleLink').change(function(e){
+            	scaleLink(this.value, graphObject);
+          	});
+
           	$("#SpringLengthSlider").attr({
 		         "max" : graphObject.maxLinkValue,
 		    });
@@ -139,6 +148,7 @@ function loadButtonFunctions(){
 	              	graphObject.renderer.resume();
         			setTimeout(function(){ graphObject.renderer.pause();}, 50);
 	              }
+	              else graphObject.renderer.resume();
 	            } 
 	            else{
 	              $('.node-label').css('display','none');
@@ -170,8 +180,16 @@ function loadButtonFunctions(){
 
           	$('#AddLinkLabels').change(function(e){
 	            if (this.checked){
-	              if(graphObject.graphInput.data_type != "newick") $('#divselectLabelType').css({"display": "block"});
+	              $('#divselectLabelType').css({"display": "block"});
 	              $('.link-label').css('display','block');
+	              if(graphObject.graphInput.data_type != "newick") {
+	              	$('#labelType').css({"display": "block"});
+	              	$('#labelTypeNewick').css({"display": "none"});
+	              }
+	              else{
+	              	$('#labelType').css({"display": "none"});
+	              	$('#labelTypeNewick').css({"display": "block"});
+	              }
 	              for (i in graphObject.removedLinks){
 	                var labelStyle = linkLabels[graphObject.removedLinks[i].id].style;
 	                labelStyle.display = "none";
@@ -181,6 +199,7 @@ function loadButtonFunctions(){
 	              	graphObject.renderer.resume();
         			setTimeout(function(){ graphObject.renderer.pause();}, 50);
 	              }
+	              else graphObject.renderer.resume();
 	            } 
 	            else{
 	              if(graphObject.graphInput.data_type != "newick") $('#divselectLabelType').css({"display": "none"});
@@ -211,6 +230,21 @@ function loadButtonFunctions(){
           		}
           	});
 
+          	$('#labelTypeNewick').change(function(e){
+          		if(this.value == 'bootstrap'){
+
+          			graphObject.graphGL.forEachLink(function(link) {
+                      graphObject.linkLabels[link.id].innerText = link.data.bootstrap;                    
+                  	});
+
+          		}
+          		else{
+          			graphObject.graphGL.forEachLink(function(link) {
+                      graphObject.linkLabels[link.id].innerText = link.data.value;                    
+                  	});
+          		}
+          	});
+
           	$('#zoomIn').click(function(){
           		graphObject.renderer.zoomIn();
           	});
@@ -231,11 +265,18 @@ function loadButtonFunctions(){
 			$('#distanceButton').click(function(e){
 				if (graphObject.selectedNodes.length < 2) alert('To compute distances, first you need to select more than one node.');
 				else if (graphObject.selectedNodes.length >= 500) alert('To much nodes selected. The maximum number is currently 500.');
-	            else checkLociDifferences(graphObject);
+	            else{
+	            	if(graphObject.graphInput.data_type == 'newick') getNewickDistances(graphObject);
+	            	else checkLociDifferences(graphObject);
+	            }
 	        });
 
 	        $('#savePositionsButton').click(function(e){
 	            saveTreePositions(graphObject);
+	        });
+
+	        $('#viewSequences').click(function(e){
+	            createMSA(graphObject);
 	        });
 
 	        $('#updateMetadata').click(function(e){
@@ -250,12 +291,40 @@ function loadButtonFunctions(){
 	            PublicLink(graphObject);
 	        });
 
+	        $('#getLinkButton').click(function(e){
+	        	getLink(graphObject);
+	        });
+
 	        $('#exportSelectedDataButton').click(function(e){
 	            exportSelectedDataTree(graphObject);
 	        });
 
 	        $('#saveImageButton1').click(function(e){
-	            printDiv(graphObject);
+	        	
+	        	var toDialog = '<div style="text-align: center;"><label>Only what is visible on the screen will appear on the pdf. Make sure to re-center the tree or adjust the positioning before printing.</label></div>' + 
+	        					'<div id="buttonoptionsdiv" style="width:90%;position:absolute;bottom:2px;text-align:center;">' + 
+	        					'<div style="width:20%;float:left";><button id="cancelButtonPDF" class="btn btn-danger btn-md">Cancel</button></div>' +  
+	        					'<div style="width:20%;float:right";><button id="okButtonPDF" class="btn btn-primary btn-md">OK</button></div>' +  
+	        					'</div>';
+
+	        	$('#dialog').empty();
+				$('#dialog').append(toDialog);
+				$('#dialog').dialog({
+			              height: $(window).height() * 0.15,
+			              width: $(window).width() * 0.2,
+			              modal: true,
+			              resizable: true,
+			              dialogClass: 'no-close success-dialog'
+			          });
+
+				$('#okButtonPDF').click(function(){
+					printDiv(graphObject);
+				});
+
+				$('#cancelButtonPDF').click(function(){
+					$('#dialog').dialog("close");
+				});
+
 	        });
 
 	        $("#SplitTreeSlider").attr({
@@ -264,7 +333,7 @@ function loadButtonFunctions(){
 		    });
 
 		    $("#NLVnumber").attr({
-		        "max" : graphObject.maxLinkValue,
+		        "max" : graphObject.graphInput.maxDistanceValue,
 		        "value" : 0
 		    });
 

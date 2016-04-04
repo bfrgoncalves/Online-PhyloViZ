@@ -44,9 +44,9 @@ function constructGraph(graph, datasetID){
       function afterPrecompute(){
 
         graphFunctions.initGraphics(graphObject);
-        graphFunctions.setPositions(graphObject);
         graphFunctions.generateDOMLabels(graphObject);
         graphFunctions.initRenderer(graphObject);
+        graphFunctions.setPositions(graphObject);
         graphFunctions.adjustScale(graphObject);
         graphFunctions.searchNodeByID(graphObject, '#nodeid');
 
@@ -66,6 +66,10 @@ function constructGraph(graph, datasetID){
           graphObject.layout.getBody(node.id).defaultMass = graphObject.layout.getBody(node.id).mass;
         });
 
+        graphObject.defaultLayoutParams.dragCoeff = 15;
+        $("#DragSlider").val(graphObject.defaultLayoutParams.dragCoeff);
+        changeDragCoefficient(graphObject.defaultLayoutParams.dragCoeff, 100, graphObject);
+
         colorAttributes(graphObject); //function which links the colors of the pieCharts to the data
         //graphObject.layout.simulator.gravity(-1000)
         //console.log(graphObject);
@@ -73,13 +77,16 @@ function constructGraph(graph, datasetID){
         linkTableAndGraph('profiles', graphObject);
 
         if (graphObject.graphInput.schemeGenes.length == 1 && graphObject.graphInput.schemeGenes[0] == 'undefined'){
-          $("#TreeOperations").css('display', 'none');
-          $("#computeDistances").css('display', 'none');
+          //$("#TreeOperations").css('display', 'none');
+          //$("#computeDistances").css('display', 'none');
         }
 
         else buttonFunctions.profileLength(graphObject);
 
-        if (graphObject.graphInput.data_type == 'newick') $("#logScaleDiv").css('display', 'none');
+        if (graphObject.graphInput.data_type == 'newick'){
+          $("#logScaleDiv").css('display', 'none');
+          $("#nlvgraphLabel").text('Cluster Nodes');
+        }
 
         tocheckTableIsolatesHeight = true;
         tocheckTableProfilesHeight = true;
@@ -137,12 +144,17 @@ function constructGraph(graph, datasetID){
             var tableToUse = $('#tableisolates').DataTable();
             tableToUse.columns.adjust().draw();
             tutorialFunctions.auxiliary();
-          }else if($(d.target).text() == 'Profiles'){
+          }else if($(d.target).text() == 'Primary Data'){
             var tableToUse = $('#tableprofiles').DataTable();
             tableToUse.columns.adjust().draw();
             tutorialFunctions.profiles();
           }else if($(d.target).text() == 'Tree'){
             tutorialFunctions.tree();
+            graphObject.renderer.reset();
+            graphObject.renderer.reset();
+            graphObject.layout.setNodePosition(graphObject.TopNode.id, 0, 0);
+            graphObject.renderer.moveTo(0,0);
+            graphObject.graphFunctions.adjustScale(graphObject);
           }else if($(d.target).text() == 'Distances'){
             tutorialFunctions.distances();
           }
@@ -151,7 +163,7 @@ function constructGraph(graph, datasetID){
             graphObject.tableIsolatesHeight = $("#tableisolates_wrapper").height();
             tocheckTableIsolatesHeight = false;
           }
-          else if(loaded && tocheckTableProfilesHeight && $(d.target).text() == 'Profiles'){
+          else if(loaded && tocheckTableProfilesHeight && $(d.target).text() == 'Primary Data'){
             graphObject.tableProfilesHeight = $("#tableprofiles_wrapper").height();
             tocheckTableProfilesHeight = false;
           }
@@ -170,7 +182,7 @@ function constructGraph(graph, datasetID){
           }
           else $('#noIsolates').css({"display": "none"});
 
-          if((graphObject.graphInput.schemeGenes.length < 1 || graphObject.graphInput.schemeGenes[0] =="undefined") && $(d.target).text() == "Profiles"){
+          if((graphObject.graphInput.schemeGenes.length < 1 || graphObject.graphInput.schemeGenes[0] =="undefined") && $(d.target).text() == "Primary Data"){
             $('#noProfiles').css({"display": "block"});
             $('#countProfileSize').css({"display": "none"});
             

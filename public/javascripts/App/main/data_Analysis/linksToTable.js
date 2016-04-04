@@ -92,7 +92,10 @@ var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDista
 
   var buckets = 10, currentValue = '', currentShowValues = {};
 
-  if(maxDistance < colors.length) colors = colors.slice(0, maxDistance);
+  if(maxDistance < colors.length){
+    if (maxDistance < 1) colors = colors.slice(0, 2);
+    else colors = colors.slice(0, maxDistance);
+  } 
 
   graphObject.matrixColors = colors;
   graphObject.maxdistanceMatrix = maxDistance;
@@ -111,7 +114,7 @@ var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDista
   nodes.forEach(function(node, i) {
     node.index = i;
     node.count = 0;
-    matrix[i] = d3.range(n).map(function(j) { return { value: -1, x: j, y: i, source: node, target: nodes[j] }; });
+    matrix[i] = d3.range(n).map(function(j) { return { value: -1, x: j, y: i, source_node: node, target_node: nodes[j] }; });
   });
 
   if (metadata.length != 0) existsMetadata = true;
@@ -308,16 +311,23 @@ var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDista
 
     var toBody = '';
 
-    var toCheck = ["source", "target"];
+    var toCheck = ["source_node", "target_node"];
 
-    var profileSize = p.source.data.profile.length;
+    if (graphObject.graphInput.data_type!='newick'){
+      var profileSize = p.source_node.data.profile.length;
+    }
     
     for (j in stored){
 
       countU = 0;
       for(u in toCheck){
         countU ++;
-        if (countU == 1) toBody = '<tr><td>Line</td><td>'+stored[j][toCheck[u]].id+'</td><td rowspan="2">'+distanceMatrix[selectedNodes[stored[j].y].id][0][selectedNodes[stored[j].x].id] +' (' + (distanceMatrix[selectedNodes[stored[j].y].id][0][selectedNodes[stored[j].x].id] / profileSize).toFixed(2) + ')</td>';
+        if (countU == 1){
+          if (graphObject.graphInput.data_type=='newick'){
+            toBody = '<tr><td>Line</td><td>'+stored[j][toCheck[u]].id+'</td><td rowspan="2">'+distanceMatrix[selectedNodes[stored[j].y].id][0][selectedNodes[stored[j].x].id]+'</td>';
+          }
+          else toBody = '<tr><td>Line</td><td>'+stored[j][toCheck[u]].id+'</td><td rowspan="2">'+distanceMatrix[selectedNodes[stored[j].y].id][0][selectedNodes[stored[j].x].id] +' (' + (distanceMatrix[selectedNodes[stored[j].y].id][0][selectedNodes[stored[j].x].id] / profileSize).toFixed(2) + ')</td>';
+        } 
         else toBody = '<tr style="border-bottom:2px solid black;"><td>Column</td><td>'+stored[j][toCheck[u]].id+'</td>';
       //toBody = '<tr><td>'+nodes[stored[j].y].id+'</td><td>'+nodes[stored[j].x].id+'</td><td>'+distanceMatrix[selectedNodes[stored[j].y].id][0][selectedNodes[stored[j].x].id]+'</td>';
       
@@ -342,7 +352,12 @@ var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDista
 
     for(u in toCheck){
       countU ++;
-      if (countU == 1) toBody = '<tr style="background-color:#f8e7e1;"><td>Line</td><td>'+p[toCheck[u]].id+'</td><td rowspan="2">'+distanceMatrix[selectedNodes[p.y].id][0][selectedNodes[p.x].id]+' (' + (distanceMatrix[selectedNodes[p.y].id][0][selectedNodes[p.x].id] / profileSize).toFixed(2) + ')</td>';
+      if (countU == 1) {
+        if (graphObject.graphInput.data_type=='newick'){
+          toBody = '<tr style="background-color:#f8e7e1;"><td>Line</td><td>'+p[toCheck[u]].id+'</td><td rowspan="2">'+distanceMatrix[selectedNodes[p.y].id][0][selectedNodes[p.x].id]+'</td>';
+        }
+        else toBody = '<tr style="background-color:#f8e7e1;"><td>Line</td><td>'+p[toCheck[u]].id+'</td><td rowspan="2">'+distanceMatrix[selectedNodes[p.y].id][0][selectedNodes[p.x].id]+' (' + (distanceMatrix[selectedNodes[p.y].id][0][selectedNodes[p.x].id] / profileSize).toFixed(2) + ')</td>';
+      } 
       else toBody = '<tr style="background-color:#f8e7e1;"><td>Column</td><td>'+p[toCheck[u]].id+'</td>';
 
       for (i in currentShowValues){

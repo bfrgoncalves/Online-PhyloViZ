@@ -60,14 +60,14 @@ function constructTable(tableData, datasetParameter, callback){
         "bSort" : false,
         dom: 'Bfrtip',
         buttons: [
-            'copy', 'csv', 'excel', 'print', //'pdf'
+            'copy', 'csv', 'excel', //'print', //'pdf'
             //'selected',
             //'selectedSingle',
             //'selectAll',
             //'selectNone',
             {
                 extend: 'selectAll',
-                text: 'Select All',
+                text: 'Select All Rows',
                 action: function ( e, dt, node, config ) {
                     table.$('tr', {search:'applied'}).toggleClass('selected');
 
@@ -75,13 +75,13 @@ function constructTable(tableData, datasetParameter, callback){
             },
             {
                 extend: 'selectNone',
-                text: 'Deselect All',
+                text: 'Deselect All Rows',
                 action: function ( e, dt, node, config ) {
                     table.$('tr').removeClass('selected');
 
                 }
             },
-            'selectRows',
+            //'selectRows',
             //'selectColumns'
             //'selectCells'
         ],

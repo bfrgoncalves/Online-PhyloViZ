@@ -13,15 +13,16 @@ adjustElements = function () {
     var width = $(window).width() - $(window).width() * 0.02,
     height = $(window).height() - $('#tabs').height() - $(window).width() * 0.02;
     
-    $('#visual').css({width:width, height: height, position: "relative"});
+    $('#visual').css({width: width, height: height, position: "relative"});
+    $('#labelsDiv').css({width: width, height: height, position: "absolute"});
 
     $("body").css('font-size', ButtonfontSize);
     $("li").css('font-size', ButtonfontSize);
-    $("a").css('font-size', ButtonfontSize * 1.5);
+    //$("a").css('font-size', ButtonfontSize * 1.5);
     $(".login").css('font-size', ButtonfontSize * 1.2);
     $("i").css('font-size', ButtonfontSize);
-    $(".form-control").css({'font-size': ButtonfontSize, 'height': assignColorHeight, 'padding': 0});
-    $(".btn-search").css({'font-size': ButtonfontSize, 'height': assignColorHeight, 'padding': 0});
+    //$(".form-control").css({'font-size': ButtonfontSize, 'height': assignColorHeight, 'padding': 0});
+    //$(".btn-search").css({'font-size': ButtonfontSize, 'height': assignColorHeight, 'padding': 0});
     $("h5").css('font-size', ButtonfontSize*1.2);
     $(".title").css('font-size', ButtonfontSize*2);
     $(".float_title").css('float', "right");

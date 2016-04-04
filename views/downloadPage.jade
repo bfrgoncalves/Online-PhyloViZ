@@ -1,0 +1,52 @@
+extends layout
+
+block title
+	div.indextitleLocation(onclick="javascript:location.href='/'")
+		img.phylovizImage(src='/images/logo.png')
+		label.title #{title}
+
+block login
+	div(id="indexuserLocation")
+		p Examples
+
+block API
+	div.apiBody
+		p Welcome to PHYLOViZ Online sample data page!
+		p Here you can find sample data that you can use in the application.
+
+	label(for="#phylovizDataUpload") Example Data sets
+	div(id="phylovizDataUpload")
+		br
+		li
+			p Profile data set and auxiliary data that consists of 145 strains of Streptococcus pneumoniae whose partial genome sequence was publicly available (<a href="http://dx.doi.org/10.1038/ng.2895">1</a>, <a href="http://dx.doi.org/10.1038/ng.2625">2</a>). The allelic information of 237 loci is considered in an arbitrary cgMLST scheme.
+			ul
+				li
+					a(href="/data/profileData.tab") Profile Data
+				li
+					a(href="/data/isolateData.tab") Auxiliary Data
+		br
+		li
+			p Fasta sequences and auxiliay data from a set of whole genome sequencing data from a number of V. Cholerae strains from the outbreak of cholera in Haiti beginning in 2010 as well as a number of other V. cholerae strains included for comparison. More information available <a href="https://github.com/apetkau/microbial-informatics-2014">here</a>.
+			ul
+				li
+					a(href="data/snp_example_phyloviz.fasta") Fasta/SNP Data
+				li
+					a(href="/data/snp_example_phyloviz_auxiliary.tsv") Auxiliary Data
+		br
+		li
+			p Newick and auxiliay data files from a Streptococcus pneumoniae data set publicly available at <a href="http://www.ncbi.nlm.nih.gov/pubmed/24957517">here</a>.
+			ul
+				li
+					a(href="/data/newick_example_phyloviz.nwk") Newick Data
+				li
+					a(href="/data/newick_example_auxiliary.csv") Auxiliary Data
+
+block scripts
+	script(type='text/javascript', src='/javascripts/dependencies/jquery-2.1.3.min.js')
+	script(type='text/javascript', src='/javascripts/dependencies/jquery.form.js')
+	script(type='text/javascript', src='/javascripts/dependencies/jquery-ui.min.js')
+	script(type='text/javascript', src='/javascripts/dependencies/bootstrap.js')
+	script(type='text/javascript', src='/javascripts/dependencies/bootstrap-select.js')
+	script(type='text/javascript', src='/javascripts/dependencies/datatables.min.js')
+	script(type='text/javascript', src='/javascripts/dependencies/jquery.dataTables.js')
+	script(type='text/javascript', src='/javascripts/App/adjustElements/adjustElementsAPI.js')
