@@ -21,15 +21,16 @@ var arrayColorsProfiles = [];
 var property_IndexProfiles = {};
 var changeFromTable = false;
 var loaded = false;
+//var lauchEventsFunction = '';
 ////////////////////////////////////////////////////////////////////////////////////
 
 $(document).ready(function(){
 
     $('#visual').css({width:width, height: height, position: "relative"});
 
-    if(navigator.userAgent.toLowerCase().indexOf('chrome') < 0)
+    if(navigator.userAgent.toLowerCase().indexOf('chrome') < 0 && navigator.userAgent.toLowerCase().indexOf('safari') < 0)
     {
-        var toAdd = 'We Apologize, but currently only Google Chrome is <b>fully  supported</b>. Performance is considerably higher if you use Chrome.<br>' +
+        var toAdd = 'We Apologize, but currently only Google Chrome and Safari web browsers are <b>fully  supported</b>. Performance is higher if you use Chrome.<br>' +
                  '<br>We are hoping (and working) to increase browser support soon.<br>' +
                   'In the meantime you can <b>Download Chrome</b> <a href="//www.google.com/chrome/browser/desktop/index.html">here</a>.<br>' +
                     '<br>You can use other web-browsers but be aware of known issues.<br>';

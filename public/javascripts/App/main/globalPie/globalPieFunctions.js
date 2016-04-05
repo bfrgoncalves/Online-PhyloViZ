@@ -71,10 +71,10 @@ function GlobalPie(classname, data, startWidth, startHeight, r, pieID, columnNam
 
         data = data.sort(orderDescending);
 
-        if (data.length > 19 && graphObject.modalMaxCategories == false){
+        if (data.length > 19 && graphObject.linkFromLinkButton != true){
         	$('#dialog').empty();
         	var toAppenddialog = '<div style="font-size:150%;text-align:center;">By default, only the top 20 results are displayed when assigning colours to the Tree Visualization. All the others are classified as <b><i>Others</i></b>.'+
-        	'<br>To selected which categories you want to visualize, filter them by <i>performing queries on Tables</i> or by choosing categories using the <b><i>Choose categories</i></b> button located in the right side of the screen, in the Pie Chart legend.</div>';
+        	'<br>To selected which categories you want to visualize, filter them by <i>performing queries on Tables</i> or by choosing categories using the <b><i>Choose categories</i></b> button located in the right side of the screen, in the Pie Chart legend of the <b>Tree tab</b>.</div>';
         	$('#dialog').append(toAppenddialog);
         	$('#dialog').dialog({
 		      height: $(window).height() * 0.3,
@@ -83,7 +83,7 @@ function GlobalPie(classname, data, startWidth, startHeight, r, pieID, columnNam
 		      resizable: true,
 		      dialogClass: 'no-close success-dialog'
 			});
-        	graphObject.modalMaxCategories = true;
+        	//graphObject.modalMaxCategories = true;
 
         }
 
@@ -265,7 +265,7 @@ function GlobalPie(classname, data, startWidth, startHeight, r, pieID, columnNam
 
 
         var legend = d3.select('#legend' + pieID).append("svg")
-        				.style("width", String(maxStringLength * fontSize1) + 'px')
+        				.style("width", String(maxStringLength * fontSize1 * 2) + 'px')
 					    .style("height", String(total * (startHeight * 1.5)) + 'px')
 					    .attr("class", "legend")
 					    .selectAll("g")

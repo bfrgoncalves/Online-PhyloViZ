@@ -21,7 +21,7 @@ function getLink(graphObject){
       var datasetID = graphObject.datasetID;
       var isPublic = graphObject.graphInput.isPublic;
 
-      alert('Here is the link to your dataset! It will work for 24 hours past upload time. \n\n' + window.location.href);
+      alert('Here is the link to the dataset!\n\n' + window.location.href);
 }
 
 function generateLink(datasetID){

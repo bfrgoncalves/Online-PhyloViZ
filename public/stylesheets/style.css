@@ -635,6 +635,7 @@ select {
   width: 100%;
   height: 100%;
   display: none;
+  z-index:2;
 }
 .graph-selection-indicator {
   position: absolute;

@@ -3,11 +3,13 @@ function SelectNodes(node, graphObject){
 	var graphics = graphObject.graphics;
 	var renderer = graphObject.renderer;
 
-	if(node.id.indexOf('TransitionNode') < 0) {
+	var nodeUI = graphics.getNodeUI(node.id);
+
+	if(node.id.indexOf('TransitionNode') < 0 && nodeUI.colorIndexes[0][0] != 0xFFA500ff) {
 
 		graphObject.selectedNodes.push(node);
 
-		var nodeUI = graphics.getNodeUI(node.id);
+		//var nodeUI = graphics.getNodeUI(node.id);
 
 		var newColors = [];
 	    for (i in nodeUI.colorIndexes){
@@ -444,10 +446,10 @@ function exportSelectedDataTree(graphObject){
 
 	var toDownload = '';
 	if(graphObject.graphInput.metadata.length != 0) toDownload += '<p>Download <a id="linkDownloadIsolateSelectedData">isolate data</a></p>';
-	else if (graphObject.graphInput.data_type == 'newick') toDownload += '<p>Download <a id="linkDownloadProfileSelectedData">node identifiers</a></p>';
-	else toDownload += '<p>Download <a id="linkDownloadProfileSelectedData">profile data</a></p>';
 	
-	if (graphObject.graphInput.data_type == 'fasta') toDownload += '<p>Download <a id="linkDownloadFastaSelectedData">sequences (.fasta)</a></p>';
+	if (graphObject.graphInput.data_type == 'newick') toDownload += '<p>Download <a id="linkDownloadProfileSelectedData">node identifiers</a></p>';
+	else if (graphObject.graphInput.data_type == 'fasta') toDownload += '<p>Download <a id="linkDownloadFastaSelectedData">sequences (.fasta)</a></p>';
+	else toDownload += '<p>Download <a id="linkDownloadProfileSelectedData">profile data</a></p>';
 
 	$('#dialog').empty();
 
@@ -478,7 +480,7 @@ function exportSelectedDataMatrix(graphObject, selectedNodes, stored){
 
 	var alreadyExported = [];
 
-	var toCheck = ["source", "target"];
+	var toCheck = ["source_node", "target_node"];
 
 	for (i in stored){
 		for (j in toCheck){
@@ -533,7 +535,6 @@ function exportMatrix(graphObject){
 
 	var encodedUriMatrix = 'data:text/csv;charset=utf-8,' + encodeURIComponent(stringToMatrix);
 	//var encodedUriMatrix = encodedUriMatrix.replace(/!!!/g, "#");
-	console.log(encodedUriMatrix);
 
 	var a = $('<p>Download <a id="linkDownloadMatrix">Distance Matrix</a></p>');
 

@@ -138,11 +138,11 @@ block normalBody
 											input(type='checkbox',id='AddLinkLabels')
 											div(id="divselectLabelType" style="display:none")
 												select(id="labelType")
-													option(value="absolute") Absolute
-													option(value="relative") Relative
+													option(value="absolute") Absolute Distance
+													option(value="relative") Relative Distance
 												select(id="labelTypeNewick")
-													option(value="linkLength") Link length
-													option(value="bootstrap") Bootstrap
+													option(value="linkLength") Link Length
+													option(value="bootstrap") Bootstrap Values
 									a.btn.btn-primary.actionButton.submenu(data-toggle='collapse', href='#LayoutGraphics', aria-expanded="false", aria-controls="collapseExample" id="layoutc") Layout
 									div.collapse(id='LayoutGraphics')
 										div.well(id='LayoutAttributes')
@@ -253,7 +253,7 @@ block normalBody
 					div(id="divbuttonlinkpieprofiles")
 
 			div.tab-pane(id="distanceContent")
-				div(id="noDistances", style="width:100%; text-align:center; display:none;font-size:150%;position:absolute; top:50%;")
+				div(id="noDistances", style="width:100%; text-align:center;display:none;font-size:150%;position:absolute; top:50%;")
 					p To visualize the Distance Matrix, first select some nodes on the <b>Tree tab</b> and select <b>Compute distances</b> located at the <b>Operations</b> section.
 
 				div(id="firstContainer")
@@ -294,8 +294,10 @@ block normalBody
 					div(id="divdistances")
 
 			div.tab-pane(id="FASTAContent")
+				div(id="noSequences", style="width:100%;text-align:center; display:block;font-size:150%;position:absolute; top:50%;")
+					p To visualize the aligned sequences, first select some nodes on the <b>Tree tab</b> and choose the<b>View Sequences</b> option located at the <b>Operations</b> section.
 				div(id="FASTALocation")
-					div(id="clearFASTALocation")
+					div(id="clearFASTALocation" style="display:none;")
 						button.btn-md.btn-danger(id="clearFASTA") Clear Sequences
 					div(id="menuLocation")
 					br

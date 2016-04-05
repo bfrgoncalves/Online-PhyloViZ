@@ -466,6 +466,7 @@ function loadGraphFunctions(){
 	            if (e.which === 16 && graphObject.multiSelectOverlay) {
 	              graphObject.multiSelectOverlay.destroy();
 	              //graphObject.multiSelectOverlay = null;
+	              graphObject.selectedNodes = [];
 
 	              selectProperties = graphObject.multiSelectOverlay.selectedArea();
 

@@ -13,11 +13,12 @@ function createMSA(graphObject){
 	$('#clearFASTA').click(function(){
 		$('#menuLocation').empty();
 		$('#alignmentLocation').empty();
+		$('#noSequences').css({'display': 'block'});
+		$('#clearFASTA').css({'display': 'none'});
 	});
 
 	$('#menuLocation').empty();
 	$('#alignmentLocation').empty();
-	console.log(graphObject);
 	
 	var opts = {};
 
@@ -62,6 +63,9 @@ function createMSA(graphObject){
   	$('.tab-pane.active').removeClass('active');
   	$('#FASTATab').addClass('active');
   	$('#FASTAContent').addClass('active');
+
+  	$('#clearFASTALocation').css({'display': 'block'});
+  	$('#noSequences').css({'display': 'none'});
 
 	$("#waitingGifMain").css('display', 'none');
 	status('');

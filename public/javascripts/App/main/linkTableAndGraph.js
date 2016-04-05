@@ -12,6 +12,8 @@ function linkTableAndGraph(property, graphObject){
 
 	var headers = [];
 
+  graphObject['selectedOnTable' + property] = false;
+
 
     if (property == 'isolates'){
     	var tHeadersI = [];
@@ -31,6 +33,8 @@ function linkTableAndGraph(property, graphObject){
     var prevColumnIndex = -1;
 
 	$('#'+tableToCheck+' thead th').click(function(d){
+
+    graphObject.linkFromLinkButton = false;
 
 	  if (firstTimeFilterIsolates){
 	  	metadataFilter = new Array(3);
@@ -53,9 +57,11 @@ function linkTableAndGraph(property, graphObject){
 
       prevColumnIndex = columnIndex;
 
+      //var columnData = table.column(columnIndex).data();
       var selectedData = table.rows('.selected').data();
 
       if (selectedData.length != 0){
+        graphObject['selectedOnTable' + property] = true;
       	//var columnDataInter = table.rows('.selected').data();
       	var columnData = [];
       	var keyData = [];
@@ -74,6 +80,7 @@ function linkTableAndGraph(property, graphObject){
       	}
       }
   	  else{
+        graphObject['selectedOnTable' + property] = false;
   	  	var columnData = table.column(columnIndex).data();
   	  	if (property == 'isolates'){
   	  		metadataFilter[1] = [];
@@ -120,6 +127,21 @@ function createLinkButton(property, columnIndex, columnData, columnName, graphOb
 	$("#buttonlinkpie" + property).css('font-size', ButtonfontSize);
 
 	$("#buttonlinkpie" + property).click(function(d){
+
+    graphObject.linkFromLinkButton = true;
+
+    if(graphObject['selectedOnTable' + property] == true){
+      $('#dialog').empty();
+      var toAppend = '<div style="font-size:150%;text-align:center;">To remove the filter applied to the data, return to the <b>table</b>, press the <i>Deselect All Rows</i> button and select one column header to refresh the selection.';
+      $('#dialog').append(toAppend);
+      $('#dialog').dialog({
+          height: $(window).height() * 0.2,
+          width: $(window).width() * 0.4,
+          modal: true,
+          resizable: true,
+          dialogClass: 'no-close success-dialog'
+      });
+    }
 
 		changeFromTable = true;
 

@@ -43,6 +43,8 @@ var colorAttributes = function(graphObject){
 
 $('#selectByScheme').change(function(d){
 
+  graphObject.linkFromLinkButton = false;
+
 	element = $('#selectByScheme');
 	//console.log(element);
 	propertyToCheck = element.find(":selected").text();
@@ -85,6 +87,9 @@ $('#selectByScheme').change(function(d){
 });
 
 $('#selectByMetadata').change(function(d){
+
+  graphObject.linkFromLinkButton = false;
+  
   element = $('#selectByMetadata');
  	propertyToCheck = element.find(":selected").text();
   propertyIndex = graph.metadata.indexOf(propertyToCheck);

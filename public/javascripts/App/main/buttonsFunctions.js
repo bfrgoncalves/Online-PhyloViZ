@@ -34,6 +34,7 @@ function loadButtonFunctions(){
 				graphObject.layout.setNodePosition(graphObject.TopNode.id, 0, 0);
 				graphObject.renderer.moveTo(0,0);
 				graphObject.graphFunctions.adjustScale(graphObject);
+				graphObject.graphFunctions.launchGraphEvents(graphObject);
 
 				if(graphObject.isLayoutPaused){
 			        graphObject.renderer.resume();

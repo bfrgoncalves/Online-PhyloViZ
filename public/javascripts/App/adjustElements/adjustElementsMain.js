@@ -13,8 +13,8 @@ adjustElements = function () {
     var width = $(window).width() - $(window).width() * 0.02,
     height = $(window).height() - $('#tabs').height() - $(window).width() * 0.02;
     
+    $('#labelsDiv').css({width: width, position: "absolute"});
     $('#visual').css({width: width, height: height, position: "relative"});
-    $('#labelsDiv').css({width: width, height: height, position: "absolute"});
 
     $("body").css('font-size', ButtonfontSize);
     $("li").css('font-size', ButtonfontSize);
@@ -32,6 +32,7 @@ adjustElements = function () {
     $("#isolateContent").css({"height": heightTab + 'px'});
     $("#profileContent").css({"height": heightTab + 'px'});
     $("#distanceContent").css({"height": heightTab + 'px'});
+    $("#FASTAContent").css({"height": heightTab + 'px'});
 
     $("body").css('opacity', 1);
 

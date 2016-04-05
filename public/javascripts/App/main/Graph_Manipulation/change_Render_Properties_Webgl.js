@@ -482,7 +482,11 @@ function printDiv(graphObject)
 
           var newWin=window.open('','Print-Window','width=21cm','height=29.7cm');
 
+          if (newWin == null || typeof(newWin)=='undefined')
+            alert("Please disable your pop-up blocker.\n\nTo save the image, a new window must be created.");
+
           newWin.document.open();
+          //console.log('AQUI');
 
           newWin.document.write('<html><body style="width:100%;height:100%;"><div style="width:100%;height:100%;"><div id="canvasImage" style="width:100%;height:auto;position:absolute;top:0;text-align:center;">'+toAddImage+'</div><div style="width:100%; height:auto;position:absolute;top:0;text-align:center;">'+toAddLabels+'</div></div><div style="width:100%;">'+divWithpieChart.innerHTML+'</div><div style="width:50%;float:right;">'+divWithtablePercentages.innerHTML+'</div></body></html>');
           newWin.document.getElementById('divViz').appendChild(canvasViz);
