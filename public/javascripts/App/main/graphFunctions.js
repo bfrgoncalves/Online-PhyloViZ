@@ -253,7 +253,8 @@ function loadGraphFunctions(){
 		          $('.node-label').css('display','none');
 		          $('.link-label').css('display','none');
 
-                  graphics.placeNode(function(ui, pos) {
+
+		          	graphics.placeNode(function(ui, pos) {
                   	  if (graphObject.tovisualizeLabels == false) return false;
 	                  // This callback is called by the renderer before it updates
 	                  // node coordinate. We can use it to update corresponding DOM
@@ -267,6 +268,7 @@ function loadGraphFunctions(){
 	                  // And ask graphics to transform it to DOM coordinates:
 	                  graphics.transformGraphToClientCoordinates(domPos);
 
+
 	                  // then move corresponding dom label to its own position:
 	                  var nodeId = ui.node.id;
 	                  if (nodeLabels[nodeId] != undefined){
@@ -275,7 +277,6 @@ function loadGraphFunctions(){
 	                    labelStyle.top = domPos.y  + 'px';
 	                    labelStyle.position = 'absolute';
 
-	                    if (graphObject.tovisualizeLabels){
 
 	                      if (domPos.y + containerPosition.top < containerPosition.top || domPos.y + containerPosition.top > containerPosition.bottom){
 	                        labelStyle.display = "none";
@@ -285,11 +286,11 @@ function loadGraphFunctions(){
 	                      }
 	                      else labelStyle.display = "block";
 
-	                    }
 	                  }
                 	});
-
-		          graphics.placeLink(function(ui, pos) {
+					
+					
+		          	graphics.placeLink(function(ui, pos) {
 		          		  if (graphObject.tovisualizeLinkLabels == false) return false;
 		                  // This callback is called by the renderer before it updates
 		                  // node coordinate. We can use it to update corresponding DOM
@@ -317,7 +318,6 @@ function loadGraphFunctions(){
 		                    labelStyle.color = 'red';
 		                    //console.log(labelStyle);
 
-		                    if (graphObject.tovisualizeLinkLabels){
 
 		                      if (domPos.y + containerPosition.top < containerPosition.top || domPos.y + containerPosition.top > containerPosition.bottom){
 		                        labelStyle.display = "none";
@@ -326,10 +326,9 @@ function loadGraphFunctions(){
 		                        labelStyle.display = "none";
 		                      }
 		                      else labelStyle.display = "block";
-
-		                    }
 		                  }
-		          });
+		            });
+		         
 				
 				function adjustLabelPositions(){
 					containerPosition = container.getBoundingClientRect();

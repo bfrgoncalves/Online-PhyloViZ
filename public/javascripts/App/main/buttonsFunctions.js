@@ -81,6 +81,9 @@ function loadButtonFunctions(){
 
 		graphicButtons: function(graphObject){
 
+			$('#AddLinkLabels').prop('checked', false);
+			$('#AddNodeLabels').prop('checked', false);
+
 			$('#NodeSizeSlider').change(function(e){
 	            NodeSize(this.value, this.max, graphObject);
 	        });
@@ -143,13 +146,25 @@ function loadButtonFunctions(){
 
 	        $('#AddLabels').change(function(e){
 	            if (this.checked){
-	              $('.node-label').css('display','block');
-	              graphObject.tovisualizeLabels = true;
-	              if(graphObject.isLayoutPaused == true){
-	              	graphObject.renderer.resume();
-        			setTimeout(function(){ graphObject.renderer.pause();}, 50);
-	              }
-	              else graphObject.renderer.resume();
+	              if(navigator.userAgent.toLowerCase().indexOf('safari') > -1 || navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
+	           	  	
+	           	  	$('#dialog').empty();
+	           	  	var toAppend = '<div style="width:100%;height:50%;text-align:center;"><p>Using this web browser, you might experience some performance loss when adding labels. Do you wish to continue?</p><br><button id="yesLabels" class="btn btn-primary">Yes</button><button id="noLabels" class="btn btn-danger">No</button></div>';
+
+	           	  	$('#dialog').append(toAppend);
+	           	  	$('#dialog').dialog();
+
+	           	  	$('#yesLabels').click(function(){
+	           	  		AddNodeLabels(graphObject);
+	           	  		$('#dialog').dialog('close');
+	           	  	});
+	           	  	$('#noLabels').click(function(){
+	           	  		$('#AddLinkLabels').prop('checked', false);
+	           	  		$('#dialog').dialog('close');
+
+	           	  	});
+	           	  }
+	           	  else AddNodeLabels(graphObject);
 	            } 
 	            else{
 	              $('.node-label').css('display','none');
@@ -181,26 +196,25 @@ function loadButtonFunctions(){
 
           	$('#AddLinkLabels').change(function(e){
 	            if (this.checked){
-	              $('#divselectLabelType').css({"display": "block"});
-	              $('.link-label').css('display','block');
-	              if(graphObject.graphInput.data_type != "newick") {
-	              	$('#labelType').css({"display": "block"});
-	              	$('#labelTypeNewick').css({"display": "none"});
-	              }
-	              else{
-	              	$('#labelType').css({"display": "none"});
-	              	$('#labelTypeNewick').css({"display": "block"});
-	              }
-	              for (i in graphObject.removedLinks){
-	                var labelStyle = linkLabels[graphObject.removedLinks[i].id].style;
-	                labelStyle.display = "none";
-	              }
-	              graphObject.tovisualizeLinkLabels = true;
-	              if(graphObject.isLayoutPaused == true){
-	              	graphObject.renderer.resume();
-        			setTimeout(function(){ graphObject.renderer.pause();}, 50);
-	              }
-	              else graphObject.renderer.resume();
+	           	  if(navigator.userAgent.toLowerCase().indexOf('safari') > -1 || navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
+	           	  	
+	           	  	$('#dialog').empty();
+	           	  	var toAppend = '<div style="width:100%;height:50%;text-align:center;"><p>Using this web browser, you might experience some performance loss when adding labels. Do you wish to continue?</p><br><button id="yesLabels" class="btn btn-primary">Yes</button><button id="noLabels" class="btn btn-danger">No</button></div>';
+
+	           	  	$('#dialog').append(toAppend);
+	           	  	$('#dialog').dialog();
+
+	           	  	$('#yesLabels').click(function(){
+	           	  		AddLinkLabels(graphObject);
+	           	  		$('#dialog').dialog('close');
+	           	  	});
+	           	  	$('#noLabels').click(function(){
+	           	  		$('#AddLinkLabels').prop('checked', false);
+	           	  		$('#dialog').dialog('close');
+
+	           	  	});
+	           	  }
+	           	  else AddLinkLabels(graphObject);
 	            } 
 	            else{
 	              if(graphObject.graphInput.data_type != "newick") $('#divselectLabelType').css({"display": "none"});
@@ -358,4 +372,39 @@ function loadButtonFunctions(){
 		}
 
 	}
+}
+
+function AddLinkLabels(graphObject){
+
+  $('#divselectLabelType').css({"display": "block"});
+  $('.link-label').css('display','block');
+  if(graphObject.graphInput.data_type != "newick") {
+  	$('#labelType').css({"display": "block"});
+  	$('#labelTypeNewick').css({"display": "none"});
+  }
+  else{
+  	$('#labelType').css({"display": "none"});
+  	$('#labelTypeNewick').css({"display": "block"});
+  }
+  for (i in graphObject.removedLinks){
+    var labelStyle = linkLabels[graphObject.removedLinks[i].id].style;
+    labelStyle.display = "none";
+  }
+  graphObject.tovisualizeLinkLabels = true;
+  if(graphObject.isLayoutPaused == true){
+  	graphObject.renderer.resume();
+	setTimeout(function(){ graphObject.renderer.pause();}, 50);
+  }
+  else graphObject.renderer.resume();
+
+}
+
+function AddNodeLabels(graphObject){
+  $('.node-label').css('display','block');
+  graphObject.tovisualizeLabels = true;
+  if(graphObject.isLayoutPaused == true){
+  	graphObject.renderer.resume();
+	setTimeout(function(){ graphObject.renderer.pause();}, 50);
+  }
+  else graphObject.renderer.resume();
 }

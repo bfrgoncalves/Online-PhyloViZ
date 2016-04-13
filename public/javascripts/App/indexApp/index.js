@@ -1,9 +1,9 @@
 
 $(document).ready( function(){
 
-	if(navigator.userAgent.toLowerCase().indexOf('chrome') < 0 && navigator.userAgent.toLowerCase().indexOf('safari') < 0)
+	if(navigator.userAgent.toLowerCase().indexOf('chrome') < 0 && navigator.userAgent.toLowerCase().indexOf('safari') < 0 && navigator.userAgent.toLowerCase().indexOf('firefox') < 0)
     {
-        var toAdd = 'We Apologize, but currently only Google Chrome and Safari web browsers are <b>fully  supported</b>. Performance is higher if you use Chrome.<br>' +
+        var toAdd = 'We Apologize, but currently only Google Chrome, Safari, and Firefox web browsers are <b>fully  supported</b>. Performance is higher if you use Chrome.<br>' +
                  '<br>We are hoping (and working) to increase browser support soon.<br>' +
                   'In the meantime you can <b>Download Chrome</b> <a href="//www.google.com/chrome/browser/desktop/index.html">here</a>.<br>' +
                     '<br>You can use other web-browsers but be aware of known issues.<br>';

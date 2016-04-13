@@ -494,7 +494,9 @@ function printDiv(graphObject)
 
           $(newWin.document).contents().find('#Choosecategories').remove();
 
-          setTimeout(function(){ newWin.window.print();}, 100);
+          setTimeout(function(){ 
+            newWin.window.print();
+            newWin.close();}, 100);
           //newWin.document.getElementById('canvas').remove();
 
       }

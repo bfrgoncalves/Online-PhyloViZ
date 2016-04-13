@@ -55,6 +55,7 @@ li
 							<span class="glyphicon glyphicon-arrow-right"></span>
 						td(style="text-align:justify")
 							p On the <b>Nodes</b> section, it is possible to change <i>Node size</i> and <i>Label size</i>. By default, Nodes do not have Labels activated. To do that, users need to check the <b><i>Add Node Labels</i></b> button.
+							p The size of the nodes can also be normalized using the <b><i>Log Scale</i></b> option, in case of some nodes having a large number of isolates.
 					tr.subrow
 						td.tutorialcolumns
 							img(id="graphicprop3" href="/images/graphicprop3.png" style="width:60%; height:auto;" src="/images/graphicprop3.png")
@@ -62,7 +63,8 @@ li
 							<span class="glyphicon glyphicon-arrow-right"></span>
 						td(style="text-align:justify")
 							p On the <b>Links</b> section, it is possible to change <i>Link size</i> and <i>Label size</i>. Similar to Nodes, by default, Link also do not have Labels activated. To do that, users need to check the <b><i>Add Link Labels</i></b> button.
-							p  In case of link representing  large distances between profiles, their length can  difficult the tree visualization . In those cases, users are recommend to select the <b><i>Log Scale</i></b> button, to facilitate the large tree visualization.
+							p  By default, the link length is proportional to the number of differences by its scalability it is not linear. To force or ralax those proportions, you can use the <b><i>Scaling Factor</i></b> option. 
+							p In case of link representing  large distances between profiles, their length can  difficult the tree visualization. In those cases, users are recommend to select the <b><i>Log Scale</i></b> button, to facilitate the large tree visualization.
 					tr.subrow
 						td.tutorialcolumns
 							img(id="graphicprop4" href="/images/graphicprop4.png" style="width:60%; height:auto;" src="/images/graphicprop4.png")
@@ -74,8 +76,10 @@ li
 								li <b><i>Drag force coefficient</i></b>: Slows down animation  speed and the closer two 0 the farthest the nodes will be.
 								li <b><i>Hook's law coefficient (Spring coeficcient)</i></b>: Closer to 0 links are more loose.
 								li <b><i>Gravity</i></b>: Negative numbers lead to nodes repel.
-								li <b><i>Theta</i></b>: global charge force.
+								li <b><i>Theta</i></b>: Controls the openning angle used to calculate the force layout. As the Theta value increases, the opening angle is reduced, thus merging the closest nodes with the overall effect of uncluttering the display.
 								li <b><i>Mass Ratio</i></b>: Bigger values lead to more attraction between nodes.
+							br
+							p All changed can be placed back to the default state by pressing the <b><i>Reset</i></b> button.
 		li
 			div.tutorialsubsections(id="selection")
 				h5 Node selection
@@ -92,7 +96,7 @@ li
 
 		li
 			div.tutorialsubsections(id="search")
-				h5 Search/Pause/Reset
+				h5 Search/Pause/Reset/Zoom
 				table
 					tr.subrow
 						td.tutorialcolumns
@@ -108,6 +112,7 @@ li
 							<span class="glyphicon glyphicon-arrow-right"></span>
 						td(style="text-align:justify")
 							p Users can pause and resume the layout whenever they want using the <b><i>Pause/Resume Layout</i></b> button. The Tree can also be placed back to its inicial place using the <b><i>Reset Positions</i></b> button.
+							p Users can also zoom the Tree using the <b><i>Zoom</i></b> buttons.
 		li
 			div.tutorialsubsections(id="exportvisual")
 				h5 Export

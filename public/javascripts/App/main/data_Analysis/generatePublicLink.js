@@ -20,8 +20,21 @@ function getLink(graphObject){
 
       var datasetID = graphObject.datasetID;
       var isPublic = graphObject.graphInput.isPublic;
+      launchDialog('Here is the link to the dataset!\n\n', window.location.href);
+}
 
-      alert('Here is the link to the dataset!\n\n' + window.location.href);
+function launchDialog(message, url){
+
+      $('#dialog').empty();
+      var message = '<p>' + message + '</p>';
+      var buttonToAdd = '';
+      if (url != null){
+            var buttonToAdd = '<button class="btn-clip" data-clipboard-text="'+url+'">Copy to clipboard</button>';
+            $('#dialog').append('<div style="width:100%;text-align:center;">' + message + '<textarea style="width:80%;height:40%;resize:none;">'+url+'</textarea><br>' + buttonToAdd + '</div>');
+      }
+      else $('#dialog').append('<div style="width:100%;text-align:center;">' + message + '</div>');
+      $('#dialog').dialog();
+
 }
 
 function generateLink(datasetID){
@@ -34,7 +47,7 @@ function generateLink(datasetID){
             },
       dataType: "json",
       success: function(data){
-            alert('Here is the public link to your dataset! \n\n' + data.url);
+            launchDialog('Here is the public link to your dataset! \n\n', data.url);
             //createLinkPlace(data);
       }
       });
@@ -66,7 +79,7 @@ function revokeLink(){
             },
       dataType: "json",
       success: function(data){
-            alert('Your dataset is no longer shareable.');
+            launchDialog('Your dataset is no longer shareable.', null);
       }
       });
 }
