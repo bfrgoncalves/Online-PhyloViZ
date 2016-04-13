@@ -91,6 +91,17 @@ block API
 													a(href="#order") Order
 												li
 													a(href="#select") Select/Export
+										li Sequence Viewer
+										div(id="sequenceCollapse")
+											ul
+												li
+													a(href="#sequencefilter") Filter
+												li
+													a(href="#sequenceselect") Select
+												li
+													a(href="#sequencecolour") Colour
+												li
+													a(href="#sequenceorder") Order
 
 
 			div.tutorialParts(id="introduction")
@@ -133,6 +144,9 @@ block API
 							ul
 								div.tutorialParts(id="distanceText")
 									include distanceText.jade
+							ul
+								div.tutorialParts(id="sequenceText")
+									include sequenceViewerText.jade
 
 			div(id="top-link-block" style="display:none;")
 				button(href="#top" class="btn btn-info"  onclick="$('html,body').animate({scrollTop:0},'slow');return false;") Back to Top

@@ -83,7 +83,7 @@ function tutorial(divId){
 							'<ul><li><b>Drag force coefficient</b>: Slows down animation speed and the closer two 0 the farthest the nodes will be.</li>' + 
 								"<li><b>Hook's law coefficient (Spring coeficcient)</b>: Closer to 0 links are more loose.</li>" + 
 								'<li><b>Gravity</b>: Negative numbers lead to nodes repel.</li>' + 
-								'<li><b>Theta</b>: global charge force.</li>' + 
+								'<li><b>Theta</b>: Controls the openning angle used to calculate the force layout. As the Theta value increases, the opening angle is reduced, thus merging the closest nodes with the overall effect of uncluttering the display.</li>' + 
 								'<li><b>Mass Ratio</b>: Bigger values lead to more attraction between nodes.</li></ul>' + 
 							'</p>' + 
 							'<label style="font-size:100%;color:#FE9128;">Operations:</label>' + 
