@@ -198,6 +198,7 @@ function loadGraphFunctions(){
 			var container = graphObject.container;
 
 			var containerPosition = container.getBoundingClientRect();
+			var header_height = $(".tabs_headers").height() + 5;
 
 			var labelsContainer = document.createElement('div');
 			labelsContainer.setAttribute("id", "labelsDiv");
@@ -270,25 +271,28 @@ function loadGraphFunctions(){
 
 
 	                  // then move corresponding dom label to its own position:
+	                  //console.log(ui);
 	                  var nodeId = ui.node.id;
 	                  if (nodeLabels[nodeId] != undefined){
-	                    var labelStyle = nodeLabels[nodeId].style;
-	                    labelStyle.left = domPos.x + 'px';
-	                    labelStyle.top = domPos.y  + 'px';
-	                    labelStyle.position = 'absolute';
+	                  	var display = '', top= '', left='';
+	                    //var labelStyle = nodeLabels[nodeId].style;
+	                    left = (domPos.x + 0.01 * domPos.x)+ 'px';
+	                    top = (domPos.y  +header_height)  + 'px';
+	                    //labelStyle.position = 'absolute';
 
 
 	                      if (domPos.y + containerPosition.top < containerPosition.top || domPos.y + containerPosition.top > containerPosition.bottom){
-	                        labelStyle.display = "none";
+	                        display = "none";
 	                      }
 	                      else if (domPos.x + containerPosition.left < containerPosition.left || domPos.x + containerPosition.left*2 > containerPosition.right){
-	                        labelStyle.display = "none";
+	                        display = "none";
 	                      }
-	                      else labelStyle.display = "block";
+	                      else display = "block";
 
+	                      var newStyle ="display: " + display + ";top: " + top + ";left: " + left + ";color:black;position:fixed;";
+	                      nodeLabels[nodeId].setAttribute('style', newStyle);
 	                  }
                 	});
-					
 					
 		          	graphics.placeLink(function(ui, pos) {
 		          		  if (graphObject.tovisualizeLinkLabels == false) return false;
@@ -310,28 +314,33 @@ function loadGraphFunctions(){
 		                  // then move corresponding dom label to its own position:
 		                  var linkId = ui.idGL;
 
+		                  
 		                  if (linkLabels[linkId] != undefined){
-		                    var labelStyle = linkLabels[linkId].style;
-		                    labelStyle.left = domPos.x + 'px';
-		                    labelStyle.top = domPos.y  + 'px';
-		                    labelStyle.position = 'absolute';
-		                    labelStyle.color = 'red';
+		                  	var display = '', top= '', left='';
+		                    //var labelStyle = linkLabels[linkId].style;
+		                    left = (domPos.x + 0.01 * domPos.x) + 'px';
+		                    top = (domPos.y  +header_height)+ 'px';
+		                    //labelStyle.position = 'absolute';
+		                    //labelStyle.color = 'red';
 		                    //console.log(labelStyle);
-
-
 		                      if (domPos.y + containerPosition.top < containerPosition.top || domPos.y + containerPosition.top > containerPosition.bottom){
-		                        labelStyle.display = "none";
+		                        display = "none";
 		                      }
 		                      else if (domPos.x + containerPosition.left < containerPosition.left || domPos.x + containerPosition.left*2 > containerPosition.right){
-		                        labelStyle.display = "none";
+		                        display = "none";
 		                      }
-		                      else labelStyle.display = "block";
+		                      else display = "block";
+
+		                    var newStyle ="display: " + display + ";top: " + top + ";left: " + left + ";color:red;position:fixed;";
+
+							linkLabels[linkId].setAttribute('style', newStyle);
 		                  }
 		            });
 		         
 				
 				function adjustLabelPositions(){
 					containerPosition = container.getBoundingClientRect();
+					header_height = $(".tabs_headers").height() + 5;
 				}
 
 				graphObject.adjustLabelPositions = adjustLabelPositions;

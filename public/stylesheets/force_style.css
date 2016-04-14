@@ -7,3 +7,15 @@
   stroke: #999;
   stroke-opacity: .6;
 }
+
+.node-label{
+	position: fixed;
+	color:black;
+	pointer-events:none;
+}
+
+.link-label{
+	position: fixed;
+	color:red;
+	pointer-events:none;
+}

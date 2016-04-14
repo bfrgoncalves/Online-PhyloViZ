@@ -82,7 +82,7 @@ function loadButtonFunctions(){
 		graphicButtons: function(graphObject){
 
 			$('#AddLinkLabels').prop('checked', false);
-			$('#AddNodeLabels').prop('checked', false);
+			$('#AddLabels').prop('checked', false);
 
 			$('#NodeSizeSlider').change(function(e){
 	            NodeSize(this.value, this.max, graphObject);
@@ -146,7 +146,7 @@ function loadButtonFunctions(){
 
 	        $('#AddLabels').change(function(e){
 	            if (this.checked){
-	              if(navigator.userAgent.toLowerCase().indexOf('safari') > -1 || navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
+	              if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
 	           	  	
 	           	  	$('#dialog').empty();
 	           	  	var toAppend = '<div style="width:100%;height:50%;text-align:center;"><p>Using this web browser, you might experience some performance loss when adding labels. Do you wish to continue?</p><br><button id="yesLabels" class="btn btn-primary">Yes</button><button id="noLabels" class="btn btn-danger">No</button></div>';
@@ -196,8 +196,8 @@ function loadButtonFunctions(){
 
           	$('#AddLinkLabels').change(function(e){
 	            if (this.checked){
-	           	  if(navigator.userAgent.toLowerCase().indexOf('safari') > -1 || navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
-	           	  	
+	           	  if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
+	           	  	console.log(navigator.userAgent.toLowerCase());
 	           	  	$('#dialog').empty();
 	           	  	var toAppend = '<div style="width:100%;height:50%;text-align:center;"><p>Using this web browser, you might experience some performance loss when adding labels. Do you wish to continue?</p><br><button id="yesLabels" class="btn btn-primary">Yes</button><button id="noLabels" class="btn btn-danger">No</button></div>';
 
