@@ -158,6 +158,7 @@ function readInputFiles(pathToFile, fileType, dataToDB, callback){
   }
   else {
     readCSVfile(pathToFile, fileType, dataToDB, function(dataToDB){
+      //console.log(dataToDB.fileProfile);
       callback(pathToFile, dataToDB);
     })
   }
@@ -178,7 +179,7 @@ function readCSVfile(pathToFile, fileType, dataToDB, callback){
     csv.fromStream(stream, {headers : true, delimiter:'\t', quote: null})
       .on("data", function(data){
         if (getHeaders){
-          for (i in data) headers.push(i);
+          for (i in data) headers.push(i.replace(/\'/g, ''));
           identifier = headers[0];
           if (fileType == 'fileProfile'){
             dataToDB.key = identifier;
@@ -196,8 +197,12 @@ function readCSVfile(pathToFile, fileType, dataToDB, callback){
           dataToDB[fileType + '_headers'] = headers; //remove first element from array. remove the identifier
           getHeaders = false;
         }
-        for (i in data) data[i] = data[i].replace(/\'/g, '');
-        dataToDB[fileType].push(data);
+        var newData = {};
+        for (i in data){
+          newData[i.replace(/\'/g, '')] = data[i].replace(/\'/g, '');
+          //data[i] = data[i].replace(/\'/g, '');
+        }
+        dataToDB[fileType].push(newData);
       })
       .on("end", function(){
         console.log("done");
@@ -357,6 +362,7 @@ function uploadToDatabase(data, callback){
       }
       client.query(query, function(err, result) {
         if(err) {
+          console.log(err);
           data.hasError = true;
           data.errorMessage = 'Could not upload input data. Possible unsupported file type. For information on supported file types click <a href="/index/inputinfo">here</a>.'; //+ err.toString();
           return callback(data);

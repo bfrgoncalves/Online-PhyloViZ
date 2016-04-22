@@ -55,6 +55,11 @@ function uploadFiles(){
   var datasetName = document.getElementById('datasetName');
   var makePublic = document.getElementById('makepublic').checked;
 
+  var chosencomparator = document.getElementById('possComparators');
+  var selectedComparator = chosencomparator.options[chosencomparator.selectedIndex].text.split('(')[1].split(')')[0];
+
+  console.log(selectedComparator);
+
   countNumberOfFiles = 0;
 
   if (fileSelectNewick.files[0] != undefined) countNumberOfFiles += 1;
@@ -82,7 +87,6 @@ function uploadFiles(){
     type: 'POST',
     success: function(data){
       //console.log(datasetName);
-      console.log(data);
       if(data.hasError == true){
         $("#dialog").empty();
         $("#dialog").append('<p>' + data.errorMessage + '</p>');
@@ -92,7 +96,7 @@ function uploadFiles(){
       }
       else{
         if (fileSelectNewick.files[0] != undefined) window.location.replace("/main/dataset/" + data.datasetID);
-        else getLinks(data.datasetID);
+        else getLinks(data.datasetID, selectedComparator);
         status('Computing links...');
       }
     }
@@ -102,15 +106,18 @@ function uploadFiles(){
 
 }
 
-function getLinks(datasetID){
+function getLinks(datasetID, selectedComparator){
 
   $.ajax({
     url: '/api/algorithms/goeBURST',
-    data: $.param({dataset_id: datasetID, save: true}),
+    data: $.param({dataset_id: datasetID, save: true, comparator: selectedComparator}),
     processData: false,
     contentType: false,
+    timeout: 100000000,
+    retryLimit : 0,
     type: 'GET',
     success: function(data){
+      console.log(data);
       if(data.dupProfiles.length > 0 || data.dupIDs.length >0){
         popDialog(data);
       }

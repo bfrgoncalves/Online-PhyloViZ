@@ -19,7 +19,9 @@ function loadGraphFunctions(){
 		    for (j in graph.links){
 		        if (maxLinkValue < graph.links[j].value) maxLinkValue = graph.links[j].value;
 		        var toBoot = graph.data_type == 'newick'? graph.links[j].bootstrap : "";
-			    graphGL.addLink(graph.links[j].source, graph.links[j].target, { connectionStrength: graph.links[j].value , value: graph.links[j].value, color: "#000", bootstrap: toBoot});
+		        if (graph.links[j].value == 0) var linkcolor = '#f00';
+		        else var linkcolor = "#000";
+			    graphGL.addLink(graph.links[j].source, graph.links[j].target, { connectionStrength: graph.links[j].value , value: graph.links[j].value, color: linkcolor, bootstrap: toBoot, missings:graph.links[j].missings});
 		    }
 
 		     maxLinkValue += 1;
@@ -58,7 +60,7 @@ function loadGraphFunctions(){
 							          // layout, that we want to change length of each physical spring
 							          // by overriding `springTransform` method:
 							          springTransform: function (link, spring) {
-							            spring.length = graphObject.defaultLayoutParams.idealSpringLength * link.data.connectionStrength;
+							          	spring.length = graphObject.defaultLayoutParams.idealSpringLength * link.data.connectionStrength;
 							          }
 						      	});
 
@@ -235,6 +237,8 @@ function loadGraphFunctions(){
                       treeLinks[link.id] = true;
                       linkLabels[link.id] = label;
                       linkLabels[link.id + 'default'] = parseFloat(link.data.connectionStrength.toFixed(4));
+                      //console.log(link);
+                      linkLabels[link.id + 'missings'] = parseInt(link.data.missings);
                       labelsContainer.appendChild(label);
                       countLinks += 1;
                     

@@ -140,6 +140,7 @@ block normalBody
 												select(id="labelType")
 													option(value="absolute") Absolute Distance
 													option(value="relative") Relative Distance
+													option(value="missings") Missing data
 												select(id="labelTypeNewick")
 													option(value="linkLength") Link Length
 													option(value="bootstrap") Bootstrap Values
@@ -350,6 +351,7 @@ block scripts
 	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/assignColors_Webgl.js')
 	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/change_Render_Properties_Webgl.js')
 	script(type='text/javascript', src='/javascripts/App/main/data_Analysis/data_Analysis_functions.js')
+	script(type='text/javascript', src='/javascripts/App/main/data_Analysis/createGroups.js')
 	script(type='text/javascript', src='/javascripts/App/main/data_Analysis/saveTreePositions.js')
 	script(type='text/javascript', src='/javascripts/App/main/data_Analysis/linksToTable.js')
 	script(type='text/javascript', src='/javascripts/App/main/data_Analysis/generatePublicLink.js')

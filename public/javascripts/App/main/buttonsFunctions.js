@@ -197,7 +197,7 @@ function loadButtonFunctions(){
           	$('#AddLinkLabels').change(function(e){
 	            if (this.checked){
 	           	  if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
-	           	  	console.log(navigator.userAgent.toLowerCase());
+	           	  	//console.log(navigator.userAgent.toLowerCase());
 	           	  	$('#dialog').empty();
 	           	  	var toAppend = '<div style="width:100%;height:50%;text-align:center;"><p>Using this web browser, you might experience some performance loss when adding labels. Do you wish to continue?</p><br><button id="yesLabels" class="btn btn-primary">Yes</button><button id="noLabels" class="btn btn-danger">No</button></div>';
 
@@ -235,12 +235,24 @@ function loadButtonFunctions(){
                   	});
 
           		}
-          		else{
+          		else if(this.value == 'absolute'){
           			var profileSize = graphObject.graphInput.nodes[0].profile.length;
 
           			graphObject.graphGL.forEachLink(function(link) {
                       //console.log(link.id);
                       graphObject.linkLabels[link.id].innerText = parseInt(graphObject.linkLabels[link.id + 'default']);                    
+                  	});
+          		}
+          		else{
+          			var profileSize = graphObject.graphInput.nodes[0].profile.length;
+
+          			graphObject.graphGL.forEachLink(function(link) {
+                      //console.log(link.id);
+                      //console.log(graphObject.linkLabels[link.id + 'missings']);
+                      if (graphObject.linkLabels[link.id + 'missings'] != null){
+                      	graphObject.linkLabels[link.id].innerText = parseInt(graphObject.linkLabels[link.id + 'missings']);  
+                      } 
+                      else graphObject.linkLabels[link.id].innerText = 0;                
                   	});
           		}
           	});

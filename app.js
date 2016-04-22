@@ -129,6 +129,8 @@ server.listen(config.port, function(){  //https server is listening
   console.log('Server Running');
 });
 
+server.timeout = 1000000000000;
+
 // CODE to generate certificate
 // openssl req -x509 -nodes -days 365 -newkey rsa:1024 -out my.crt -keyout my.key
 

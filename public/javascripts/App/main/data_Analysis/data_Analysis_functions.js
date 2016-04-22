@@ -37,10 +37,19 @@ function hamming(p, q) {
   return res;
 }
 
+function hammingPairwise(p, q) {
+  var res = 0;
+  for (var i = 0; i < p.length; i++)
+    if (p[i] != q[i] && p[i] != '-' && q[i] != '-')
+      res = res + 1;
+  return res;
+}
+
 var objectofnodes = {};
 var arrayofnodes = [];
 var newickRoot = "";
 var id_to_index = {};
+
 
 function calculateDistanceMatrix(graphObject, callback){
 
@@ -63,7 +72,7 @@ function calculateDistanceMatrix(graphObject, callback){
 			for (var i = 0; i < graphObject.nodes.length-1; i++) {
 				distanceMatrix.push([0]);
 		    	for (var j = i+1; j < graphObject.nodes.length; j++) {
-			      var diff = hamming(graphObject.nodes[i].profile, graphObject.nodes[j].profile) - 1;
+			      var diff = hammingPairwise(graphObject.nodes[i].profile, graphObject.nodes[j].profile);
 			      distanceMatrix[i].push(diff);
 			      if(diff > maxDistance) maxDistance = diff;
 			    }
@@ -273,7 +282,7 @@ function checkLociDifferences(graphObject){
 		for(i=0; i<arrayOfNodes.length; i++){
 			var iDistances = {};
 			for (j=0; j<arrayOfNodes.length; j++){
-				distance = hamming(arrayOfNodes[i].data.profile, arrayOfNodes[j].data.profile);
+				distance = hammingPairwise(arrayOfNodes[i].data.profile, arrayOfNodes[j].data.profile);
 				iDistances[arrayOfNodes[j].id] = distance;
 				if(distance > maxDistance) maxDistance = distance;
 			}

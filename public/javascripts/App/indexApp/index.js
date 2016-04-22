@@ -45,6 +45,9 @@ $(document).ready( function(){
 	var optionsToDropDown = [{name: 'Profile Data'}, {name: 'Newick Data'}, , {name: 'Fasta Data'}];
 	createDropdown(optionsToDropDown, '#possibleInputFormats', 'Input formats', 1, 'inputFormats');
 
+	var optionsToDropDownComparator = [{name: 'Normal (N)'}, {name: 'Pairwise Comparison of Missings (PCM)'}, , {name: 'Pairwise Comparison of Missings plus Tiebreak (PCMT)'}];
+	createDropdown(optionsToDropDownComparator, '#possibleComparators', 'Possible Comparators', 1, 'possComparators');
+
 	$('#possibleInputFormats').change(function(){
 		$('#inputButtons').css({ 'display': 'block'});
 		$('#LaunchButton').css({ 'display': 'block'});

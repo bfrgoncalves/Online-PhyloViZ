@@ -61,6 +61,7 @@ function constructGraph(graph, datasetID){
         buttonFunctions.operationsButtons(graphObject);
         buttonFunctions.resetPositionButton(graphObject);
         buttonFunctions.searchButton(graphObject);
+        //createGroups(graphObject, 0);
 
         graphObject.graphGL.forEachNode(function(node){
           graphObject.layout.getBody(node.id).defaultMass = graphObject.layout.getBody(node.id).mass;

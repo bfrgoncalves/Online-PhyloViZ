@@ -17,16 +17,25 @@ router.get('/', function(req, res, next){
 		else var userID = req.user.id;
 
 		var datasetId;
+		var comparatorToUse = 'N';
+
+		if(req.query.comparator){
+			comparatorToUse = req.query.comparator;
+		}
 
 		if (req.query.algorithm) var algorithmToUse = req.query.algorithm;
 		else var algorithmToUse = 'prim';
 
+		console.log('Starting goeBURST');
+
 		loadProfiles(datasetID, userID, function(profileArray, identifiers, datasetID, dupProfiles, dupIDs){
 			datasetId = datasetID;
 			
-			goeBURST(profileArray, identifiers, algorithmToUse, function(links, distanceMatrix){
+			goeBURST(profileArray, identifiers, algorithmToUse, comparatorToUse, function(links, distanceMatrix){
+				console.log('saving...');
 				if(req.query.save){
 					saveLinks(datasetID, links, distanceMatrix, function(){
+						console.log('Ending goeBURST');
 						res.send({datasetID: req.query.dataset_id, links: links, distanceMatrix: distanceMatrix, dupProfiles: dupProfiles, dupIDs: dupIDs});
 					});
 				}
@@ -94,6 +103,7 @@ function loadProfiles(datasetID, userID, callback){
 			if(data_type == 'fasta') var profile = profile.profile;
 			
 			var arr = [];
+
 			for (i in schemeGenes) arr.push(profile[schemeGenes[i]]);
 			//var arr = Object.keys(profile).map(function(k) { return profile[k] });
 			var identifier = arr.shift();
@@ -101,12 +111,12 @@ function loadProfiles(datasetID, userID, callback){
 			
 			if(existsProfile[String(arr)]) {
 				dupProfiles.push([identifier, String(arr)]);
-				console.log('Profile already exists');
+				//console.log('Profile already exists');
 				//console.log(identifier);
 			}
 			else if(existsIdentifiers[identifier]){
 				dupIDs.push(identifier);
-				console.log('Duplicate ID');
+				//console.log('Duplicate ID');
 			}
 			
 			else{
