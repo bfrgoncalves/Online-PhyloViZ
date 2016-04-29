@@ -31,4 +31,5 @@ Contacts
 ========
 
 Bruno Goncalves - bfgoncalves@medicina.pt
+
 Joao Andre Carrico - jcarrico@medicina.ulisboa.pt
