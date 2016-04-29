@@ -127,7 +127,6 @@ function eraseDataset(){
 }
 
 function checkInput(graph, callback){
-  console.log(graph);
   if (graph.nodes.length == 0){
     //alert('There was an error uploading the dataset. Possible input format error.');
     eraseDataset();

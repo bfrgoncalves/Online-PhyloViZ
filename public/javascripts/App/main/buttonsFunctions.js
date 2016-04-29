@@ -361,7 +361,7 @@ function loadButtonFunctions(){
 
 		    $("#NLVnumber").attr({
 		        "max" : graphObject.graphInput.maxDistanceValue,
-		        "value" : 0
+		        "value" : -1
 		    });
 
 	        $('#SplitTreeSlider').change(function(e){
