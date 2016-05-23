@@ -62,22 +62,27 @@ function loadGraphFunctions(){
 							          }
 						      	});
 
-			if (Object.keys(graph.positions).length == 0){
-
-				graphObject.layout.setNodePosition(graphObject.graphInput.nodes[0].key, 20, -20);
-
-		    	graphObject.graphGL.forEachNode(function(node){
+			graphObject.graphGL.forEachNode(function(node){
 		    		if(maxLinked < node.links.length){
 		    			maxLinked = node.links.length;
 		    			TopNode = node;
 		    		}
 				});
 
-				graphObject.TopNode = TopNode;
+			graphObject.TopNode = TopNode;
+
+
+			if (Object.keys(graph.positions).length == 0){
+
+				graphObject.layout.setNodePosition(graphObject.graphInput.nodes[0].key, 20, -20);
 		    	
 		    	graphObject.layout.setNodePosition(graphObject.TopNode.id, 0, 0);
 		    	graphObject.layout.pinNode(TopNode, true);
 		    }
+		    else{
+		    	graphObject.layout.pinNode(TopNode, true);
+		    }
+
 
 		},
 
@@ -139,15 +144,13 @@ function loadGraphFunctions(){
 			var graph = graphObject.graphInput;
 			var layout = graphObject.layout;
 
-			var graphSpace = graphObject.layout.getGraphRect();
+			//var graphSpace = graphObject.layout.getGraphRect();
 
-			var cx = (graphSpace.x2 + graphSpace.x1) / 2;
-    		var cy = (graphSpace.y2 + graphSpace.y1) / 2;
+			//var cx = (graphSpace.x2 + graphSpace.x1) / 2;
+    		//var cy = (graphSpace.y2 + graphSpace.y1) / 2;
 
     		var maxLinked = 0;
-    		var TopNode = '';
-
-    		graphObject.renderer.moveTo(cx, cy);
+    		//var TopNode = '';
 
 			if (Object.keys(graph.positions).length > 0){
 		        for (nodeLocation in graph.positions.nodes[0]){
@@ -157,6 +160,11 @@ function loadGraphFunctions(){
 		          layout.setNodePosition(nodeLocation, nodeX, nodeY);
 		        }
 		    }
+
+		    nodePosition=graphObject.layout.getNodePosition(graphObject.TopNode.id);
+			//graphObject.layout.setNodePosition(graphObject.TopNode.id, 0, 0);
+			graphObject.renderer.moveTo(nodePosition.x,nodePosition.y);
+			graphObject.graphFunctions.adjustScale(graphObject);
 		},
 
 		precompute: function myself(graphObject, iterations, callback) { //define name inside function to be able to call it from inside

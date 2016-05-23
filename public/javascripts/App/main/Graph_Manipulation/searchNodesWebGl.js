@@ -62,5 +62,9 @@ function zoomOut(desiredScale, currentScale, graphObject){
 	      zoomOut(desiredScale, currentScale, graphObject);
 	  	},1);
   	}
-  	else graphObject.renderer.resume();
+  	else{
+  		if (!graphObject.isLayoutPaused){
+  			graphObject.renderer.resume();
+  		}
+  	}
 }
