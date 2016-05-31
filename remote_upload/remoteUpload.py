@@ -108,7 +108,6 @@ def remoteUpload(args, currentRoot): #upload the input files to the database
 	process = subprocess.Popen(bashCommandUpload.split(), stdout=subprocess.PIPE)
 	output = json.loads(process.communicate()[0])
 
-	return output
 
 def rungoeBURST(args, datasetID, currentRoot): #run the goeBURST algorithm to store the links in the database
 
@@ -121,7 +120,6 @@ def rungoeBURST(args, datasetID, currentRoot): #run the goeBURST algorithm to st
 	process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
 	output = process.communicate()[0]
 
-	print output
 
 if __name__ == "__main__":
     main()
