@@ -6,7 +6,7 @@ The two Python scripts that merge all the necessary requests to create and visua
 
 ####Software dependencies
 
- - curl : To perform requests from the command line (https://curl.haxx.se/)
+ - **cURL**: To perform requests from the command line (https://curl.haxx.se/)
 
 ##Registration
 
@@ -108,7 +108,7 @@ The creation of the cookie file is necessary in order to proceed with the next r
 
 **NOTE:** The login is necessary before each request since a new cookie file is required before each request.
 
-### - Check Data set Name
+### - Check Data Set Name
 
 It is not possible to have two data sets with the same name on each user account. Users can check for that using the *API* to search for the desired data set name using the ***/api/db/postgres/find/:table/:field*** path.
 
@@ -185,7 +185,7 @@ Computation of the goeBURST algorithm is made on the server side and might take 
 
 ####Output
 
-*{"datasetID":"dataset_id", "links":[], "distanceMatrix":[], "dupProfiles":[duplicate_profiles],"dupIDs":[duplicate_ids]}*
+    {"datasetID":"dataset_id", "links":[], "distanceMatrix":[], "dupProfiles":[duplicate_profiles],"dupIDs":[duplicate_ids]}
 
 ####Example
 
