@@ -34,6 +34,7 @@ def register(args, currentRoot): #upload the input files to the database
 	process = subprocess.Popen(bashCommandUpload.split(), stdout=subprocess.PIPE)
 	output = process.communicate()[0]
 
+	print output
 	if 'Success' in output:
 		return True
 	else:
