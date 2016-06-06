@@ -249,6 +249,7 @@ function loadButtonFunctions(){
           			graphObject.graphGL.forEachLink(function(link) {
                       //console.log(link.id);
                       //console.log(graphObject.linkLabels[link.id + 'missings']);
+
                       if (graphObject.linkLabels[link.id + 'missings'] != null){
                       	graphObject.linkLabels[link.id].innerText = parseInt(graphObject.linkLabels[link.id + 'missings']);  
                       } 

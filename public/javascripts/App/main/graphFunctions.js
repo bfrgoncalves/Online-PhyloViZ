@@ -238,6 +238,7 @@ function loadGraphFunctions(){
                       linkLabels[link.id] = label;
                       linkLabels[link.id + 'default'] = parseFloat(link.data.connectionStrength.toFixed(4));
                       //console.log(link);
+                      //console.log(link.data.missings);
                       linkLabels[link.id + 'missings'] = parseInt(link.data.missings);
                       labelsContainer.appendChild(label);
                       countLinks += 1;
