@@ -32,7 +32,7 @@ block normalBody
 	//div.phylovizNavbar
 
 	div(id="divbuttonHelp")
-		button.btn-warning(id="buttonHelp", style="width: 100%") Help
+		a.btn.btn-warning(id="buttonHelp", style="width: 100%") Help
 	div(id="col_tutorial_main", style="display: none")
 
 	div.tab_Region
@@ -54,152 +54,160 @@ block normalBody
 		div.tab-content
 			
 			div.tab-pane.active(id="treeContent")
+				div(style="width:30%;margin-top:1%;left:35%;position:absolute;z-index:2;text-align:center;")
+					form(id='searchForm')
+						div.input-group.input-group-sm
+							input.form-control(type='text' id='nodeid' style='color:black' placehorder="Search")
+							span.input-group-btn
+								button.btn.btn-default.btn-search(type='submit') Search
 				div(id="col_webgl")
-					ul.nav.nav-stacked
-						li
-							div
-								p(id='datasetNameDiv') Dataset name:
-								p(id='numberOfNodes') Dataset size:
-								form(id='searchForm')
-									div.input-group.input-group-sm
-										input.form-control(type='text' id='nodeid' style='color:black' placehorder="Search")
-										span.input-group-btn
-											button.btn.btn-default.btn-search(type='submit') Search
-
-						li
-							br
-							div(id='toggleLayout')
-								i.glyphicon.glyphicon-pause(id='iconPauseLayout') 
-								i(id='pauseLayout') Pause Layout
-							div(id='divReset')
-								i.glyphicon.glyphicon-refresh(id='iconResetLayout') 
-								i(id='resetPositionButton') Reset Positions
-							br
-						li
-							div(style="width:100%;")
-								div(style="text-align:center;")
-									button(id="zoomOut" class="glyphicon glyphicon-minus")
-									button(id="zoomIn" class="glyphicon glyphicon-plus")
+					div(id="pauseRegion", style="height:15%;overflow-y:auto;")
+						ul.nav.nav-stacked
+							li
+								div(id='toggleLayout')
+									i.glyphicon.glyphicon-pause(id='iconPauseLayout') 
+									i(id='pauseLayout') Pause Layout
+								div(id='divReset')
+									i.glyphicon.glyphicon-refresh(id='iconResetLayout') 
+									i(id='resetPositionButton') Reset Positions
+								br
+							li
+								div(style="width:100%;")
+									div(style="text-align:center;")
+										button(id="zoomOut" class="glyphicon glyphicon-minus")
+										button(id="zoomIn" class="glyphicon glyphicon-plus")
+									div
+										p(style="text-align:center;") Zoom
+							li
+								//div(style="width:100%;")
+									if (user && !isPublic)
+										div(style="text-align:center;")
+											button(type='button',id='generatePublicLinkButton', name='publicLink1') Generate Data Set Link
+									else if (!isAuthenticated)
+										div(style="text-align:center;")
+											button(type='button',id='getLinkButton', name='publicLink1') Get Data Set Link
+								br
+					div(id="buttonRegion", style="height:75%;overflow-y:auto;")		
+						ul.nav.nav-stacked
+							li
 								div
-									p(style="text-align:center;") Zoom
-						li
-							div(style="width:100%;")
-								if (user && !isPublic)
-									div(style="text-align:center;")
-										button(type='button',id='generatePublicLinkButton', name='publicLink1') Generate Data Set Link
-								else if (!isAuthenticated)
-									div(style="text-align:center;")
-										button(type='button',id='getLinkButton', name='publicLink1') Get Data Set Link
-							br
-								
-							
-						li(id="assignCol")
-							div
-								a.btn.btn-primary.actionButton(data-toggle='collapse', href='#collapseColor', aria-expanded="false", aria-controls="collapseExample" id="assignc") Assign Colors
-								div.collapse(id='collapseColor')
-									a.btn.btn-primary.actionButton.submenu(data-toggle='collapse', href='#SchemeColor', aria-expanded="false", aria-controls="collapseExample" id="profilec") By Profile
-									div.collapse(id='SchemeColor')
-										div.well(id='colorAttributesScheme')
-									a.btn.btn-primary.actionButton.submenu(data-toggle='collapse', href='#MetadataColor', aria-expanded="false", aria-controls="collapseExample" id="auxc") By Auxiliary Data
-									div.collapse(id='MetadataColor')
-										div.well(id='colorAttributesMetadata')
+									a.btn.btn-default.datasetInfoButton(id="datasetInfobt") Data set Info
+									if (user && !isPublic)
+										a.btn.btn-default.datasetInfoButton(id="generatePublicLinkButton") Generate Data Set Link
+									else if (!isAuthenticated)
+										a.btn.btn-default.datasetInfoButton(id="getLinkButton") Get Data Set Link
 
-						li
-							div
-								a.btn.btn-primary.actionButton(data-toggle='collapse', href='#GraphicsProperties', aria-expanded="false", aria-controls="collapseExample" id="graphicp") Graphic Properties
-								div.collapse(id="GraphicsProperties")
-									a.btn.btn-primary.actionButton.submenu(data-toggle='collapse', href='#NodesGraphics', aria-expanded="false", aria-controls="collapseExample" id="nodesc") Nodes
-									div.collapse(id='NodesGraphics')
-										div.well(id='NodesSizeAttributes')
-											label Nodes Size
-											input(type='range',id='NodeSizeSlider', name='points1', value = 1, min='1', max='100')
-											div(id="logScaleNodesDiv")
-												label Log Scale
-												input(type='checkbox',id='AddLogScaleNodes')
-											br
-											label Node Labels Size
-											input(type='range',id='NodeLabelSizeSlider', name='points1', value = 10, min='5', max='20')
-											label Add Node Labels
-											input(type='checkbox',id='AddLabels')
-									a.btn.btn-primary.actionButton.submenu(data-toggle='collapse', href='#LinksGraphics', aria-expanded="false", aria-controls="collapseExample" id="linksc") Links
-									div.collapse(id='LinksGraphics')
-										div.well(id='LinksSizeAttributes')
-											label Link Length
-											input(type='range',id='SpringLengthSlider', name='points3', value = 1, min='5', max='100')
-											label Scaling Factor
-											input(type='number',id='scaleLink', name='points10', value = 7, min='1', max='50')
-											div(id="logScaleDiv")
-												label Log Scale
-												input(type='checkbox',id='AddLogScale')
-											br
-											label Link Labels Size
-											input(type='range',id='LinkLabelSizeSlider', name='points1', value = 10, min='5', max='20')
-											label Add Link Labels
-											input(type='checkbox',id='AddLinkLabels')
-											div(id="divselectLabelType" style="display:none")
-												select(id="labelType")
-													option(value="absolute") Absolute Distance
-													option(value="relative") Relative Distance
-												select(id="labelTypeNewick")
-													option(value="linkLength") Link Length
-													option(value="bootstrap") Bootstrap Values
-									a.btn.btn-primary.actionButton.submenu(data-toggle='collapse', href='#LayoutGraphics', aria-expanded="false", aria-controls="collapseExample" id="layoutc") Layout
-									div.collapse(id='LayoutGraphics')
-										div.well(id='LayoutAttributes')
-											label Drag Coefficient
-											input(type='range',id='DragSlider', name='points1', value = 1, min='1', max='100')
-											br
-											label Spring Coefficient
-											input(type='range',id='SpringCoefSlider', name='points1', value = 1, min='1', max='10')
-											label Gravity
-											input(type='range',id='GravitySlider', name='points1', value = -10, min='-200', max='1')
-											label Theta
-											input(type='range',id='ThetaSlider', name='points1', value = 8, min='1', max='100')
-											label Mass Ratio
-											input(type='range',id='MassSlider', name='points1', value = 1, min='1', max='20')
-											br
-											button(type='button',id='resetLayout', name='layout1') Reset
+									//p(id='datasetNameDiv') Dataset name:
+									//p(id='numberOfNodes') Dataset size:
+							li(id="assignCol")
+								div
+									a.btn.btn-primary.actionButton.collapsebt(data-toggle='collapse', href='#collapseColor', aria-expanded="false", aria-controls="collapseExample" id="assignc") Assign Colors
+									div.collapse(id='collapseColor')
+										a.btn.btn-primary.actionButton.submenu.collapsebt(data-toggle='collapse', href='#SchemeColor', aria-expanded="false", aria-controls="collapseExample" id="profilec") By Profile
+										div.collapse(id='SchemeColor')
+											div.well(id='colorAttributesScheme')
+										a.btn.btn-primary.actionButton.submenu.collapsebt(data-toggle='collapse', href='#MetadataColor', aria-expanded="false", aria-controls="collapseExample" id="auxc") By Auxiliary Data
+										div.collapse(id='MetadataColor')
+											div.well(id='colorAttributesMetadata')
 
-						li
-							div
-								a.btn.btn-primary.actionButton(data-toggle='collapse', href='#collapseOperations', aria-expanded="false", aria-controls="collapseExample" id="treeop") Operations
-								div.collapse(id='collapseOperations')
-									div.well(id='TreeOperations')
-										label Tree cut-off
-										input(type='number',id='SplitTreeSlider', name='points2', value = 7, min='0', max='7')
-										br
-										br
-										div(id="NLVgraph")
-											label(id="nlvgraphLabel") NLV graph
-											input(type='number',id='NLVnumber', name='points2', value = 7, min='0', max='7')
+							li
+								div
+									a.btn.btn-primary.actionButton.collapsebt(data-toggle='collapse', href='#GraphicsProperties', aria-expanded="false", aria-controls="collapseExample" id="graphicp") Graphic Properties
+									div.collapse(id="GraphicsProperties")
+										a.btn.btn-primary.actionButton.submenu.collapsebt(data-toggle='collapse', href='#NodesGraphics', aria-expanded="false", aria-controls="collapseExample" id="nodesc") Nodes
+										div.collapse(id='NodesGraphics')
+											div.well(id='NodesSizeAttributes')
+												label Nodes Size
+												input(type='range',id='NodeSizeSlider', name='points1', value = 1, min='1', max='100')
+												div(id="logScaleNodesDiv")
+													label Log Scale
+													input(type='checkbox',id='AddLogScaleNodes')
+												br
+												label Node Labels Size
+												input(type='range',id='NodeLabelSizeSlider', name='points1', value = 10, min='5', max='20')
+												label Add Node Labels
+												input(type='checkbox',id='AddLabels')
+										a.btn.btn-primary.actionButton.submenu.collapsebt(data-toggle='collapse', href='#LinksGraphics', aria-expanded="false", aria-controls="collapseExample" id="linksc") Links
+										div.collapse(id='LinksGraphics')
+											div.well(id='LinksSizeAttributes')
+												label Link Length
+												input(type='range',id='SpringLengthSlider', name='points3', value = 1, min='5', max='100')
+												label Scaling Factor
+												input(type='number',id='scaleLink', name='points10', value = 7, min='1', max='50')
+												div(id="logScaleDiv")
+													label Log Scale
+													input(type='checkbox',id='AddLogScale')
+												br
+												label Link Labels Size
+												input(type='range',id='LinkLabelSizeSlider', name='points1', value = 10, min='5', max='20')
+												label Add Link Labels
+												input(type='checkbox',id='AddLinkLabels')
+												div(id="divselectLabelType" style="display:none")
+													select(id="labelType")
+														option(value="absolute") Absolute Distance
+														option(value="relative") Relative Distance
+													select(id="labelTypeNewick")
+														option(value="linkLength") Link Length
+														option(value="bootstrap") Bootstrap Values
+										a.btn.btn-primary.actionButton.submenu.collapsebt(data-toggle='collapse', href='#LayoutGraphics', aria-expanded="false", aria-controls="collapseExample" id="layoutc") Layout
+										div.collapse(id='LayoutGraphics')
+											div.well(id='LayoutAttributes')
+												div(id="layoutParameters")
+													label Drag Coefficient
+													input(type='range',id='DragSlider', name='points1', value = 1, min='1', max='100')
+													br
+													label Spring Coefficient
+													input(type='range',id='SpringCoefSlider', name='points1', value = 1, min='1', max='10')
+													label Gravity
+													input(type='range',id='GravitySlider', name='points1', value = -10, min='-200', max='1')
+													label Theta
+													input(type='range',id='ThetaSlider', name='points1', value = 8, min='1', max='100')
+													label Mass Ratio
+													input(type='range',id='MassSlider', name='points1', value = 1, min='1', max='20')
+													br
+												br
+												a.btn.btn-default(type='button',id='resetLayout', name='layout1') Reset
 
-									div.well(id='OperationsToMake')
-										div(id="viewSequences")
-											button(type='button',id='viewSequencesButton', name='saveImage1') View Sequences
-										div(id="computeDistances")
-											button(type='button',id='distanceButton', name='distances1') Compute Distances
-											button(type='button',id='exportSelectedDataButton', name='distances1') Export Selected Data
-										if (user && !isPublic)
+							li
+								div
+									a.btn.btn-primary.actionButton.collapsebt(data-toggle='collapse', href='#collapseOperations', aria-expanded="false", aria-controls="collapseExample" id="treeop") Operations
+									div.collapse(id='collapseOperations')
+										div.well(id='TreeOperations')
+											label Tree cut-off
+											input(type='number',id='SplitTreeSlider', name='points2', value = 7, min='0', max='7')
 											br
-											button(type='button',id='savePositionsButton', name='downloadPositions1') Save Positions
-										button(type='button',id='saveImageButton1', name='saveImage1') Save Image
-										div(id='downloadContainer', style='display:none')
+											br
+											div(id="NLVgraph")
+												label(id="nlvgraphLabel") NLV graph
+												input(type='number',id='NLVnumber', name='points2', value = 7, min='0', max='7')
+
+										div.well(id='OperationsToMake')
+											div(id="viewSequences")
+												a.btn.btn-default(type='button',id='viewSequencesButton', name='saveImage1') View Sequences
+											div(id="computeDistances")
+												a.btn.btn-default(type='button',id='distanceButton', name='distances1') Compute Distances
+												a.btn.btn-default(type='button',id='exportSelectedDataButton', name='distances1') Export Selected Data
+											if (user && !isPublic)
+												br
+												a.btn.btn-default(type='button',id='savePositionsButton', name='downloadPositions1') Save Positions
+											a.btn.btn-default(type='button',id='saveImageButton1', name='saveImage1') Save Image
+											div(id='downloadContainer', style='display:none')
 
 
 
 				div(id="col_information")
 					div(id="divButtonInfo")
-						button.btn-md.btn-info(type='button',id='toggle_col_info') Hide Information
+						a.btn.btn-md.btn-info(type='button',id='toggle_col_info') Hide Information
 					div(id="divButtonClearInfo")
-						button.btn-md.btn-danger(type='button',id='clear_info') Clear
+						a.btn.btn-md.btn-danger(type='button',id='clear_info') Clear
 					div(id="info_container")
 						div(id="info_place")
 
 				div(id="divButtonInfoOutside")
-						button.btn-md.btn-info(type='button',id='toggle_col_in') Show Information
+						a.btn.btn-info(type='button',id='toggle_col_in') Show Information
 				
 				div(id="divButtonLegend")
-					button.btn-md.btn-info(type='button',id='toggle_col_legend') Hide Legend
+					a.btn.btn-md.btn-info(type='button',id='toggle_col_legend') Hide Legend
 
 				
 				div(id="col_info")

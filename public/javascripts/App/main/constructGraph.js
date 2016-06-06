@@ -54,8 +54,9 @@ function constructGraph(graph, datasetID){
 
         var buttonFunctions = loadButtonFunctions(); //Functions to be applied to the graphObject object. buttonsFunctions.js
 
-        buttonFunctions.numberOfNodes(graphObject);
-        buttonFunctions.datasetName(graphObject);
+        //buttonFunctions.numberOfNodes(graphObject);
+        //buttonFunctions.datasetName(graphObject);
+        buttonFunctions.datasetInfo(graphObject);
         buttonFunctions.pauseButton(graphObject);
         buttonFunctions.graphicButtons(graphObject);
         buttonFunctions.operationsButtons(graphObject);

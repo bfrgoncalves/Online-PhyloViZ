@@ -54,6 +54,8 @@ function LabelSize(newSize, graphObject, domLabels, type){
         graph.links.forEach(function(link){
             ID = link.source + "👉 " + link.target;
             var labelStyle = domLabels[ID].style;
+            //console.log(labelStyle);
+            console.log(String(newSize) + 'px');
             labelStyle.fontSize = String(newSize) + 'px';
         });
     }

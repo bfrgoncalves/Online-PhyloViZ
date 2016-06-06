@@ -2,6 +2,48 @@ function loadButtonFunctions(){
 
 	return {
 
+		datasetInfo: function(graphObject){
+
+			$("#datasetInfobt").click(function(){
+
+				var toDialog = '<div id="divinfoDataset"></div>';
+
+	        	$('#dialog').empty();
+				$('#dialog').append(toDialog);
+
+				var table = {};
+				table.headers = ['Data Set Name', 'Data Set Size', 'Type', 'Metadata', 'Max. Link Distance'];
+				if (graphObject.graphInput.data_type == 'profile' || graphObject.graphInput.data_type == 'fasta') table.headers.push('Profile Size');
+				table.data = [[graphObject.graphInput.dataset_name, graphObject.graphInput.nodes.length, graphObject.graphInput.data_type]];
+
+				if (graphObject.graphInput.metadata.length > 0) table.data[0].push('True');
+				else table.data[0].push('False');
+
+				table.data[0].push(graphObject.maxLinkValue);
+
+				if (graphObject.graphInput.data_type == 'profile' || graphObject.graphInput.data_type == 'fasta'){
+					table.data[0].push(graphObject.graphInput.nodes[0].profile.length);
+				}
+
+				
+				constructTable(table, 'infoDataset', function(){
+					$('#tableinfoDataset tfoot').remove();
+					$('#tableinfoDataset').remove();
+				});
+
+				$('#dialog').dialog({
+			              height: $(window).height() * 0.20,
+			              width: $(window).width(),
+			              modal: true,
+			              resizable: true,
+			              dialogClass: 'no-close success-dialog'
+			          });
+
+
+			});
+
+		},
+
 		numberOfNodes: function(graphObject){
 
 			var graph = graphObject.graphInput;

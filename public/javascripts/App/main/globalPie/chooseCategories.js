@@ -2,7 +2,7 @@
 function chooseCategories(graphObject, method){
 	var toAppend = '<div style="width:100%;height:60%;font-size:150%;text-align:center;">';
 	toAppend += '<div style="width:40%;height:50%;float:left;"><label>Exclude</label><select style="height:100%;" size="10" id="toSelectCategories'+method+'"></select></div>';
-	toAppend += '<button style="margin-top:10%;" type="button" id="transferCategoryButton">Transfer</button>';
+	toAppend += '<a class="btn btn-default" style="margin-top:10%;" type="button" id="transferCategoryButton">Transfer</a>';
 	toAppend += '<div style="width:40%;height:50%;float:right"><label>Include</label><select style="height:100%;" size="10" id="selectedCategories'+method+'"></select></div>';
 	toAppend += '<div style="width:100%;text-align:center;"><button style="margin-top:10%;" class="btn btn-primary" id="changeCategoriesButton">Ok</button></div>';
 	toAppend += '<div style="width:100%;text-align:center;margin-top:5%;">Select the different categories you want to see in the Tree visualization. By default, only the top 20 results are displayed. All the others are classified as <b><i>Others</i>.</b><br></div>';

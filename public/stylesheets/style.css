@@ -141,6 +141,9 @@ a {
 	background-color: #6497b1;
 }
 
+.datasetInfoButton{
+  width:100%;
+}
 .submenu{
   background-color: #e89d48;
 }
@@ -443,6 +446,7 @@ td.highlight {
 
 #col_webgl{
   width:12%;
+  height: 90%;
   text-align: left;
   position: absolute;
   top: 8%; 

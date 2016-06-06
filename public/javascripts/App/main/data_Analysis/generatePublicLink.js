@@ -33,7 +33,13 @@ function launchDialog(message, url){
             $('#dialog').append('<div style="width:100%;text-align:center;">' + message + '<textarea style="width:80%;height:40%;resize:none;">'+url+'</textarea><br>' + buttonToAdd + '</div>');
       }
       else $('#dialog').append('<div style="width:100%;text-align:center;">' + message + '</div>');
-      $('#dialog').dialog();
+      $('#dialog').dialog({
+              height: $(window).height() * 0.20,
+              width: $(window).width() * 0.20,
+              modal: true,
+              resizable: true,
+              dialogClass: 'no-close success-dialog'
+        });
 
 }
 

@@ -12,11 +12,17 @@ adjustElements = function () {
 
     var width = $(window).width() - $(window).width() * 0.02,
     height = $(window).height() - $('#tabs').height() - $(window).width() * 0.02;
+    pauseRegionHeight = $("#pauseRegion").height();
     
+    //$('#layoutParameters').css({height: height-pauseRegionHeight, "overflow-y": "auto"});
+    $('#buttonRegion').css({"overflow-y": "auto"});
     $('#labelsDiv').css({width: width, position: "absolute"});
     $('#visual').css({width: width, height: height, position: "relative"});
 
     $("body").css('font-size', ButtonfontSize);
+    $('.btn').css('font-size', ButtonfontSize);
+    $(".collapsebt").css('font-size', ButtonfontSize);
+    $(".datasetInfoButton").css('font-size', ButtonfontSize);
     $("li").css('font-size', ButtonfontSize);
     //$("a").css('font-size', ButtonfontSize * 1.5);
     $(".login").css('font-size', ButtonfontSize * 1.2);
