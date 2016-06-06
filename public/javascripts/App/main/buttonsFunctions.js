@@ -28,7 +28,6 @@ function loadButtonFunctions(){
 				
 				constructTable(table, 'infoDataset', function(){
 					$('#tableinfoDataset tfoot').remove();
-					$('#tableinfoDataset').remove();
 				});
 
 				$('#dialog').dialog({

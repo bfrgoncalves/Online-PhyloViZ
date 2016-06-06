@@ -61,7 +61,7 @@ block normalBody
 							span.input-group-btn
 								button.btn.btn-default.btn-search(type='submit') Search
 				div(id="col_webgl")
-					div(id="pauseRegion", style="height:15%;overflow-y:auto;")
+					div(id="pauseRegion", style="height:20%;overflow-y:auto;")
 						ul.nav.nav-stacked
 							li
 								div(id='toggleLayout')
@@ -74,8 +74,8 @@ block normalBody
 							li
 								div(style="width:100%;")
 									div(style="text-align:center;")
-										button(id="zoomOut" class="glyphicon glyphicon-minus")
-										button(id="zoomIn" class="glyphicon glyphicon-plus")
+										a.btn.btn-default(id="zoomOut" class="glyphicon glyphicon-minus")
+										a.btn.btn-default(id="zoomIn" class="glyphicon glyphicon-plus")
 									div
 										p(style="text-align:center;") Zoom
 							li
@@ -215,7 +215,7 @@ block normalBody
 						div(id="currentpiePlace")
 						div(id="legendcurrentpiePlace")
 						div(style="text-align:center;margin:1%")
-							button(type='button',id='Choosecategories', name='categories1') Choose categories
+							a.btn.btn-default(type='button',id='Choosecategories', name='categories1') Choose categories
 
 				div(id="divtablePercentages" style="display:none;")
 					div(id="tableContainer")
