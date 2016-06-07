@@ -7,6 +7,7 @@ fontsize = function () {
     var titleFontSizeHome = $("#inputDiv").width() * 0.036; // 10% of container width
 
     $("body").css('font-size', ButtonfontSize);
+    $('.btn').css('font-size', ButtonfontSize);
     $("#indexuserLocation").css('font-size', ButtonfontSizeLogin);
     $("label").css('font-size', ButtonfontSize * 1.3);
     $(".resizable_button").css('font-size', ButtonDatasetsSize);
