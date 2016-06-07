@@ -48,10 +48,11 @@ function startMultiSelect(graphObject) {
           newColors.push(colorsPerQuadrant);
         }
         nodeUI.colorIndexes = newColors;
-      } else {
+      } 
+      /*else {
         nodeUI.colorIndexes = nodeUI.backupColor;
         //nodeUI.size = nodeUI.backupSize;
-      }
+      }*/
       if(graphObject.isLayoutPaused){
         renderer.resume();
         setTimeout(function(){ renderer.pause();}, 5);
