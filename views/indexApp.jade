@@ -97,6 +97,13 @@ block normalBody
 					h4 Web-based tool for visualization, phylogenetic inference, analysis and sharing
 					br
 					p PHYLOViZ Online is a Web version of the standalone available <a href="//www.phyloviz.net/">here</a>.
+					br
+					ul(style="text-align:left;")
+						li Tree visualization is done using <a href="https://github.com/anvaka/VivaGraphJS">VivaGraphJS’</a> force directed layout. Its rendering is assigned to the <a href="https://www.chromeexperiments.com/webgl">WebGL JavaScript API</a>.
+						li Tables are generated using the <a href="https://www.datatables.net/">DataTables</a> JavaScript library. 
+						li Visual representation of multi-sequence alignment for FASTA input les was also implemented using the BioJS <a href="https://www.npmjs.com/package/msa">MSA Viewer</a> package
+						li Additional visual representations (Pie Charts and Interactive Distance Matrix) are constructed using <a href="https://d3js.org/">Data Driven Documents (D3.js)</a>.
+					br
 					p The application is at the moment fully functional using <b>Google Chrome</b>, <b>Safari</b>, and <b>Firefox</b> Web Browsers. Users might experience some issues when loading labels using Firefox or Safari. Performance is higher if you use Chrome. <b>Mobile versions</b> and other browsers still have some limitations that we expect to surpass in a near future.
 					br
 					p Any known issues please contact us in our <a href="https://github.com/bfrgoncalves/Online-PhyloViZ/issues">GitHub page</a>
@@ -104,20 +111,26 @@ block normalBody
 						label Contacts:
 						br
 						br
-						p <b>Bruno Gonçalves (1) - </b>
+						span <b>Bruno Gonçalves (1) - </b>
 							img(id="bfmail" src="/images/bfmail.png" border="0" align="absbottom")
-						p <b>João André Carriço (1) - </b>
+						br
+						span <b>João André Carriço (1) - </b>
 							img(id="jcmail" src="/images/jcmail.png" border="0" align="absbottom")
-						p <b>Alexandre P. Francisco (2,3)</b>
-						p <b>Cátia Vaz (2,4)</b>
-						p <b>Mário Ramirez (1)</b>
 						br
-						p (1) Instituto de Microbiologia, Instituto de Medicina Molecular, Faculdade de Medicina, Universidade de Lisboa, Lisboa, Portugal
-						p (2) INESC-ID, R. Alves Redol 9, 1000-029 Lisboa, Portugal
-						p (3) Instituto Superior Técnico, Universidade de Lisboa, Lisboa, Portugal
-						p (4) Instituto Superior de Engenharia de Lisboa, Instituto Politécnico de Lisboa, 007 Lisboa, Portugal
+						span <b>Alexandre P. Francisco (2,3)</b>
+						br
+						span <b>Cátia Vaz (2,4)</b>
+						br
+						span <b>Mário Ramirez (1)</b>
 						br
 						br
+						span (1) Instituto de Microbiologia, Instituto de Medicina Molecular, Faculdade de Medicina, Universidade de Lisboa, Lisboa, Portugal
+						br
+						span (2) INESC-ID, R. Alves Redol 9, 1000-029 Lisboa, Portugal
+						br
+						span (3) Instituto Superior Técnico, Universidade de Lisboa, Lisboa, Portugal
+						br
+						span (4) Instituto Superior de Engenharia de Lisboa, Instituto Politécnico de Lisboa, 007 Lisboa, Portugal
 
 
 			div(id="APIDiv", style="display:none;")
