@@ -187,11 +187,9 @@ function createUpdateTable(divID, data){
   var table = $('#' + tableToCheck).DataTable( {
         "data": data.rows,
         "columns": data.columns,
-        "bSort" : false,
         //"scrollY":        "200px",
-        //"scrollCollapse": true,
-        "paging":         true,
-        "pageLength": 5,
+        "scrollCollapse": true,
+        "scrollY":        "300px",
         "searching": false,
         "ordering": false
 

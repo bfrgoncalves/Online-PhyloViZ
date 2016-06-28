@@ -32,15 +32,6 @@ $(document).ready( function(){
 
 	createDatasetButtons(onButtons);
 
-	var updateInfo = {};
-	updateInfo.columns = [{'title': 'Date'}, {'title': 'Information'}];
-	updateInfo.rows = [];
-	updateInfo.rows.push(['28/06/2016', '<a href="//msa.biojs.net/">MSA Viewer</a> update: overview panel and option to hide non-polymorphic regions.']);
-	updateInfo.rows.push(['28/06/2016', 'Table with update information.']);
-
-
-	createUpdateTable('divUpdate', updateInfo);
-
 	showProfileButton();
 
 	checkDatasets(function(datasetsObject){
@@ -86,6 +77,13 @@ function createDatasetButtons(onButtons){
 
 	var tutorialFunctions = tutorial('col_tutorial');
 
+	var updateInfo = {};
+	updateInfo.columns = [{'title': 'Date'}, {'title': 'Action'}, {'title': 'Information'}];
+	updateInfo.rows = [];
+	updateInfo.rows.push(['28/06/2016', 'Update', '<a href="//msa.biojs.net/">MSA Viewer</a> update: overview panel and option to hide non-polymorphic regions.']);
+	updateInfo.rows.push(['28/06/2016', 'Update', 'Table with update information.']);
+	updateInfo.rows.push(['29/04/2016', 'Publication', '<a href="//nar.oxfordjournals.org/content/early/2016/04/29/nar.gkw359.long">PHYLOViZ Online: web-based tool for visualization, phylogenetic inference, analysis and sharing of minimum spanning trees.</a>']);
+
 	$('#buttonHelp').click(function(){
 		$('#col_tutorial').toggle();
 	});
@@ -99,7 +97,7 @@ function createDatasetButtons(onButtons){
 		$('#LaunchButton').css({ 'display': 'none'});
 		if (onButtons.home) return false;
 		if (onButtons.update){
-			$('#divUpdate').toggle();
+			$('#updates').toggle();
 			onButtons.update = false;
 		}
 		if (onButtons.uploaddatasets){
@@ -175,7 +173,9 @@ function createDatasetButtons(onButtons){
         tutorialFunctions.about();
 		onButtons.about = true;
 	});
-	
+
+	var firstUpdate = true;
+
 	$('#buttonUpdate').click(function(){
 		status("");
 		var table = $('#tableuser').DataTable();
@@ -209,6 +209,8 @@ function createDatasetButtons(onButtons){
 			onButtons.api = false;
 		}
 		$('#updates').toggle();
+		if (firstUpdate) createUpdateTable('divUpdate', updateInfo);
+		firstUpdate=false;
 		$('#userDataset').css({"display": "none"});
         $('#uploadDiv').css({"display": "none"});
         $('#publicDataset').css({"display": "none"});
