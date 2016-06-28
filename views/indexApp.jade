@@ -38,6 +38,9 @@ block normalBody
 					div(id="divAbout")
 						a.btn.btn-info(id="buttonAbout", style="width: 100%") About
 				li
+					div(id="divUpdates")
+						a.btn.btn-info(id="buttonUpdate", style="width: 100%") Updates
+				li
 					div(id="divAPI")
 						a.btn.btn-info(id="buttonAPI", style="width: 100%") API
 				li
@@ -159,6 +162,10 @@ block normalBody
 				label Public datasets
 				p Select one dataset from the table.
 				div(id='existingDatasetspublic')
+
+			div(id="updates", style="display:none;")
+				label Update information
+				div(id='divUpdate')
 
 
 			div(id="userDataset", style="display:none;")

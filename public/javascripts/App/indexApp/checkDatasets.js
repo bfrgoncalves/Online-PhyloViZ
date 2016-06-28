@@ -178,6 +178,27 @@ function changeDatasetName(tableToCheck, datasetObject, newName){
 
 }
 
+function createUpdateTable(divID, data){
+
+  tableToCheck = 'table' + divID;
+
+  $('#' + divID).html( '<table cellpadding="0" cellspacing="0" border="0" class="display" id="'+tableToCheck+'"></table>' );
+
+  var table = $('#' + tableToCheck).DataTable( {
+        "data": data.rows,
+        "columns": data.columns,
+        "bSort" : false,
+        //"scrollY":        "200px",
+        //"scrollCollapse": true,
+        "paging":         true,
+        "pageLength": 5,
+        "searching": false,
+        "ordering": false
+
+    } );
+  
+}
+
 function createTable(data, divID, usertype, callback){
 	var columns = [];
 	var tableData = [];

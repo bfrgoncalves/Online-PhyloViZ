@@ -26,10 +26,20 @@ $(document).ready( function(){
 		api: false,
 		userdatasets: false,
 		uploaddatasets:false,
-		publicdatasets: false
+		publicdatasets: false,
+		update: false
 	}
 
 	createDatasetButtons(onButtons);
+
+	var updateInfo = {};
+	updateInfo.columns = [{'title': 'Date'}, {'title': 'Information'}];
+	updateInfo.rows = [];
+	updateInfo.rows.push(['28/06/2016', '<a href="//msa.biojs.net/">MSA Viewer</a> update: overview panel and option to hide non-polymorphic regions.']);
+	updateInfo.rows.push(['28/06/2016', 'Table with update information.']);
+
+
+	createUpdateTable('divUpdate', updateInfo);
 
 	showProfileButton();
 
@@ -88,6 +98,10 @@ function createDatasetButtons(onButtons){
 		table.$('tr').removeClass('selected');
 		$('#LaunchButton').css({ 'display': 'none'});
 		if (onButtons.home) return false;
+		if (onButtons.update){
+			$('#divUpdate').toggle();
+			onButtons.update = false;
+		}
 		if (onButtons.uploaddatasets){
 			$('#uploadDiv').toggle();
 			onButtons.uploaddatasets = false;
@@ -114,6 +128,7 @@ function createDatasetButtons(onButtons){
         $('#publicDataset').css({"display": "none"});
         $('#AboutDiv').css({"display": "none"});
         $('#APIDiv').css({"display": "none"});
+        $('#updates').css({"display": "none"});
         tutorialFunctions.home();
 		onButtons.home = true;
 	});
@@ -126,6 +141,10 @@ function createDatasetButtons(onButtons){
 		table.$('tr').removeClass('selected');
 		$('#LaunchButton').css({ 'display': 'none'});
 		if (onButtons.about) return false;
+		if (onButtons.update){
+			$('#updates').toggle();
+			onButtons.update = false;
+		}
 		if (onButtons.uploaddatasets){
 			$('#uploadDiv').toggle();
 			onButtons.uploaddatasets = false;
@@ -152,8 +171,52 @@ function createDatasetButtons(onButtons){
         $('#publicDataset').css({"display": "none"});
         $('#homeDiv').css({"display": "none"});
         $('#APIDiv').css({"display": "none"});
+        $('#updates').css({"display": "none"});
         tutorialFunctions.about();
 		onButtons.about = true;
+	});
+	
+	$('#buttonUpdate').click(function(){
+		status("");
+		var table = $('#tableuser').DataTable();
+		table.$('tr').removeClass('selected');
+		var table = $('#tablepublic').DataTable();
+		table.$('tr').removeClass('selected');
+		$('#LaunchButton').css({ 'display': 'none'});
+		if (onButtons.update) return false;
+		if (onButtons.about){
+			$('#AboutDiv').toggle();
+			onButtons.about = false;
+		}
+		if (onButtons.uploaddatasets){
+			$('#uploadDiv').toggle();
+			onButtons.uploaddatasets = false;
+		}
+		else if (onButtons.publicdatasets){
+			$('#publicDataset').toggle();
+			onButtons.publicdatasets = false;
+		}
+		else if (onButtons.userdatasets){
+			$('#userDataset').toggle();
+			onButtons.userdatasets = false;
+		}
+		else if (onButtons.home){
+			$('#homeDiv').toggle();
+			onButtons.home = false;
+		}
+		else if (onButtons.api){
+			$('#APIDiv').toggle();
+			onButtons.api = false;
+		}
+		$('#updates').toggle();
+		$('#userDataset').css({"display": "none"});
+        $('#uploadDiv').css({"display": "none"});
+        $('#publicDataset').css({"display": "none"});
+        $('#homeDiv').css({"display": "none"});
+        $('#APIDiv').css({"display": "none"});
+        $('#AboutDiv').css({"display": "none"});
+        //tutorialFunctions.about();
+		onButtons.update = true;
 	});
 
 	$('#buttonAPI').click(function(){
@@ -164,6 +227,10 @@ function createDatasetButtons(onButtons){
 		table.$('tr').removeClass('selected');
 		$('#LaunchButton').css({ 'display': 'none'});
 		if (onButtons.api) return false;
+		if (onButtons.update){
+			$('#updates').toggle();
+			onButtons.update = false;
+		}
 		if (onButtons.uploaddatasets){
 			$('#uploadDiv').toggle();
 			onButtons.uploaddatasets = false;
@@ -190,6 +257,7 @@ function createDatasetButtons(onButtons){
         $('#publicDataset').css({"display": "none"});
         $('#homeDiv').css({"display": "none"});
         $('#AboutDiv').css({"display": "none"});
+        $('#updates').css({"display": "none"});
         tutorialFunctions.api();
 		onButtons.api = true;
 	});
@@ -200,6 +268,10 @@ function createDatasetButtons(onButtons){
 		table.$('tr').removeClass('selected');
 		$('#LaunchButton').css({ 'display': 'block'});
 		if (onButtons.publicdatasets) return false;
+		if (onButtons.update){
+			$('#updates').toggle();
+			onButtons.update = false;
+		}
 		else if (onButtons.uploaddatasets){
 			$('#uploadDiv').toggle();
 			onButtons.uploaddatasets = false;
@@ -226,6 +298,7 @@ function createDatasetButtons(onButtons){
         $('#homeDiv').css({"display": "none"});
         $('#AboutDiv').css({"display": "none"});
         $('#APIDiv').css({"display": "none"});
+        $('#updates').css({"display": "none"});
         tutorialFunctions.publicdatasets();
         onButtons.publicdatasets = true;
         var tableToUse = $('#tablepublic').DataTable();
@@ -238,6 +311,10 @@ function createDatasetButtons(onButtons){
 		table.$('tr').removeClass('selected');
 		$('#LaunchButton').css({ 'display': 'block'});
 		if (onButtons.userdatasets) return false;
+		if (onButtons.update){
+			$('#updates').toggle();
+			onButtons.update = false;
+		}
 		else if (onButtons.uploaddatasets){
 			$('#uploadDiv').toggle();
 			onButtons.uploaddatasets = false;
@@ -264,6 +341,7 @@ function createDatasetButtons(onButtons){
         $('#homeDiv').css({"display": "none"});
         $('#AboutDiv').css({"display": "none"});
         $('#APIDiv').css({"display": "none"});
+        $('#updates').css({"display": "none"});
         tutorialFunctions.userdatasets();
         onButtons.userdatasets = true;
         var tableToUse = $('#tableuser').DataTable();
@@ -280,6 +358,10 @@ function createDatasetButtons(onButtons){
 		if (propertyToCheck[0].index == 0) $('#LaunchButton').css({ 'display': 'none'});
 
         if (onButtons.uploaddatasets) return false;
+        if (onButtons.update){
+			$('#updates').toggle();
+			onButtons.update = false;
+		}
 		else if (onButtons.userdatasets){
 			$('#userDataset').toggle();
 			onButtons.userdatasets = false;
@@ -306,6 +388,7 @@ function createDatasetButtons(onButtons){
         $('#homeDiv').css({"display": "none"});
         $('#AboutDiv').css({"display": "none"});
         $('#APIDiv').css({"display": "none"});
+        $('#updates').css({"display": "none"});
         tutorialFunctions.uploaddatasets();
 		onButtons.uploaddatasets = true;
       });
@@ -320,6 +403,10 @@ function createDatasetButtons(onButtons){
 		if (propertyToCheck[0].index == 0) $('#LaunchButton').css({ 'display': 'none'});
 
         if (onButtons.uploaddatasets) return false;
+        if (onButtons.update){
+			$('#updates').toggle();
+			onButtons.update = false;
+		}
 		else if (onButtons.userdatasets){
 			$('#userDataset').toggle();
 			onButtons.userdatasets = false;
@@ -346,6 +433,7 @@ function createDatasetButtons(onButtons){
         $('#homeDiv').css({"display": "none"});
         $('#AboutDiv').css({"display": "none"});
         $('#APIDiv').css({"display": "none"});
+        $('#updates').css({"display": "none"});
         tutorialFunctions.uploaddatasets();
 		onButtons.uploaddatasets = true;
       });

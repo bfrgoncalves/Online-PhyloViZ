@@ -34,9 +34,9 @@ function createMSA(graphObject){
 	}
 
 	opts.el = document.getElementById("alignmentLocation");
-	opts.vis = {conserv: false, overviewbox: false}
-	opts.zoomer = {alignmentHeight: window.innerHeight * 0.7, labelWidth: 110,labelFontsize: "15px",labelIdLength: 50}
-	opts.conf = {dropImport: true};
+	opts.vis = {scaleslider:true}
+	opts.zoomer = {alignmentHeight: window.innerHeight * 0.5}
+	//opts.conf = {dropImport: true};
 
 	// init msa
 	var m = new msa.msa(opts);
@@ -48,9 +48,9 @@ function createMSA(graphObject){
 	var defMenu = new msa.menu.defaultmenu(menuOpts);
 	//defMenu.views = {};
 	delete defMenu.views['10_import'];
-	delete defMenu.views['40_vis'];
-	delete defMenu.views['70_extra'];
-	delete defMenu.views['80_export'];
+	//delete defMenu.views['40_vis'];
+	//delete defMenu.views['70_extra'];
+	//delete defMenu.views['80_export'];
 	delete defMenu.views['90_help'];
 	delete defMenu.views['95_debug'];
 
@@ -58,6 +58,25 @@ function createMSA(graphObject){
 
 	// call render at the end to display the whole MSA
 	m.render();
+
+	var hide = false;
+
+	$($('#menuLocation').find('ul')[1]).prepend('<li id="removePoly">Hide Non-Polymorphic Sites</li>');    
+
+	$('#removePoly').click(function(){
+		if(!hide){
+			var threshold = prompt('Enter the threshold value (in decimal values)');
+			ColumnFilter(defMenu, threshold);
+			$('#removePoly').text('Show Non-Polymorphic Sites');
+			hide = true;
+		}
+		else{
+			ColumnFilter(defMenu, 0);
+			$('#removePoly').text('Hide Non-Polymorphic Sites');
+			hide = false;
+		}
+
+	});
 
 	$('.nav-tabs > li.active').removeClass('active');
   	$('.tab-pane.active').removeClass('active');
@@ -70,4 +89,20 @@ function createMSA(graphObject){
 	$("#waitingGifMain").css('display', 'none');
 	status('');
 
+}
+
+function ColumnFilter(menu, threshold){    
+	var msa = menu.msa;
+	var hidden = [];
+	var maxLen = msa.seqs.getMaxLength();
+	var hidden = [];
+	// TODO: cache this value
+	var conserv = msa.g.stats.scale(msa.g.stats.conservation());
+	var end = maxLen - 1;
+	for (var i = 0; 0 < end ? i <= end : i >= end; 0 < end ? i++ : i--) {
+		if (conserv[i] <= threshold) {
+			hidden.push(i);
+		}
+	}
+	return msa.g.columns.set("hidden", hidden);
 }
