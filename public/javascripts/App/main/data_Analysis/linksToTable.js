@@ -28,7 +28,7 @@ function createDistanceTable(selectedNodes, distanceMatrix, metadata, maxDistanc
   createSelect(metadata, function(){
     $('#countSelectedNodes').empty();
     $('#matrixTableInfo').empty();
-    $('#countSelectedNodes').append('<h5>Selected Nodes: ' + selectedNodes.length + '</h5>');
+    $('#countSelectedNodes').append('<h5>Selected Nodes: ' + selectedNodes.length + '</h5><span>Click on the <b>Distance</b> column to check which profile positions are different.</span>');
     //$('#matrixTableInfo').append('<h6>Table\'s information after selection of an <b>auxiliary data field</b> only depends on each of the columns at the matrix visualization. Also, at the moment only <b>one isolate per selection</b> can be displayed.</h6>');
     $("#matrixTableInfo").css({display: 'block'});
     $("#countSelectedNodes").css({display: 'block'});
@@ -326,7 +326,7 @@ var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDista
           if (graphObject.graphInput.data_type=='newick'){
             toBody = '<tr><td>Line</td><td>'+stored[j][toCheck[u]].id+'</td><td rowspan="2">'+distanceMatrix[selectedNodes[stored[j].y].id][0][selectedNodes[stored[j].x].id]+'</td>';
           }
-          else toBody = '<tr><td>Line</td><td>'+stored[j][toCheck[u]].id+'</td><td rowspan="2">'+distanceMatrix[selectedNodes[stored[j].y].id][0][selectedNodes[stored[j].x].id] +' (' + (distanceMatrix[selectedNodes[stored[j].y].id][0][selectedNodes[stored[j].x].id] / profileSize).toFixed(2) + ')</td>';
+          else toBody = '<tr><td>Line</td><td>'+stored[j][toCheck[u]].id+'</td><td id="stored_'+j+'" class="distanceCell" rowspan="2">'+distanceMatrix[selectedNodes[stored[j].y].id][0][selectedNodes[stored[j].x].id] +' (' + (distanceMatrix[selectedNodes[stored[j].y].id][0][selectedNodes[stored[j].x].id] / profileSize).toFixed(2) + ')</td>';
         } 
         else toBody = '<tr style="border-bottom:2px solid black;"><td>Column</td><td>'+stored[j][toCheck[u]].id+'</td>';
       //toBody = '<tr><td>'+nodes[stored[j].y].id+'</td><td>'+nodes[stored[j].x].id+'</td><td>'+distanceMatrix[selectedNodes[stored[j].y].id][0][selectedNodes[stored[j].x].id]+'</td>';
@@ -356,7 +356,7 @@ var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDista
         if (graphObject.graphInput.data_type=='newick'){
           toBody = '<tr style="background-color:#f8e7e1;"><td>Line</td><td>'+p[toCheck[u]].id+'</td><td rowspan="2">'+distanceMatrix[selectedNodes[p.y].id][0][selectedNodes[p.x].id]+'</td>';
         }
-        else toBody = '<tr style="background-color:#f8e7e1;"><td>Line</td><td>'+p[toCheck[u]].id+'</td><td rowspan="2">'+distanceMatrix[selectedNodes[p.y].id][0][selectedNodes[p.x].id]+' (' + (distanceMatrix[selectedNodes[p.y].id][0][selectedNodes[p.x].id] / profileSize).toFixed(2) + ')</td>';
+        else toBody = '<tr style="background-color:#f8e7e1;"><td>Line</td><td>'+p[toCheck[u]].id+'</td><td id="check_'+j+'" class="distanceCell" rowspan="2">'+distanceMatrix[selectedNodes[p.y].id][0][selectedNodes[p.x].id]+' (' + (distanceMatrix[selectedNodes[p.y].id][0][selectedNodes[p.x].id] / profileSize).toFixed(2) + ')</td>';
       } 
       else toBody = '<tr style="background-color:#f8e7e1;"><td>Column</td><td>'+p[toCheck[u]].id+'</td>';
 
@@ -373,6 +373,18 @@ var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDista
       toBody += '</tr>';
       tableBody.append(toBody);
     }
+
+    $('.distanceCell').click(function(){
+      if (this.id.indexOf('check') > -1){
+        var indexToCheck = this.id.split('check_')[1];
+        DifferentProfileRegions(p);
+      }
+      else if (this.id.indexOf('stored') > -1){
+        var indexToCheck = this.id.split('stored_')[1];
+        DifferentProfileRegions(stored[indexToCheck]);
+
+      }
+  })
 
     for (i in currentShowValues){
       if(currentShowValues[i]){
@@ -436,6 +448,35 @@ var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDista
 
   }
 
+  function DifferentProfileRegions(stored, schemaGenes){
+
+    var source_schema = stored.source_node.data.profile;
+    var target_schema = stored.target_node.data.profile;
+
+    var schemeGenes = graphObject.graphInput.schemeGenes;
+    var differentPositions = {};
+    differentPositions.columns=[{'title': 'Loci'}, {'title': stored.source_node.data.key}, {'title': stored.target_node.data.key}];
+    differentPositions.rows = [];
+    var countPositions=1;
+    for(i in source_schema){
+      if(source_schema[i] != target_schema[i]){
+        differentPositions.rows.push([schemeGenes[countPositions], source_schema[i], target_schema[i]]);
+      }
+      countPositions++;
+    }
+
+    $('#modalDifferentProfile').dialog({
+        height: $(window).height() * 0.6,
+        width: $(window).width() * 0.7,
+        modal: true,
+        resizable: false,
+        dialogClass: 'no-close success-dialog'
+    });
+
+    createDifferencesTable('tableDifferentProfile', differentPositions);
+
+  }
+
   function order(value) {
     currentValue = value;
     x.domain(orders[value]);
@@ -457,4 +498,25 @@ var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDista
   });
 
 
+}
+
+function createDifferencesTable(divID, data){
+
+  tableToCheck = 'table' + divID;
+
+  $('#' + divID).html( '<h5 id="distancesTitle" style="text-align:center;"></h5><table cellpadding="0" cellspacing="0" border="0" class="display" id="'+tableToCheck+'"></table>' );
+
+  $('#distancesTitle').text('Total number of differences between profiles: ' + data.rows.length);
+
+  var table = $('#' + tableToCheck).DataTable( {
+        "data": data.rows,
+        "columns": data.columns,
+        //"scrollY":        "200px",
+        "scrollCollapse": true,
+        "scrollY":        "300px",
+        "searching": false,
+        "ordering": false
+
+    } );
+  
 }

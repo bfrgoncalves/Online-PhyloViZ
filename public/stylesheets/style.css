@@ -152,6 +152,10 @@ a {
   background-color: #b36a20;
 }
 
+.distanceCell:hover{
+  background-color: #6497b1;
+}
+
 .node text {
   font: 9px helvetica;
 }
