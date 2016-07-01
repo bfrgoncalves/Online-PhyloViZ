@@ -41,8 +41,6 @@ def login(args, currentRoot): #Required before each of the tasks
 	bashCommand = 'curl --cookie-jar jarfile --data username='+ args.u + '&' + 'password=' + args.p + ' ' +currentRoot+'/users/api/login'
 	process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
 	output = process.communicate()[0]
-	if output == 'Unauthorized':
-		sys.exit(output + ': Incorrect username or password.')
 
 
 def checkDatasets(args, currentRoot): #Check if the database name to upload exists
@@ -108,6 +106,7 @@ def remoteUpload(args, currentRoot): #upload the input files to the database
 	process = subprocess.Popen(bashCommandUpload.split(), stdout=subprocess.PIPE)
 	output = json.loads(process.communicate()[0])
 
+	return output
 
 def rungoeBURST(args, datasetID, currentRoot): #run the goeBURST algorithm to store the links in the database
 
@@ -119,7 +118,6 @@ def rungoeBURST(args, datasetID, currentRoot): #run the goeBURST algorithm to st
 
 	process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
 	output = process.communicate()[0]
-
 
 if __name__ == "__main__":
     main()
