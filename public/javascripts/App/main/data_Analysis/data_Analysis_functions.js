@@ -544,6 +544,26 @@ function exportMatrix(graphObject){
 	$('#dialog').dialog();
 }
 
+function saveDistanceMatrixImage(graphObject){
+
+	var divdistance = document.getElementById('divsvg');
+    var divlegend = document.getElementById('divsvgLegend');
+    var newWin=window.open('','Print-Window','width=21cm','height=29.7cm');
+
+	if (newWin == null || typeof(newWin)=='undefined')
+		alert("Please disable your pop-up blocker.\n\nTo save the image, a new window must be created.");
+
+    newWin.document.open();
+	newWin.document.write('<html><body style="width:100%;height:100%;"><div style="width:100%;">'+divdistance.innerHTML+'</div><br></br><div style="width:100%;height:100%;">'+divlegend.innerHTML.replace('id="grouplegendsvg" width="23.333333333333332" height="20.58823529411765"', 'id="grouplegendsvg" width="100%" height="100%"')+'</div></body></html>');
+
+	setTimeout(function(){ 
+	    newWin.window.print();
+	    newWin.close();}, 100);
+	  //newWin.document.getElementById('canvas').remove();
+
+
+}
+
 
 
 

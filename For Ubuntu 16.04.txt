@@ -1,0 +1,35 @@
+For Ubuntu 16.04:
+
+git clone https://github.com/bfrgoncalves/Online-PhyloViZ.git
+cd Online-PhyloViZ/
+cp template_config.js config.js
+vi config.js
+  change postgresstring, port, databasename, pass, email and spe
+
+sudo apt-get install nodejs-legacy
+sudo apt-get install postgresql
+ 
+sudo -u postgres /usr/lib/postgresql/9.5/bin/createuser phyloviz
+
+sudo -u postgres psql postgres
+  \password newpass
+  ALTER USER phyloviz CREATEDB;
+  CREATE DATABASE phyloviz OWNER phyloviz;
+  \q
+
+psql -U phyloviz phyloviz
+  \password newpass 
+
+locate pg_hba.conf
+cd /etc/postgresql/9.X/main/
+vi pg_hba.conf 
+  change all METHOD to md5
+
+sudo service postgresql restart
+psql -U phyloviz phyloviz
+  CREATE SCHEMA datasets;
+  \q
+
+
+cd Online-PhyloViZ/
+node app

@@ -63,6 +63,10 @@ function constructGraph(graph, datasetID){
         buttonFunctions.resetPositionButton(graphObject);
         buttonFunctions.searchButton(graphObject);
 
+        if(graphObject.maxLinkValue > 10 || graphObject.graphInput.positions.isLogScale == true){
+          $("#AddLogScale").trigger("click");
+        }
+
         graphObject.graphGL.forEachNode(function(node){
           graphObject.layout.getBody(node.id).defaultMass = graphObject.layout.getBody(node.id).mass;
         });

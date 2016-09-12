@@ -91,14 +91,18 @@ function loadButtonFunctions(){
 			var renderer = graphObject.renderer;
 			graphObject.isLayoutPaused = false;
 
-			if (Object.keys(graph.positions).length > 0){
-		        renderer.pause();
-				graphObject.isLayoutPaused = true;
+			setTimeout(function(){
 
-		        $('#pauseLayout')[0].innerHTML = "Resume Layout";
-		        $('#iconPauseLayout').toggleClass('glyphicon glyphicon-pause',false);
-		        $('#iconPauseLayout').toggleClass('glyphicon glyphicon-play',true);
-		    }
+				if (Object.keys(graph.positions).length > 0){
+			        renderer.pause();
+					graphObject.isLayoutPaused = true;
+
+			        $('#pauseLayout')[0].innerHTML = "Resume Layout";
+			        $('#iconPauseLayout').toggleClass('glyphicon glyphicon-pause',false);
+			        $('#iconPauseLayout').toggleClass('glyphicon glyphicon-play',true);
+			    }
+
+			}, 500);
 
 		    $('#pauseLayout').click(function(e) {
 	              e.preventDefault();

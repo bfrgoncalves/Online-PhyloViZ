@@ -61,7 +61,7 @@ block normalBody
 							span.input-group-btn
 								button.btn.btn-default.btn-search(type='submit') Search
 				div(id="col_webgl")
-					div(id="pauseRegion", style="height:25%;overflow-y:auto;")
+					div(id="pauseRegion", style="height:17.5%;overflow-y:auto;")
 						ul.nav.nav-stacked
 							li
 								div(id='toggleLayout')
@@ -87,7 +87,12 @@ block normalBody
 										div(style="text-align:center;")
 											button(type='button',id='getLinkButton', name='publicLink1') Get Data Set Link
 								br
-					div(id="buttonRegion", style="height:70%;overflow-y:auto;")		
+					div(id="pauseRegion", style="height:7%;overflow-y:auto;")
+						ul.nav.nav-stacked
+							li
+								i Links log Scale: <b id="isLogScaleOn"></b>
+
+					div(id="buttonRegion", style="height:60%;overflow-y:auto;")		
 						ul.nav.nav-stacked
 							li
 								div
@@ -280,9 +285,11 @@ block normalBody
 							br
 							div(id="checkboxListContent")
 						div(id="divClearDistances")
-							button.btn-md.btn-danger(id="clearDistanceMatrix") Clear Distances
+							button.btn.btn-danger(id="clearDistanceMatrix") Clear Distances
 							br
-							button.btn-md.btn-info(id="buttonExportMatrix") Export Distance Matrix
+							button.btn.btn-info(id="buttonExportMatrix") Export Distance Matrix
+							br
+							button.btn.btn-info(id="buttonSaveImage") Save Image
 						br
 						div(id="countSelectedNodes", style="display:none")
 						div(id="matrixTableInfo", style="display:none")
@@ -292,8 +299,8 @@ block normalBody
 									thead
 									tbody
 							div(id="divClearTable")
-								button.btn-md.btn-info(type='button',id='exportMatrixDataButton', name='distances1') Export Selected Data
-								button.btn-md.btn-danger(id="clearClickTable") Clear Table
+								button.btn.btn-info(type='button',id='exportMatrixDataButton', name='distances1') Export Selected Data
+								button.btn.btn-danger(id="clearClickTable") Clear Table
 
 						//div(id="divOverMatrix")
 					br
@@ -351,6 +358,7 @@ block scripts
 	script(type='text/javascript', src="/javascripts/dependencies/html2canvas.js")
 	script(type='text/javascript', src="/javascripts/dependencies/canvas2image.js")
 	script(type='text/javascript', src="/javascripts/dependencies/clipboard.js")
+	script(type='text/javascript', src="/javascripts/dependencies/dom-to-image.js")
 	//script(type='text/javascript', src='/javascripts/dependencies/datamaps.world.min.js')
 	//script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/customPieChartShader.js')
 	script(type='text/javascript', src='/javascripts/App/adjustElements/adjustElementsMain.js')

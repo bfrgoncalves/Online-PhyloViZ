@@ -72,13 +72,17 @@ function changeLogScale(graphObject){
 
     if(!graphObject.isLogScale) $("#SpringLengthSlider").val(1);
 
-    graph.links.forEach(function(link){
+    if(graphObject.isLogScale) $('#isLogScaleOn').text('On');
+    if(!graphObject.isLogScale) $('#isLogScaleOn').text('Off');
 
-            var linkUI = graphGL.getLink(link.source, link.target);
+    graphGL.forEachLink(function(link){
+            
+            var linkUI = graphGL.getLink(link.fromId, link.toId);
 
-            var spring = layout.getSpring(link.source, link.target);
+            var spring = layout.getSpring(link.fromId, link.toId);
 
-            if (graphObject.isLogScale) spring.length = Math.log10(spring.length);
+            if (graphObject.isLogScale && spring.length > 1) spring.length = Math.log10(spring.length);
+            else if(graphObject.isLogScale) spring.length = spring.length;
             else spring.length = graphObject.defaultLayoutParams.springLength * linkUI.data.connectionStrength;
 
         })
@@ -99,9 +103,9 @@ function changeLogScaleNodes(graphObject){
 
     if(!graphObject.isLogScaleNodes) $("#NodeSizeSlider").val(1);
 
-    graph.nodes.forEach(function(node){
+    graphGL.forEachNode(function(node){
 
-            var nodeUI = graphObject.graphics.getNodeUI(node.key);
+            var nodeUI = graphObject.graphics.getNodeUI(node.id);
             if (graphObject.isLogScaleNodes) nodeUI.size = Math.log10(nodeUI.backupSize) * graphObject.DefaultnodeSize;
             else nodeUI.size = nodeUI.backupSize;
 
@@ -122,13 +126,14 @@ function changeSpringLength(newValue, max, graphObject){
     var layout = graphObject.layout;
     var graph = graphObject.graphInput;
 
-    graph.links.forEach(function(link){
+    graphGL.forEachLink(function(link){
 
-            var linkUI = graphGL.getLink(link.source, link.target);
+            var linkUI = graphGL.getLink(link.fromId, link.toId);
 
-            var spring = layout.getSpring(link.source, link.target);
+            var spring = layout.getSpring(link.fromId, link.toId);
 
-            if (graphObject.isLogScale) spring.length = graphObject.defaultLayoutParams.springLength * (Math.log10(1 + linkUI.data.value) + (20 * Math.log10(1 + linkUI.data.value * (newValue/max))));
+            if (graphObject.isLogScale && spring.length > 1) spring.length = graphObject.defaultLayoutParams.springLength * (Math.log10(1 + linkUI.data.value) + (20 * Math.log10(1 + linkUI.data.value * (newValue/max))));
+            else if(graphObject.isLogScale) spring.length = spring.length;
             else spring.length = graphObject.defaultLayoutParams.springLength * (linkUI.data.value + (20 * (1 + Math.log10(linkUI.data.value)) * (newValue/max)));
 
         })
@@ -389,6 +394,7 @@ function NLVgraph(graphObject, value) {
 
     graphObject.addedLinks = addedLinks;
     graphObject.prevNLVvalue = prevValue;
+    changeLogScale(graphObject);
 
 }
 

@@ -15,6 +15,7 @@ function saveTreePositions(graphObject){
 
 
 	Positions.nodes = [nodePositions];
+  Positions.isLogScale = graphObject.isLogScale;
 
 	$.ajax({
       url: '/api/db/postgres/update/positions/data',

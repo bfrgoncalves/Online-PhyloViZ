@@ -558,6 +558,10 @@ select {
   margin-top: 3%;
 }
 
+#buttonSaveImage{
+  margin-top: 3%;
+}
+
 #divClearTable{
   margin-top: 5%;
   float: right;

@@ -197,6 +197,7 @@ var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDista
   var legendHeight = svgHeight / 2; 
 
   var legend = d3.select('#divsvgLegend').append('svg')
+                  .attr('id', 'grouplegendsvg' )
                   .attr('width', legendHeight/15 )
                   .attr('height', legendHeight/colors.length).selectAll(".legend")
                   .data(quantileNumbers, function(d) { return d; });
@@ -277,6 +278,11 @@ var constructMatrix = function(selectedNodes, distanceMatrix, metadata, maxDista
 
   $('#buttonExportMatrix').click(function(){
     exportMatrix(graphObject);
+    //console.log(selectedNodes);
+  });
+
+  $('#buttonSaveImage').click(function(){
+    saveDistanceMatrixImage(graphObject);
     //console.log(selectedNodes);
   });
 
