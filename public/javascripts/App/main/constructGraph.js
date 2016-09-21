@@ -63,8 +63,14 @@ function constructGraph(graph, datasetID){
         buttonFunctions.resetPositionButton(graphObject);
         buttonFunctions.searchButton(graphObject);
 
+        $('#isLogScaleOn').text('Off');
+        $('#isLogScaleNodesOn').text('Off');
+
         if(graphObject.maxLinkValue > 10 || graphObject.graphInput.positions.isLogScale == true){
           $("#AddLogScale").trigger("click");
+        }
+        if(graphObject.maxNodeValue > 10){
+          $("#AddLogScaleNodes").trigger("click");
         }
 
         graphObject.graphGL.forEachNode(function(node){

@@ -9,9 +9,13 @@ function loadGraphFunctions(){
 
 			var maxLinkValue = 0;
 			var countAddedNodes = 0;
+			var maxNodeValue = 0;
 			
 			for (i in graph.nodes){
 		        graph.nodes[i].idGL = countAddedNodes;
+		        if (maxNodeValue < graph.nodes[i].isolates.length){
+		        	maxNodeValue = graph.nodes[i].isolates.length;
+		        }
 		        graphGL.addNode(graph.nodes[i].key, graph.nodes[i]);
 		        countAddedNodes++;
 		    }
@@ -22,9 +26,12 @@ function loadGraphFunctions(){
 			    graphGL.addLink(graph.links[j].source, graph.links[j].target, { connectionStrength: graph.links[j].value , value: graph.links[j].value, color: "#000", bootstrap: toBoot});
 		    }
 
-		     maxLinkValue += 1;
+		    maxLinkValue += 1;
 
-		     graphObject.maxLinkValue = maxLinkValue;
+		    graphObject.maxLinkValue = maxLinkValue;
+		    graphObject.maxNodeValue = maxNodeValue;
+		    graphObject.NodeScaleFactor = 1;
+
 		},
 
 		initLayout: function(graphObject){
@@ -113,7 +120,7 @@ function loadGraphFunctions(){
 	        graphics.node(function (node) {
 	          //console.log(node);
 	          if (node.id.search('TransitionNode') > -1) sizeToUse = 5;
-	          else sizeToUse = DefaultnodeSize+node.data.isolates.length;
+	          else sizeToUse = DefaultnodeSize+(node.data.isolates.length * graphObject.NodeScaleFactor);
 	          return new WebglCircle(sizeToUse, nodeColor, [1], [nodeColor], null);
 	        });
 

@@ -146,6 +146,10 @@ function loadButtonFunctions(){
             	scaleLink(this.value, graphObject);
           	});
 
+          	$('#scaleNode').change(function(e){
+            	scaleNodes(this.value, graphObject);
+          	});
+
           	$("#SpringLengthSlider").attr({
 		         "max" : graphObject.maxLinkValue,
 		    });

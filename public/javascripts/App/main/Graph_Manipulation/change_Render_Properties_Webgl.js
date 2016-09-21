@@ -101,13 +101,23 @@ function changeLogScaleNodes(graphObject){
     var layout = graphObject.layout;
     var graph = graphObject.graphInput;
 
-    if(!graphObject.isLogScaleNodes) $("#NodeSizeSlider").val(1);
+    if(!graphObject.isLogScaleNodes){
+        $("#NodeSizeSlider").val(1);
+        $("#scaleNode").val(1);
+    }
+
+    if(graphObject.isLogScaleNodes) $('#isLogScaleNodesOn').text('On');
+    if(!graphObject.isLogScaleNodes) $('#isLogScaleNodesOn').text('Off');
 
     graphGL.forEachNode(function(node){
 
             var nodeUI = graphObject.graphics.getNodeUI(node.id);
+
             if (graphObject.isLogScaleNodes) nodeUI.size = Math.log10(nodeUI.backupSize) * graphObject.DefaultnodeSize;
-            else nodeUI.size = nodeUI.backupSize;
+            else{
+                nodeUI.backupSize = graphObject.DefaultnodeSize + (node.data.isolates.length * graphObject.NodeScaleFactor);
+                nodeUI.size = nodeUI.backupSize;
+            }
 
 
     });
@@ -274,6 +284,31 @@ function scaleLink(newScale, graphObject){
     }
     else renderer.resume();
 
+}
+
+function scaleNodes(newNodeScaleFactor, graphObject){
+
+    var renderer = graphObject.renderer;
+    var graphGL = graphObject.graphGL;
+    var layout = graphObject.layout;
+    var graph = graphObject.graphInput;
+
+    graphObject.NodeScaleFactor = newNodeScaleFactor * 0.5;
+    $("#NodeSizeSlider").val(1);
+
+    graphGL.forEachNode(function(node){
+            var nodeUI = graphObject.graphics.getNodeUI(node.id);
+            if (graphObject.isLogScaleNodes) nodeUI.backupSize = Math.log10(nodeUI.backupSize) * graphObject.DefaultnodeSize + (node.data.isolates.length * graphObject.NodeScaleFactor);
+            else nodeUI.backupSize = graphObject.DefaultnodeSize + (node.data.isolates.length * graphObject.NodeScaleFactor);
+            nodeUI.size = nodeUI.backupSize;
+
+    });
+
+    if(graphObject.isLayoutPaused){
+        renderer.resume();
+        setTimeout(function(){ renderer.pause();}, 50);
+    }
+    else renderer.resume();
 }
 
 function splitTree(graphObject, value) {
