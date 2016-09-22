@@ -80,6 +80,7 @@ function createDatasetButtons(onButtons){
 	var updateInfo = {};
 	updateInfo.columns = [{'title': 'Date'}, {'title': 'Action'}, {'title': 'Information'}];
 	updateInfo.rows = [];
+	updateInfo.rows.push(['22/09/2016', 'Video', '<a href="//www.youtube.com/watch?v=fVlRGDSRmWg">Activate WebGL after Google Chrome update (v.53.0.2785.116).</a>']);
 	updateInfo.rows.push(['12/09/2016', 'Fixed', 'Active log scale when adding links with NLV graph option.']);
 	updateInfo.rows.push(['12/09/2016', 'Update', 'Store log scale information when clicking on the "Store positions" button. Save Interactive Distance Matrix images.']);
 	updateInfo.rows.push(['29/06/2016', 'Update', 'Check the distinct profile positions when clicking on the information table at the Interactive Distance Matrix tab.']);
