@@ -359,6 +359,7 @@ function splitTree(graphObject, value) {
 
     graphObject.removedLinks = removedLinks;
     graphObject.prevSplitTreeValue = prevValue;
+    changeLogScale(graphObject);
 
 }
 
