@@ -341,11 +341,14 @@ function uploadToDatabase(data, callback){
     if (data['is_fileFasta']) data.data_type = 'fasta';
     if (data['is_fileProfile']) data.data_type = 'profile'; 
 
-    query = "INSERT INTO datasets.datasets (name, key, user_id, dataset_id, data_type, description, put_public, is_public, data_timestamp) VALUES ('"+data.datasetName+"', '"+data.key+"', '"+userID+"', '"+data.datasetID+"', '"+data.data_type+"', '" + data.dataset_description +"', '"+ data.makePublic +"', '"+ data.is_public + "', NOW());" +
-            "INSERT INTO datasets.profiles (user_id, data, schemeGenes, dataset_id, put_public, is_public, data_timestamp) VALUES ('"+userID+"', '"+JSON.stringify(profiles)+"', '{"+data['fileProfile_headers']+"}', '"+data.datasetID+"', '"+ data.makePublic +"', '"+ data.is_public + "', NOW());" +
-            "INSERT INTO datasets.isolates (user_id, data, metadata, dataset_id, put_public, is_public, data_timestamp) VALUES ('"+userID+"', '"+JSON.stringify(isolates)+"', '{"+data['fileMetadata_headers']+"}', '"+data.datasetID+"', '"+ data.makePublic +"', '"+ data.is_public + "', NOW());" +
+    data['fileProfile_headers'] = data['fileProfile_headers'].toString().replace(/'/g, '&39').split(',');
+    data['fileMetadata_headers'] = data['fileMetadata_headers'].toString().replace(/'/g, '&39').split(',');
+
+    query = "INSERT INTO datasets.datasets (name, key, user_id, dataset_id, data_type, description, put_public, is_public, data_timestamp) VALUES ('"+data.datasetName+"', '"+data.key.replace(/'/g, '&39')+"', '"+userID+"', '"+data.datasetID+"', '"+data.data_type+"', '" + data.dataset_description +"', '"+ data.makePublic +"', '"+ data.is_public + "', NOW());" +
+            "INSERT INTO datasets.profiles (user_id, data, schemeGenes, dataset_id, put_public, is_public, data_timestamp) VALUES ('"+userID+"', '"+JSON.stringify(profiles).replace(/'/g, '&39')+"', '{"+data['fileProfile_headers']+"}', '"+data.datasetID+"', '"+ data.makePublic +"', '"+ data.is_public + "', NOW());" +
+            "INSERT INTO datasets.isolates (user_id, data, metadata, dataset_id, put_public, is_public, data_timestamp) VALUES ('"+userID+"', '"+JSON.stringify(isolates).replace(/'/g, '&39')+"', '{"+data['fileMetadata_headers']+"}', '"+data.datasetID+"', '"+ data.makePublic +"', '"+ data.is_public + "', NOW());" +
             "INSERT INTO datasets.positions (user_id, data, dataset_id, put_public, is_public, data_timestamp) VALUES ('"+userID+"', '"+JSON.stringify(positions)+"', '"+data.datasetID+"', '"+ data.makePublic +"', '"+ data.is_public + "', NOW());" +
-            "INSERT INTO datasets.links (user_id, data, dataset_id, put_public, is_public, data_timestamp) VALUES ('"+userID+"', '"+JSON.stringify(links)+"', '"+data.datasetID+"', '"+ data.makePublic +"', '"+ data.is_public + "', NOW());" +
+            "INSERT INTO datasets.links (user_id, data, dataset_id, put_public, is_public, data_timestamp) VALUES ('"+userID+"', '"+JSON.stringify(links).replace(/'/g, '&#39')+"', '"+data.datasetID+"', '"+ data.makePublic +"', '"+ data.is_public + "', NOW());" +
             "INSERT INTO datasets.newick (user_id, data, dataset_id, put_public, is_public, data_timestamp) VALUES ('"+userID+"', '"+JSON.stringify(newick)+"', '"+data.datasetID+"', '"+ data.makePublic +"', '"+ data.is_public + "', NOW());";
 
     var client = new pg.Client(connectionString);

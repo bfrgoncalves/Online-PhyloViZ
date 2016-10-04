@@ -1,0 +1,107 @@
+@media screen and (max-width : 350px){
+  
+  body {
+    font-size: 12px;
+  }
+  h3 {
+  	font-size: 18px;
+  }
+
+}
+
+@media screen and (max-width : 500px){
+  
+  body {
+    font-size: 12px;
+  }
+  h2 {
+  	font-size: 20px;
+  }
+  h3 {
+  	font-size: 18px;
+  }
+  table tr td {
+	  font-size: 12px;
+	}
+  table tr th {
+	  font-size: 14px;
+	}
+
+}
+
+@media screen and (max-width : 1204px){
+  
+  body {
+    font-size:12px;
+  }
+  table tr td {
+    font-size: 10px;
+  }
+  table tr th {
+    font-size: 14px;
+  }
+
+}
+
+@media screen and (max-width : 1280px){
+  
+  body {
+    font-size: 12px;
+  }
+  h2 {
+    font-size: 20px;
+  }
+  h3 {
+    font-size: 18px;
+  }
+  table tr td {
+    font-size: 12px;
+  }
+  table tr th {
+    font-size: 14px;
+  }
+
+}
+
+@media screen and (max-width : 1440px){
+  
+  body {
+    font-size:12px;
+  }
+  table tr td {
+    font-size: 12px;
+  }
+  table tr th {
+    font-size: 14px;
+  }
+  
+
+}
+
+@media screen and (max-width : 1680px){
+  
+  body {
+    font-size:12px;
+  }
+  table tr td {
+    font-size: 12px;
+  }
+  table tr th {
+    font-size: 14px;
+  }
+
+}
+
+@media screen and (max-width : 1920px){
+  
+  body {
+    font-size:14px;
+  }
+  table tr td {
+    font-size: 14px;
+  }
+  table tr th {
+    font-size: 16px;
+  }
+
+}

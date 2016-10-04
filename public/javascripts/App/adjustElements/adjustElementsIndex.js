@@ -1,4 +1,5 @@
 fontsize = function () {
+    
     var ButtonDatasetsSize = $("#buttonExistingDatasets").width() * 0.06; // 10% of container width
     var ButtonSubmitfontSize = $("#inputDiv").width() * 0.018; // 10% of container width
     var ButtonfontSize = $("#inputDiv").width() * 0.014; // 10% of container width
@@ -18,7 +19,7 @@ fontsize = function () {
     $(".title").css('font-size', titleFontSize);
     $(".titleHome").css('font-size', titleFontSizeHome);
     $(".input-formats").css('font-size', ButtonfontSize * 1.1);
-
+    
     $("body").css('opacity', 1);
 };
 

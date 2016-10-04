@@ -121,9 +121,11 @@ function getDataset(datasetID, userID, isPublic, callback) {
 			    for(i in result.rows){
 			    	for(x in result.rows[i]){
 			    		//console.log(x);
-			    		if( x == 'profiles') dataset.profiles = result.rows[i][x]['profiles'];
-			    		else if( x  == 'isolates') dataset.isolates = result.rows[i][x]['isolates'];
-			    		else if( x  == 'links') dataset.links = result.rows[i][x]['links'];
+			    		if( x == 'profiles') {
+			    			dataset.profiles = JSON.parse(JSON.stringify(result.rows[i][x]['profiles']).replace(/&39/g, "'"));
+			    		}
+			    		else if( x  == 'isolates') dataset.isolates = JSON.parse(JSON.stringify(result.rows[i][x]['isolates']).replace(/&39/g, "'"));
+			    		else if( x  == 'links') dataset.links = JSON.parse(JSON.stringify(result.rows[i][x]['links']).replace(/&39/g, "'"));
 			    		else if( x  == 'distancematrix'){
 			    			try{
 			    				dataset.distanceMatrix = result.rows[i][x]['distanceMatrix'];
@@ -134,10 +136,9 @@ function getDataset(datasetID, userID, isPublic, callback) {
 			    		} 
 			    		else if( x  == 'newick') dataset.newick = result.rows[i][x]['newick'];
 			    		else if( x  == 'positions') dataset.positions = result.rows[i][x];
-			    		else if( x  == 'name' || x == 'key' || x == 'schemegenes' || x == 'metadata' || x == 'data_type') dataset[x] = result.rows[i][x];
+			    		else if( x  == 'name' || x == 'key' || x == 'schemegenes' || x == 'metadata' || x == 'data_type') dataset[x] = result.rows[i][x].toString().replace(/&39/g, "'").split(',');
 			    	}
 			    }
-			    //console.log(dataset.profiles);
 			    client.end();
 			    callback([dataset]);
 			});

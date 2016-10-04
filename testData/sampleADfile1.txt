@@ -1,5 +1,5 @@
-Strain	emm type	Group carbohydrate	ST	Location	Collection
+Strain	emm type'	Group carbohydrate	S'T	Location	Collec'tion
 168554	stG485	G	1	Portugal	UL
-171712	stG480	G	1	Portugal2	UL
+171712	stG480	G	1	Port'ugal2	UL
 168554	stG485	G	2	Portugal	UL
 171712	stG480	G	2	Portugal2	UL
