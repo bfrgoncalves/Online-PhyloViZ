@@ -37,25 +37,31 @@ router.post('/', multer({
   var dataToDB = {};
   countProgress = 0;
   var alreadyError = false;
+  var errorAuth = false;
   //console.log(req.user);
   dataToDB.datasetName = req.body.datasetName;
   dataToDB.makePublic = req.body.makePublic;
 
-
-  if (dataToDB.makePublic == true) dataToDB.is_public = true;
+  if (dataToDB.makePublic == 'true') dataToDB.is_public = true;
   else dataToDB.is_public = false;
 
   
-  if (!req.isAuthenticated()) dataToDB.userID = "1";
+  if (!req.isAuthenticated()){
+    dataToDB.userID = "1";
+    if (dataToDB.makePublic == 'true'){
+      errorAuth = true;
+    }
+  }
   else dataToDB.userID = req.user.id;
 
   for (i in req.files){
     console.log(i);
     dataToDB['is_' + i] = true;
     readInputFiles(req.files[i].path, i, dataToDB, function(pathToFile, dataToDB){
+
           if(dataToDB['hasError'] != true || dataToDB['hasError'] == true && i == 'fileFasta') fs.unlink(pathToFile);
           countProgress += 1;
-          if (countProgress == req.body.numberOfFiles && dataToDB['hasError'] != true){
+          if (countProgress == req.body.numberOfFiles && dataToDB['hasError'] != true && alreadyError != true){
               //console.log(req.user);
               dataToDB.dataset_description = req.body.dataset_description;
               
@@ -64,12 +70,16 @@ router.post('/', multer({
               });
               
           }
-          else if(dataToDB['hasError'] == true && alreadyError != true){
+          else if((dataToDB['hasError'] == true || errorAuth == true) && alreadyError != true){
+
             if(pathToFile.indexOf('.xls') > -1){
               dataToDB.errorMessage = "Excel files are not supported. Please convert it to a <i>Tab separated file</i>. More information on input files available <a href='/index/inputinfo'>here</a>.";
             }
+            else if(errorAuth == true){
+              dataToDB.errorMessage = "Login first to put a data set public.";
+            }
             else {
-              dataToDB.errorMessage = "Possible unsupported file type. For information on supported file types click <a href='/index/inputinfo'>here</a>."
+              dataToDB.errorMessage = "Possible unsupported file type. For information on supported file types click <a href='/index/inputinfo'>here</a>.";
             }
             alreadyError = true;
             res.send(dataToDB);

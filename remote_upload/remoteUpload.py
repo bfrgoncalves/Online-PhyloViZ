@@ -25,10 +25,12 @@ def main():
 
 	args = parser.parse_args()
 
-	currentRoot = 'https://online.phyloviz.net'
+	currentRoot = 'http://localhost:3000'
 
 	checkDatasets(args, currentRoot)
 	dataset = remoteUpload(args, currentRoot)
+	if not "datasetID" in dataset:
+		sys.exit()
 	rungoeBURST(args, dataset['datasetID'], currentRoot)
 
 	if not args.e and args.l:
@@ -47,6 +49,9 @@ def login(args, currentRoot): #Required before each of the tasks
 	bashCommand = 'curl --cookie-jar jarfile --data username='+ args.u + '&' + 'password=' + args.p + ' ' +currentRoot+'/users/api/login'
 	process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
 	output = process.communicate()[0]
+	if output == 'Unauthorized':
+		print output
+		sys.exit()
 
 
 def checkDatasets(args, currentRoot): #Check if the database name to upload exists
@@ -111,6 +116,9 @@ def remoteUpload(args, currentRoot): #upload the input files to the database
 
 	process = subprocess.Popen(bashCommandUpload.split(), stdout=subprocess.PIPE)
 	output = json.loads(process.communicate()[0])
+	if "errorMessage" in output:
+		print output["errorMessage"]
+		sys.exit()
 
 	return output
 
