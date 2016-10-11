@@ -25,7 +25,7 @@ def main():
 
 	args = parser.parse_args()
 
-	currentRoot = 'http://localhost:3000'
+	currentRoot = 'http://online.phyloviz.net'
 
 	checkDatasets(args, currentRoot)
 	dataset = remoteUpload(args, currentRoot)
