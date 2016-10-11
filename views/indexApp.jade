@@ -3,7 +3,6 @@ extends layout
 block moreStyle
 	link(rel='stylesheet', href='/stylesheets/indexAppStyle.css')
 
-
 div.indexNav
 	block title
 		div.indextitleLocation(onclick="javascript:location.href='/'")
@@ -290,10 +289,13 @@ block scripts
 	script(type='text/javascript', src='/javascripts/dependencies/bootstrap-select.js')
 	script(type='text/javascript', src='/javascripts/dependencies/datatables.min.js')
 	script(type='text/javascript', src='/javascripts/dependencies/jquery.dataTables.js')
+	script(type='text/javascript', src='/javascripts/dependencies/union_find.js')
+	script(type='text/javascript', src='/javascripts/dependencies/heap.js')
 	script(type='text/javascript', src='/javascripts/App/adjustElements/adjustElementsIndex.js')
 	script(type='text/javascript', src='/javascripts/App/indexApp/tutorial.js')
 	script(type='text/javascript', src='/javascripts/App/indexApp/checkDatasets.js')
 	script(type='text/javascript', src='/javascripts/App/indexApp/uploadfiles.js')
 	script(type='text/javascript', src='/javascripts/App/indexApp/inputButton.js')
+	script(type='text/javascript', src='/javascripts/App/main/data_Analysis/goeBURST.js')
 	//script(type='text/javascript', src='/javascripts/App/indexApp/statCounter.js')
 	script(type='text/javascript', src='/javascripts/App/indexApp/index.js')

@@ -342,7 +342,6 @@ function buildCircleNodeShader() {
                         
                         allNodesNumberAttr[idx] += numberOfAngles;
 
-
                         for (i = 0; i < numberOfAngles; i++){
 
                             currentTotal += angleToUse[i];

@@ -55,7 +55,6 @@ router.post('/', multer({
   else dataToDB.userID = req.user.id;
 
   for (i in req.files){
-    console.log(i);
     dataToDB['is_' + i] = true;
     readInputFiles(req.files[i].path, i, dataToDB, function(pathToFile, dataToDB){
 
@@ -335,6 +334,16 @@ function uploadToDatabase(data, callback){
 
   function uploadDataset(data, callback){
     //console.log(data);
+    if ((data.fileProfile.length*(data.fileProfile.length-1)/2)*data.fileProfile_headers.length > config.maxComparisons){
+      data.hasError = true;
+      data.errorMessage = 'Maximum number of comparisons exceeded.<br><br> (NumberOfProfiles x (NumberOfProfiles - 1) / 2) x ProfileSize > '+String(config.maxComparisons)+' <br><br> For more computationaly demanding operations, please try our <a href="//phyloviz.net/">desktop version</a>.'; //+ err.toString();
+      return callback(data);
+    }
+    else if (data.fileProfile.length > config.maxNumberOfNodes){
+      data.hasError = true;
+      data.errorMessage = 'Number of profiles exceeded. <br> Due to visualization restrictions, please reduce the number of profiles or try our <a href="//phyloviz.net/">desktop version</a>.'; //+ err.toString();
+      return callback(data);
+    }
     userID = data.userID;
     //console.log(userID);
     profiles = { profiles : data.fileProfile};

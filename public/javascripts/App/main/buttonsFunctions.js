@@ -26,7 +26,7 @@ function loadButtonFunctions(){
 				}
 
 				
-				constructTable(table, 'infoDataset', function(){
+				constructTable(graphObject.graphInput, table, 'infoDataset', function(){
 					$('#tableinfoDataset tfoot').remove();
 				});
 
@@ -437,7 +437,7 @@ function AddLinkLabels(graphObject){
   	$('#labelTypeNewick').css({"display": "block"});
   }
   for (i in graphObject.removedLinks){
-    var labelStyle = linkLabels[graphObject.removedLinks[i].id].style;
+    var labelStyle = graphObject.linkLabels[graphObject.removedLinks[i].id].style;
     labelStyle.display = "none";
   }
   graphObject.tovisualizeLinkLabels = true;

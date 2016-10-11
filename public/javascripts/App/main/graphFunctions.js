@@ -179,11 +179,11 @@ function loadGraphFunctions(){
 			var layout = graphObject.layout;
 	        // let's run 10 iterations per event loop cycle:
 	        var i = 0;
-	        while (iterations > 0 && i < 1) {
-	          layout.step();
-	          iterations--;
-	          i++;
-	        }
+	        //while (iterations > 0 && i < 1) {
+	        layout.step();
+	        iterations--;
+	          //i++;
+	        //}
 	        //$('#processingElement').children().remove();
 	        //$('#processingElement').append('<div><h3>Layout precompute: ' + iterations+'</h3></div>');
 	        status('Layout precompute: ' + iterations); 

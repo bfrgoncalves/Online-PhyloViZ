@@ -171,9 +171,9 @@ function createLinkButton(property, columnIndex, columnData, columnName, graphOb
 
 
         $('#legendcurrentpiePlace').css('height', legendHeight);
-		
+
 		if (property =='isolates'){
-	      	$("#selectByMetadata").val(String(columnIndex+2));
+	      	$("#selectByMetadata").val(String(columnIndex));
 	      	$("#selectByMetadata").trigger("change");
 	    }
         else{
@@ -221,14 +221,14 @@ function linkGraphAndTable(property, indexProperty, columnName, key, graphObject
 	  	firstTimeFilterProfiles = false;
 	  }
 
-	if (indexProperty == -1){
+	if (columnName == 'None'){
 
 		destroyPie('pie' + property);
 		destroyPie('currentpiePlace');
 		destroyLink(property);
 
 		if (property =='isolates') $("#selectByMetadata").trigger("change"); 
-	    else $("#selectByScheme").trigger("change");
+	  else $("#selectByScheme").trigger("change");
 	}
 	else{
 	
