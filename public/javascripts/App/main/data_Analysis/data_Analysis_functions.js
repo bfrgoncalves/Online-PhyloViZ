@@ -464,6 +464,57 @@ function exportSelectedDataTree(graphObject){
 
 }
 
+function selectedDataToString(graphObject){
+
+	var selectedNodes = graphObject.selectedNodes;
+
+	if (selectedNodes.length < 1){
+		alert("first you need to select some nodes");
+		return false;
+	}
+
+	var stringToIsolates = "";
+	var stringToProfiles = "";
+	var stringToFasta = "";
+
+	if(graphObject.graphInput.data_type == 'newick'){
+		stringToIsolates += graphObject.graphInput.metadata.join('\t') + '\n';
+		stringToProfiles += 'id\n';
+	}
+	else{
+		stringToIsolates += graphObject.graphInput.metadata.join('\t') + '\n';
+		stringToProfiles += graphObject.graphInput.schemeGenes.join('\t') + '\n';
+	}
+
+	for (i in selectedNodes){
+		var data = selectedNodes[i].data;
+		for (j in data.isolates) stringToIsolates += data.isolates[j].join('\t') + '\n';
+		if(graphObject.graphInput.data_type != 'newick') stringToProfiles += selectedNodes[i].data.key + '\t' + data.profile.join('\t') + '\n';
+		else stringToProfiles += selectedNodes[i].data.key + '\n';
+
+		if(graphObject.graphInput.data_type == 'fasta'){ 
+			stringToFasta += '>' + selectedNodes[i].data.key + '\n' + selectedNodes[i].data.sequence + '\n';
+		}
+
+	}
+
+	return [stringToIsolates, stringToProfiles];
+
+}
+
+function createSubset(toFiles, name, description){
+
+	$.ajax({
+      url: '/api/utils/phylovizsubset',
+      data: {auxData: toFiles[0], profileData: toFiles[1], name: name, description: description},
+      type: 'POST',
+      success: function(data){
+        //window.location.replace("/index");
+      }
+
+    });
+}
+
 
 function exportSelectedDataMatrix(graphObject, selectedNodes, stored){
 
