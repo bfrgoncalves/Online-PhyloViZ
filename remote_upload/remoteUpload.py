@@ -8,6 +8,7 @@ import sys
 from datetime import datetime
 import json
 from StringIO import StringIO
+import random, string
 
 
 def main():
@@ -23,14 +24,20 @@ def main():
 	parser.add_argument('-m', nargs='?', type=str, help="Metadata", required=False)
 	parser.add_argument('-d', nargs='?', type=str, help="Dataset name", required=True)
 	parser.add_argument('-dn', nargs='?', type=str, help="Description", required=False)
+	parser.add_argument('-root', nargs='?', type=str, help="root of the application", required=False, default="https://online.phyloviz.net")
+	parser.add_argument('-cd', nargs='?', type=str, help="Cookie domain", required=False, default="https://online.phyloviz.net")
 	parser.add_argument('-mc', nargs='?', type=str, help="Missings Character (defaults to None)", required=False, default=False)
 	parser.add_argument('-am', nargs='?', type=str, help="Analysis Method in case of Profile Data (defaults to core) options: core; pres-abs (presence/absence)", required=False, default='core')
 
 	args = parser.parse_args()
 
-	currentRoot = 'http://localhost:3000'
-	outRoot = 'http://137.205.52.23'
-	cookie_file = 'cookie_file.txt'
+	currentRoot = args.root
+	outRoot = args.cd
+
+	def randomword(length):
+	   return ''.join(random.choice(string.lowercase) for i in range(length))
+	
+	cookie_file = randomword(6) + '.txt'
 
 	if (not args.u or not args.u) and not args.t:
 		print 'No credentials'
@@ -47,6 +54,8 @@ def main():
 		print 'Sharable link: ' + sharableLink['url']
 		sys.exit()
 
+	os.remove(cookie_file)
+	
 	if args.e:
 		print "\nAccess the tree at: " + outRoot + '/main/dataset/' + dataset['datasetID']
 	else:
