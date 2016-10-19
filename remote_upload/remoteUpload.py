@@ -28,7 +28,7 @@ def main():
 
 	args = parser.parse_args()
 
-	currentRoot = 'http://137.205.52.23/'
+	currentRoot = 'http://137.205.52.23'
 	cookie_file = 'cookie_file.txt'
 
 	if (not args.u or not args.u) and not args.t:
