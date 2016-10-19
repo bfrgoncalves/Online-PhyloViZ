@@ -530,12 +530,22 @@ function selectedDataToString(graphObject){
 
 function createSubset(toFiles, name, description, missings, missingsChar, analysis_method, callback){
 
+	$('#dialog').dialog('close');
+
+	status('Creating Subset...');
+	$("#waitingGifMain").css({'display': 'block'});
+
 	$.ajax({
       url: '/api/utils/phylovizsubset',
       data: {auxData: toFiles[0], profileData: toFiles[1], name: name, description: description, missings: missings, missingschar: missingsChar, analysis_method: analysis_method},
       type: 'POST',
       success: function(data){
+  
+      	status();
+		$("#waitingGifMain").css({'display': 'none'});
+      	
       	if(data.status == 200){
+      		console.log(data);
       		var datasetL = data.stdout.split('the tree at: ')[1];
       		var win = window.open(datasetL, '_blank');
   			win.focus();

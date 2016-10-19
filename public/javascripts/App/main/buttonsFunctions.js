@@ -381,7 +381,7 @@ function loadButtonFunctions(){
 								'<label class="checkbox-inline"><input type="checkbox" id="missingchecksubset"/>Has missings</label>'+
 								'<label class="checkbox-inline"><input class="input-sm" id="missingdelimitersubset" type="text" placeholder="Missings character" required style="display:none"/></label>'+
 	        					'</div><br>'+
-	        					'<div style="width:100%;text-align:center"><button id="okButtonsubset" class="btn btn-primary btn-md">OK</button></div>';
+	        					'<div style="width:100%;text-align:center"><button id="okButtonsubset" class="btn btn-primary btn-md">OK</button></div><br><div id="errorSubset" style="width:100%;text-align:center;"></div>';
 
 	        	$('#dialog').empty();
 				$('#dialog').append(toDialog);
@@ -404,6 +404,13 @@ function loadButtonFunctions(){
 				  
 				});
 				$('#okButtonsubset').click(function(){
+
+					if(graphObject.selectedNodes.length == 0){
+						$('#errorSubset').empty();
+						$('#errorSubset').append('<label>First you need to select some nodes.</label>');
+						return false;
+					}
+					
 					var datasetN = $('#datasetNameSubset').val();
 					var descriptionS = $('#dataset_description_Subset').val();
 					var missingsubset = true;
@@ -419,7 +426,12 @@ function loadButtonFunctions(){
 					toFiles = selectedDataToString(graphObject);
 	            	createSubset(toFiles, datasetN, descriptionS, missingsubset, missingCharsubset, analysis_method, function(data){
 	            		if(!data.error) $('#dialog').dialog('close');
-	            		else $('#dialog').append('<br><div style="width:100%;text-align:center;"><label>'+data.error+'</label></div>')
+	            		else{
+	            			$('#createSubset1').trigger('click');
+	            			setTimeout(function(){
+	            				$('#dialog').append('<br><div style="width:100%;text-align:center;"><label>'+data.error+'</label></div>');
+	            			}, 200);
+	            		}
 	            	});
 				});
 	        });
