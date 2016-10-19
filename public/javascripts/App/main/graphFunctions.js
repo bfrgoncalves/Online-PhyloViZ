@@ -421,7 +421,7 @@ function loadGraphFunctions(){
 	        }).click(function (node, e) {
 
 	            //if (altDown) getLinks(node, graphObject);
-	            if (altDown) SelectNodes(node, graphObject);
+	            if (ctrlDown) SelectNodes(node, graphObject);
 	        });
 
 	        //var multiSelectOverlay;
@@ -431,8 +431,8 @@ function loadGraphFunctions(){
 	            if (e.which == 18) altDown = true;
 	            if (e.which == 17) ctrlDown = true;
 	            
-	            if(altDown && e.which == 83) graphObject.multiSelectOverlay = null;
-	            else if (altDown && graphObject.multiSelectOverlay) {
+	            if(ctrlDown && e.which == 69) graphObject.multiSelectOverlay = null;
+	            else if (ctrlDown && graphObject.multiSelectOverlay) {
 	              multipleselection = false;
 	              for (i in graphObject.selectedNodes){
 	                var nodeToUse = graphics.getNodeUI(graphObject.selectedNodes[i].id);
@@ -441,7 +441,7 @@ function loadGraphFunctions(){
 	              graphObject.selectedNodes = [];
 	            }
 	          
-	            if (e.which === 83 && altDown && !graphObject.multiSelectOverlay) { // shift key
+	            if (e.which === 69 && ctrlDown && !graphObject.multiSelectOverlay) { // shift key
 	              multipleselection = false;
 	              /*
 	              for (i in graphObject.selectedNodes){
@@ -460,8 +460,8 @@ function loadGraphFunctions(){
 	              graphObject.multiSelectOverlay = startMultiSelect(graphObject);
 	            }
 
-	            if (e.which === 18){
-	              altDown = true;
+	            if (e.which === 17){
+	              ctrlDown = true;
 	              if (!multipleselection ){
 	                for (i in graphObject.selectedNodes){
 	                  var nodeToUse = graphics.getNodeUI(graphObject.selectedNodes[i].id);
@@ -496,7 +496,7 @@ function loadGraphFunctions(){
 	          });
 	          document.addEventListener('keyup', function(e) {
 
-	            if (altDown) {
+	            if (ctrlDown) {
 	              if(graphObject.multiSelectOverlay) graphObject.multiSelectOverlay.destroy();
 	              //graphObject.multiSelectOverlay = null;
 	              graphObject.selectedNodes = [];
