@@ -429,18 +429,28 @@ function loadGraphFunctions(){
 	          document.addEventListener('keydown', function(e) {
 
 	            if (e.which == 18) altDown = true;
-
-	            if (e.which === 16 && graphObject.multiSelectOverlay) {
-	              graphObject.multiSelectOverlay = null;
-	            }
-	          
-	            if (e.which === 16 && !graphObject.multiSelectOverlay) { // shift key
+	            if (e.which == 17) ctrlDown = true;
+	            
+	            if(ctrlDown && e.which == 83) graphObject.multiSelectOverlay = null;
+	            else if (ctrlDown && graphObject.multiSelectOverlay) {
 	              multipleselection = false;
 	              for (i in graphObject.selectedNodes){
 	                var nodeToUse = graphics.getNodeUI(graphObject.selectedNodes[i].id);
 	                nodeToUse.colorIndexes = nodeToUse.backupColor;
 	              } 
 	              graphObject.selectedNodes = [];
+	            }
+	          
+	            if (e.which === 83 && ctrlDown && !graphObject.multiSelectOverlay) { // shift key
+	              multipleselection = false;
+	              /*
+	              for (i in graphObject.selectedNodes){
+	                var nodeToUse = graphics.getNodeUI(graphObject.selectedNodes[i].id);
+	                nodeToUse.colorIndexes = nodeToUse.backupColor;
+	              } 
+
+	              graphObject.selectedNodes = [];
+	              */
 
 	              if(graphObject.isLayoutPaused){
 			        renderer.resume();
@@ -486,8 +496,8 @@ function loadGraphFunctions(){
 	          });
 	          document.addEventListener('keyup', function(e) {
 
-	            if (e.which === 16 && graphObject.multiSelectOverlay) {
-	              graphObject.multiSelectOverlay.destroy();
+	            if (ctrlDown) {
+	              if(graphObject.multiSelectOverlay) graphObject.multiSelectOverlay.destroy();
 	              //graphObject.multiSelectOverlay = null;
 	              graphObject.selectedNodes = [];
 
@@ -501,7 +511,7 @@ function loadGraphFunctions(){
 
 	            }
 
-	            if (e.which === 17){
+	            if (e.which == 17){
 	              ctrlDown = false;
 	            } 
 
