@@ -28,7 +28,8 @@ def main():
 
 	args = parser.parse_args()
 
-	currentRoot = 'http://137.205.52.23'
+	currentRoot = 'http://localhost:3000'
+	outRoot = 'http://137.205.52.23'
 	cookie_file = 'cookie_file.txt'
 
 	if (not args.u or not args.u) and not args.t:
@@ -47,9 +48,9 @@ def main():
 		sys.exit()
 
 	if args.e:
-		print "\nAccess the tree at: " + currentRoot + '/main/dataset/' + dataset['datasetID']
+		print "\nAccess the tree at: " + outRoot + '/main/dataset/' + dataset['datasetID']
 	else:
-		print "\nLogin to PHYLOViZ Online and access the tree at: " + currentRoot + '/main/dataset/' + dataset['datasetID']
+		print "\nLogin to PHYLOViZ Online and access the tree at: " + outRoot + '/main/dataset/' + dataset['datasetID']
 
 
 def login(args, currentRoot): #Required before each of the tasks
