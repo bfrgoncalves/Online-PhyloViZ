@@ -28,7 +28,7 @@ def main():
 
 	args = parser.parse_args()
 
-	currentRoot = 'http://localhost:3000'
+	currentRoot = 'http://137.205.52.23/'
 	cookie_file = 'cookie_file.txt'
 
 	if (not args.u or not args.u) and not args.t:
@@ -142,7 +142,7 @@ def remoteUpload(args, currentRoot, cookie_file): #upload the input files to the
 	if "errorMessage" in output:
 		print output["errorMessage"]
 		sys.exit()
-		
+
 	return output
 
 def rungoeBURST(args, datasetID, currentRoot, cookie_file): #run the goeBURST algorithm to store the links in the database

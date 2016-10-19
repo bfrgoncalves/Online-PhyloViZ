@@ -551,6 +551,7 @@ function createSubset(toFiles, name, description, missings, missingsChar, analys
       		console.log(data);
       		callback(data);
       	}
+      	else console.log(data);
       }
 
     });
