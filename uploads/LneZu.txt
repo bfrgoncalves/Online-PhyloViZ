@@ -1,0 +1,16 @@
+Isolate	emm type	Group	Location	Host	Hemolysis
+SDSE_SD26_02062016	nt	C	Italy	Horse	beta
+SDSE_SD37_02062016	stC12	C	USA	Horse	beta
+SDSE_SD30_02062016	stG5063	C	USA	Horse	beta
+SDSE_SD09_02062016	stC12	C	Germany	Horse	beta
+SDSE_SD34_02062016	stG14	C	USA	Horse	beta
+SDSE_SD31_02062016	nt	C	USA	Horse	beta
+SDSE_SD24_02062016	stC14	C	Italy	Horse	beta
+SDSE_SD32_02062016	nt	L	USA	Horse	beta
+SDSE_SD38_02062016	nt	C	USA	Horse	beta
+SDSE_SD35_02062016	stC210	C	USA	Horse	beta
+SDSE_SD27_02062016	nt	C	Italy	Horse	beta
+SDSE_SD28_02062016	stC1	L	Italy	Horse	beta
+SDSE_SD25_02062016	stG2574	C	Italy	Horse	beta
+SDSE_SD29_02062016	stC210	C	USA	Horse	beta
+SDSE_SD33_02062016	stC37	C	USA	Horse	beta

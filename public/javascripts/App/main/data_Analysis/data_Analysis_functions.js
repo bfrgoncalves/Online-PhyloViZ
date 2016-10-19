@@ -60,10 +60,22 @@ function calculateDistanceMatrix(graphObject, callback){
 			});
 		}
 		else{
-			for (var i = 0; i < graphObject.nodes.length-1; i++) {
+
+			var profileGroup = [];
+
+			if(graphObject.hasOwnProperty('indexesToRemove')){
+				if(Object.keys(graphObject.indexesToRemove).length > 0){
+					profileGroup = graphObject.subsetProfiles;
+				}
+				else profileGroup = graphObject.nodes;
+			}
+			else profileGroup = graphObject.nodes;
+
+			for (var i = 0; i < profileGroup.length-1; i++) {
 				distanceMatrix.push([0]);
-		    	for (var j = i+1; j < graphObject.nodes.length; j++) {
-			      var diff = hamming(graphObject.nodes[i].profile, graphObject.nodes[j].profile) - 1;
+		    	for (var j = i+1; j < profileGroup.length; j++) {
+
+			      var diff = hamming(profileGroup[i].profile, profileGroup[j].profile) - 1;
 			      distanceMatrix[i].push(diff);
 			      if(diff > maxDistance) maxDistance = diff;
 			    }
@@ -269,11 +281,14 @@ function checkLociDifferences(graphObject){
 	}, 100);
 
 	function constructDistances() {
-
+		
 		for(i=0; i<arrayOfNodes.length; i++){
 			var iDistances = {};
 			for (j=0; j<arrayOfNodes.length; j++){
-				distance = hamming(arrayOfNodes[i].data.profile, arrayOfNodes[j].data.profile);
+				if(graphObject.graphInput.hasOwnProperty('indexesToRemove')){
+					distance = hamming(graphObject.graphInput.subsetProfiles[arrayOfNodes[i].data.idGL].profile, graphObject.graphInput.subsetProfiles[arrayOfNodes[j].data.idGL].profile);
+				}
+				else distance = hamming(arrayOfNodes[i].data.profile, arrayOfNodes[j].data.profile);
 				iDistances[arrayOfNodes[j].id] = distance;
 				if(distance > maxDistance) maxDistance = distance;
 			}
@@ -411,7 +426,18 @@ function exportSelectedDataTree(graphObject){
 	var selectedNodes = graphObject.selectedNodes;
 
 	if (selectedNodes.length < 1){
-		alert("first you need to select some nodes");
+		var toDialog = '<div style="text-align: center;"><label>Select some nodes to export their data.</label></div>';
+
+    	$('#dialog').empty();
+		$('#dialog').append(toDialog);
+		$('#dialog').dialog({
+	              height: $(window).height() * 0.15,
+	              width: $(window).width() * 0.2,
+	              modal: true,
+	              resizable: true,
+	              dialogClass: 'no-close success-dialog'
+	          });
+
 		return false;
 	}
 
@@ -502,17 +528,107 @@ function selectedDataToString(graphObject){
 
 }
 
-function createSubset(toFiles, name, description){
+function createSubset(toFiles, name, description, missings, missingsChar, analysis_method, callback){
 
 	$.ajax({
       url: '/api/utils/phylovizsubset',
-      data: {auxData: toFiles[0], profileData: toFiles[1], name: name, description: description},
+      data: {auxData: toFiles[0], profileData: toFiles[1], name: name, description: description, missings: missings, missingschar: missingsChar, analysis_method: analysis_method},
       type: 'POST',
       success: function(data){
-        //window.location.replace("/index");
+      	if(data.status == 200){
+      		var datasetL = data.stdout.split('the tree at: ')[1];
+      		var win = window.open(datasetL, '_blank');
+  			win.focus();
+  			setTimeout(function(){
+  				win.document.getElementById('parentDataset').innerHTML = '<a href="'+window.location.href+'">Link</a>';
+  				win.document.getElementById('i_parent_dataset').style.display = 'block';
+  				callback(data);
+  			}, 1000);
+
+      	}
+      	else if(data.status == 401){
+      		data.error = data.stdout;
+      		console.log(data);
+      		callback(data);
+      	}
       }
 
     });
+}
+
+function create_subset_profile(graph, callback){
+
+	var newProfiles = [];
+    var newProfile = [];
+    var indexToRemove = {};
+    
+    var usedLoci = {};
+
+    if(!graph.hasOwnProperty('indexesToRemove')) return callback(graph);
+
+	var nodes = graph.nodes;
+	
+	for(i in nodes){
+		profile = nodes[i].profile;
+
+		var newProfile = [];
+		var countPosition = -1;
+
+		for(position in profile){
+			countPosition++;
+			if(!graph.indexesToRemove.hasOwnProperty(countPosition)){
+				usedLoci[graph.schemeGenes[countPosition+1]] = countPosition;
+				newProfile.push(profile[position]);
+			}
+		}
+		newProfiles.push({profile: newProfile});
+	}
+	graph.subsetProfiles = newProfiles;
+	graph.usedLoci = usedLoci;
+	callback(graph);
+
+}
+
+function get_exclusive_loci(graphObject, callback){
+
+	var exclusive = [];
+	var its_exclusive = true;
+	var sel_positions = [];
+
+	for(var i=0; i < graphObject.graphInput.schemeGenes.length - 1; i++){ //First index is the header
+
+		sel_positions = [];
+
+		for(j in graphObject.selectedNodes){
+			sel_positions.push(graphObject.selectedNodes[j].data.idGL);
+			var profile = graphObject.selectedNodes[j].data.profile;
+			if(profile[i] != '0') its_exclusive = true;
+			else {
+				its_exclusive = false;
+				break
+			}
+		}
+		if (its_exclusive){
+			for(j in graphObject.graphInput.nodes){
+
+				if(!sel_positions.includes(parseInt(j))){
+					var profile = graphObject.graphInput.nodes[j].profile;
+					if(profile[i] == '0') its_exclusive = true;
+					else {
+						its_exclusive = false;
+						break
+					}
+				}
+			}
+			if(its_exclusive){
+				exclusive.push({'position': i+1, 'locus': graphObject.graphInput.schemeGenes[i+1]});
+			}
+		}
+
+	}
+	graphObject.exclusive_loci = exclusive;
+	callback();
+
 }
 
 
@@ -593,6 +709,35 @@ function exportMatrix(graphObject){
 	$('#dialog').append(a);
 	$('#linkDownloadMatrix').attr("href", encodedUriMatrix).attr('download', "distanceMatrix.tab");
 	$('#dialog').dialog();
+}
+
+function write_exclusive_file(graphObject){
+
+	var ToFile = '';
+	firstLine = true;
+
+	for(i in graphObject.exclusive_loci){
+		if(firstLine){
+			ToFile += 'Position\tLocus\n';
+			firstLine = false;
+		}
+		ToFile += graphObject.exclusive_loci[i].position + '\t' + graphObject.exclusive_loci[i].locus + '\n';
+	}
+
+	var encodedUriExclusive = 'data:text/csv;charset=utf-8,' + encodeURIComponent(ToFile);
+
+	var a = $('<div style="width:100%;text-align:center;"><label>There are '+String(graphObject.exclusive_loci.length)+' Exclusive Loci.</label><p>Download exclusive loci file <a id="linkDownloadExclusive">here</a>.</p></div>');
+	$('#dialog').empty();
+	$('#dialog').append(a);
+	$('#linkDownloadExclusive').attr("href", encodedUriExclusive).attr('download', "exclusive_loci.tab");
+	$('#dialog').dialog({
+      height: $(window).height() * 0.20,
+      width: $(window).width() * 0.40,
+      modal: true,
+      resizable: true,
+      dialogClass: 'no-close success-dialog'
+  });
+
 }
 
 function saveDistanceMatrixImage(graphObject){

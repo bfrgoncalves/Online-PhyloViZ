@@ -16,17 +16,32 @@ router.get('/', function(req, res, next){
 		else var userID = req.user.id;
 
 		var datasetId;
+		var missings = [false, ''];
+		var analysis_method = 'core';
+
+		if (req.query.missings == 'true'){
+			missings = [true, req.query.missingchar];
+		}
+
+		if (req.query.analysis_method){
+			analysis_method = req.query.analysis_method;
+		}
 
 		if (req.query.algorithm) var algorithmToUse = req.query.algorithm;
 		else var algorithmToUse = 'prim';
 
-		loadProfiles(datasetID, userID, function(profileArray, identifiers, datasetID, dupProfiles, dupIDs){
+		loadProfiles(datasetID, userID, function(profileArray, identifiers, datasetID, dupProfiles, dupIDs, profiles){
 			datasetId = datasetID;
-			
-			goeBURST(profileArray, identifiers, algorithmToUse, function(links, distanceMatrix){
+			old_profiles = profiles;
+			goeBURST(profileArray, identifiers, algorithmToUse, missings, analysis_method, function(links, distanceMatrix, profilegoeBURST, indexToRemove){
 				if(req.query.save){
 					saveLinks(datasetID, links, function(){
-						res.send({datasetID: req.query.dataset_id, links: links, distanceMatrix: distanceMatrix, dupProfiles: dupProfiles, dupIDs: dupIDs});
+						if(req.query.missings == 'true'){
+							save_profiles(profilegoeBURST, old_profiles, datasetID, indexToRemove, function(){
+								res.send({datasetID: req.query.dataset_id, links: links, distanceMatrix: distanceMatrix, dupProfiles: dupProfiles, dupIDs: dupIDs});
+							});
+						}
+						else res.send({datasetID: req.query.dataset_id, links: links, distanceMatrix: distanceMatrix, dupProfiles: dupProfiles, dupIDs: dupIDs});
 					});
 				}
 				else res.send({datasetID: req.query.dataset_id, links: links, distanceMatrix: distanceMatrix, dupProfiles: dupProfiles, dupIDs: dupIDs});
@@ -46,7 +61,6 @@ router.post('/save', function(req, res, next){
 	console.log(req.body);
 	
 	if (req.body.dataset_id){
-		console.log('AQUI');
 
 		var datasetID = req.body.dataset_id;
 
@@ -96,7 +110,7 @@ function loadProfiles(datasetID, userID, callback){
 		var dupProfiles = [];
 		var dupIDs = [];
 		var existsIdentifiers = {}
-		
+
 		profiles.forEach(function(profile){
 
 			if(data_type == 'fasta') var profile = profile.profile;
@@ -126,7 +140,7 @@ function loadProfiles(datasetID, userID, callback){
 			}
 		});
 		client.end();
-		callback(profileArray, identifiers, datasetID, dupProfiles, dupIDs);
+		callback(profileArray, identifiers, datasetID, dupProfiles, dupIDs, profiles);
 
 
 	  });
@@ -164,6 +178,39 @@ function saveLinks(datasetID, links, callback){
 			callback();
 		  });
 		});
+}
+
+function save_profiles(profilegoeBURST, profiles, datasetID, indexesToRemove, callback){
+	
+	var countProfiles = 0;
+	var newProfiles = [];
+
+	var pg = require("pg");
+	var connectionString = "pg://" + config.databaseUserString + "@localhost/"+ config.db;
+
+	if(profilegoeBURST[0].length != Object.keys(profiles[0]).length) var profilesToUse = { profiles: profiles, indexestoremove: indexesToRemove, profilesize: profilegoeBURST[0].length };
+	else var profilesToUse = { profiles: profiles };
+	//var distanceMatrixToUse =  { distanceMatrix: distanceMatrix };
+	//distanceMatrixToUse = {distanceMatrix: []};
+
+	var client = new pg.Client(connectionString);
+
+		query = "UPDATE datasets.profiles SET data = '"+JSON.stringify(profilesToUse)+"' WHERE dataset_id ='"+datasetID+"';";
+				//"UPDATE datasets.links SET distanceMatrix = '"+JSON.stringify(distanceMatrixToUse)+"' WHERE dataset_id ='"+datasetID+"';";
+		
+		client.connect(function(err) {
+		  if(err) {
+		    return console.error('could not connect to postgres', err);
+		  }
+		  client.query(query, function(err, result) {
+		    if(err) {
+		      return console.error('error running query', err);
+		    }
+		    client.end();
+			callback();
+		  });
+		});
+
 }
 
 module.exports = router; 

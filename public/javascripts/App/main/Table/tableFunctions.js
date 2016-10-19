@@ -74,7 +74,7 @@ function constructTable(graph, tableData, datasetParameter, callback){
     var table = $('#' + tableToCheck).DataTable( {
 
         "data": toShowData,
-        "deferRender": true,
+        //"deferRender": true,
         "columns": toShowColumns,
         "bSort" : false,
         dom: 'Bfrtip',
@@ -180,6 +180,17 @@ function constructTable(graph, tableData, datasetParameter, callback){
             addToDiv(tableToCheck);
             //$(divToCheck).css('overflow-x','auto');
           });
+
+          if(tableToCheck == 'tableprofiles' && graph.usedLoci){
+            var table1 = $('#' + tableToCheck).DataTable();
+            var nRow =  table1.settings().init().columns;
+            
+            for(i=0; i<nRow.length; i++){
+              if(graph.usedLoci.hasOwnProperty(nRow[i].title)) {
+                $('#' + tableToCheck).find("thead th:nth-child("+(graph.usedLoci[nRow[i].title]+3-graph.minColumns)+")").css({'background-color':'#3F5D7D', 'color': 'white'});
+              }
+            }
+          }
 
           exportButtons = $('#' + tableToCheck + '_wrapper .buttons-html5');
           buttonPrint = $('#' + tableToCheck + '_wrapper .buttons-print');

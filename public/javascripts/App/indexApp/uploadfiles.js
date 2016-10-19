@@ -35,6 +35,12 @@ $('#inputForm').submit(function() {
     return false;
 });
 
+$('#missingcheck').click(function(){
+  if ($(this).is(':checked')) $('#missingdelimiter').css({"display": "block"});
+  else $('#missingdelimiter').css({"display": "none"});
+  
+});
+
 
 function uploadFiles(){
 
@@ -117,11 +123,21 @@ function getLinks(datasetID){
       }
   });
 */
+  var missings = false;
+  var missingChar = '';
 
+  var analysis_method = 'core';
+
+  analysis_method = $('#sel_analysis_method').val();
+
+  if(document.getElementById('missingcheck').checked){
+    missings = true;
+    missingChar = $('#missingdelimiter').val();
+  }
   
   $.ajax({
     url: '/api/algorithms/goeBURST',
-    data: $.param({dataset_id: datasetID, save: true}),
+    data: $.param({dataset_id: datasetID, save: true, missings: missings, missingchar: missingChar, analysis_method:analysis_method}),
     processData: false,
     contentType: false,
     type: 'GET',

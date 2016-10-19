@@ -67,6 +67,15 @@ function constructGraph(graph, datasetID){
         $('#isLogScaleOn').text('Off');
         $('#isLogScaleNodesOn').text('Off');
 
+        if(graphObject.graphInput.goeburstprofilesize != undefined){
+          $('#goeburstProfileSize').text(graphObject.graphInput.goeburstprofilesize);
+          $('#countgoeBURSTProfileSize').text(graphObject.graphInput.goeburstprofilesize);
+        }
+        else{
+          $('#goeburstProfileSize').text(graphObject.graphInput.schemeGenes.length);
+          $('#countgoeBURSTProfileSize').text(graphObject.graphInput.schemeGenes.length);
+        }
+
         if(graphObject.maxLinkValue > 10 || graphObject.graphInput.positions.isLogScale == true){
           $("#AddLogScale").trigger("click");
         }

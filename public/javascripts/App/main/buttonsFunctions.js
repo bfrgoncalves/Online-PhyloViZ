@@ -55,7 +55,7 @@ function loadButtonFunctions(){
 
 			var profileLength = graphObject.graphInput.nodes[0].profile.length;
 
-			$('#countProfileSize').append(' <b>' + profileLength + '</b>');
+			$('#countProfileSize').text(profileLength);
 
 		},
 
@@ -328,49 +328,123 @@ function loadButtonFunctions(){
 			} 
 
 			$('#distanceButton').click(function(e){
-				if (graphObject.selectedNodes.length < 2) alert('To compute distances, first you need to select more than one node.');
-				else if (graphObject.selectedNodes.length >= 500) alert('To much nodes selected. The maximum number is currently 500.');
-	            else{
-	            	if(graphObject.graphInput.data_type == 'newick') getNewickDistances(graphObject);
-	            	else checkLociDifferences(graphObject);
-	            }
+				var cont = true;
+				if (graphObject.selectedNodes.length < 2){
+					var message = 'To compute distances, first you need to select more than one node.'; 
+					cont=false;
+				}
+				else if (graphObject.selectedNodes.length >= 500){
+					var message = 'To much nodes selected. The maximum number is currently 500.';
+					cont=false;
+				}
+
+				if(!cont){
+					var toDialog = '<div style="text-align: center;"><label>'+message+'</label></div>';
+
+			    	$('#dialog').empty();
+					$('#dialog').append(toDialog);
+					$('#dialog').dialog({
+				              height: $(window).height() * 0.15,
+				              width: $(window).width() * 0.2,
+				              modal: true,
+				              resizable: true,
+				              dialogClass: 'no-close success-dialog'
+				          });
+					return false;
+				}
+            	if(graphObject.graphInput.data_type == 'newick') getNewickDistances(graphObject);
+            	else checkLociDifferences(graphObject);
+
 	        });
 
 	        $('#savePositionsButton').click(function(e){
 	            saveTreePositions(graphObject);
 	        });
 
+	        if(graphObject.graphInput.data_type[0] != 'profile') $('#createSubset1').css({"display":"none"});
+
 	        $('#createSubset1').click(function(e){
 
 	        	var toDialog = '<div style="text-align: center;"><label>Subset information:</label></div>' + 
-	        					'<h5>Dataset Name</h5>' +
+	        					'<label for="datasetNameSubset">Dataset Name</label>' +
 								'<input class="form-control input-sm" id="datasetNameSubset" type="text" placeholder="Select a name for the dataset" required/>'+
-								'<h5>Dataset Description</h5>' +
+								'<label for="dataset_description_Subset">Dataset Description</label>' +
 								'<input class="form-control input-sm" id="dataset_description_Subset" type="text" placeholder="Description"/>' + 
-								'<br>'+ 
-								'<div style="width:20%;float:center";><button id="okButtonsubset" class="btn btn-primary btn-md">OK</button></div>'+
-	        					'</div>';
+								'<br>'+
+								'<div id="profileAnalysisMethod">'+
+								'<label class="input-formats" for="sel_analysis_method">Analysis Method</label>'+	
+								'<select id="sel_analysis_method">'+
+									'<option value="core">Core Analysis</option>'+
+									'<option value="pres-abs">Presence/Absence</option>'+
+								'</select></div><br>'+
+								'<div id="missingcheckboxsubset" style="text-align:left;height:5%;">'+
+								'<label class="checkbox-inline"><input type="checkbox" id="missingchecksubset"/>Has missings</label>'+
+								'<label class="checkbox-inline"><input class="input-sm" id="missingdelimitersubset" type="text" placeholder="Missings character" required style="display:none"/></label>'+
+	        					'</div><br>'+
+	        					'<div style="width:100%;text-align:center"><button id="okButtonsubset" class="btn btn-primary btn-md">OK</button></div>';
 
 	        	$('#dialog').empty();
 				$('#dialog').append(toDialog);
 				$('#dialog').dialog({
-			              height: $(window).height() * 0.30,
+			              height: $(window).height() * 0.40,
 			              width: $(window).width() * 0.40,
 			              modal: true,
 			              resizable: true,
 			              dialogClass: 'no-close success-dialog'
 			          });
 
+				$('#sel_analysis_method').change(function(){
+					if($(this).val() == 'core') $('#missingcheckboxsubset').css({"display":"block"});
+					else $('#missingcheckboxsubset').css({"display":"none"});
+				});
+
+				$('#missingchecksubset').click(function(){
+				  if ($(this).is(':checked')) $('#missingdelimitersubset').css({"display": "block"});
+				  else $('#missingdelimitersubset').css({"display": "none"});
+				  
+				});
 				$('#okButtonsubset').click(function(){
 					var datasetN = $('#datasetNameSubset').val();
 					var descriptionS = $('#dataset_description_Subset').val();
+					var missingsubset = true;
+					var missingCharsubset = '';
+					if(document.getElementById('missingchecksubset').checked){
+					    missingsubset = true;
+					    missingCharsubset = $('#missingdelimitersubset').val();
+					}
+
+					var analysis_method = 'core';
+					analysis_method = $('#sel_analysis_method').val();
+
 					toFiles = selectedDataToString(graphObject);
-	            	createSubset(toFiles, datasetN, descriptionS);
+	            	createSubset(toFiles, datasetN, descriptionS, missingsubset, missingCharsubset, analysis_method, function(data){
+	            		if(!data.error) $('#dialog').dialog('close');
+	            		else $('#dialog').append('<br><div style="width:100%;text-align:center;"><label>'+data.error+'</label></div>')
+	            	});
 				});
 	        });
 
 	        $('#viewSequences').click(function(e){
 	            createMSA(graphObject);
+	        });
+
+	        $('#exclusiveLoci').click(function(e){
+	            get_exclusive_loci(graphObject, function(){
+	            	if (graphObject.exclusive_loci.length == 0){
+	            		if (graphObject.selectedNodes.length != 0) var toDialog = '<div style="text-align: center;"><label>There are no unique profile positions related to the selected group.</label></div>';
+			        	else var toDialog = '<div style="text-align: center;"><label>Select one or more nodes to find exclusive loci.</label></div>';
+			        	$('#dialog').empty();
+						$('#dialog').append(toDialog);
+						$('#dialog').dialog({
+					              height: $(window).height() * 0.20,
+					              width: $(window).width() * 0.40,
+					              modal: true,
+					              resizable: true,
+					              dialogClass: 'no-close success-dialog'
+					          });
+	            	}
+	            	else write_exclusive_file(graphObject);
+	            });
 	        });
 
 	        $('#updateMetadata').click(function(e){

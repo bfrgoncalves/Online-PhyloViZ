@@ -222,6 +222,16 @@ block normalBody
 							input.form-control.justVisual(id = 'textProfile', type="text", placeholder="Upload Profile Data", aria-describedby="sizing-addon1")
 							span.input-group-addon(id="Profile", onclick="getFile(this.id)") Browse
 
+						br
+						div(id="profileAnalysisMethod")
+							label.input-formats Analysis Method	
+							select(id="sel_analysis_method")
+								option(value="core") Core Analysis
+								option(value="pres-abs") Presence/Absence
+
+						div.checkbox.input-sm(id="missingcheckbox", style="text-align:left;")
+								<span class="checkbox-inline"><input type="checkbox" id="missingcheck"/>Has Missing Data</span><span class="checkbox-inline"><input class="input-sm" id="missingdelimiter" type="text" placeholder="Missings character" required style="display:none"/></span>
+
 					div(id="metadataButton")
 						div.input-group.input-sm
 							input.form-control.justVisual(id = 'textMetadata', type="text", placeholder="Upload Auxiliary Data", aria-describedby="sizing-addon1")

@@ -159,7 +159,6 @@ function buildCircleNodeShader() {
                     '}',
                     */
                     
-                    
 
                     'if (quadrant == 1.0 && gl_PointCoord.y < 0.5 && gl_PointCoord.x > 0.5){',
                             'rad = radians(angle);',
@@ -338,9 +337,9 @@ function buildCircleNodeShader() {
                     var interNode = new Float32Array(interNodeSize);
 
                     var countProperties = 0;
-
-                    //Test outer circle
                     /*
+                    //Test outer circle
+                    
                     interNode[countProperties] = pos.x;
                     interNode[countProperties+1] = -pos.y;
                     interNode[countProperties+2] = 5; //quadrant
@@ -353,8 +352,8 @@ function buildCircleNodeShader() {
                     allNodesNumberAttr[idx] += 1;
 
                     countProperties += ATTRIBUTES_PER_PRIMITIVE;
+
                     */
-                    
 
                     for (x=0; x < nodeUI.data.length;x++){
 

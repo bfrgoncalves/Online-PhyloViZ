@@ -120,9 +120,10 @@ function getDataset(datasetID, userID, isPublic, callback) {
 
 			    for(i in result.rows){
 			    	for(x in result.rows[i]){
-			    		//console.log(x);
 			    		if( x == 'profiles') {
 			    			dataset.profiles = JSON.parse(JSON.stringify(result.rows[i][x]['profiles']).replace(/&39/g, "'"));
+			    			if (result.rows[i][x].hasOwnProperty('indexestoremove')) dataset.indexestoremove = JSON.parse(JSON.stringify(result.rows[i][x]['indexestoremove']).replace(/&39/g, "'"));
+			    			dataset.profilesize = result.rows[i][x]['profilesize'];
 			    		}
 			    		else if( x  == 'isolates') dataset.isolates = JSON.parse(JSON.stringify(result.rows[i][x]['isolates']).replace(/&39/g, "'"));
 			    		else if( x  == 'links') dataset.links = JSON.parse(JSON.stringify(result.rows[i][x]['links']).replace(/&39/g, "'"));

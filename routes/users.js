@@ -195,6 +195,8 @@ router.post('/login', passport.authenticate('local', {
 }));
 
 
+
+
 router.post('/api/login', function(req, res){
 
   var shasum = crypto.createHash('sha256');
@@ -205,6 +207,7 @@ router.post('/api/login', function(req, res){
   req.body.password = d;
 
   passport.authenticate('local')(req, res, function (err) {
+    console.log(req);
     res.send(req.user);
   });
 

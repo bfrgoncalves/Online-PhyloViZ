@@ -46,6 +46,11 @@ $(document).ready( function(){
 	var optionsToDropDown = [{name: 'Profile Data'}, {name: 'Newick Data'}, , {name: 'Fasta Data'}];
 	createDropdown(optionsToDropDown, '#possibleInputFormats', 'Input formats', 1, 'inputFormats');
 
+	$('#sel_analysis_method').change(function(){
+		if($(this).val() == 'core') $('#missingcheckbox').css({"display":"block"});
+		else $('#missingcheckbox').css({"display":"none"});
+	});
+
 	$('#possibleInputFormats').change(function(){
 		$('#inputButtons').css({ 'display': 'block'});
 		$('#LaunchButton').css({ 'display': 'block'});

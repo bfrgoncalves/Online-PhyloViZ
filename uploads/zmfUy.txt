@@ -1,0 +1,27 @@
+Isolate	emm type	Group	Location	Host	Hemolysis
+SDSE_ERR109331_02062016	stG2078	G	unknown	Human	beta
+SDSE_SDSE_302_SDYS_02062016	nt	nt	USA	Human	beta
+SDSE_ERR109334_02062016	stC839	C	unknown	Human	beta
+SDSE_ERR109335_02062016	stG643	G	unknown	Human	beta
+SDSE_ERR109332_02062016	stG10	G	unknown	Human	beta
+SDSE_SDSE_UT-5345_02062016	nt	C	unknown	Human	beta
+SDSE_ERR109336_02062016	stG245	G	unknown	Human	beta
+SDSE_SDSE_UT-SS957_02062016	nt	C	unknown	Human	beta
+SDSE_ERR109328_02062016	stC839	G	unknown	Human	beta
+SDSE_SDSE_UT-5354_02062016	nt	G	unknown	Human	beta
+SDSE_SDSE_SK1250_02062016	nt	A	Norway	Human	beta
+SDSE_ERR109324_02062016	stG485	G	unknown	Human	beta
+SDSE_Streptococcus_dysgalactiae_subsp_equisimilis_AC-2713_02062016	stG485.0	A	France	Human	unknown
+SDSE_ERR109327_02062016	stG6792	G	unknown	Human	beta
+SDSE_Streptococcus_dysgalactiae_subsp_equisimilis_RE378_02062016	stg6792	G	Japan	Human	unknown
+SDSE_ERR109326_02062016	stG2078	G	unknown	Human	beta
+SDSE_Streptococcus_dysgalactiae_subsp_equisimilis_167_02062016	stL839	C	Japan	Human	unknown
+SDSE_Streptococcus_dysgalactiae_subsp_equisimilis_GGS_124_02062016	stg480.0	G	Japan	Human	unknown
+SDSE_SDSE_WCHSDSE-1_02062016	nt	G	China	Human	beta
+SDSE_ERR109325_02062016	stC36	C	unknown	Human	beta
+SDSE_ERR109329_02062016	stG480	G	unknown	Human	beta
+SDSE_ERR109330_02062016	stG2078	G	unknown	Human	beta
+SDSE_Streptococcus_dysgalactiae_subsp_equisimilis_ATCC_12394_02062016	stG166b.0	G	USA	Human	unknown
+SDSE_SDSE_UT-SS1069_02062016	nt	C	unknown	Human	beta
+SDSE_ERR109333_02062016	EMM57	G	unknown	Human	beta
+SDSE_SDSE_SK1249_02062016	stG652	C	unknown	Human	beta

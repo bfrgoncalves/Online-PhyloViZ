@@ -87,12 +87,16 @@ block normalBody
 										div(style="text-align:center;")
 											button(type='button',id='getLinkButton', name='publicLink1') Get Data Set Link
 								br
-					div(id="pauseRegion", style="height:7%;overflow-y:auto;")
+					div(id="pauseRegion", style="height:9%;overflow-y:auto;")
 						ul.nav.nav-stacked
 							li
 								i Links log Scale: <b id="isLogScaleOn"></b>
 							li
 								i Nodes log Scale: <b id="isLogScaleNodesOn"></b>
+							li
+								i goeBURST Profile Size: <b id="goeburstProfileSize"></b>
+							li
+								i(style="display:none", id="i_parent_dataset") Parent Data Set: <b id="parentDataset"></b>
 
 					div(id="buttonRegion", style="height:60%;overflow-y:auto;")		
 						ul.nav.nav-stacked
@@ -181,27 +185,35 @@ block normalBody
 								div
 									a.btn.btn-primary.actionButton.collapsebt(data-toggle='collapse', href='#collapseOperations', aria-expanded="false", aria-controls="collapseExample" id="treeop") Operations
 									div.collapse(id='collapseOperations')
-										div.well(id='TreeOperations')
-											label Tree cut-off
-											input(type='number',id='SplitTreeSlider', name='points2', value = 7, min='0', max='7')
-											br
-											br
-											div(id="NLVgraph")
-												label(id="nlvgraphLabel") NLV graph
-												input(type='number',id='NLVnumber', name='points2', value = 7, min='0', max='7')
-
-										div.well(id='OperationsToMake')
-											div(id="viewSequences")
-												a.btn.btn-default(type='button',id='viewSequencesButton', name='saveImage1') View Sequences
-											div(id="computeDistances")
-												a.btn.btn-default(type='button',id='distanceButton', name='distances1') Compute Distances
-												a.btn.btn-default(type='button',id='exportSelectedDataButton', name='distances1') Export Selected Data
-											if (user && !isPublic)
+										a.btn.btn-primary.actionButton.submenu.collapsebt(data-toggle='collapse', href='#TreeOpCol', aria-expanded="false", aria-controls="collapseExample" id="treeopcol") Tree Modifiers
+										div.collapse(id='TreeOpCol')
+											div.well(id='TreeOperations')
+												label Tree cut-off
+												input(type='number',id='SplitTreeSlider', name='points2', value = 7, min='0', max='7')
 												br
-												a.btn.btn-default(type='button',id='savePositionsButton', name='downloadPositions1') Save Positions
-											a.btn.btn-default(type='button',id='saveImageButton1', name='saveImage1') Save Image
-											//a.btn.btn-default(type='button',id='createSubset1', name='createSubset1') Create Subset
-											div(id='downloadContainer', style='display:none')
+												br
+												div(id="NLVgraph")
+													label(id="nlvgraphLabel") NLV graph
+													input(type='number',id='NLVnumber', name='points2', value = 7, min='0', max='7')
+
+										a.btn.btn-primary.actionButton.submenu.collapsebt(data-toggle='collapse', href='#SelOpCol', aria-expanded="false", aria-controls="collapseExample" id="selopcol") Subset Operations
+										div.collapse(id='SelOpCol')
+											div.well(id='OperationsToMake')
+												div(id="viewSequences")
+													a.btn.btn-default(type='button', style='width:100%;', id='viewSequencesButton', name='saveImage1') View Sequences
+												a.btn.btn-default(type='button',style='width:100%;', id='createSubset1', name='createSubset1') Create Subset
+												a.btn.btn-default(type='button',style='width:100%;', id='exclusiveLoci', name='createSubset1') Find Exclusive Loci
+												div(id="computeDistances")
+													a.btn.btn-default(type='button',style='width:100%;', id='distanceButton', name='distances1') Compute Distances
+													a.btn.btn-default(type='button',style='width:100%;', id='exportSelectedDataButton', name='distances1') Export Selected Data
+												div(id='downloadContainer', style='display:none')
+
+										a.btn.btn-primary.actionButton.submenu.collapsebt(data-toggle='collapse', href='#DispOp', aria-expanded="false", aria-controls="collapseExample" id="dispop") Display Operations
+										div.collapse(id='DispOp')
+											div.well(id='DisplayOperations')
+												if (user && !isPublic)
+													a.btn.btn-default(type='button',style='width:100%;', id='savePositionsButton', name='downloadPositions1') Save Positions
+												a.btn.btn-default(type='button',style='width:100%;', id='saveImageButton1', name='saveImage1') Save Displayed Image
 
 
 
@@ -262,7 +274,8 @@ block normalBody
 				div(id="divprofiles")
 					div(id="exportprofiles")
 				br
-				div(id="countProfileSize") Profile Size:
+				div Profile Size: <label id="countProfileSize"></label>
+				div goeBURST Profile Size: <label id="countgoeBURSTProfileSize"></label>
 				br
 				div.pieRegion
 					//div.numberOfColumns(id='numberOfColumnsprofiles')

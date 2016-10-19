@@ -19,38 +19,52 @@ function makeid()
 
 router.post('/', function(req, res, next){
 
-	//if (req.isAuthenticated()){
+	if (req.isAuthenticated()){
+
+		var cookie_string = '';
+		
+		for(i in req.cookies){
+			cookie_string = i + '=' + req.cookies[i]; 
+		}
 
 		var profileName = makeid()+".txt";
-		var metadataname = makeid()+".txt";
+		var metadataName = makeid()+".txt";
+
+		var analysis_method= "core";
+
+		if(req.body.analysis_method){
+			analysis_method = analysis_method;
+		}
 
 		fs.writeFile("uploads/"+profileName, req.body.profileData, function(err) {
 		    if(err) {
 		        return console.log(err);
 		    }
 
-		    console.log("The file was saved!");
-
 		    fs.writeFile("uploads/"+metadataName, req.body.auxData, function(err) {
 			    if(err) {
 			        return console.log(err);
 			    }
-
-			    console.log("The file was saved!");
 			    output='';
 			    var python = require('child_process').exec;
-			    python('cd remote_upload/ & python remote_upload/remoteUpload.py -u bruno -p test -sdt profile -sd uploads/'+profileName+' -d '+req.body.name+' -dn '+req.body.description+' -m uploads/'+metadataName, function(error,stdout,stderr){
+			    
+			    if(req.body.missings == 'true') var commandstring = 'cd remote_upload/ & python remote_upload/remoteUpload.py -t '+cookie_string+' -mc ' + req.body.missingschar + ' -sdt profile -sd uploads/'+profileName+' -d '+req.body.name+' -dn '+req.body.description+' -m uploads/'+metadataName;
+			    else var commandstring = 'cd remote_upload/ & python remote_upload/remoteUpload.py -t '+cookie_string+' -sdt profile -sd uploads/'+profileName+' -d '+req.body.name+' -dn '+req.body.description+' -m uploads/'+metadataName;
+			    
+			    python(commandstring, function(error,stdout,stderr){
 			    	if(error){
-			    		console.log(error);
+			    		res.send({stdout:error, status: 500});
 			    	}
-			    	console.log('AQUI');
-			    	console.log(stdout);
-			    	res.send(200, stdout);
+			    	else {
+			    		res.send({stdout:stdout, status: 200});
+			    	}
 			    });
+				
+
 			}); 
 		}); 
-	//}
-	//else res.send("Login first");
+	}
+	else res.send({stdout:'Login before creating a subset.', status: 401});
         
 });
 

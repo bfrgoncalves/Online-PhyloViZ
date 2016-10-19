@@ -65,8 +65,9 @@ function createMSA(graphObject){
 
 	$('#removePoly').click(function(){
 		if(!hide){
-			var threshold = prompt('Enter the threshold value (in decimal values)');
-			ColumnFilter(defMenu, threshold);
+			//var threshold = prompt('Enter the threshold value (in decimal values)');
+			//var threshold = 1;
+			ColumnFilter(defMenu, 1);
 			$('#removePoly').text('Show Non-Polymorphic Sites');
 			hide = true;
 		}
@@ -100,7 +101,7 @@ function ColumnFilter(menu, threshold){
 	var conserv = msa.g.stats.scale(msa.g.stats.conservation());
 	var end = maxLen - 1;
 	for (var i = 0; 0 < end ? i <= end : i >= end; 0 < end ? i++ : i--) {
-		if (conserv[i] <= threshold) {
+		if (threshold != 0 && conserv[i] == threshold) {
 			hidden.push(i);
 		}
 	}
