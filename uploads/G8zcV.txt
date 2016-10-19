@@ -1,4 +1,0 @@
-Isolate	emm type	Group	Location	Host	Hemolysis
-SDSE_SD34_02062016	stG14	C	USA	Horse	beta
-SDSE_SD24_02062016	stC14	C	Italy	Horse	beta
-SDSE_SD28_02062016	stC1	L	Italy	Horse	beta
