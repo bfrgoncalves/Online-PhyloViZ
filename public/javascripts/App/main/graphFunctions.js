@@ -408,7 +408,7 @@ function loadGraphFunctions(){
 			graphObject.multiSelectOverlay;
 
 
-	        var shiftDown = false, altDown = false, remakeSelection = false, multipleselection = false;
+	        var shiftDown = false, altDown = false, remakeSelection = false, multipleselection = false, sdown = false;
 
 	        events.mouseEnter(function (node) {
 	             //console.log('Mouse entered node: ' + node.id);
@@ -430,20 +430,27 @@ function loadGraphFunctions(){
 
 	          	if(!graphObject.freezeSelection){
 
+	          		if(e.which ==  16 && !shiftDown) graphObject.multiSelectOverlay = null;
+
 		            if (e.which == 18) altDown = true;
 		            if (e.which == 16) shiftDown = true;
 		            
-		            if(shiftDown && e.which == 83) graphObject.multiSelectOverlay = null;
-		            else if (shiftDown && graphObject.multiSelectOverlay) {
+		            
+		            if (shiftDown && e.which != 83) {
 		              multipleselection = false;
 		              for (i in graphObject.selectedNodes){
 		                var nodeToUse = graphics.getNodeUI(graphObject.selectedNodes[i].id);
 		                nodeToUse.colorIndexes = nodeToUse.backupColor;
 		              } 
 		              graphObject.selectedNodes = [];
+
+		              if(graphObject.isLayoutPaused){
+				        renderer.resume();
+				        setTimeout(function(){ renderer.pause();}, 2);
+				      }
 		            }
 		          
-		            if (e.which === 83 && shiftDown && !graphObject.multiSelectOverlay) { // shift key
+		            if (e.which === 83 && shiftDown && (!graphObject.multiSelectOverlay || !sdown)) { // shift key
 		              multipleselection = false;
 		              /*
 		              for (i in graphObject.selectedNodes){
@@ -453,16 +460,22 @@ function loadGraphFunctions(){
 
 		              graphObject.selectedNodes = [];
 		              */
-
+		              /*
 		              if(graphObject.isLayoutPaused){
 				        renderer.resume();
 				        setTimeout(function(){ renderer.pause();}, 5);
 				      }
+				      */
+				      graphObject.sdown = true;
 		              
 		              graphObject.multiSelectOverlay = startMultiSelect(graphObject);
 		            }
+		            else graphObject.sdown = false;
 
-		            if (e.which === 16){
+		            if (e.which == 83) sdown = true;
+		            
+
+		            if (e.which === 16 && !sdown){
 		              shiftDown = true;
 		              if (!multipleselection ){
 		                for (i in graphObject.selectedNodes){
@@ -473,10 +486,12 @@ function loadGraphFunctions(){
 		                remakeSelection = false;
 		                graphObject.selectedNodes = [];
 
+		                /*
 		                if(graphObject.isLayoutPaused){
 					        renderer.resume();
 					        setTimeout(function(){ renderer.pause();}, 5);
 					      }
+					    */
 		              }
 		            }
 		            if (e.which === 87){
@@ -519,6 +534,10 @@ function loadGraphFunctions(){
 		            if (e.which == 16){
 		              shiftDown = false;
 		            } 
+
+		            if (e.which == 83){
+		            	sdown = false;
+		            }
 
 		            if (e.which == 18){
 

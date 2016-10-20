@@ -10,6 +10,7 @@ function startMultiSelect(graphObject) {
   var domOverlay = document.querySelector('.graph-overlay');
   var overlay = createOverlay(domOverlay);
   overlay.onAreaSelected(handleAreaSelected);
+  var sdown = graphObject.sdown;
 
   return overlay;
 
@@ -25,8 +26,6 @@ function startMultiSelect(graphObject) {
       x: area.x + area.width,
       y: area.y + area.height
     });
-
-    selectedNodes = [];
 
     overlay.topLeft = topLeft;
     overlay.bottomRight = bottomRight;
@@ -49,14 +48,18 @@ function startMultiSelect(graphObject) {
         }
         nodeUI.colorIndexes = newColors;
       } 
-      /*else {
+      else if (!sdown) {
+        console.log('AQUI');
+        console.log(sdown);
         nodeUI.colorIndexes = nodeUI.backupColor;
         //nodeUI.size = nodeUI.backupSize;
-      }*/
+      }
+      
       if(graphObject.isLayoutPaused){
         renderer.resume();
-        setTimeout(function(){ renderer.pause();}, 5);
+        setTimeout(function(){ renderer.pause();}, 2);
       }
+      
     }
 
     function isInside(nodeId, topLeft, bottomRight) {
@@ -70,6 +73,7 @@ function startMultiSelect(graphObject) {
 function createOverlay(overlayDom) {
   var selectionClasName = 'graph-selection-indicator';
   var selectionIndicator = overlayDom.querySelector('.' + selectionClasName);
+
   if (!selectionIndicator) {
     selectionIndicator = document.createElement('div');
     selectionIndicator.className = selectionClasName;

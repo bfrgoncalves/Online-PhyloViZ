@@ -25,6 +25,21 @@ function SelectNodes(node, graphObject){
 	    }
 
 	}
+	else if(nodeUI.colorIndexes[0][0] == 0xFFA500ff){
+
+		var newSelected = [];
+		for(i in graphObject.selectedNodes){
+			if(graphObject.selectedNodes[i].id != node.id) newSelected.push(graphObject.selectedNodes[i]); 
+		}
+		graphObject.selectedNodes = newSelected;
+		
+		nodeUI.colorIndexes = nodeUI.backupColor;
+
+		if(graphObject.isLayoutPaused){
+	        renderer.resume();
+	        setTimeout(function(){ renderer.pause();}, 5);
+	    }
+	}
 
 }
 
