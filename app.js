@@ -3,6 +3,9 @@ var fs = require('fs');
 
 var http = require('http');
 
+var cluster = require('cluster');
+var os = require('os');
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -50,9 +53,6 @@ var done = false;
 
 var app = express();
 
-
-var server = http.createServer(app); //http listen and express app will use all the middlewere
-server.timeout = 100000000000;
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -126,10 +126,19 @@ app.use(function(err, req, res, next) {
   });
 });
 
+if (cluster.isMaster) {
+    for (var i = 0; i < os.cpus().length-2; i++) {
+        cluster.fork();
+    }
+} else {
+  var server = http.createServer(app).listen(config.port); //http listen and express app will use all the middlewere
+  server.timeout = 100000000000;
+}
 
-server.listen(config.port, function(){  //https server is listening
+/*server.listen(config.port, function(){  //https server is listening
   console.log('Server Running');
 });
+*/
 
 // CODE to generate certificate
 // openssl req -x509 -nodes -days 365 -newkey rsa:1024 -out my.crt -keyout my.key
