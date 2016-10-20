@@ -52,7 +52,7 @@ var app = express();
 
 
 var server = http.createServer(app); //http listen and express app will use all the middlewere
-//server.timeout = 100000000000;
+server.timeout = 100000000000;
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
