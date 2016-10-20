@@ -572,6 +572,7 @@ function create_subset_profile(graph, callback){
 	var newProfiles = [];
     var newProfile = [];
     var indexToRemove = {};
+    var exportAllProfileObject = {};
     
     var usedLoci = {};
 
@@ -585,17 +586,21 @@ function create_subset_profile(graph, callback){
 		var newProfile = [];
 		var countPosition = -1;
 
+		exportAllProfileObject[nodes[i].key] = [];
+
 		for(position in profile){
 			countPosition++;
 			if(!graph.indexesToRemove.hasOwnProperty(countPosition)){
 				usedLoci[graph.schemeGenes[countPosition+1]] = countPosition;
 				newProfile.push(profile[position]);
+				exportAllProfileObject[nodes[i].key].push({gene: graph.schemeGenes[countPosition+1], value:profile[position]});
 			}
 		}
 		newProfiles.push({profile: newProfile});
 	}
 	graph.subsetProfiles = newProfiles;
 	graph.usedLoci = usedLoci;
+	graph.goeBURSTprofileExport = exportAllProfileObject;
 	callback(graph);
 
 }
@@ -639,6 +644,41 @@ function get_exclusive_loci(graphObject, callback){
 	}
 	graphObject.exclusive_loci = exclusive;
 	callback();
+
+}
+
+function exportgoeBURSTprofiles(graphObject){
+
+	var toFile = '';
+	var firstLine = true;
+
+	for(i in graphObject.graphInput.goeBURSTprofileExport){
+		var profileData = graphObject.graphInput.goeBURSTprofileExport[i];
+		if(firstLine){
+			toFile += graphObject.graphInput.key[0];
+			for(j in profileData){
+				toFile += '\t' + profileData[j].gene;
+			}
+			toFile += '\n';
+			firstLine = false
+		}
+		toFile += i;
+		for(j in profileData){
+			toFile += '\t' + profileData[j].value;
+		}
+		toFile += '\n';
+	}
+
+	var encodedUriProfiles = 'data:text/csv;charset=utf-8,' + encodeURIComponent(toFile);
+
+	$('#dialog').empty();
+
+	var a = $('<p>Download <a id="linkDownloadgoeBURSTData">goeBURST Profiles</a></p>');
+
+	$('#dialog').append(a);
+	$('#linkDownloadgoeBURSTData').attr("href", encodedUriProfiles).attr('download', "goeBURSTprofileData.tab");
+	$('#dialog').dialog();
+
 
 }
 

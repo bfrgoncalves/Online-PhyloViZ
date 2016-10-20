@@ -431,7 +431,7 @@ function loadGraphFunctions(){
 	            if (e.which == 18) altDown = true;
 	            if (e.which == 17) ctrlDown = true;
 	            
-	            if(ctrlDown && e.which == 66) graphObject.multiSelectOverlay = null;
+	            if(ctrlDown && e.which == 192) graphObject.multiSelectOverlay = null;
 	            else if (ctrlDown && graphObject.multiSelectOverlay) {
 	              multipleselection = false;
 	              for (i in graphObject.selectedNodes){
@@ -441,7 +441,7 @@ function loadGraphFunctions(){
 	              graphObject.selectedNodes = [];
 	            }
 	          
-	            if (e.which === 66 && ctrlDown && !graphObject.multiSelectOverlay) { // shift key
+	            if (e.which === 192 && ctrlDown && !graphObject.multiSelectOverlay) { // shift key
 	              multipleselection = false;
 	              /*
 	              for (i in graphObject.selectedNodes){

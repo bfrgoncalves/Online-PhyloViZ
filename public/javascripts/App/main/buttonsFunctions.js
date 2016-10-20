@@ -436,6 +436,10 @@ function loadButtonFunctions(){
 				});
 	        });
 
+			$('#exportgoeBURST').click(function(){
+				exportgoeBURSTprofiles(graphObject);
+			});
+
 	        $('#viewSequences').click(function(e){
 	            createMSA(graphObject);
 	        });
