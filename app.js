@@ -126,14 +126,14 @@ app.use(function(err, req, res, next) {
   });
 });
 
-if (cluster.isMaster) {
-    for (var i = 0; i < os.cpus().length-2; i++) {
-        cluster.fork();
-    }
-} else {
+//if (cluster.isMaster) {
+//    for (var i = 0; i < os.cpus().length-2; i++) {
+//        cluster.fork();
+//    }
+//} else {
   var server = http.createServer(app).listen(config.port); //http listen and express app will use all the middlewere
   server.timeout = 100000000000;
-}
+//}
 
 /*server.listen(config.port, function(){  //https server is listening
   console.log('Server Running');
