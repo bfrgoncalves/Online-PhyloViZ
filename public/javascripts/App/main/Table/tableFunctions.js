@@ -74,7 +74,7 @@ function constructTable(graph, tableData, datasetParameter, callback){
     var table = $('#' + tableToCheck).DataTable( {
 
         "data": toShowData,
-        "deferRender": true,
+        //"deferRender": true,
         "columns": toShowColumns,
         "bSort" : false,
         dom: 'Bfrtip',
