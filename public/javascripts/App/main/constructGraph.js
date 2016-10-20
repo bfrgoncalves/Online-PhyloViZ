@@ -17,6 +17,8 @@ function constructGraph(graph, datasetID){
     
     } 
 
+    graphObject.freezeSelection = false;
+
     global_object = graphObject;
 
     	var arrayOfNodesID = [], 

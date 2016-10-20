@@ -1,8 +1,6 @@
 function constructGraph(graph, datasetID){
 
 
-
-
       NumberOfColors = graph.nodes.length;
 
       // for (var i=0;i<NumberOfColors;i++){

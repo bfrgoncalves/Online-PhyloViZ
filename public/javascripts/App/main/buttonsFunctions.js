@@ -365,6 +365,8 @@ function loadButtonFunctions(){
 
 	        $('#createSubset1').click(function(e){
 
+	        	graphObject.freezeSelection = true;
+
 	        	var toDialog = '<div style="text-align: center;"><label>Subset information:</label></div>' + 
 	        					'<label for="datasetNameSubset">Dataset Name</label>' +
 								'<input class="form-control input-sm" id="datasetNameSubset" type="text" placeholder="Select a name for the dataset" required/>'+
@@ -403,6 +405,10 @@ function loadButtonFunctions(){
 				  else $('#missingdelimitersubset').css({"display": "none"});
 				  
 				});
+
+				$('#dialog').on('dialogclose', function(event) {
+				     graphObject.freezeSelection = false;
+				 });
 				$('#okButtonsubset').click(function(){
 
 					if(graphObject.selectedNodes.length == 0){
@@ -425,7 +431,10 @@ function loadButtonFunctions(){
 
 					toFiles = selectedDataToString(graphObject);
 	            	createSubset(toFiles, datasetN, descriptionS, missingsubset, missingCharsubset, analysis_method, function(data){
-	            		if(!data.error) $('#dialog').dialog('close');
+	            		if(!data.error){
+	            			$('#dialog').dialog('close');
+	            			graphObject.freezeSelection = false;
+	            		}
 	            		else{
 	            			$('#createSubset1').trigger('click');
 	            			setTimeout(function(){

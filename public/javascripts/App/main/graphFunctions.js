@@ -408,7 +408,7 @@ function loadGraphFunctions(){
 			graphObject.multiSelectOverlay;
 
 
-	        var ctrlDown = false, altDown = false, remakeSelection = false, multipleselection = false;
+	        var shiftDown = false, altDown = false, remakeSelection = false, multipleselection = false;
 
 	        events.mouseEnter(function (node) {
 	             //console.log('Mouse entered node: ' + node.id);
@@ -421,108 +421,114 @@ function loadGraphFunctions(){
 	        }).click(function (node, e) {
 
 	            //if (altDown) getLinks(node, graphObject);
-	            if (ctrlDown) SelectNodes(node, graphObject);
+	            if (shiftDown) SelectNodes(node, graphObject);
 	        });
 
 	        //var multiSelectOverlay;
 
 	          document.addEventListener('keydown', function(e) {
 
-	            if (e.which == 18) altDown = true;
-	            if (e.which == 17) ctrlDown = true;
-	            
-	            if(ctrlDown && e.which == 192) graphObject.multiSelectOverlay = null;
-	            else if (ctrlDown && graphObject.multiSelectOverlay) {
-	              multipleselection = false;
-	              for (i in graphObject.selectedNodes){
-	                var nodeToUse = graphics.getNodeUI(graphObject.selectedNodes[i].id);
-	                nodeToUse.colorIndexes = nodeToUse.backupColor;
-	              } 
-	              graphObject.selectedNodes = [];
-	            }
-	          
-	            if (e.which === 192 && ctrlDown && !graphObject.multiSelectOverlay) { // shift key
-	              multipleselection = false;
-	              /*
-	              for (i in graphObject.selectedNodes){
-	                var nodeToUse = graphics.getNodeUI(graphObject.selectedNodes[i].id);
-	                nodeToUse.colorIndexes = nodeToUse.backupColor;
-	              } 
+	          	if(!graphObject.freezeSelection){
 
-	              graphObject.selectedNodes = [];
-	              */
+		            if (e.which == 18) altDown = true;
+		            if (e.which == 16) shiftDown = true;
+		            
+		            if(shiftDown && e.which == 83) graphObject.multiSelectOverlay = null;
+		            else if (shiftDown && graphObject.multiSelectOverlay) {
+		              multipleselection = false;
+		              for (i in graphObject.selectedNodes){
+		                var nodeToUse = graphics.getNodeUI(graphObject.selectedNodes[i].id);
+		                nodeToUse.colorIndexes = nodeToUse.backupColor;
+		              } 
+		              graphObject.selectedNodes = [];
+		            }
+		          
+		            if (e.which === 83 && shiftDown && !graphObject.multiSelectOverlay) { // shift key
+		              multipleselection = false;
+		              /*
+		              for (i in graphObject.selectedNodes){
+		                var nodeToUse = graphics.getNodeUI(graphObject.selectedNodes[i].id);
+		                nodeToUse.colorIndexes = nodeToUse.backupColor;
+		              } 
 
-	              if(graphObject.isLayoutPaused){
-			        renderer.resume();
-			        setTimeout(function(){ renderer.pause();}, 5);
-			      }
-	              
-	              graphObject.multiSelectOverlay = startMultiSelect(graphObject);
-	            }
+		              graphObject.selectedNodes = [];
+		              */
 
-	            if (e.which === 17){
-	              ctrlDown = true;
-	              if (!multipleselection ){
-	                for (i in graphObject.selectedNodes){
-	                  var nodeToUse = graphics.getNodeUI(graphObject.selectedNodes[i].id);
-	                  nodeToUse.colorIndexes = nodeToUse.backupColor;
-	                  //nodeToUse.size = nodeToUse.backupSize;
-	                } 
-	                remakeSelection = false;
-	                graphObject.selectedNodes = [];
-
-	                if(graphObject.isLayoutPaused){
+		              if(graphObject.isLayoutPaused){
 				        renderer.resume();
 				        setTimeout(function(){ renderer.pause();}, 5);
 				      }
-	              }
-	            }
-	            if (e.which === 87){
-	            	if (!graphObject.isLayoutPaused){
-		            	renderer.pause();
-		                graphObject.isLayoutPaused = true;
-		                $('#pauseLayout')[0].innerHTML = "Resume Layout";
-		                $('#iconPauseLayout').toggleClass('glyphicon glyphicon-pause',false);
-		                $('#iconPauseLayout').toggleClass('glyphicon glyphicon-play',true);
+		              
+		              graphObject.multiSelectOverlay = startMultiSelect(graphObject);
 		            }
-		            else{
-		            	renderer.resume();
-		                graphObject.isLayoutPaused = false;
-		                $('#pauseLayout')[0].innerHTML = "Pause Layout";
-		                $('#iconPauseLayout').toggleClass('glyphicon glyphicon-play',false);
-		                $('#iconPauseLayout').toggleClass('glyphicon glyphicon-pause',true);
+
+		            if (e.which === 16){
+		              shiftDown = true;
+		              if (!multipleselection ){
+		                for (i in graphObject.selectedNodes){
+		                  var nodeToUse = graphics.getNodeUI(graphObject.selectedNodes[i].id);
+		                  nodeToUse.colorIndexes = nodeToUse.backupColor;
+		                  //nodeToUse.size = nodeToUse.backupSize;
+		                } 
+		                remakeSelection = false;
+		                graphObject.selectedNodes = [];
+
+		                if(graphObject.isLayoutPaused){
+					        renderer.resume();
+					        setTimeout(function(){ renderer.pause();}, 5);
+					      }
+		              }
 		            }
-	            }
+		            if (e.which === 87){
+		            	if (!graphObject.isLayoutPaused){
+			            	renderer.pause();
+			                graphObject.isLayoutPaused = true;
+			                $('#pauseLayout')[0].innerHTML = "Resume Layout";
+			                $('#iconPauseLayout').toggleClass('glyphicon glyphicon-pause',false);
+			                $('#iconPauseLayout').toggleClass('glyphicon glyphicon-play',true);
+			            }
+			            else{
+			            	renderer.resume();
+			                graphObject.isLayoutPaused = false;
+			                $('#pauseLayout')[0].innerHTML = "Pause Layout";
+			                $('#iconPauseLayout').toggleClass('glyphicon glyphicon-play',false);
+			                $('#iconPauseLayout').toggleClass('glyphicon glyphicon-pause',true);
+			            }
+		            }
+		        }
 	          });
 	          document.addEventListener('keyup', function(e) {
 
-	            if (ctrlDown) {
-	              if(graphObject.multiSelectOverlay) graphObject.multiSelectOverlay.destroy();
-	              //graphObject.multiSelectOverlay = null;
-	              graphObject.selectedNodes = [];
+	          	if(!graphObject.freezeSelection){
 
-	              selectProperties = graphObject.multiSelectOverlay.selectedArea();
+		            if (shiftDown) {
+		              if(graphObject.multiSelectOverlay) graphObject.multiSelectOverlay.destroy();
+		              //graphObject.multiSelectOverlay = null;
+		              graphObject.selectedNodes = [];
 
-	              graphGL.forEachNode(function(node){
-	                var currentNodeUI = graphics.getNodeUI(node.id);
-	                if (currentNodeUI.colorIndexes[0][0] == 0xFFA500ff && node.id.indexOf('TransitionNode') < 0) graphObject.selectedNodes.push(node);
-	              });
-	              multipleselection = true;
+		              if(graphObject.multiSelectOverlay) selectProperties = graphObject.multiSelectOverlay.selectedArea();
 
-	            }
+		              graphGL.forEachNode(function(node){
+		                var currentNodeUI = graphics.getNodeUI(node.id);
+		                if (currentNodeUI.colorIndexes[0][0] == 0xFFA500ff && node.id.indexOf('TransitionNode') < 0) graphObject.selectedNodes.push(node);
+		              });
+		              multipleselection = true;
 
-	            if (e.which == 17){
-	              ctrlDown = false;
-	            } 
+		            }
 
-	            if (e.which == 18){
+		            if (e.which == 16){
+		              shiftDown = false;
+		            } 
 
-	              altDown = false;
-	              restoreLinkSearch(graphObject);
-	              graphObject.nodesToCheckLinks = [];
-	              toRemove = "";
+		            if (e.which == 18){
 
-	            }
+		              altDown = false;
+		              restoreLinkSearch(graphObject);
+		              graphObject.nodesToCheckLinks = [];
+		              toRemove = "";
+
+		            }
+		        }
 	            
 	          });
 		}
