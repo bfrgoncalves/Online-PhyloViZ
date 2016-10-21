@@ -87,6 +87,7 @@ if(cluster.isMaster){
   });
 
 }else{
+	console.log('Process queue');
 	queue.process(function(job, jobDone){
 
 		var datasetId;
