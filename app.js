@@ -152,6 +152,7 @@ if (cluster.isMaster) {
     }
     
 } else {
+  console.log(os.cpus().length);
   if(cluster.worker.id == 1 || cluster.worker.id <= (os.cpus().length/4)-1){
     console.log('Worker server');
     var server = http.createServer(app).listen(3000); //http listen and express app will use all the middlewere
