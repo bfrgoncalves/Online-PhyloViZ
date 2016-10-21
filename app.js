@@ -146,10 +146,11 @@ app.use(function(err, req, res, next) {
 
 
 if (cluster.isMaster) {
-    for (var i = 0; i < (os.cpus().length/2)-2; i++) {
+    for (var i = 0; i < 2; i++) {
         cluster.fork();
     }
 } else {
+  console.log('Worker server');
   var server = http.createServer(app).listen(3000); //http listen and express app will use all the middlewere
   server.timeout = 100000000000;
 }
