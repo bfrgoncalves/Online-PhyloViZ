@@ -68,7 +68,7 @@ function sendMail(mailInfo, callback){
 }
 
 
-if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().length/4)-1){
+if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().length/4)){
 /*
 	if(os.cpus().length >= 8){
 		console.log('8 or more cores');
