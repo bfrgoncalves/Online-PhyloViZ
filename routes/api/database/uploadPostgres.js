@@ -352,7 +352,7 @@ function uploadToDatabase(data, callback){
     links = { links : []};
     //console.log(data.fileNewick);
     newick = { newick : data.fileNewick[0]};
-    console.log(userID);
+
     var cipher = crypto.createCipher(config.cipherUser.algorithm, config.cipherUser.pass);
     dataset_id = userID + data.datasetName + getDateTime();
     data.datasetID = cipher.update(dataset_id,'utf8','hex');

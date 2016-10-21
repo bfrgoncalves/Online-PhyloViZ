@@ -32,6 +32,12 @@ var cronFunctions = require('./cronJobs/cronFunctions');
 
 var users = require('./routes/users');
 
+var Queue = require('bull');
+
+var queue = Queue("goeBURST queue", 6379, '127.0.0.1');
+
+queue.clean(10000, 'failed');
+
 var upload = require('./routes/api/database/uploadPostgres');
 var updateDataset = require('./routes/api/database/modifyDataset');
 var goeBURST = require('./routes/api/algorithms/goeBURST');
@@ -140,7 +146,7 @@ app.use(function(err, req, res, next) {
 
 
 if (cluster.isMaster) {
-    for (var i = 0; i < os.cpus().length-2; i++) {
+    for (var i = 0; i < (os.cpus().length/2)-1; i++) {
         cluster.fork();
     }
 } else {

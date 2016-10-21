@@ -99,8 +99,9 @@ function uploadFiles(){
         });
       }
       else{
+        console.log(data);
         if (fileSelectNewick.files[0] != undefined) window.location.replace("/main/dataset/" + data.datasetID);
-        else getLinks(data.datasetID);
+        else getLinks(data);
         status('Computing links...');
       }
     }
@@ -110,7 +111,7 @@ function uploadFiles(){
 
 }
 
-function getLinks(datasetID){
+function getLinks(data){
 
   /*
   client_goeburst(datasetID, function(data){
@@ -126,6 +127,11 @@ function getLinks(datasetID){
   var missings = false;
   var missingChar = '';
 
+  var datasetID = data.datasetID;
+  var onqueue = false;
+
+  if(data.fileProfile.length > 100 || data.fileProfile_headers.length > 40) onqueue = true;
+
   var analysis_method = 'core';
 
   analysis_method = $('#sel_analysis_method').val();
@@ -137,12 +143,16 @@ function getLinks(datasetID){
   
   $.ajax({
     url: '/api/algorithms/goeBURST',
-    data: $.param({dataset_id: datasetID, save: true, missings: missings, missingchar: missingChar, analysis_method:analysis_method}),
+    data: $.param({dataset_id: datasetID, save: true, missings: missings, missingchar: missingChar, analysis_method:analysis_method, onqueue:onqueue}),
     processData: false,
     contentType: false,
     type: 'GET',
     success: function(data){
-      if(data.dupProfiles.length > 0 || data.dupIDs.length >0){
+      if(data.queue != undefined){
+        status(data.queue);
+         $("#waitingGif").css({'display': 'none'});
+      }
+      else if(data.dupProfiles.length > 0 || data.dupIDs.length >0){
         popDialog(data);
       }
       else{

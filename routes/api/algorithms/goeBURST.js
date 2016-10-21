@@ -6,6 +6,154 @@ var goeBURST = require('goeBURST');
 
 var config = require('../../../config.js');
 
+var os = require('os');
+var Queue = require('bull');
+var queue = Queue("goeBURST queue", 6379, '127.0.0.1');
+var cluster = require('cluster');
+
+var pg = require("pg");
+var connectionString = "postgres://" + config.databaseUserString + "@localhost/"+ config.db;
+
+var nodemailer = require('nodemailer');
+var smtpTransport = require('nodemailer-smtp-transport')
+
+var transporter = nodemailer.createTransport(smtpTransport({
+    service: 'Gmail',
+    auth: {
+        user: config.email,
+        pass: config.spe
+    }
+}));
+
+function getEmail(userID, callback){
+
+    query = "SELECT email FROM datasets.users WHERE user_id = '"+String(userID)+"';";
+
+    var client = new pg.Client(connectionString);
+
+    client.connect(function(err) {
+        if(err) {
+            return console.error('could not connect to postgres', err);
+        }
+        client.query(query, function(err, result) {
+            if(err) {
+              return console.error('error running query', err);
+            }
+            callback(result.rows[0].email);
+        });
+    });
+}
+
+
+function sendMail(mailInfo, callback){
+
+    // setup e-mail data with unicode symbols
+    var mailOptions = {
+        from: config.title + ' <phylovizonline@gmail.com>', // sender address
+        to: mailInfo.email, // list of receivers
+        subject: 'Phyloviz - New Dataset', // Subject line
+        text: mailInfo.message, // plaintext body
+        //html: '<b>Hello world ✔</b>' // html body
+    };
+    
+    // send mail with defined transport object
+    transporter.sendMail(mailOptions, function(error, info){
+        if(error){
+            return console.log(error);
+        }
+        console.log('Message sent: ' + info.response);
+        callback(null, mailOptions);
+
+    });
+}
+
+if(cluster.isMaster){
+
+	if(os.cpus().length >= 8){
+		console.log('8 or more cores');
+		for (var i = 0; i < 1; i++) {
+		    cluster.fork();
+		}
+	}
+	else{
+		console.log('less than 8 cores');
+	}
+
+  cluster.on('online', function(worker) {
+
+  });
+  cluster.on('exit', function(worker, code, signal) {
+    console.log('worker ' + worker.process.pid + ' died');
+  });
+
+}else{
+	queue.process(function(job, jobDone){
+
+		var datasetId;
+		var datasetID = job.data.datasetID;
+		var userID = job.data.userID;
+		var algorithmToUse = job.data.algorithmToUse;
+		var analysis_method = job.data.analysis_method;
+		var missings = job.data.missings;
+		var save = job.data.save;
+		var hasmissings = job.data.hasmissings;
+		var mailObject = {};
+
+		console.log('processing');
+		
+		if(datasetID != undefined){ 
+
+			loadProfiles(datasetID, userID, function(profileArray, identifiers, datasetID, dupProfiles, dupIDs, profiles){
+				datasetId = datasetID;
+				old_profiles = profiles;
+
+				goeBURST(profileArray, identifiers, algorithmToUse, missings, analysis_method, function(links, distanceMatrix, profilegoeBURST, indexToRemove){
+					if(save){
+						saveLinks(datasetID, links, function(){
+							if(hasmissings == 'true'){
+								save_profiles(profilegoeBURST, old_profiles, datasetID, indexToRemove, function(){
+									console.log('getting mail');
+									getEmail(userID, function(email){
+										mailObject.email = email;
+										mailObject.message = 'Your data set is now available at: ' + config.final_root + '/main/dataset/' + datasetID;
+										console.log('have mail');
+										sendMail(mailObject, function(){
+											console.log('Mail sent');
+										});
+									});
+									jobDone();
+								});
+							}
+							else {
+								console.log('getting mail');
+								getEmail(userID, function(email){
+									mailObject.email = email;
+									mailObject.message = 'Your data set is now available at: ' + config.final_root + '/main/dataset/' + datasetID;
+									console.log('have mail');
+									sendMail(mailObject, function(){
+										console.log('Mail sent');
+									});
+								});
+								jobDone();
+							}
+						});
+					}
+					else{
+						jobDone();
+					}
+					//else res.send({datasetID: req.query.dataset_id, links: links, distanceMatrix: distanceMatrix, dupProfiles: dupProfiles, dupIDs: dupIDs});
+					//jobDone();
+				});
+				
+			});
+		}
+		//jobDone();
+
+	});
+
+}
+  
+
 router.get('/', function(req, res, next){
 	
 	if (req.query.dataset_id){
@@ -14,6 +162,8 @@ router.get('/', function(req, res, next){
 
 		if (!req.isAuthenticated()) var userID = "1";
 		else var userID = req.user.id;
+
+		console.log(req.user);
 
 		var datasetId;
 		var missings = [false, ''];
@@ -30,23 +180,29 @@ router.get('/', function(req, res, next){
 		if (req.query.algorithm) var algorithmToUse = req.query.algorithm;
 		else var algorithmToUse = 'prim';
 
-		loadProfiles(datasetID, userID, function(profileArray, identifiers, datasetID, dupProfiles, dupIDs, profiles){
-			datasetId = datasetID;
-			old_profiles = profiles;
-			goeBURST(profileArray, identifiers, algorithmToUse, missings, analysis_method, function(links, distanceMatrix, profilegoeBURST, indexToRemove){
-				if(req.query.save){
-					saveLinks(datasetID, links, function(){
-						if(req.query.missings == 'true'){
-							save_profiles(profilegoeBURST, old_profiles, datasetID, indexToRemove, function(){
-								res.send({datasetID: req.query.dataset_id, links: links, distanceMatrix: distanceMatrix, dupProfiles: dupProfiles, dupIDs: dupIDs});
-							});
-						}
-						else res.send({datasetID: req.query.dataset_id, links: links, distanceMatrix: distanceMatrix, dupProfiles: dupProfiles, dupIDs: dupIDs});
-					});
-				}
-				else res.send({datasetID: req.query.dataset_id, links: links, distanceMatrix: distanceMatrix, dupProfiles: dupProfiles, dupIDs: dupIDs});
+		if(req.query.onqueue == 'true'){
+			queue.add({datasetID:datasetID, userID:userID, algorithmToUse:algorithmToUse, analysis_method:analysis_method, missings:missings, save:req.query.save, hasmissings:req.query.missings});
+			res.send({queue: 'Your data set is being processed. You will receive an email when the job is finished.'});
+		}
+		else{	
+			loadProfiles(datasetID, userID, function(profileArray, identifiers, datasetID, dupProfiles, dupIDs, profiles){
+				datasetId = datasetID;
+				old_profiles = profiles;
+				goeBURST(profileArray, identifiers, algorithmToUse, missings, analysis_method, function(links, distanceMatrix, profilegoeBURST, indexToRemove){
+					if(req.query.save){
+						saveLinks(datasetID, links, function(){
+							if(req.query.missings == 'true'){
+								save_profiles(profilegoeBURST, old_profiles, datasetID, indexToRemove, function(){
+									res.send({datasetID: req.query.dataset_id, links: links, distanceMatrix: distanceMatrix, dupProfiles: dupProfiles, dupIDs: dupIDs});
+								});
+							}
+							else res.send({datasetID: req.query.dataset_id, links: links, distanceMatrix: distanceMatrix, dupProfiles: dupProfiles, dupIDs: dupIDs});
+						});
+					}
+					else res.send({datasetID: req.query.dataset_id, links: links, distanceMatrix: distanceMatrix, dupProfiles: dupProfiles, dupIDs: dupIDs});
+				});
 			});
-		});
+		}
 
 
 	}
