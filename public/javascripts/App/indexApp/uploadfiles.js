@@ -130,7 +130,7 @@ function getLinks(data){
   var datasetID = data.datasetID;
   var onqueue = false;
 
-  if(data.fileProfile.length > 100 || data.fileProfile_headers.length > 40) onqueue = true;
+  if(data.fileProfile.length > 300 || data.fileProfile_headers.length > 40) onqueue = true;
 
   var analysis_method = 'core';
 

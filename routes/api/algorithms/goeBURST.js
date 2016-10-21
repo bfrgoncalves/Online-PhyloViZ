@@ -67,8 +67,9 @@ function sendMail(mailInfo, callback){
     });
 }
 
-if(cluster.isMaster){
 
+if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().length/4)-1){
+/*
 	if(os.cpus().length >= 8){
 		console.log('8 or more cores');
 		for (var i = 0; i < 1; i++) {
@@ -76,6 +77,8 @@ if(cluster.isMaster){
 		}
 	}
 	else{
+
+		cluster.fork();
 		console.log('less than 8 cores');
 	}
 
@@ -87,8 +90,12 @@ if(cluster.isMaster){
   });
 
 }else{
+*/
+	
 	console.log('Process queue');
 	queue.process(function(job, jobDone){
+
+		console.log(cluster.worker.id);
 
 		var datasetId;
 		var datasetID = job.data.datasetID;
@@ -148,7 +155,7 @@ if(cluster.isMaster){
 				
 			});
 		}
-		//jobDone();
+		jobDone();
 
 	});
 
