@@ -146,7 +146,7 @@ app.use(function(err, req, res, next) {
 
 
 if (cluster.isMaster) {
-    for (var i = 0; i < (os.cpus().length/2)-1; i++) {
+    for (var i = 0; i < (os.cpus().length/2)-2; i++) {
         cluster.fork();
     }
 } else {
