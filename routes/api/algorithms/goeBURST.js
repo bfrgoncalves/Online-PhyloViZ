@@ -25,6 +25,7 @@ var transporter = nodemailer.createTransport(smtpTransport({
     }
 }));
 
+
 function getEmail(userID, callback){
 
     query = "SELECT email FROM datasets.users WHERE user_id = '"+String(userID)+"';";
@@ -68,6 +69,7 @@ function sendMail(mailInfo, callback){
 }
 
 
+
 if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().length/4)){
 /*
 	if(os.cpus().length >= 8){
@@ -93,6 +95,7 @@ if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().
 */
 	
 	console.log('Process queue');
+
 	queue.process(function(job, jobDone){
 
 		console.log(cluster.worker.id);
@@ -189,8 +192,10 @@ router.get('/', function(req, res, next){
 		else var algorithmToUse = 'prim';
 
 		if(req.query.onqueue == 'true'){
-			queue.add({datasetID:datasetID, userID:userID, algorithmToUse:algorithmToUse, analysis_method:analysis_method, missings:missings, save:req.query.save, hasmissings:req.query.missings});
-			res.send({queue: 'Your data set is being processed. You will receive an email when the job is finished.'});
+			var parameters = {datasetID:datasetID, userID:userID, algorithmToUse:algorithmToUse, analysis_method:analysis_method, missings:missings, save:req.query.save, hasmissings:req.query.missings};
+			queue.add(parameters).then(function(job){
+				res.send({queue: 'Your data set is being processed. You will be redirected to a new page and receive an email when the job is finished.', jobid: job.jobId});
+			});
 		}
 		else{	
 			loadProfiles(datasetID, userID, function(profileArray, identifiers, datasetID, dupProfiles, dupIDs, profiles){
@@ -220,9 +225,24 @@ router.get('/', function(req, res, next){
 	
 });
 
+router.get('/status', function(req,res,next){
+	if(req.isAuthenticated()){
+		if(req.query.jobid){
+			queue.getJob(req.query.jobid).then(function(job){
+				console.log(job.isCompleted());
+
+				if(job.isCompleted()){
+					res.send({status: 'complete'});
+				}
+				else res.send({status: 'running'});
+			});
+		}
+	}
+
+});
+
 
 router.post('/save', function(req, res, next){
-	console.log(req.body);
 	
 	if (req.body.dataset_id){
 

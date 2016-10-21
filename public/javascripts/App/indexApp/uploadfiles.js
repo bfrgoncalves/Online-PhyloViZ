@@ -148,9 +148,17 @@ function getLinks(data){
     contentType: false,
     type: 'GET',
     success: function(data){
+
       if(data.queue != undefined){
-        status(data.queue);
-         $("#waitingGif").css({'display': 'none'});
+        status('Computing Links...\n' + data.queue);
+        $("#waitingGif").css({'display': 'block'});
+        setInterval(function(){ 
+          checkgoeBURSTstatus(data.jobid, function(status){
+
+            if(status == 'complete') window.location.replace("/main/dataset/" + datasetID);
+          }) 
+        }, 3000);
+
       }
       else if(data.dupProfiles.length > 0 || data.dupIDs.length >0){
         popDialog(data);
@@ -159,6 +167,22 @@ function getLinks(data){
         status('Done!');
         window.location.replace("/main/dataset/" + data.datasetID);
       }
+    }
+
+  });
+
+}
+
+function checkgoeBURSTstatus(jobID, callback){
+
+  $.ajax({
+    url: '/api/algorithms/goeBURST/status',
+    data: $.param({jobid: jobID}),
+    processData: false,
+    contentType: false,
+    type: 'GET',
+    success: function(data){
+      callback(data.status);
     }
 
   });

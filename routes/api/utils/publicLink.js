@@ -13,7 +13,7 @@ router.get('/', function(req, res, next){
 		publicLink = req.query.dataset_id;
 
 		var cipher = crypto.createCipher(config.cipherUser.algorithm, config.cipherUser.pass);
-	    publicLink = config.currentRoot + 'main/dataset/share/'+ cipher.update(publicLink,'utf8','hex');
+	    publicLink = config.final_root + '/main/dataset/share/'+ cipher.update(publicLink,'utf8','hex');
 
 	    res.send({url: publicLink});
 
