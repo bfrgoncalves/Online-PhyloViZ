@@ -176,8 +176,9 @@ function constructGraph(graph, datasetID){
             tutorialFunctions.tree();
             graphObject.renderer.reset();
             graphObject.renderer.reset();
-            graphObject.layout.setNodePosition(graphObject.TopNode.id, 0, 0);
-            graphObject.renderer.moveTo(0,0);
+            var topPos = graphObject.layout.getNodePosition(graphObject.TopNode.id)
+            //graphObject.layout.setNodePosition(graphObject.TopNode.id, 0, 0);
+            graphObject.renderer.moveTo(topPos.x,topPos.y);
             graphObject.graphFunctions.adjustScale(graphObject);
           }else if($(d.target).text() == 'Distances'){
             tutorialFunctions.distances();
