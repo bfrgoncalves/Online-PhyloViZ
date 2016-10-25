@@ -560,8 +560,45 @@ function createSubset(toFiles, name, description, missings, missingsChar, analys
 		$("#waitingGifMain").css({'display': 'none'});
       	
       	if(data.status == 200){
-      		console.log(data);
-      		var datasetL = data.stdout.split('the tree at: ')[1];
+      		var code = data.stdout.split('code:')[1].split('\n')[0];
+
+      		var datasetL = data.stdout.split('message:')[1].split('\n')[0];
+  			var toDialog = '<div style="text-align: center;"><label>'+datasetL+'</label></div>';
+
+			if (code == 'queue'){
+				var toDialog = '<div style="text-align: center;"><label>'+datasetL+'</label>'+
+								'<div style="width:100%;height:100%;"><br><img id="subsetLoading" class="waitingImage"></img></div></div>';
+
+
+				var jobid = data.stdout.split('jobid:')[1].split('\n')[0];
+				var datasetID = data.stdout.split('datasetID:')[1].split('\n')[0];
+				var checkI = setInterval(function(){ 
+					checkgoeBURSTstatus(jobid, function(status){
+			            if(status == 'complete'){
+			            	var win = window.open(datasetID, '_blank');
+  							win.focus();
+  							clearInterval(checkI);
+			            }
+			          }) 
+			        }, 3000);
+
+
+  			}
+
+  			$('#dialog').empty();
+			$('#dialog').append(toDialog);
+			$('#dialog').dialog({
+		              height: $(window).height() * 0.40,
+		              width: $(window).width() * 0.40,
+		              modal: true,
+		              resizable: true,
+		              dialogClass: 'no-close success-dialog'
+		          });
+
+			$('#subsetLoading').attr("src", '/images/waitingGIF.gif');
+			$('#subsetLoading').css({'display':'block', 'width':'10%', 'margin-left': 'auto', 'margin-right': 'auto'});
+
+  			/*
       		var win = window.open(datasetL, '_blank');
   			win.focus();
   			setTimeout(function(){
@@ -569,6 +606,8 @@ function createSubset(toFiles, name, description, missings, missingsChar, analys
   				win.document.getElementById('i_parent_dataset').style.display = 'block';
   				callback(data);
   			}, 1000);
+			*/
+
 
       	}
       	else if(data.status == 401){
@@ -580,6 +619,22 @@ function createSubset(toFiles, name, description, missings, missingsChar, analys
       }
 
     });
+}
+
+function checkgoeBURSTstatus(jobID, callback){
+
+  $.ajax({
+    url: '/api/algorithms/goeBURST/status',
+    data: $.param({jobid: jobID}),
+    processData: false,
+    contentType: false,
+    type: 'GET',
+    success: function(data){
+      callback(data.status);
+    }
+
+  });
+
 }
 
 function create_subset_profile(graph, callback){

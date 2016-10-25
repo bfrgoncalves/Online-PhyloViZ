@@ -23,5 +23,17 @@ fontsize = function () {
     $("body").css('opacity', 1);
 };
 
-$(window).resize(fontsize);
-$(document).ready(fontsize);
+//$(window).resize(fontsize);
+//$(document).ready(fontsize);
+$("body").css('opacity', 1);
+
+$(document).ready(function () {
+  $('[data-toggle="offcanvas"]').click(function () {
+    $('.row-offcanvas').toggleClass('active')
+  });
+
+  $(".nav a").on("click", function(){
+       $(".nav").find(".active").removeClass("active");
+       $(this).parent().addClass("active");
+    });
+});

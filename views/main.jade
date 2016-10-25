@@ -55,13 +55,12 @@ block normalBody
 			
 			div.tab-pane.active(id="treeContent")
 				div(style="width:30%;margin-top:1%;left:35%;position:absolute;z-index:2;text-align:center;")
-					form(id='searchForm')
-						div.input-group.input-group-sm
+					form.form-inline(id='searchForm')
+						div.form-group
 							input.form-control(type='text' id='nodeid' style='color:black' placehorder="Search")
-							span.input-group-btn
-								button.btn.btn-default.btn-search(type='submit') Search
+						a.btn.btn-default(type='submit') Search
 				div(id="col_webgl")
-					div(id="pauseRegion", style="height:17.5%;overflow-y:auto;")
+					div(id="pauseRegion", style="height:20%;overflow-y:auto;")
 						ul.nav.nav-stacked
 							li
 								div(id='toggleLayout')
@@ -74,8 +73,8 @@ block normalBody
 							li
 								div(style="width:100%;")
 									div(style="text-align:center;")
-										a.btn.btn-default(id="zoomOut" class="glyphicon glyphicon-minus")
-										a.btn.btn-default(id="zoomIn" class="glyphicon glyphicon-plus")
+										a.btn.btn-default.btn-sm(id="zoomOut" class="glyphicon glyphicon-minus")
+										a.btn.btn-default.btn-sm(id="zoomIn" class="glyphicon glyphicon-plus")
 									div
 										p(style="text-align:center;") Zoom
 							li
@@ -87,7 +86,7 @@ block normalBody
 										div(style="text-align:center;")
 											button(type='button',id='getLinkButton', name='publicLink1') Get Data Set Link
 								br
-					div(id="pauseRegion", style="height:9%;overflow-y:auto;")
+					div(id="pauseRegion", style="height:10%;overflow-y:auto;")
 						ul.nav.nav-stacked
 							li
 								i Links log Scale: <b id="isLogScaleOn"></b>

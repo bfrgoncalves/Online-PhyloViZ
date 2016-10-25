@@ -104,7 +104,7 @@ function changeMetadata(graphObject){
 	        	graphObject.graphInput = {};
 	        	graphObject.graphInput = inputData;
 
-	        	createTable(datasetID, 'isolates', function(){
+	        	createTable(graphObject.graphInput, datasetID, 'isolates', function(){
 	        		graphObject.isUpdateMetadata = true;
 	        		colorAttributes(graphObject);
 	        		linkTableAndGraph('isolates', graphObject);

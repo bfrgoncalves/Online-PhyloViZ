@@ -1,0 +1,45 @@
+<!-- Fixed navbar -->
+nav.navbar.navbar-default.navbar-fixed-top
+  div.container
+    div.navbar-header
+      button.navbar-toggle.collapsed(type="button",data-toggle="collapse",data-target="#navbar",aria-expanded="false",aria-controls="navbar")
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      a.navbar-brand(href="/") #{title}
+    div.navbar-collapse.collapse(id="navbar")
+      ul.nav.navbar-nav
+        li.active
+          a(id="buttonHome", style="width: 100%") Home
+        li
+          a(id="buttonAbout", style="width: 100%") About 
+        li
+          a(id="buttonUpdate", style="width: 100%") News
+        li
+          a(id="buttonAPI", style="width: 100%") API 
+        li.dropdown
+          a.dropdown-toggle(href="#", data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="false") Actions <span class="caret"></span>
+          ul.dropdown-menu
+            li
+              a(id="buttonPublicDatasets", style="width: 100%") Public Data sets
+            if (user)
+            li
+              a(id="buttonUserDatasets", style="width: 100%") User Data sets
+            li
+              a(id="buttonUploadDatasets", style="width: 100%") Upload Data sets
+        li
+          a(id="buttonHelp", style="width: 100%", data-toggle="offcanvas") Help
+
+      ul.nav.navbar-nav.navbar-right
+        if (!user)
+          li
+            a(href="/users/login") Login
+          li
+            a(href="/users/register") Register
+        if (user)
+          li
+            a Welcome, #{user.name}! 
+          li
+            a(href="/users/logout") Logout
+

@@ -245,7 +245,7 @@ function createTable(data, divID, usertype, callback){
 
     $('#' + tableToCheck+' tbody').on( 'click', 'tr', function () {
     	//console.log($(this).find('td').hasClass('dataTables_empty'));
-      var table = $('#' + tableToCheck).DataTable();   
+      var table = $('#' + tableToCheck).DataTable();
 
     	if (!$(this).find('td').hasClass('dataTables_empty') ){
     		if ( $(this).hasClass('selected') ) {
@@ -257,9 +257,10 @@ function createTable(data, divID, usertype, callback){
 	        else {
               $('#changeDescriptionDiv' + usertype).css('display', 'block');
 	            table.$('tr.selected').removeClass('selected');
+              var tableUser = $('#table' + usertype).DataTable();
+              tableUser.$('tr.selected').removeClass('selected');
 	            $(this).addClass('selected');
 
-              var tableUser = $('#table' + usertype).DataTable();
               selectedDataUser = tableUser.rows('.selected').data();
               publicvalue = selectedDataUser[0][4];
               if(publicvalue==true) $('#buttonPutPublicDataset' + usertype).html('Set as Private');

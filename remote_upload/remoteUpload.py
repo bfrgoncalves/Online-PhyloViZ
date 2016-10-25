@@ -38,16 +38,21 @@ def main():
 	   return ''.join(random.choice(string.lowercase) for i in range(length))
 	
 	cookie_file = randomword(6) + '.txt'
+	onqueue = 'false'
 
 	if (not args.u or not args.u) and not args.t:
-		print 'No credentials'
+		print 'message:' + 'No credentials'
 		sys.exit()
 
 	checkDatasets(args, currentRoot, cookie_file)
 	dataset = remoteUpload(args, currentRoot, cookie_file)
 	if not "datasetID" in dataset:
 		sys.exit()
-	rungoeBURST(args, dataset['datasetID'], currentRoot, cookie_file)
+
+	if len(dataset["fileProfile"]) > 300 or len(dataset["fileProfile_headers"]) > 100:
+		onqueue = 'true'
+	
+	goe_message = rungoeBURST(args, dataset['datasetID'], currentRoot, cookie_file, onqueue)
 
 	if not args.e and args.l:
 		sharableLink = generatePublicLink(args, dataset['datasetID'], currentRoot, cookie_file)
@@ -55,11 +60,19 @@ def main():
 		sys.exit()
 
 	os.remove(cookie_file)
+
+	print 'datasetID:' + str(dataset['datasetID'])
 	
-	if args.e:
-		print "\nAccess the tree at: " + outRoot + '/main/dataset/' + dataset['datasetID']
-	else:
-		print "\nLogin to PHYLOViZ Online and access the tree at: " + outRoot + '/main/dataset/' + dataset['datasetID']
+	if 'queue' in goe_message:
+		print 'message:' + goe_message['queue'] + '\n'
+		print 'code:queue'
+		print 'jobid:' + str(goe_message['jobid'])
+	elif args.e:
+		print 'code:complete'
+		print 'message:' + "\nAccess the tree at: " + outRoot + '/main/dataset/' + dataset['datasetID']
+	elif not args.e:
+		print 'code:complete'
+		print 'message:' +  "\nLogin to PHYLOViZ Online and access the tree at: " + outRoot + '/main/dataset/' + dataset['datasetID']
 
 
 def login(args, currentRoot): #Required before each of the tasks
@@ -88,7 +101,8 @@ def checkDatasets(args, currentRoot, cookie_file): #Check if the database name t
 	existingdatasets = json.load(io)
 
 	if len(existingdatasets['userdatasets']) > 0:
-		print 'dataset name already exists'
+		print 'message:' + 'dataset name already exists'
+		print 'code:exists'
 		sys.exit()
 
 def remoteUpload(args, currentRoot, cookie_file): #upload the input files to the database
@@ -149,30 +163,36 @@ def remoteUpload(args, currentRoot, cookie_file): #upload the input files to the
 
 	process = subprocess.Popen(bashCommandUpload.split(), stdout=subprocess.PIPE)
 	output = json.loads(process.communicate()[0])
+
 	if "errorMessage" in output:
-		print output["errorMessage"]
+		print 'message:' + output["errorMessage"]
+		print 'code:uploaderror'
 		sys.exit()
 
 	return output
 
-def rungoeBURST(args, datasetID, currentRoot, cookie_file): #run the goeBURST algorithm to store the links in the database
+def rungoeBURST(args, datasetID, currentRoot, cookie_file, onqueue): #run the goeBURST algorithm to store the links in the database
 	
 	if not args.t:
 		login(args, currentRoot)
 		print 'Running goeBURST...'
 		if args.mc == False:
-			bashCommand = 'curl --cookie jarfile -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true&analysis_method=' + args.am
+			bashCommand = 'curl --cookie jarfile -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true&analysis_method=' + args.am + '&onqueue=' + onqueue
 		else:
-			bashCommand = 'curl --cookie jarfile -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true&missings=true&missingchar=' + str(args.mc) + '&analysis_method=' + args.am
+			bashCommand = 'curl --cookie jarfile -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true&missings=true&missingchar=' + str(args.mc) + '&analysis_method=' + args.am + '&onqueue=' + onqueue
 	else:
 		print 'Running goeBURST...'
 		if args.mc == False:
-			bashCommand = 'curl --cookie '+cookie_file+' --cookie-jar '+cookie_file+' -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true&analysis_method=' + args.am
+			bashCommand = 'curl --cookie '+cookie_file+' --cookie-jar '+cookie_file+' -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true&analysis_method=' + args.am + '&onqueue=' + onqueue
 		else:
-			bashCommand = 'curl --cookie '+cookie_file+' --cookie-jar '+cookie_file+' -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true&missings=true&missingchar=' + str(args.mc) + '&analysis_method=' + args.am
+			bashCommand = 'curl --cookie '+cookie_file+' --cookie-jar '+cookie_file+' -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true&missings=true&missingchar=' + str(args.mc) + '&analysis_method=' + args.am + '&onqueue=' + onqueue
 		
 		process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-		output = process.communicate()[0]
+		output = json.loads(process.communicate()[0])
+
+	return output
+
+	#print output
 
 
 def generatePublicLink(args, datasetID, currentRoot, cookie_file):

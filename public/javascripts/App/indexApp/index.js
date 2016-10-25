@@ -47,8 +47,18 @@ $(document).ready( function(){
 	createDropdown(optionsToDropDown, '#possibleInputFormats', 'Input formats', 1, 'inputFormats');
 
 	$('#sel_analysis_method').change(function(){
-		if($(this).val() == 'core') $('#missingcheckbox').css({"display":"block"});
-		else $('#missingcheckbox').css({"display":"none"});
+		if($(this).val() == 'core'){
+			$('#span_missings').css({"display":"block"});
+			$('#missingcheck').css({"display":"block"});
+			$('#missingdelimiter').css({"display":"none"});
+			document.getElementById('missingcheck').checked = false;
+		}
+		else{
+			$('#span_missings').css({"display":"none"});
+			$('#missingdelimiter').css({"display":"block"});
+			document.getElementById('missingcheck').checked = true;
+
+		}
 	});
 
 	$('#possibleInputFormats').change(function(){

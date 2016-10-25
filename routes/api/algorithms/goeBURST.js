@@ -220,7 +220,7 @@ router.get('/', function(req, res, next){
 
 	}
 	else{
-		res.send('goeBURST algorithm');
+		res.send({message: 'select a data set ID'});
 	}
 	
 });

@@ -2,7 +2,9 @@ extends layout
 
 block moreStyle
 	link(rel='stylesheet', href='/stylesheets/indexAppStyle.css')
+	link(rel='stylesheet', href='/stylesheets/offcanvas.css')
 
+<!--
 div.indexNav
 	block title
 		div.indextitleLocation(onclick="javascript:location.href='/'")
@@ -19,6 +21,17 @@ div.indexNav
 				p Welcome, #{user.name}! 
 					= ' '
 					a(href="/users/logout") Logout
+-->
+block navbar
+	include fixed_navbar
+
+block footer
+	footer
+		div.col-md-12(style="position:fixed;bottom:0;background-color: #f5f5f5;")
+			div.col-md-6
+				p &copy; PHYLOViZ Online 2016
+			div.col-md-6
+				img(src="//c.statcounter.com/10743500/0/0b6fd4b1/0/" alt="shopify stats")
 
 block normalBody
 
@@ -26,262 +39,264 @@ block normalBody
 
 	div(id="dialog")
 
-	div.bodyContainer
+	div.container(style="margin-bottom: 30px;margin-top: 35px;")
+		div.row.row-offcanvas.row-offcanvas-right
 
-		div(id="col_index")
-			ul.nav.nav-stacked
-				li
-					div(id="divHome")
-						a.btn.btn-info(id="buttonHome", style="width: 100%") Home
-				li
-					div(id="divAbout")
-						a.btn.btn-info(id="buttonAbout", style="width: 100%") About
-				li
-					div(id="divUpdates")
-						a.btn.btn-info(id="buttonUpdate", style="width: 100%") News
-				li
-					div(id="divAPI")
-						a.btn.btn-info(id="buttonAPI", style="width: 100%") API
-				li
-					div(id="divPublicDatasets")
-						a.btn.btn-info(id="buttonPublicDatasets", style="width: 100%") Public Data sets
+			div.col-sm-6.sidebar-offcanvas(id="sidebar")
+				div(id="col_tutorial", style="display: none")
+
+			div.col-sm-12
+				div(id="homeDiv", style="display:block;")
+					div.col-md-12
+						img.phylovizImageHome(src = '/images/logo.png')
+					div.col-md-12(style="text-align:center;")
+						h3 #{title}  Web-based tool for visualization, phylogenetic inference, analysis and sharing
+					
+					div.row(style="text-align:center;")
+						div.col-md-12(style="margin-top:30px;")
+							p PHYLOViZ Online is an online version of the software PHYLOViZ, a software that allows the analysis of sequence-based typing methods that generate allelic profiles and their associated epidemiological data. Our motivation was to give an user-friendly solution for data analysis and sharing without installing any specific software.
+							p <b>The application is freely available to all users and there is no login requirement.</b> All users can upload and perform data analysis. There is the additional possibility of storing data on the application for future access upon registration. 
+					
+					div.col-md-12
+						img(src="/images/trees_index_page.png", style="max-width:100%;max-height:100%;")
+
+					div.row
+						div.col-md-4(style="margin-top:20px;text-align:center;border-top: 1px solid #4f9bf2;")
+							h4 Tutorials
+							p Check out the online video tutorial or the walkthough of the available features.
+							div.col-md-6
+								a.btn.btn-info(href="//youtu.be/hmbmurFV6ik") Video
+							div.col-md-6
+								a.btn.btn-info(href="/index/tutorial/") Walkthrough
+						div.col-md-4(style="margin-top:20px;text-align:center;border-top: 1px solid #4f9bf2;")
+							h4 Sample Data Sets
+							p <b><a href="/examples">Sample data sets</a> available!</b>
+							p More information on the data formats can be found <a id="inputFormatlink" href="/index/inputinfo">here</a>.
+						div.col-md-4(style="margin-top:20px;text-align:center;border-top: 1px solid #4f9bf2;")
+							h4 Test PHYLOViZ Online
+							p <b>Try all PHYLOViZ Online different functionalities using:</b>
+							p - <a id="logInFree" href="#">Login-free</a> upload.
+							p - The common user: <b><i>demo</i></b> and password: <b><i>demo</i></b>.
+							p - Using public datasets.
+					div.row
+						div.col-md-12
+							h4 Citation
+							p Ribeiro-Gonçalves,B., Francisco,A.P., Vaz,C., Ramirez,M. and Carriço,J.A. (2016) <b>PHYLOViZ Online: web-based tool for visualization, phylogenetic inference, analysis and sharing of minimum spanning trees.</b> Nucleic acids research, 10.1093/nar/gkw359. (<a href="//http://nar.oxfordjournals.org/content/44/W1/W246.long">Link to Paper</a>)
+
+
+				div(id="AboutDiv", style="display:none;")
+					div.col-md-12
+						img.phylovizImageHome(src = '/images/logo.png')
+					div.col-md-12(style="text-align:center;")
+						h3 #{title}  Web-based tool for visualization, phylogenetic inference, analysis and sharing
+					div.col-md-12(style="margin-top:20px;")
+						h4(style="text-align:center;") Background
+						p(style="text-align: justify;") PHYLOViZ Online is a Web version of the desktop aplication available at <a href="//www.phyloviz.net/">phyloviz.net</a>. It was developed as a user-friendly web application for profile-based data analysis, visualization and sharing, also allowing the application of visual analytics processes on trees defined previously through traditional phylogenetic methods.
+					div.row
+						div.col-md-6(style="margin-top:20px;border-top: 1px solid #4f9bf2;")
+							h4(style="text-align:center;") Tree Rendering
+							p(style="text-align: justify;") Tree visualization is made using VivaGraphJS’ force directed layout.
+							div(style="width:100%;text-align:center;")
+								<img style="width:40px;height:auto;" src="images/github_logo.png"></img><a href="https://github.com/anvaka/VivaGraphJS">github.com/anvaka/VivaGraphJS</a>
+							p(style="text-align: justify;") It allows the visualization of large dynamic trees by using the <a href="https://www.chromeexperiments.com/webgl">WebGL JavaScript API</a> which allows visualization of thousands of nodes in the web browser by taking advantage of GPU hardware acceleration.
+						
+						div.col-md-6(style="margin-top:20px;border-top: 1px solid #4f9bf2;")
+							h4(style="text-align:center;") Tables
+							p(style="text-align: justify;") Tables are generated using DataTables JavaScript library, which allows an advanced interaction with your data in a table format.
+							div(style="width:100%;text-align:center;")
+								<img style="width:40px;height:auto;" src="images/datatables_logo.png"></img><a href="https://www.datatables.net/"> datatables.net</a>
+					div.row
+						div.col-md-6(style="margin-top:20px;")
+							h4(style="text-align:center;") Sequence Visualization
+							p(style="text-align: justify;") Visual representation of multi-sequence alignment for FASTA input les was also implemented using the BioJS MSA Viewer package.
+							div(style="width:100%;text-align:center;")
+								<img style="width:40px;height:auto;" src="images/biojs_logo.png"></img><a href="//biojs.net">biojs.net</a>
+
+						div.col-md-6(style="margin-top:20px;")
+							h4(style="text-align:center;") Pie Charts and Distance Matrix
+							p(style="text-align: justify;") Additional visual representations (Pie Charts and Interactive Distance Matrix) are constructed using Data Driven Documents (D3.js).
+							div(style="width:100%;text-align:center;")
+								<img style="width:40px;height:auto;" src="images/d3_logo.png"></img><a href="//d3js.org/">d3js.org</a>
+					div.row
+						div.col-md-12(style="margin-top:20px;border-top: 1px solid #4f9bf2;")
+							h4(style="text-align:center;") Support
+							p(style="text-align: justify;") The application is at the moment fully functional using <b>Google Chrome</b>, <b>Safari</b>, and <b>Firefox</b> Web Browsers. Users might experience some issues when loading labels using Firefox or Safari. Performance is higher if you use Chrome. <b>Mobile versions</b> and other browsers still have some limitations that we expect to surpass in a near future.
+					div.row
+						div.col-md-12(style="margin-top:20px;border-top: 1px solid #4f9bf2;")
+							h4(style="text-align:center;") Contacts
+							p(style="text-align: justify;") Any known issues please contact us in our <a href="https://github.com/bfrgoncalves/Online-PhyloViZ/issues">GitHub page</a> or by email
+							div.col-md-12
+								span <b>Bruno Gonçalves (1) - </b>
+									img(id="bfmail" src="/images/bfmail.png" border="0" align="absbottom")
+								br
+								span <b>João André Carriço (1) - </b>
+									img(id="jcmail" src="/images/jcmail.png" border="0" align="absbottom")
+								br
+								span <b>Alexandre P. Francisco (2,3)</b>
+								br
+								span <b>Cátia Vaz (2,4)</b>
+								br
+								span <b>Mário Ramirez (1)</b>
+								br
+								br
+								span (1) Instituto de Microbiologia, Instituto de Medicina Molecular, Faculdade de Medicina, Universidade de Lisboa, Lisboa, Portugal
+								br
+								span (2) INESC-ID, R. Alves Redol 9, 1000-029 Lisboa, Portugal
+								br
+								span (3) Instituto Superior Técnico, Universidade de Lisboa, Lisboa, Portugal
+								br
+								span (4) Instituto Superior de Engenharia de Lisboa, Instituto Politécnico de Lisboa, 007 Lisboa, Portugal
+
+				div(id="APIDiv", style="display:none;")
+					div.col-md-12
+						img.phylovizImageHome(src = '/images/logo.png')
+					div.col-md-12(style="text-align:center;")
+						h3 #{title}  Web-based tool for visualization, phylogenetic inference, analysis and sharing
+					div.row
+						div.col-md-12(style="text-align:center;border-top: 1px solid #4f9bf2;")
+							h4(style="text-align:center;") REST API
+							p A REST (Representational State Transfer) API was developed to allow the access to a range of services so that more advanced users can programmatically use some of PHYLOViZ Online features without using the application's graphical interface.
+							div(style="text-align:left;")
+								p Currently, the applications allows:
+								ul
+									li Remote registration
+									li Remote login
+									li Remote data set upload
+									li Querying on stored data sets
+									li Get PHYLOViZ Online input data object
+									li Get table data array
+								p For more information, access to the API documentation 
+									a(href="/api") here!
+
+				div(id="publicDataset", style="display:none;")
+					div.row
+						div.col-md-12(style="text-align:center;")
+							h4 Public datasets
+							p Select one dataset from the table.
+					div.row
+						div.col-md-12
+							div(id='existingDatasetspublic')
+
+				div(id="updates", style="display:none;")
+					div.row
+						div.col-md-12(style="text-align:center;")
+							h4 News
+							p Latest news regarding PHYLOViZ Online updates and related publications
+					div.row
+						div.col-md-12
+							div(id='divUpdate')
+
+				div(id="userDataset", style="display:none;")
+					div.row
+						div.col-md-12(style="text-align:center;")
+							h4 Existing datasets
+							p Select one dataset from the table.
+					div.row
+						div.col-md-12
+							div(id='existingDatasetsuser')
+							if (user)
+								div(id="divDeleteDatasetuser")
+									button.btn.btn-sm.btn-danger.resizable_button_submit(id="buttonDeleteDatasetuser", style ="display:none; margin:1%;") Delete
+									button.btn.btn-sm.btn-info.resizable_button_submit(id="buttonPutPublicDatasetuser", style ="display:none; margin:1%;") Put public
+
+							if (user)
+								div(id="changeDescriptionDivuser", style ="display:none")
+									br
+									br
+									br
+									br
+									div.input-group.input-sm
+										input.form-control(id="changeDatasetNameuser", type="text", placeholder="Change Dataset Name")
+										span.input-group-addon(id="buttonChangeDatasetNameuser") Change Dataset Name
+
+									div.input-group.input-sm
+										input.form-control(id ='changeDescriptionuser', type="text", placeholder="Change description", aria-describedby="sizing-addon1")
+										span.input-group-addon(id="buttonChangeDescriptionuser") Change Description
+
+				div(id="uploadDiv", style="display:none;")
+					div.row
+						div.col-md-12(style="text-align:center;")
+							h4 Upload your own data
+							if !(user)
+								p <b>NOTE: Without registration your data will not be saved and erased 24 hours after uploading.</b>
+							p Select one of the possible input formats
+					
+							div
+								label.input-formats Possible Input Formats	
+								div(id='possibleInputFormats')
+							
+							br
+							div(id="inputButtons")
+								div.row
+									div.col-md-6
+											label Input Files
+											div(id="newickButton")
+												div.input-group.input-sm
+													input.form-control.justVisual(id = 'textNewick', type="text", placeholder="Upload Newick file", aria-describedby="sizing-addon1")
+													span.input-group-addon(id="Newick", onclick="getFile(this.id)") Browse
+
+											div(id="fastaButton")
+												div.input-group.input-sm
+													input.form-control.justVisual(id = 'textFasta', type="text", placeholder="Upload Fasta file", aria-describedby="sizing-addon1")
+													span.input-group-addon(id="Fasta", onclick="getFile(this.id)") Browse
+
+											div(id="profileButton")
+												div.input-group.input-sm
+													input.form-control.justVisual(id = 'textProfile', type="text", placeholder="Upload Profile Data", aria-describedby="sizing-addon1")
+													span.input-group-addon(id="Profile", onclick="getFile(this.id)") Browse
+
+									div.col-md-6
+										div(id="profileAnalysisMethod")
+											label.input-formats Analysis Method	
+											select(id="sel_analysis_method")
+												option(value="core") Core Analysis
+												option(value="pres-abs") Presence/Absence
+								div.row
+									div.col-md-6
+										div(id="metadataButton")
+											div.input-group.input-sm
+												input.form-control.justVisual(id = 'textMetadata', type="text", placeholder="Upload Auxiliary Data", aria-describedby="sizing-addon1")
+												span.input-group-addon(id="Metadata", onclick="getFile(this.id)") Browse
+
+									div.col-md-6
+										div.checkbox.input-sm(id="missingcheckbox", style="text-align:left;")
+											<span class="checkbox-inline" id="span_missings"><input type="checkbox" id="missingcheck"/>Has Missing Data</span><span id="span_character" class="checkbox-inline"><input class="input-sm" id="missingdelimiter" type="text" placeholder="Missings character" required style="display:none"/></span>
+								
+								div.row
+									div.col-md-12
+										form(id ='inputForm')
+											h5 Dataset Name
+											input.form-control.input-sm(id="datasetName", type="text", placeholder="Select a name for the dataset", required)
+											h5 Dataset Description
+											input.form-control.input-sm(id="dataset_description", type="text", placeholder="Description")
+											br
+											if (user)
+												div(id="publiccheckbox", style="margin-left:3%; text-align:right;")
+													label Make public
+													input(id="makepublic", type="checkbox", style="margin-left:3%;")
+											else
+												div(id="publiccheckbox", style="margin-left:3%; text-align:right; display:none;")
+													label Make public
+													input(id="makepublic", type="checkbox", style="margin-left:3%;")
+											div(style='height: 0px;width:0px; overflow:hidden;')
+												input(id="uploadProfile", type="file", value="upload", onchange = 'getFileName(this.id)' )
+												input(id="uploadMetadata", type="file", value="upload", onchange = 'getFileName(this.id)' )
+												input(id="uploadNewick", type="file", value="upload", onchange = 'getFileName(this.id)' )
+												input(id="uploadFasta", type="file", value="upload", onchange = 'getFileName(this.id)' )
 				
-				if (user)
-					li
-						div(id="divUserDatasets")
-							a.btn.btn-info(id="buttonUserDatasets", style="width: 100%") User Data sets
-				li
-					div(id="divUploadDatasets")
-						a.btn.btn-info(id="buttonUploadDatasets", style="width: 100%") Upload Data sets
+				div(id="LaunchButton", style="text-align:center; display:none;")
+					div.col-md-12
+						button.btn.btn-primary.resizable_button_submit(id="submitForm") Launch Tree
+
+				div.row
+					div.col-md-12(style="text-align:center;")
+						div(id = 'waitingGif')
+							img(id = 'GIFimage')
+						div
+							span(id ='status')
 
 
-		div(id="divbuttonHelp")
-			a.btn.btn-warning(id="buttonHelp", style="width: 100%") Help
-		div(id="col_tutorial", style="display: none")
-
-		div(id='inputDiv')
-
-			div(id="homeDiv", style="display:block;")
-				img.phylovizImageHome(src = '/images/logo.png')
-				label.titleHome #{title}
-				div(id="phylovizDescription")
-					h4 Web-based tool for visualization, phylogenetic inference, analysis and sharing
-					br
-					p PHYLOViZ Online is an online version of the software PHYLOViZ, a software that allows the analysis of sequence-based typing methods that generate allelic profiles and their associated epidemiological data. Our motivation was to give an user-friendly solution for data analysis and sharing without installing any specific software.
-					p <b>The application is freely available to all users and there is no login requirement.</b> All users can upload and perform data analysis. There is the additional possibility of storing data on the application for future access upon registration. 
-					br
-					div(id="onlineTutorial")
-						p 
-							b CHECK OUT THE ONLINE VIDEO TUTORIAL<a href="//youtu.be/hmbmurFV6ik"> IN YOUTUBE</a> OR THE <a href="/index/tutorial/">WALKTHROUGH</a> OF THE AVAILABLE FEATURES
-						br
-						//p 
-							b
-								a(href="/index/tutorial") TUTORIAL
-						//br
-					div(id="testDatasetDiv", style="text-align: left; width: 50%;float: left;")
-						p <b><a href="/examples">Sample data sets</a> available!</b>
-						p More information on the data formats can be found <a id="inputFormatlink" href="/index/inputinfo">here</a>.
-					div(id="testUserDiv", style="text-align: left; width: 50%;float: right;")
-						p <b>Try all PHYLOViZ Online different functionalities using:</b>
-						p - <a id="logInFree" href="#">Login-free</a> upload.
-						p - The common user: <b><i>demo</i></b> and password: <b><i>demo</i></b>.
-						p - Using public datasets.
-					br
-				div(id="exampleTreeImage")
-					img.exampleTree(src="/images/trees_index_page.png")
-					//img.exampleMatrix(src="/images/nlvimage1.png")
-					//img.exampleNLV(src="/images/matriximage1.png")
-
-			div(id="AboutDiv", style="display:none;")
-				img.phylovizImageHome(src = '/images/logo.png')
-				label.titleHome #{title}
-				div(id="phylovizAbout")
-					h4 Web-based tool for visualization, phylogenetic inference, analysis and sharing
-					br
-					p PHYLOViZ Online is a Web version of the standalone available <a href="//www.phyloviz.net/">here</a>.
-					br
-					ul(style="text-align:left;")
-						li Tree visualization is done using <a href="https://github.com/anvaka/VivaGraphJS">VivaGraphJS’</a> force directed layout. Its rendering is assigned to the <a href="https://www.chromeexperiments.com/webgl">WebGL JavaScript API</a>.
-						li Tables are generated using the <a href="https://www.datatables.net/">DataTables</a> JavaScript library. 
-						li Visual representation of multi-sequence alignment for FASTA input les was also implemented using the BioJS <a href="https://www.npmjs.com/package/msa">MSA Viewer</a> package
-						li Additional visual representations (Pie Charts and Interactive Distance Matrix) are constructed using <a href="https://d3js.org/">Data Driven Documents (D3.js)</a>.
-					br
-					p The application is at the moment fully functional using <b>Google Chrome</b>, <b>Safari</b>, and <b>Firefox</b> Web Browsers. Users might experience some issues when loading labels using Firefox or Safari. Performance is higher if you use Chrome. <b>Mobile versions</b> and other browsers still have some limitations that we expect to surpass in a near future.
-					br
-					p Any known issues please contact us in our <a href="https://github.com/bfrgoncalves/Online-PhyloViZ/issues">GitHub page</a>
-					div(id="phylovizAboutContacts")
-						label Contacts:
-						br
-						br
-						span <b>Bruno Gonçalves (1) - </b>
-							img(id="bfmail" src="/images/bfmail.png" border="0" align="absbottom")
-						br
-						span <b>João André Carriço (1) - </b>
-							img(id="jcmail" src="/images/jcmail.png" border="0" align="absbottom")
-						br
-						span <b>Alexandre P. Francisco (2,3)</b>
-						br
-						span <b>Cátia Vaz (2,4)</b>
-						br
-						span <b>Mário Ramirez (1)</b>
-						br
-						br
-						span (1) Instituto de Microbiologia, Instituto de Medicina Molecular, Faculdade de Medicina, Universidade de Lisboa, Lisboa, Portugal
-						br
-						span (2) INESC-ID, R. Alves Redol 9, 1000-029 Lisboa, Portugal
-						br
-						span (3) Instituto Superior Técnico, Universidade de Lisboa, Lisboa, Portugal
-						br
-						span (4) Instituto Superior de Engenharia de Lisboa, Instituto Politécnico de Lisboa, 007 Lisboa, Portugal
-
-
-			div(id="APIDiv", style="display:none;")
-				img.phylovizImageHome(src = '/images/logo.png')
-				label.titleHome #{title}
-				div(id="phylovizDescription")
-					h4 Web-based tool for visualization, phylogenetic inference, analysis and sharing
-					br
-					p A RESTful API was developed to allow the access to a range of services so that more advanced users can programmatically use some of PHYLOViZ Online features without using the application's graphical interface.
-					br
-					div(style="text-align:left;")
-						p Currently, the applications allows:
-						ul
-							li Remote login
-							li Remote data set upload
-							li Querying on stored data sets
-							li Get PHYLOViZ Online input data object
-							li Get table data array
-						p For more information, access to the API documentation 
-							a(href="/api") here!
-					br
-					br
-			
-
-			div(id="publicDataset", style="display:none;")
-				label Public datasets
-				p Select one dataset from the table.
-				div(id='existingDatasetspublic')
-
-			div(id="updates", style="display:none;")
-				h3 News
-				h6 Latest news regarding PHYLOViZ Online updates and related publications
-				div(id='divUpdate')
-
-
-			div(id="userDataset", style="display:none;")
-				label Existing datasets
-				p Select one dataset from the table.
-				div(id='existingDatasetsuser')
-				if (user)
-					div(id="divDeleteDatasetuser")
-						button.btn.btn-sm.btn-danger.resizable_button_submit(id="buttonDeleteDatasetuser", style ="display:none; margin:1%;") Delete
-						button.btn.btn-sm.btn-info.resizable_button_submit(id="buttonPutPublicDatasetuser", style ="display:none; margin:1%;") Put public
-
-				if (user)
-					div(id="changeDescriptionDivuser", style ="display:none")
-						br
-						br
-						br
-						br
-						div.input-group.input-sm
-							input.form-control(id="changeDatasetNameuser", type="text", placeholder="Change Dataset Name")
-							span.input-group-addon(id="buttonChangeDatasetNameuser") Change Dataset Name
-
-						div.input-group.input-sm
-							input.form-control(id ='changeDescriptionuser', type="text", placeholder="Change description", aria-describedby="sizing-addon1")
-							span.input-group-addon(id="buttonChangeDescriptionuser") Change Description
-
-
-			div(id="uploadDiv", style="display:none;")
-				br
-				div(id="useOwnDataset")
-					label Upload your own data
-					if !(user)
-						p <b>NOTE: Without registration your data will not be saved and erased 24 hours after uploading.</b>
-					p Select one of the possible input formats
-				
-				div(id="possibleInputs")
-					label.input-formats Possible Input Formats	
-					div(id='possibleInputFormats')
-				
-				br
-
-				div(id="inputButtons")
-					div(id="newickButton")
-						div.input-group.input-sm
-							input.form-control.justVisual(id = 'textNewick', type="text", placeholder="Upload Newick file", aria-describedby="sizing-addon1")
-							span.input-group-addon(id="Newick", onclick="getFile(this.id)") Browse
-
-					div(id="fastaButton")
-						div.input-group.input-sm
-							input.form-control.justVisual(id = 'textFasta', type="text", placeholder="Upload Fasta file", aria-describedby="sizing-addon1")
-							span.input-group-addon(id="Fasta", onclick="getFile(this.id)") Browse
-
-					div(id="profileButton")
-						div.input-group.input-sm
-							input.form-control.justVisual(id = 'textProfile', type="text", placeholder="Upload Profile Data", aria-describedby="sizing-addon1")
-							span.input-group-addon(id="Profile", onclick="getFile(this.id)") Browse
-
-						br
-						div(id="profileAnalysisMethod")
-							label.input-formats Analysis Method	
-							select(id="sel_analysis_method")
-								option(value="core") Core Analysis
-								option(value="pres-abs") Presence/Absence
-
-						div.checkbox.input-sm(id="missingcheckbox", style="text-align:left;")
-								<span class="checkbox-inline"><input type="checkbox" id="missingcheck"/>Has Missing Data</span><span class="checkbox-inline"><input class="input-sm" id="missingdelimiter" type="text" placeholder="Missings character" required style="display:none"/></span>
-
-					div(id="metadataButton")
-						div.input-group.input-sm
-							input.form-control.justVisual(id = 'textMetadata', type="text", placeholder="Upload Auxiliary Data", aria-describedby="sizing-addon1")
-							span.input-group-addon(id="Metadata", onclick="getFile(this.id)") Browse
-
-
-					form(id ='inputForm')
-						h5 Dataset Name
-						input.form-control.input-sm(id="datasetName", type="text", placeholder="Select a name for the dataset", required)
-						h5 Dataset Description
-						input.form-control.input-sm(id="dataset_description", type="text", placeholder="Description")
-						br
-						if (user)
-							div(id="publiccheckbox", style="margin-left:3%; text-align:right;")
-								label Make public
-								input(id="makepublic", type="checkbox", style="margin-left:3%;")
-						else
-							div(id="publiccheckbox", style="margin-left:3%; text-align:right; display:none;")
-								label Make public
-								input(id="makepublic", type="checkbox", style="margin-left:3%;")
-						div(style='height: 0px;width:0px; overflow:hidden;')
-							input(id="uploadProfile", type="file", value="upload", onchange = 'getFileName(this.id)' )
-							input(id="uploadMetadata", type="file", value="upload", onchange = 'getFileName(this.id)' )
-							input(id="uploadNewick", type="file", value="upload", onchange = 'getFileName(this.id)' )
-							input(id="uploadFasta", type="file", value="upload", onchange = 'getFileName(this.id)' )
-
-				
-
-					br
-
-			div(id="LaunchButton", style="text-align:center; display:none;")
-				br
-				button.btn.btn-primary.resizable_button_submit(id="submitForm") Launch Tree
-
-			br
-
-			div.statCounter
-				img(src="//c.statcounter.com/10743500/0/0b6fd4b1/0/" alt="shopify stats")
-
-			div(id="divMessage")
-
-			br
-
-			div(id = 'waitingGif')
-				img(id = 'GIFimage')
-			
-			br
-
-			span(id ='status')
-
+				div(id="divMessage")
 
 
 block scripts

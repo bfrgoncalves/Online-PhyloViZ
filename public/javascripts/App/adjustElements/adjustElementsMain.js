@@ -19,20 +19,24 @@ adjustElements = function () {
     $('#labelsDiv').css({width: width, position: "absolute"});
     $('#visual').css({width: width, height: height, position: "relative"});
 
-    $("body").css('font-size', ButtonfontSize);
-    $('.btn').css('font-size', ButtonfontSize);
-    $(".collapsebt").css('font-size', ButtonfontSize);
-    $(".datasetInfoButton").css('font-size', ButtonfontSize);
-    $("li").css('font-size', ButtonfontSize);
+    
+    $("body").css({'font-size': '120%'});
+    $('.btn').css({'font-size': '95%'});
+    
+    //$(".collapsebt").css({'font-size': '120%'});
+    //$(".datasetInfoButton").css({'font-size': '120%'});
+    $("li").css({'font-size': '100%'});
     //$("a").css('font-size', ButtonfontSize * 1.5);
-    $(".login").css('font-size', ButtonfontSize * 1.2);
-    $("i").css('font-size', ButtonfontSize);
+    $(".login").css({'font-size': '120%'});
+    $("i").css({'font-size': '80%'});
+    
+    
     //$(".form-control").css({'font-size': ButtonfontSize, 'height': assignColorHeight, 'padding': 0});
-    //$(".btn-search").css({'font-size': ButtonfontSize, 'height': assignColorHeight, 'padding': 0});
-    $("h5").css('font-size', ButtonfontSize*1.2);
-    $(".title").css('font-size', ButtonfontSize*2);
+    //$(".btn-search").css({'font-size': '150%', 'height': assignColorHeight, 'padding': 0});
+    $("h5").css({'font-size': '120%'});
+    $(".title").css({'font-size': '140%'});
     $(".float_title").css('float', "right");
-    $("#header_container").css('font-size', ButtonfontSize*1.5);
+    $("#header_container").css({'font-size': '120%'});
     $("#home_container").css('margin-top', '0%');
     $(".phylovizImage").css({'width': '12%'});
     $("#isolateContent").css({"height": heightTab + 'px'});

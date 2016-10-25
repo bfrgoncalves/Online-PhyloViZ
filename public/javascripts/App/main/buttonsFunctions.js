@@ -31,7 +31,7 @@ function loadButtonFunctions(){
 				});
 
 				$('#dialog').dialog({
-			              height: $(window).height() * 0.20,
+			              height: $(window).height() * 0.40,
 			              width: $(window).width(),
 			              modal: true,
 			              resizable: true,

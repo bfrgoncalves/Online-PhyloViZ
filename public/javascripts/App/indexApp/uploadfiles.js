@@ -153,9 +153,12 @@ function getLinks(data){
         status('Computing Links...\n' + data.queue);
         $("#waitingGif").css({'display': 'block'});
         setInterval(function(){ 
-          checkgoeBURSTstatus(data.jobid, function(status){
+          var checkI = checkgoeBURSTstatus(data.jobid, function(status){
 
-            if(status == 'complete') window.location.replace("/main/dataset/" + datasetID);
+            if(status == 'complete'){
+              window.location.replace("/main/dataset/" + datasetID);
+              clearInterval(checkI);
+            }
           }) 
         }, 3000);
 
