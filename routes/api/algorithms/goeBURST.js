@@ -108,6 +108,7 @@ if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().
 		var missings = job.data.missings;
 		var save = job.data.save;
 		var hasmissings = job.data.hasmissings;
+		var send_email = job.data.sendEmail;
 		var mailObject = {};
 
 		console.log('processing');
@@ -123,6 +124,22 @@ if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().
 						saveLinks(datasetID, links, function(){
 							if(hasmissings == 'true'){
 								save_profiles(profilegoeBURST, old_profiles, datasetID, indexToRemove, function(){
+									if(send_email){
+										console.log('getting mail');
+										getEmail(userID, function(email){
+											mailObject.email = email;
+											mailObject.message = 'Your data set is now available at: ' + config.final_root + '/main/dataset/' + datasetID;
+											console.log('have mail');
+											sendMail(mailObject, function(){
+												console.log('Mail sent');
+											});
+										});
+									}
+									jobDone();
+								});
+							}
+							else {
+								if(send_email){
 									console.log('getting mail');
 									getEmail(userID, function(email){
 										mailObject.email = email;
@@ -133,19 +150,7 @@ if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().
 										});
 									});
 									jobDone();
-								});
-							}
-							else {
-								console.log('getting mail');
-								getEmail(userID, function(email){
-									mailObject.email = email;
-									mailObject.message = 'Your data set is now available at: ' + config.final_root + '/main/dataset/' + datasetID;
-									console.log('have mail');
-									sendMail(mailObject, function(){
-										console.log('Mail sent');
-									});
-								});
-								jobDone();
+								}
 							}
 						});
 					}
@@ -170,6 +175,7 @@ router.get('/', function(req, res, next){
 	if (req.query.dataset_id){
 
 		var datasetID = req.query.dataset_id;
+		var sendEmail = true;
 
 		if (!req.isAuthenticated()) var userID = "1";
 		else var userID = req.user.id;
@@ -179,6 +185,10 @@ router.get('/', function(req, res, next){
 		var datasetId;
 		var missings = [false, ''];
 		var analysis_method = 'core';
+
+		if (req.query.send_email == 'false'){
+			sendEmail = false;
+		}
 
 		if (req.query.missings == 'true'){
 			missings = [true, req.query.missingchar];
@@ -192,7 +202,7 @@ router.get('/', function(req, res, next){
 		else var algorithmToUse = 'prim';
 
 		if(req.query.onqueue == 'true'){
-			var parameters = {datasetID:datasetID, userID:userID, algorithmToUse:algorithmToUse, analysis_method:analysis_method, missings:missings, save:req.query.save, hasmissings:req.query.missings};
+			var parameters = {datasetID:datasetID, sendEmail:sendEmail, userID:userID, algorithmToUse:algorithmToUse, analysis_method:analysis_method, missings:missings, save:req.query.save, hasmissings:req.query.missings};
 			queue.add(parameters).then(function(job){
 				res.send({queue: 'Your data set is being processed. You will be redirected to a new page and receive an email when the job is finished.', jobid: job.jobId});
 			});

@@ -420,6 +420,7 @@ function uploadMetadataToDatabase(data, callback){
       }
       client.query(query, function(err, result) {
         if(err) {
+          console.log(error);
           data.hasError = true;
           data.errorMessage = 'Could not update auxiliary data. Possible unsupported file type. For information on supported file types click <a href="/index/inputinfo">here</a>.'; //+ err.toString();
           return callback(data);
