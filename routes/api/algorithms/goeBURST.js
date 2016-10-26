@@ -98,7 +98,7 @@ if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().
 
 	queue.process(function(job, jobDone){
 
-		console.log(cluster.worker.id);
+		console.log(job.jobId);
 
 		var datasetId;
 		var datasetID = job.data.datasetID;
