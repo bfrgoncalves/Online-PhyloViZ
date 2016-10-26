@@ -488,6 +488,7 @@ function exportSelectedDataTree(graphObject){
 	}
 
 	var encodedUriIsolates = 'data:text/csv;charset=utf-8,' + encodeURIComponent(stringToIsolates);
+	
 	csvData = new Blob([stringToProfiles], { type: 'text/csv' }); //new way
     var csvUrl = URL.createObjectURL(csvData);
 	//var encodedUriProfiles = 'data:text/csv;charset=utf-8,' + encodeURIComponent(stringToProfiles);
@@ -598,6 +599,12 @@ function createSubset(toFiles, name, description, missings, missingsChar, analys
 
 
   			}
+  			else if (code == 'complete'){
+  				var datasetID = data.stdout.split('datasetID:')[1].split('\n')[0];
+  				var win = window.open(datasetID, '_blank');
+  				win.focus();
+  				return true;
+  			}
 
   			$('#dialog').empty();
 			$('#dialog').append(toDialog);
@@ -665,7 +672,7 @@ function create_subset_profile(graph, callback){
     
     var usedLoci = {};
 
-    if(!graph.hasOwnProperty('indexesToRemove')) return callback(graph);
+    //if(!graph.hasOwnProperty('indexesToRemove')) return callback(graph);
 
 	var nodes = graph.nodes;
 	var links = graph.links;
@@ -680,12 +687,16 @@ function create_subset_profile(graph, callback){
 
 		for(position in profile){
 			countPosition++;
-			if(!graph.indexesToRemove.hasOwnProperty(countPosition)){
-				usedLoci[graph.schemeGenes[countPosition+1]] = countPosition;
-				newProfile.push(profile[position]);
-				exportAllProfileObject[nodes[i].key].push({gene: graph.schemeGenes[countPosition+1], value:profile[position]});
+			if(graph.hasOwnProperty('indexesToRemove')){
+				if(!graph.indexesToRemove.hasOwnProperty(countPosition)){
+					usedLoci[graph.schemeGenes[countPosition+1]] = countPosition;
+					newProfile.push(profile[position]);
+					exportAllProfileObject[nodes[i].key].push({gene: graph.schemeGenes[countPosition+1], value:profile[position]});
+				}
 			}
+			else newProfile = profile;
 		}
+
 		if(!sameProfileHas[String(newProfile)]){
 			if(newNodes.length == 0) nodeIndex = 0;
 			else nodeIndex = newNodes.length - 1;
