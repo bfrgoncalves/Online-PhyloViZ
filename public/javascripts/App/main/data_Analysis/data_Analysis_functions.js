@@ -474,10 +474,9 @@ function exportSelectedDataTree(graphObject){
 		for (j in data.isolates) stringToIsolates += data.isolates[j].join('\t') + '\n';
 		if(graphObject.graphInput.data_type != 'newick'){
 			stringToProfiles += selectedNodes[i].data.key + '\t' + data.profile.join('\t') + '\n';
-			for(l in graphObject.graphInput.mergedNodes){
-				var multipleNodes = graphObject.graphInput.mergedNodes[l];
-				for(k in multipleNodes) stringToProfiles += multipleNodes[k].key + '\t' + multipleNodes[k].profile.join('\t') + '\n';
-			}
+			
+			var multipleNodes = graphObject.graphInput.mergedNodes[selectedNodes[i].data.key];
+			for(k in multipleNodes) stringToProfiles += multipleNodes[k].key + '\t' + multipleNodes[k].profile.join('\t') + '\n';
 		}
 		else stringToProfiles += selectedNodes[i].data.key + '\n';
 
@@ -541,10 +540,9 @@ function selectedDataToString(graphObject){
 		for (j in data.isolates) stringToIsolates += data.isolates[j].join('\t') + '\n';
 		if(graphObject.graphInput.data_type != 'newick'){
 			stringToProfiles += selectedNodes[i].data.key + '\t' + data.profile.join('\t') + '\n';
-			for(j in graphObject.graphInput.mergedNodes){
-				var multipleNodes = graphObject.graphInput.mergedNodes[j];
-				for(k in multipleNodes) stringToProfiles += multipleNodes[k].key + '\t' + multipleNodes[k].profile.join('\t') + '\n';
-			}
+			
+			var multipleNodes = graphObject.graphInput.mergedNodes[selectedNodes[i].data.key];
+			for(k in multipleNodes) stringToProfiles += multipleNodes[k].key + '\t' + multipleNodes[k].profile.join('\t') + '\n';
 		}
 		else stringToProfiles += selectedNodes[i].data.key + '\n';
 
