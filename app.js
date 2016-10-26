@@ -36,7 +36,8 @@ var Queue = require('bull');
 
 var queue = Queue("goeBURST queue", 6379, '127.0.0.1');
 
-queue.clean(10000, 'failed');
+//queue.clean(10000, 'failed');
+queue.empty();
 
 var upload = require('./routes/api/database/uploadPostgres');
 var updateDataset = require('./routes/api/database/modifyDataset');
