@@ -73,7 +73,6 @@ var colorAttributes = function(graphObject){
       //propertyIndex = graph.schemeGenes.indexOf(propertyToCheck);
       propertyIndex = $("#selectByScheme").prop('selectedIndex');
 
-
       if (changeFromTable == false){
         linkGraphAndTable('profiles', propertyIndex, propertyToCheck, graph.key, graphObject);
         if(propertyToCheck == 'None'){

@@ -123,7 +123,6 @@ if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().
 					if(save){
 						saveLinks(datasetID, links, function(){
 							if(hasmissings == 'true'){
-								console.log(indexToRemove);
 								save_profiles(profilegoeBURST, old_profiles, datasetID, indexToRemove, function(){
 									if(send_email){
 										console.log('getting mail');

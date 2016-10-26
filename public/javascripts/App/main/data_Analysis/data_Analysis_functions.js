@@ -476,7 +476,7 @@ function exportSelectedDataTree(graphObject){
 			stringToProfiles += selectedNodes[i].data.key + '\t' + data.profile.join('\t') + '\n';
 			for(j in graphObject.graphInput.mergedNodes){
 				var multipleNodes = graphObject.graphInput.mergedNodes[j];
-				for(k in multipleNodes) stringToProfiles += multipleNodes[k].data.key + '\t' + multipleNodes[k].data.profile.join('\t') + '\n';
+				for(k in multipleNodes) stringToProfiles += multipleNodes[k].key + '\t' + multipleNodes[k].profile.join('\t') + '\n';
 			}
 		}
 		else stringToProfiles += selectedNodes[i].data.key + '\n';

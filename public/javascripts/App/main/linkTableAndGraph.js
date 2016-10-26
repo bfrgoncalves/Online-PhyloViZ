@@ -49,6 +49,8 @@ function linkTableAndGraph(property, graphObject){
 
       var columnIndex = $(this).index();
 
+      if( columnIndex == 0 && property == 'profiles') return 0;
+
       var table = $('#'+ tableToCheck).DataTable();
 
       if (prevColumnIndex != -1) $( table.column( prevColumnIndex ).nodes() ).removeClass( 'highlight' );

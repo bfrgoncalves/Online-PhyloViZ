@@ -9,9 +9,18 @@ var centerNode = function(nodeId, graphObject){
 	var graphics = graphObject.graphics;
 	
 	if (graph.getNode(nodeId)) {
+			var newColors = [];
+			
 			if ($('#pauseLayout')[0].innerHTML == "Pause Layout") $( "#pauseLayout" ).trigger( "click" );
             var pos = layout.getNodePosition(nodeId);
             node = graph.getNode(nodeId);
+            var nodeUI = graphics.getNodeUI(node.id);
+            for (i in nodeUI.colorIndexes){
+		      var colorsPerQuadrant = [];
+		      for (j in nodeUI.colorIndexes[i]) colorsPerQuadrant.push(0xFFA500ff);
+		      newColors.push(colorsPerQuadrant);
+		    }
+		    nodeUI.colorIndexes = newColors;
             renderer.moveTo(pos.x, pos.y);
             var currentScale = String(renderer.zoomIn());
             zoomToNode(1, currentScale,renderer,pos);
