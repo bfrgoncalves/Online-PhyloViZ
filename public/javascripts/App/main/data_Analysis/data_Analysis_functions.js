@@ -488,7 +488,9 @@ function exportSelectedDataTree(graphObject){
 	}
 
 	var encodedUriIsolates = 'data:text/csv;charset=utf-8,' + encodeURIComponent(stringToIsolates);
-	var encodedUriProfiles = 'data:text/csv;charset=utf-8,' + encodeURIComponent(stringToProfiles);
+	csvData = new Blob([stringToProfiles], { type: 'text/csv' }); //new way
+    var csvUrl = URL.createObjectURL(csvData);
+	//var encodedUriProfiles = 'data:text/csv;charset=utf-8,' + encodeURIComponent(stringToProfiles);
 	var encodedUriFasta = 'data:text/csv;charset=utf-8,' + encodeURIComponent(stringToFasta);
 
 	var toDownload = '';
@@ -504,7 +506,7 @@ function exportSelectedDataTree(graphObject){
 
 	$('#dialog').append(a);
 	$('#linkDownloadIsolateSelectedData').attr("href", encodedUriIsolates).attr('download', "phyloviz_isolateData.tab");
-	$('#linkDownloadProfileSelectedData').attr("href", encodedUriProfiles).attr('download', "phyloviz_profileData.tab");
+	$('#linkDownloadProfileSelectedData').attr("href", csvUrl).attr('download', "phyloviz_profileData.tab");
 	$('#linkDownloadFastaSelectedData').attr("href", encodedUriFasta).attr('download', "phyloviz_sequenceData.fasta");
 	$('#dialog').dialog();
 	//window.open(encodedUriIsolates);
@@ -536,7 +538,13 @@ function selectedDataToString(graphObject){
 	for (i in selectedNodes){
 		var data = selectedNodes[i].data;
 		for (j in data.isolates) stringToIsolates += data.isolates[j].join('\t') + '\n';
-		if(graphObject.graphInput.data_type != 'newick') stringToProfiles += selectedNodes[i].data.key + '\t' + data.profile.join('\t') + '\n';
+		if(graphObject.graphInput.data_type != 'newick'){
+			stringToProfiles += selectedNodes[i].data.key + '\t' + data.profile.join('\t') + '\n';
+			for(j in graphObject.graphInput.mergedNodes){
+				var multipleNodes = graphObject.graphInput.mergedNodes[j];
+				for(k in multipleNodes) stringToProfiles += multipleNodes[k].key + '\t' + multipleNodes[k].profile.join('\t') + '\n';
+			}
+		}
 		else stringToProfiles += selectedNodes[i].data.key + '\n';
 
 		if(graphObject.graphInput.data_type == 'fasta'){ 
@@ -728,6 +736,16 @@ function get_exclusive_loci(graphObject, callback){
 				its_exclusive = false;
 				break
 			}
+			var multipleNodes = graphObject.graphInput.mergedNodes[graphObject.selectedNodes[j].data.key];
+			for(k in multipleNodes){
+				var profile = multipleNodes[k].profile;
+				if(profile[i] != '0') its_exclusive = true;
+				else {
+					its_exclusive = false;
+					break
+				}
+			}
+			
 		}
 		if (its_exclusive){
 			for(j in graphObject.graphInput.nodes){
@@ -735,6 +753,15 @@ function get_exclusive_loci(graphObject, callback){
 				if(!sel_positions.includes(parseInt(j))){
 					var profile = graphObject.graphInput.nodes[j].profile;
 					if(profile[i] == '0') its_exclusive = true;
+					else {
+						its_exclusive = false;
+						break
+					}
+				}
+				var multipleNodes = graphObject.graphInput.mergedNodes[graphObject.selectedNodes[j].data.key];
+				for(k in multipleNodes){
+					var profile = multipleNodes[k].profile;
+					if(profile[i] != '0') its_exclusive = true;
 					else {
 						its_exclusive = false;
 						break
