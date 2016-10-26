@@ -5,6 +5,10 @@ var crypto = require('crypto');
 
 var config = require('../../config.js');
 
+var os = require('os');
+var Queue = require('bull');
+var queue = Queue("goeBURST queue", 6379, '127.0.0.1');
+
 /* GET home page. */
 router.get('/dataset/:datasetID', function(req, res, next) {
 

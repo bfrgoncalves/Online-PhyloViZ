@@ -643,12 +643,17 @@ function create_subset_profile(graph, callback){
     var newProfile = [];
     var indexToRemove = {};
     var exportAllProfileObject = {};
+    var sameProfileHas = {};
+    var sameNodeHas = {};
+
+    var newNodes = [];
     
     var usedLoci = {};
 
     if(!graph.hasOwnProperty('indexesToRemove')) return callback(graph);
 
 	var nodes = graph.nodes;
+	var links = graph.links;
 	
 	for(i in nodes){
 		profile = nodes[i].profile;
@@ -666,8 +671,28 @@ function create_subset_profile(graph, callback){
 				exportAllProfileObject[nodes[i].key].push({gene: graph.schemeGenes[countPosition+1], value:profile[position]});
 			}
 		}
-		newProfiles.push({profile: newProfile});
+		if(!sameProfileHas[String(newProfile)]){
+			if(newNodes.length == 0) nodeIndex = 0;
+			else nodeIndex = newNodes.length - 1
+			sameProfileHas[String(newProfile)] = [nodes[i].key, nodeIndex];
+			sameNodeHas[nodes[i].key] = nodes[i].key;
+			newNodes.push(nodes[i]);
+			newProfiles.push({profile: newProfile});
+		}
+		else{
+			sameNodeHas[nodes[i].key] = sameProfileHas[String(newProfile)][0];
+			newNodes[sameProfileHas[String(newProfile)][1]].isolates = newNodes[sameProfileHas[String(newProfile)][1]].isolates.concat(nodes[i].isolates);
+		}
 	}
+
+	for(j in links){
+		links[j].source = sameNodeHas[links[j].source];
+		links[j].target = sameNodeHas[links[j].target];
+	}
+	graph.links = links;
+	graph.nodes = newNodes;
+	graph.sameProfileHas = sameProfileHas;
+	graph.sameNodeHas = sameNodeHas;
 	graph.subsetProfiles = newProfiles;
 	graph.usedLoci = usedLoci;
 	graph.goeBURSTprofileExport = exportAllProfileObject;

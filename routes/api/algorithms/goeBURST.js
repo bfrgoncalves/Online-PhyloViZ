@@ -204,7 +204,10 @@ router.get('/', function(req, res, next){
 		if(req.query.onqueue == 'true'){
 			var parameters = {datasetID:datasetID, sendEmail:sendEmail, userID:userID, algorithmToUse:algorithmToUse, analysis_method:analysis_method, missings:missings, save:req.query.save, hasmissings:req.query.missings};
 			queue.add(parameters).then(function(job){
-				res.send({queue: 'Your data set is being processed. You will be redirected to a new page and receive an email when the job is finished.', jobid: job.jobId});
+				queue_message = 'Your data set is being processed. You will be redirected to your <a href="//'+config.final_root+'/main/dataset/'+datasetID+'">data set URL</a> ';
+				if(sendEmail) queue_message += 'and receive an email ';
+				queue_message += 'when the job is finished.';
+				res.send({queue: queue_message, jobid: job.jobId});
 			});
 		}
 		else{	
@@ -381,8 +384,9 @@ function save_profiles(profilegoeBURST, profiles, datasetID, indexesToRemove, ca
 	var pg = require("pg");
 	var connectionString = "pg://" + config.databaseUserString + "@localhost/"+ config.db;
 
-	if(profilegoeBURST[0].length != Object.keys(profiles[0]).length) var profilesToUse = { profiles: profiles, indexestoremove: indexesToRemove, profilesize: profilegoeBURST[0].length };
-	else var profilesToUse = { profiles: profiles };
+	//if(profilegoeBURST[0].length != Object.keys(profiles[0]).length) 
+		var profilesToUse = { profiles: profiles, indexestoremove: indexesToRemove, profilesize: profilegoeBURST[0].length };
+	//else var profilesToUse = { profiles: profiles };
 	//var distanceMatrixToUse =  { distanceMatrix: distanceMatrix };
 	//distanceMatrixToUse = {distanceMatrix: []};
 
