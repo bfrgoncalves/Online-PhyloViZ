@@ -710,13 +710,17 @@ function create_subset_profile(graph, callback){
 			newNodes[sameProfileHas[String(newProfile)][1]].isolates = newNodes[sameProfileHas[String(newProfile)][1]].isolates.concat(nodes[i].isolates);
 		}
 	}
+	var newLinks = [];
 
 	for(j in links){
-		links[j].source = sameNodeHas[links[j].source];
-		links[j].target = sameNodeHas[links[j].target];
+		if(links[j].value != 0){
+			links[j].source = sameNodeHas[links[j].source];
+			links[j].target = sameNodeHas[links[j].target];
+			newLinks.push(links[j]);
+		}
 	}
 	graph.mergedNodes = mergedNodes;
-	graph.links = links;
+	graph.links = newLinks;
 	graph.nodes = newNodes;
 	graph.sameProfileHas = sameProfileHas;
 	graph.sameNodeHas = sameNodeHas;
