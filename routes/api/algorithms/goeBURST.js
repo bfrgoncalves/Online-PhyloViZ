@@ -229,8 +229,6 @@ router.get('/status', function(req,res,next){
 	if(req.isAuthenticated()){
 		if(req.query.jobid){
 			queue.getJob(req.query.jobid).then(function(job){
-				console.log(job);
-
 				if(job.isCompleted()){
 					res.send({status: 'complete'});
 				}
@@ -238,6 +236,7 @@ router.get('/status', function(req,res,next){
 			});
 		}
 	}
+	else res.send({status:401});
 
 });
 
