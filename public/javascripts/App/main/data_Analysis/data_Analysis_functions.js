@@ -472,7 +472,13 @@ function exportSelectedDataTree(graphObject){
 	for (i in selectedNodes){
 		var data = selectedNodes[i].data;
 		for (j in data.isolates) stringToIsolates += data.isolates[j].join('\t') + '\n';
-		if(graphObject.graphInput.data_type != 'newick') stringToProfiles += selectedNodes[i].data.key + '\t' + data.profile.join('\t') + '\n';
+		if(graphObject.graphInput.data_type != 'newick'){
+			stringToProfiles += selectedNodes[i].data.key + '\t' + data.profile.join('\t') + '\n';
+			for(j in graphObject.graphInput.mergedNodes){
+				var multipleNodes = graphObject.graphInput.mergedNodes[j];
+				for(k in multipleNodes) stringToProfiles += multipleNodes[k].data.key + '\t' + multipleNodes[k].data.profile.join('\t') + '\n';
+			}
+		}
 		else stringToProfiles += selectedNodes[i].data.key + '\n';
 
 		if(graphObject.graphInput.data_type == 'fasta'){ 
@@ -645,6 +651,7 @@ function create_subset_profile(graph, callback){
     var exportAllProfileObject = {};
     var sameProfileHas = {};
     var sameNodeHas = {};
+    var mergedNodes = {};
 
     var newNodes = [];
     
@@ -673,13 +680,15 @@ function create_subset_profile(graph, callback){
 		}
 		if(!sameProfileHas[String(newProfile)]){
 			if(newNodes.length == 0) nodeIndex = 0;
-			else nodeIndex = newNodes.length - 1
+			else nodeIndex = newNodes.length - 1;
+			mergedNodes[nodes[i].key] = [];
 			sameProfileHas[String(newProfile)] = [nodes[i].key, nodeIndex];
 			sameNodeHas[nodes[i].key] = nodes[i].key;
 			newNodes.push(nodes[i]);
 			newProfiles.push({profile: newProfile});
 		}
 		else{
+			mergedNodes[sameProfileHas[String(newProfile)][0]].push(nodes[i]);
 			sameNodeHas[nodes[i].key] = sameProfileHas[String(newProfile)][0];
 			newNodes[sameProfileHas[String(newProfile)][1]].isolates = newNodes[sameProfileHas[String(newProfile)][1]].isolates.concat(nodes[i].isolates);
 		}
@@ -689,6 +698,7 @@ function create_subset_profile(graph, callback){
 		links[j].source = sameNodeHas[links[j].source];
 		links[j].target = sameNodeHas[links[j].target];
 	}
+	graph.mergedNodes = mergedNodes;
 	graph.links = links;
 	graph.nodes = newNodes;
 	graph.sameProfileHas = sameProfileHas;
