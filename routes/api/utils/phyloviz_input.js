@@ -121,6 +121,7 @@ function getDataset(datasetID, userID, isPublic, callback) {
 			    for(i in result.rows){
 			    	for(x in result.rows[i]){
 			    		if( x == 'profiles') {
+			    			console.log(result.rows[i][x].hasOwnProperty('indexestoremove'));
 			    			dataset.profiles = JSON.parse(JSON.stringify(result.rows[i][x]['profiles']).replace(/&39/g, "'"));
 			    			if (result.rows[i][x].hasOwnProperty('indexestoremove')) dataset.indexestoremove = JSON.parse(JSON.stringify(result.rows[i][x]['indexestoremove']).replace(/&39/g, "'"));
 			    			dataset.profilesize = result.rows[i][x]['profilesize'];
