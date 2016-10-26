@@ -580,7 +580,7 @@ function createSubset(toFiles, name, description, missings, missingsChar, analys
   							clearInterval(checkI);
 			            }
 			          }) 
-			        }, 3000);
+			        }, 30000);
 
 
   			}
