@@ -1,6 +1,7 @@
 
 function status(message) {
-    $('#status').text(message);
+    $('#status').empty();
+    $('#status').append(message);
 }
 
 
@@ -126,6 +127,7 @@ function getLinks(data){
 */
   var missings = false;
   var missingChar = '';
+  var email_input = document.getElementById('email_input').checked;
 
   var datasetID = data.datasetID;
   var onqueue = false;
@@ -143,7 +145,7 @@ function getLinks(data){
   
   $.ajax({
     url: '/api/algorithms/goeBURST',
-    data: $.param({dataset_id: datasetID, save: true, missings: missings, missingchar: missingChar, analysis_method:analysis_method, onqueue:onqueue}),
+    data: $.param({dataset_id: datasetID, send_email:email_input, save: true, missings: missings, missingchar: missingChar, analysis_method:analysis_method, onqueue:onqueue}),
     processData: false,
     contentType: false,
     type: 'GET',
@@ -152,6 +154,7 @@ function getLinks(data){
       if(data.queue != undefined){
         status('Computing Links...\n' + data.queue);
         $("#waitingGif").css({'display': 'block'});
+        
         setInterval(function(){ 
           var checkI = checkgoeBURSTstatus(data.jobid, function(status){
 
@@ -160,7 +163,8 @@ function getLinks(data){
               clearInterval(checkI);
             }
           }) 
-        }, 60000);
+        }, 30000);
+        
 
       }
       else if(data.dupProfiles.length > 0 || data.dupIDs.length >0){

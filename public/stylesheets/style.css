@@ -215,8 +215,6 @@ a {
 #status{
   position: absolute;
   z-index:2;
-  left: 41.5%;
-  top: 80%;
   font-weight: bold;
 }
 

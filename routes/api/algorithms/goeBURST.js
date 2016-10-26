@@ -123,6 +123,7 @@ if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().
 					if(save){
 						saveLinks(datasetID, links, function(){
 							if(hasmissings == 'true'){
+								console.log(indexToRemove);
 								save_profiles(profilegoeBURST, old_profiles, datasetID, indexToRemove, function(){
 									if(send_email){
 										console.log('getting mail');
@@ -175,7 +176,7 @@ router.get('/', function(req, res, next){
 	if (req.query.dataset_id){
 
 		var datasetID = req.query.dataset_id;
-		var sendEmail = true;
+		var sendEmail = false;
 
 		if (!req.isAuthenticated()) var userID = "1";
 		else var userID = req.user.id;
@@ -186,8 +187,8 @@ router.get('/', function(req, res, next){
 		var missings = [false, ''];
 		var analysis_method = 'core';
 
-		if (req.query.send_email == 'false'){
-			sendEmail = false;
+		if (req.query.send_email == 'true'){
+			sendEmail = true;
 		}
 
 		if (req.query.missings == 'true'){
@@ -204,7 +205,7 @@ router.get('/', function(req, res, next){
 		if(req.query.onqueue == 'true'){
 			var parameters = {datasetID:datasetID, sendEmail:sendEmail, userID:userID, algorithmToUse:algorithmToUse, analysis_method:analysis_method, missings:missings, save:req.query.save, hasmissings:req.query.missings};
 			queue.add(parameters).then(function(job){
-				queue_message = 'Your data set is being processed. You will be redirected to your <a href="//'+config.final_root+'/main/dataset/'+datasetID+'">data set URL</a> ';
+				queue_message = 'Your data set is being processed. You will be redirected to your <a href="'+config.final_root+'/main/dataset/'+datasetID+'">data set URL</a> ';
 				if(sendEmail) queue_message += 'and receive an email ';
 				queue_message += 'when the job is finished.';
 				res.send({queue: queue_message, jobid: job.jobId});

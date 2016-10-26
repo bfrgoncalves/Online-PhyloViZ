@@ -270,6 +270,9 @@ block normalBody
 											h5 Dataset Description
 											input.form-control.input-sm(id="dataset_description", type="text", placeholder="Description")
 											br
+											div(id="emailcheckbox", style="margin-left:3%; text-align:right;")
+												label Send E-mail when completed
+												input(id="email_input", type="checkbox", style="margin-left:3%;", checked)
 											if (user)
 												div(id="publiccheckbox", style="margin-left:3%; text-align:right;")
 													label Make public
@@ -283,17 +286,17 @@ block normalBody
 												input(id="uploadMetadata", type="file", value="upload", onchange = 'getFileName(this.id)' )
 												input(id="uploadNewick", type="file", value="upload", onchange = 'getFileName(this.id)' )
 												input(id="uploadFasta", type="file", value="upload", onchange = 'getFileName(this.id)' )
-				
-				div(id="LaunchButton", style="text-align:center; display:none;")
-					div.col-md-12
-						button.btn.btn-primary.resizable_button_submit(id="submitForm") Launch Tree
+				div.col-md-12
+					div(id="LaunchButton", style="text-align:center; display:none;")
+						div.col-md-12
+							button.btn.btn-primary.resizable_button_submit(id="submitForm") Launch Tree
 
-				div.row
+				div.col-md-12
 					div.col-md-12(style="text-align:center;")
-						div(id = 'waitingGif')
+						div(id = 'waitingGif' style="margin-top: 40px;")
 							img(id = 'GIFimage')
-						div
-							span(id ='status')
+						div(style="text-align:center;margin: 40px 40px 40px 40px;")
+							p(id ='status')
 
 
 				div(id="divMessage")
