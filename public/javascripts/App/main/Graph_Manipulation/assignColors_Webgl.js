@@ -18,14 +18,15 @@ var colorAttributes = function(graphObject){
     var countValues = 1;
     options += '<option value=' + countValues + '>None</option>';
 
-    var schemeGenes = graph.schemeGenes.slice();
-    schemeGenes.shift();
+    //var schemeGenes = graph.schemeGenes.slice();
+    var schemeGenes = graph.schemeGenes;
+    //schemeGenes.shift();
 
     var maxScheme = 0;
     if(schemeGenes.length < graphObject.graphInput.maxColumns) maxScheme = schemeGenes.length;
     else maxScheme = graphObject.graphInput.maxColumns;
 
-    for (var index = graphObject.graphInput.minColumns-1; index<maxScheme-1; index++){
+    for (var index = graphObject.graphInput.minColumns-1; index<maxScheme; index++){
       countValues += 1;
       var property = schemeGenes[index];
       options += '<option value=' + countValues + '>' +property+'</option>';
@@ -74,7 +75,8 @@ var colorAttributes = function(graphObject){
       propertyIndex = $("#selectByScheme").prop('selectedIndex');
 
       if (changeFromTable == false){
-        linkGraphAndTable('profiles', propertyIndex, propertyToCheck, graph.key, graphObject);
+        linkGraphAndTable('profiles', propertyIndex-1, propertyToCheck, graph.key, graphObject);
+
         if(propertyToCheck == 'None'){
           $('#divButtonLegend').css({'display':'none', 'right': '10.5%'});
           $('#col_info').css('display', 'none');
@@ -89,6 +91,7 @@ var colorAttributes = function(graphObject){
         gatherSchemeData(graph, propertyToCheck, schemeFilter, function(objectOfTotal, objectOfType, countProperties, hasMultipleFields){
              graphObject.objectOfType = objectOfType;
              graphObject.property_index = property_IndexProfiles;
+
 
              if (hasMultipleFields == false && graphObject.currentNodeProgram == 'buildCircleNodeShader') setNewProgram(graphObject, buildSimpleCircleNodeShader);
              else if (hasMultipleFields == true && graphObject.currentNodeProgram == 'buildSimpleCircleNodeShader') setNewProgram(graphObject, buildCircleNodeShader);

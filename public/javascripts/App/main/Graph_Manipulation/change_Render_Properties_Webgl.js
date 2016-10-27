@@ -38,6 +38,37 @@ function NodeSize(newSize, max, graphObject){
     else renderer.resume();
 }
 
+function ChangeNodeSizeOption(graphObject, option){
+
+    graphObject.nodeSizeOption = option;
+    var graph = graphObject.graphInput;
+    var graphics = graphObject.graphics;
+
+    $("#NodeSizeSlider").val(1);
+    $("#scaleNode").val(1);
+
+     graph.nodes.forEach(function(node){
+        var nodeUI = graphics.getNodeUI(node.key);
+
+        if(option == 'isolates'){
+            //if (node.id.search('TransitionNode') > -1) sizeToUse = 5;
+            nodeUI.size = graphObject.DefaultnodeSize+(node.isolates.length * graphObject.NodeScaleFactor);
+        }
+        else if (option == 'profiles'){
+            //if (node.id.search('TransitionNode') > -1) sizeToUse = 5;
+            nodeUI.size = graphObject.DefaultnodeSize+(graphObject.graphInput.mergedNodes[node.key].length * graphObject.NodeScaleFactor);
+        }
+
+
+    });
+
+    if(graphObject.isLayoutPaused){
+        renderer.resume();
+        setTimeout(function(){ renderer.pause();}, 50);
+    }
+    else renderer.resume();
+}
+
 //adjust Node Size
 function LabelSize(newSize, graphObject, domLabels, type){
 
@@ -298,8 +329,10 @@ function scaleNodes(newNodeScaleFactor, graphObject){
 
     graphGL.forEachNode(function(node){
             var nodeUI = graphObject.graphics.getNodeUI(node.id);
-            if (graphObject.isLogScaleNodes) nodeUI.backupSize = Math.log10(nodeUI.backupSize) * graphObject.DefaultnodeSize + (node.data.isolates.length * graphObject.NodeScaleFactor);
-            else nodeUI.backupSize = graphObject.DefaultnodeSize + (node.data.isolates.length * graphObject.NodeScaleFactor);
+            if(graphObject.nodeSizeOption == 'isolates') valueToUse = node.data.isolates.length;
+            else if(graphObject.nodeSizeOption == 'profiles') valueToUse = graph.mergedNodes[node.data.key].length;
+            if (graphObject.isLogScaleNodes) nodeUI.backupSize = Math.log10(nodeUI.backupSize) * graphObject.DefaultnodeSize + (valueToUse * graphObject.NodeScaleFactor);
+            else nodeUI.backupSize = graphObject.DefaultnodeSize + (valueToUse * graphObject.NodeScaleFactor);
             nodeUI.size = nodeUI.backupSize;
 
     });

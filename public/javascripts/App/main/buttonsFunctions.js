@@ -134,6 +134,10 @@ function loadButtonFunctions(){
 	            NodeSize(this.value, this.max, graphObject);
 	        });
 
+	        $('#SizeProperty').change(function(e){
+	            ChangeNodeSizeOption(graphObject, this.value);
+	        });
+
           	$('#NodeLabelSizeSlider').change(function(e){
             	LabelSize(this.value, graphObject, graphObject.nodeLabels, 'node');
           	});

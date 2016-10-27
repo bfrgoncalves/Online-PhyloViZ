@@ -116,6 +116,8 @@ function loadGraphFunctions(){
 	        var DefaultnodeSize = graphObject.DefaultnodeSize;
 	        var nodeColor = graphObject.nodeColor;
 
+	        graphObject.nodeSizeOption = 'isolates';
+
 
 	        graphics.node(function (node) {
 	          //console.log(node);

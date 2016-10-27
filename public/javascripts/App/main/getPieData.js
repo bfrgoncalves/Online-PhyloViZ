@@ -57,39 +57,79 @@ function gatherSchemeData(graph, propertyToCheck, schemeFilter, callback){
 	var objectOfProfile = {};
 	var countProperties = 0;
 	var hasMultipleFields = false;
+	var numberTypes = 0;
+	var prevProperty = null;
 
 	graph.nodes.forEach(function(node){
 
 	    objectOfProfile[node.key] = [];
-	    var numberTypes = 0;
-	    var prevProperty = null;
+	    numberTypes = 0;
+	    prevProperty = null;
 
-	    if (propertyToCheck != 'None'){
-	    	var schemeGenes = graph.schemeGenes.slice();
-  			schemeGenes.shift();
+	    checkDataInNodes(node, function(){
+	    	graph.mergedNodes[node.key].forEach(function(mergedNode){
 
-	        propertyIndex = schemeGenes.indexOf(propertyToCheck);
+	    		checkDataInNodes(mergedNode, function(){
 
-	        if (prevProperty != null && prevProperty != node.isolates[i][propertyIndex]) hasMultipleFields = true;
+	    		});
+	    	});
+	    });
 
-	        if(objectOfTotal[String(node.profile[propertyIndex])]) objectOfTotal[String(node.profile[propertyIndex])] += 1;
-	        else{
-	            objectOfTotal[String(node.profile[propertyIndex])] = 1;
-	            countProperties += 1;
-	          }
-
-	        if (schemeFilter[2].length == 0 || (schemeFilter[1].indexOf(node.key) > -1 && schemeFilter[2].indexOf(String(node.profile[propertyIndex])) > -1)){
-		        if(objectOfProfile[node.key][String(node.profile[propertyIndex])]) objectOfProfile[node.key][String(node.profile[propertyIndex])] += 1;
-		        else{
-		          numberTypes += 1;
-		          objectOfProfile[node.key][String(node.profile[propertyIndex])] = 1;
-		        }
-		    }
-		}	
 
 	});
 
 	callback(objectOfTotal, objectOfProfile, countProperties, hasMultipleFields);
+
+	function checkDataInNodes(node, callback){
+
+		if (propertyToCheck != 'None'){
+	    	//var schemeGenes = graph.schemeGenes.slice();
+	    	var schemeGenes = graph.schemeGenes;
+  			//schemeGenes.shift();
+
+	        propertyIndex = schemeGenes.indexOf(propertyToCheck);
+
+	        if (Object.keys(objectOfProfile[graph.sameNodeHas[node.key]]).length > 1) hasMultipleFields = true;
+
+	        if(propertyIndex == 0){
+
+	        	if(objectOfTotal[String(node.key)]) objectOfTotal[String(node.key)] += 1;
+		        else{
+		            objectOfTotal[String(node.key)] = 1;
+		            countProperties += 1;
+		          }
+
+		        if (schemeFilter[2].length == 0 || (schemeFilter[1].indexOf(node.key) > -1 && schemeFilter[2].indexOf(String(node.key)) > -1)){
+		        	
+			        if(objectOfProfile[graph.sameNodeHas[node.key]][String(node.key)]) objectOfProfile[graph.sameNodeHas[node.key]][String(node.key)] += 1;
+			        else{
+			          numberTypes += 1;
+			          objectOfProfile[graph.sameNodeHas[node.key]][String(node.key)] = 1;
+			        }
+			    }
+
+	        }
+	        else {
+	        	propertyIndex = propertyIndex - 1;
+	        	if(objectOfTotal[String(node.profile[propertyIndex])]) objectOfTotal[String(node.profile[propertyIndex])] += 1;
+		        else{
+		            objectOfTotal[String(node.profile[propertyIndex])] = 1;
+		            countProperties += 1;
+		          }
+
+		        if (schemeFilter[2].length == 0 || (schemeFilter[1].indexOf(node.key) > -1 && schemeFilter[2].indexOf(String(node.profile[propertyIndex])) > -1)){
+			        console.log()
+			        if(objectOfProfile[graph.sameNodeHas[node.key]][String(node.profile[propertyIndex])]) objectOfProfile[graph.sameNodeHas[node.key]][String(node.profile[propertyIndex])] += 1;
+			        else{
+			          numberTypes += 1;
+			          objectOfProfile[graph.sameNodeHas[node.key]][String(node.profile[propertyIndex])] = 1;
+			        }
+			    }
+
+	        }
+		}
+		callback();	
+	}
 
 }
 
@@ -102,18 +142,15 @@ function changeNodeUIData(objectOfType, graphics, propertyIndexes, arrayColors, 
 	    var dataToChange = [];
 	    var indexes = [];
 	    var nodeUI = graphics.getNodeUI(i);
-	    //console.log(nodeUI);
-
-
 	    
 	    if(!$.isEmptyObject(objectOfType[i])){
-
 		    nodeUI.rawData = objectOfType[i];
 		    for (j in objectOfType[i]){
 		      dataToChange.push(objectOfType[i][j]);
 		      indexes.push(arrayColors[propertyIndexes[j]]);
 		    }
 		}
+
 		noDataColor = 0xa5a5a5; //Color to use when there is no associated data to the nodes
 
 	    if (dataToChange.length < 1) newValues = assignQuadrant(getDataPercentage([1]), [noDataColor]);
@@ -123,7 +160,6 @@ function changeNodeUIData(objectOfType, graphics, propertyIndexes, arrayColors, 
 	    indexes = newValues[1];
 	    
 	    nodeUI.data = dataToChange;  //Apply data to the nodeUI
-	    //console.log(dataToChange);
 	    nodeUI.colorIndexes = indexes; //Apply data to the nodeUI
 	    nodeUI.backupColor = indexes;
 

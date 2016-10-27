@@ -49,7 +49,7 @@ function linkTableAndGraph(property, graphObject){
 
       var columnIndex = $(this).index();
 
-      if( columnIndex == 0 && property == 'profiles') return 0;
+      //if( columnIndex == 0 && property == 'profiles') return 0;
 
       var table = $('#'+ tableToCheck).DataTable();
 
@@ -179,10 +179,10 @@ function createLinkButton(property, columnIndex, columnData, columnName, graphOb
 	      	$("#selectByMetadata").trigger("change");
 	    }
         else{
-	      	if(columnIndex != 0){
-	      		$("#selectByScheme").val(String(columnIndex+1));
+	      	//if(columnIndex != 0){
+	      		$("#selectByScheme").val(String(columnIndex+2));
 	      		$("#selectByScheme").trigger("change");
-	      	}
+	      	//}
       	}
 	});
 }
