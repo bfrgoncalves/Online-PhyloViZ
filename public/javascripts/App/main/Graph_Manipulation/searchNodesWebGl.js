@@ -7,6 +7,8 @@ var centerNode = function(nodeId, graphObject){
 	var layout = graphObject.layout;
 	var renderer = graphObject.renderer;
 	var graphics = graphObject.graphics;
+
+	nodeId = graphObject.graphInput.sameNodeHas[nodeId];
 	
 	if (graph.getNode(nodeId)) {
 			var newColors = [];

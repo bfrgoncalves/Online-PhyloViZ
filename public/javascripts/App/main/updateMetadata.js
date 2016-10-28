@@ -98,7 +98,33 @@ function changeMetadata(graphObject){
 	        //$("#dialog").append('<p>Update Complete</p>');
 
 	        statusupdateMetadata('Linking new auxiliary data...');
-	        createInput(graphObject.datasetID, function(inputData){
+	        getMetadata(graphObject.datasetID, function(newMetadata){
+	        	console.log(newMetadata);
+	        	mergeMetadata(graphObject, newMetadata[0], function(){
+	        		console.log(graphObject);
+
+
+
+	        		if(graphObject.graphInput.metadata.length > graphObject.graphInput.maxColumns){
+			            graphObject.graphInput.increment = graphObject.graphInput.metadata.length - 1;
+			            graphObject.graphInput.maxColumns = graphObject.graphInput.metadata.length;
+			        }
+
+		        	createTable(graphObject.graphInput, datasetID, 'isolates', function(){
+		        		graphObject.isUpdateMetadata = true;
+		        		colorAttributes(graphObject);
+		        		linkTableAndGraph('isolates', graphObject);
+		        		statusupdateMetadata('Update complete!');
+		        		$("#selectByMetadata").val('1');
+		        		$("#selectByMetadata").trigger("change");
+		        		$('#noIsolates').css({"display": "none"});
+		        		//graphObject.graphGL.forEachNode(function(node){
+		        		  //console.log(node);
+				        //});
+		        	});
+	        	});
+
+	        	/*
 	        	inputData.isPublic = graphObject.graphInput.isPublic;
 	        	inputData.distanceMatrix = graphObject.graphInput.distanceMatrix;
 	        	graphObject.graphInput = {};
@@ -116,6 +142,7 @@ function changeMetadata(graphObject){
 	        		  //console.log(node);
 			        //});
 	        	});
+*/
 
 	        	//end update of all features and reset visualization by metadata
 	        });
@@ -123,6 +150,48 @@ function changeMetadata(graphObject){
 	    }
 
 	  });
+}
+
+function getMetadata(datasetID, callback){
+
+	$.ajax({
+      url: '/api/utils/phylovizInput/metadata',
+      data: $.param({dataset_id: datasetID}),
+      processData: false,
+      contentType: false,
+      type: 'GET',
+      success: function(data){
+        if (data.error){
+          alert(data.error);
+        }
+        callback(data);
+      }
+
+    });
+
+}
+
+function mergeMetadata(graphObject, newMetadata, callback) {
+
+	var nodes = graphObject.graphInput.nodes;
+	var sameNodeHas = graphObject.graphInput.sameNodeHas;
+	var key = graphObject.graphInput.key[0];
+	var metadata = newMetadata.metadata;
+
+	for(i in nodes){
+		nodeKey = nodes[i].key;
+		for(k in newMetadata.isolates) {
+			var isolate = newMetadata.isolates[k];
+			if(sameNodeHas[isolate[key]] == nodeKey){
+				var toIsolates = metadata.map(function(locus){
+					return isolate[locus];
+				})
+				nodes[i].isolates.push(toIsolates);
+			}
+		}
+	}
+	graphObject.graphInput.metadata = newMetadata.metadata || []; 
+	callback();
 }
 
 

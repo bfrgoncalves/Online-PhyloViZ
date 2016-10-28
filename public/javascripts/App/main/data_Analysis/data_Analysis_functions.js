@@ -486,12 +486,18 @@ function exportSelectedDataTree(graphObject){
 
 	}
 
-	var encodedUriIsolates = 'data:text/csv;charset=utf-8,' + encodeURIComponent(stringToIsolates);
+	//var encodedUriIsolates = 'data:text/csv;charset=utf-8,' + encodeURIComponent(stringToIsolates);
 	
 	csvData = new Blob([stringToProfiles], { type: 'text/csv' }); //new way
     var csvUrl = URL.createObjectURL(csvData);
+
+    csvDataI = new Blob([stringToIsolates], { type: 'text/csv' }); //new way
+    var encodedUriIsolates = URL.createObjectURL(csvDataI);
+
+    csvDataF = new Blob([stringToFasta], { type: 'text/csv' }); //new way
+    var encodedUriFasta = URL.createObjectURL(csvDataF);
 	//var encodedUriProfiles = 'data:text/csv;charset=utf-8,' + encodeURIComponent(stringToProfiles);
-	var encodedUriFasta = 'data:text/csv;charset=utf-8,' + encodeURIComponent(stringToFasta);
+	//var encodedUriFasta = 'data:text/csv;charset=utf-8,' + encodeURIComponent(stringToFasta);
 
 	var toDownload = '';
 	if(graphObject.graphInput.metadata.length != 0) toDownload += '<p>Download <a id="linkDownloadIsolateSelectedData">isolate data</a></p>';
@@ -814,14 +820,17 @@ function exportgoeBURSTprofiles(graphObject){
 		toFile += '\n';
 	}
 
-	var encodedUriProfiles = 'data:text/csv;charset=utf-8,' + encodeURIComponent(toFile);
+	csvDataF = new Blob([toFile], { type: 'text/csv' }); //new way
+    var encodedUriP = URL.createObjectURL(csvDataF);
+
+	//var encodedUriProfiles = 'data:text/csv;charset=utf-8,' + encodeURIComponent(toFile);
 
 	$('#dialog').empty();
 
 	var a = $('<p>Download <a id="linkDownloadgoeBURSTData">goeBURST Profiles</a></p>');
 
 	$('#dialog').append(a);
-	$('#linkDownloadgoeBURSTData').attr("href", encodedUriProfiles).attr('download', "goeBURSTprofileData.tab");
+	$('#linkDownloadgoeBURSTData').attr("href", encodedUriP).attr('download', "goeBURSTprofileData.tab");
 	$('#dialog').dialog();
 
 
@@ -858,16 +867,22 @@ function exportSelectedDataMatrix(graphObject, selectedNodes, stored){
 		}
 	}
 
-	var encodedUriIsolates = 'data:text/csv;charset=utf-8,' + encodeURIComponent(stringToIsolates);
-	var encodedUriProfiles = 'data:text/csv;charset=utf-8,' + encodeURIComponent(stringToProfiles);
+	csvDataI = new Blob([stringToIsolates], { type: 'text/csv' }); //new way
+    var encodedUriI = URL.createObjectURL(csvDataI);
+
+    csvDataP = new Blob([stringToProfiles], { type: 'text/csv' }); //new way
+    var encodedUriP = URL.createObjectURL(csvDataP);
+
+	//var encodedUriIsolates = 'data:text/csv;charset=utf-8,' + encodeURIComponent(stringToIsolates);
+	//var encodedUriProfiles = 'data:text/csv;charset=utf-8,' + encodeURIComponent(stringToProfiles);
 
 	$('#dialog').empty();
 
 	var a = $('<p>Download <a id="linkDownloadIsolateSelectedData">isolate data</a></p><p>Download <a id="linkDownloadProfileSelectedData">profile data</a></p>');
 
 	$('#dialog').append(a);
-	$('#linkDownloadIsolateSelectedData').attr("href", encodedUriIsolates).attr('download', "isolateData.tab");
-	$('#linkDownloadProfileSelectedData').attr("href", encodedUriProfiles).attr('download', "profileData.tab");
+	$('#linkDownloadIsolateSelectedData').attr("href", encodedUriI).attr('download', "isolateData.tab");
+	$('#linkDownloadProfileSelectedData').attr("href", encodedUriP).attr('download', "profileData.tab");
 	$('#dialog').dialog();
 
 }
@@ -881,6 +896,7 @@ function exportMatrix(graphObject){
 
 	for (i in selectedNodes){
 		if(firstLine == true){
+			stringToMatrix += graphObject.graphInput.key[0] + '\t';
 			for (k in selectedNodes){
 				stringToMatrix += selectedNodes[k].id + '\t';
 			}
@@ -895,15 +911,17 @@ function exportMatrix(graphObject){
 	}
 	//console.log(stringToMatrix);
 
-
-	var encodedUriMatrix = 'data:text/csv;charset=utf-8,' + encodeURIComponent(stringToMatrix);
+	csvDataM = new Blob([stringToMatrix], { type: 'text/csv' }); //new way
+    var encodedUriM = URL.createObjectURL(csvDataM);
+	
+	//var encodedUriMatrix = 'data:text/csv;charset=utf-8,' + encodeURIComponent(stringToMatrix);
 	//var encodedUriMatrix = encodedUriMatrix.replace(/!!!/g, "#");
 
 	var a = $('<p>Download <a id="linkDownloadMatrix">Distance Matrix</a></p>');
 
 	$('#dialog').empty();
 	$('#dialog').append(a);
-	$('#linkDownloadMatrix').attr("href", encodedUriMatrix).attr('download', "distanceMatrix.tab");
+	$('#linkDownloadMatrix').attr("href", encodedUriM).attr('download', "distanceMatrix.tab");
 	$('#dialog').dialog();
 }
 

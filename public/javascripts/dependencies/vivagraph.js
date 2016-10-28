@@ -3592,6 +3592,7 @@ function webglInputManager(graph, graphics) {
         pos = {x : 0, y : 0};
 
     inputEvents.mouseDown(function (node, e) {
+        graphics.draggedNode = node;
         draggedNode = node;
         pos.x = e.clientX;
         pos.y = e.clientY;
@@ -3604,11 +3605,12 @@ function webglInputManager(graph, graphics) {
         }
 
         return true;
-    }).mouseUp(function (node) {
+    }).mouseUp(function (node, e) {
         inputEvents.releaseMouseCapture(draggedNode);
 
         draggedNode = null;
         var handlers = internalHandlers[node.id];
+
         if (handlers && handlers.onStop) {
             handlers.onStop();
         }

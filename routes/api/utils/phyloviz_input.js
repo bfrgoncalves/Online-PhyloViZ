@@ -33,6 +33,32 @@ router.get('/', function(req, res, next){
 		
 });
 
+router.get('/metadata', function(req, res, next){
+	
+	if (req.query.dataset_id){
+
+		var dataToGraph = {};
+		var datasetID = req.query.dataset_id;
+
+		if (!req.isAuthenticated()) var userID = "1";
+		else var userID = req.user.id;
+
+		var isNewick = false;
+
+		checkIfpublic(datasetID, userID, function(isPublic){
+
+			getMetadata(datasetID, userID, isPublic, function(dataset){
+		      	res.send(dataset);
+		    });
+
+		});
+
+	}
+	else res.send(false);
+		
+});
+
+
 function checkIfpublic(datasetID, userID, callback){
 
 	var pg = require("pg");
@@ -68,6 +94,57 @@ function checkIfpublic(datasetID, userID, callback){
 
 		});
 
+
+}
+
+function getMetadata(datasetID, userID, isPublic, callback) {
+
+	var pg = require("pg");
+	var connectionString = "postgres://" + config.databaseUserString + "@localhost/"+ config.db;
+
+	//var datasetID;
+
+	//query = "SELECT id FROM datasets.datasets WHERE dataset_id = '"+datasetID+"' AND user_id=$1;";
+
+	var client = new pg.Client(connectionString);
+		client.connect(function(err) {
+		  if(err) {
+		    return console.error('could not connect to postgres', err);
+		  }
+
+		  if(isPublic == true){
+
+		  	query = "SELECT data AS profiles, schemeGenes FROM datasets.profiles WHERE dataset_id='"+datasetID+"' LIMIT 1;" +
+		    		"SELECT data AS isolates, metadata FROM datasets.isolates WHERE dataset_id='"+datasetID+"' LIMIT 1;";
+
+		  }
+		  else{
+
+		    query = "SELECT data AS profiles, schemeGenes FROM datasets.profiles WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;" +
+		    		"SELECT data AS isolates, metadata FROM datasets.isolates WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;";
+		  }
+
+		  //console.log(query);
+
+
+		    client.query(query, function(err, result) {
+			    if(err) {
+			      return console.error('error running query', err);
+			    }
+
+				var dataset = {};
+
+			    for(i in result.rows){
+			    	for(x in result.rows[i]){
+			    		if( x  == 'isolates') dataset.isolates = JSON.parse(JSON.stringify(result.rows[i][x]['isolates']).replace(/&39/g, "'"));
+			    		else if(x == 'metadata') dataset[x] = result.rows[i][x].toString().replace(/&39/g, "'").split(',');
+			    	}
+			    }
+			    client.end();
+			    callback([dataset]);
+			});
+
+		});
 
 }
 

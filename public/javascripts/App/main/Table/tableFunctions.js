@@ -26,6 +26,7 @@ function getTableData(datasetID, parameterId, callback){
 }
 
 frombutton=false;
+
 function constructTable(graph, tableData, datasetParameter, callback){
 
 	var divToCheck = 'div' + datasetParameter;

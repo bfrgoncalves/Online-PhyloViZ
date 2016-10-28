@@ -79,6 +79,10 @@ $(document).ready(function(){
             graph.increment = graph.nodes.length - 1;
             graph.maxColumns = graph.nodes.length;
           }
+          if(graph.metadata.length > graph.maxColumns){
+            graph.increment = graph.metadata.length - 1;
+            graph.maxColumns = graph.metadata.length;
+          }
 
           graph.firstshownColumn = graph.minColumns;
 

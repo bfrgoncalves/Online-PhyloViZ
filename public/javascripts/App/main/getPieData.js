@@ -100,7 +100,7 @@ function gatherSchemeData(graph, propertyToCheck, schemeFilter, callback){
 		          }
 
 		        if (schemeFilter[2].length == 0 || (schemeFilter[1].indexOf(node.key) > -1 && schemeFilter[2].indexOf(String(node.key)) > -1)){
-		        	
+
 			        if(objectOfProfile[graph.sameNodeHas[node.key]][String(node.key)]) objectOfProfile[graph.sameNodeHas[node.key]][String(node.key)] += 1;
 			        else{
 			          numberTypes += 1;
