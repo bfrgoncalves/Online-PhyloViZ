@@ -186,7 +186,6 @@ function readCSVfile(pathToFile, fileType, dataToDB, callback){
 
     csv.fromStream(stream, {headers : true, delimiter:'\t', quote: null})
       .on("data", function(data){
-        console.log('AQUI');
         if (getHeaders){
           for (i in data) headers.push(i);
           identifier = headers[0];
