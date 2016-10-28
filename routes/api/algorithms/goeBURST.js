@@ -121,7 +121,7 @@ if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().
 
 				goeBURST(profileArray, identifiers, algorithmToUse, missings, analysis_method, function(links, distanceMatrix, profilegoeBURST, indexToRemove){
 					if(save){
-						saveLinks(datasetID, links, function(){
+						saveLinks(datasetID, links, missings, function(){
 							if(hasmissings == 'true'){
 								save_profiles(profilegoeBURST, old_profiles, datasetID, indexToRemove, function(){
 									if(send_email){
@@ -216,7 +216,7 @@ router.get('/', function(req, res, next){
 				old_profiles = profiles;
 				goeBURST(profileArray, identifiers, algorithmToUse, missings, analysis_method, function(links, distanceMatrix, profilegoeBURST, indexToRemove){
 					if(req.query.save){
-						saveLinks(datasetID, links, function(){
+						saveLinks(datasetID, links, missings, function(){
 							if(req.query.missings == 'true'){
 								save_profiles(profilegoeBURST, old_profiles, datasetID, indexToRemove, function(){
 									res.send({datasetID: req.query.dataset_id, links: links, distanceMatrix: distanceMatrix, dupProfiles: dupProfiles, dupIDs: dupIDs});
@@ -259,11 +259,16 @@ router.post('/save', function(req, res, next){
 	if (req.body.dataset_id){
 
 		var datasetID = req.body.dataset_id;
+		var missings = [false, ''];
 
 		if (!req.isAuthenticated()) var userID = "1";
 		else var userID = req.user.id;
 
-		saveLinks(datasetID, req.body.links, function(){
+		if (req.query.missings == 'true'){
+			missings = [true, req.query.missingchar];
+		}
+
+		saveLinks(datasetID, req.body.links, missings, function(){
 			res.send({datasetID: req.body.dataset_id, status: true});
 		});
 	}
@@ -347,13 +352,13 @@ function loadProfiles(datasetID, userID, callback){
 
 }
 
-function saveLinks(datasetID, links, callback){
+function saveLinks(datasetID, links, missings, callback){
 
 	//var datasetModel = require('../../../models/datasets');
 
 	var pg = require("pg");
 	var connectionString = "pg://" + config.databaseUserString + "@localhost/"+ config.db;
-	var linksToUse = { links: links };
+	var linksToUse = { links: links, missings: missings };
 	//var distanceMatrixToUse =  { distanceMatrix: distanceMatrix };
 	//distanceMatrixToUse = {distanceMatrix: []};
 

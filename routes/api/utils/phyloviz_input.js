@@ -203,7 +203,10 @@ function getDataset(datasetID, userID, isPublic, callback) {
 			    			dataset.profilesize = result.rows[i][x]['profilesize'];
 			    		}
 			    		else if( x  == 'isolates') dataset.isolates = JSON.parse(JSON.stringify(result.rows[i][x]['isolates']).replace(/&39/g, "'"));
-			    		else if( x  == 'links') dataset.links = JSON.parse(JSON.stringify(result.rows[i][x]['links']).replace(/&39/g, "'"));
+			    		else if( x  == 'links'){
+			    			dataset.links = JSON.parse(JSON.stringify(result.rows[i][x]['links']).replace(/&39/g, "'"));
+			    			dataset.missings = JSON.parse(JSON.stringify(result.rows[i][x]['missings']).replace(/&39/g, "'"));
+			    		}
 			    		else if( x  == 'distancematrix'){
 			    			try{
 			    				dataset.distanceMatrix = result.rows[i][x]['distanceMatrix'];

@@ -382,6 +382,7 @@ function uploadToDatabase(data, callback){
       client.query(query, function(err, result) {
         if(err) {
           data.hasError = true;
+          console.log(error);
           data.errorMessage = 'Could not upload input data. Possible unsupported file type. For information on supported file types click <a href="/index/inputinfo">here</a>.'; //+ err.toString();
           return callback(data);
         }

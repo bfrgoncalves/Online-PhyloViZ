@@ -750,7 +750,7 @@ function get_exclusive_loci(graphObject, callback){
 		for(j in graphObject.selectedNodes){
 			sel_positions.push(graphObject.selectedNodes[j].data.idGL);
 			var profile = graphObject.selectedNodes[j].data.profile;
-			if(profile[i] != '0') its_exclusive = true;
+			if(profile[i] != graphObject.graphInput.missingsInfo[1]) its_exclusive = true;
 			else {
 				its_exclusive = false;
 				break
@@ -758,7 +758,7 @@ function get_exclusive_loci(graphObject, callback){
 			var multipleNodes = graphObject.graphInput.mergedNodes[graphObject.selectedNodes[j].data.key];
 			for(k in multipleNodes){
 				var profile = multipleNodes[k].profile;
-				if(profile[i] != '0') its_exclusive = true;
+				if(profile[i] != graphObject.graphInput.missingsInfo[1]) its_exclusive = true;
 				else {
 					its_exclusive = false;
 					break
@@ -771,16 +771,16 @@ function get_exclusive_loci(graphObject, callback){
 
 				if(!sel_positions.includes(parseInt(j))){
 					var profile = graphObject.graphInput.nodes[j].profile;
-					if(profile[i] == '0') its_exclusive = true;
+					if(profile[i] == graphObject.graphInput.missingsInfo[1]) its_exclusive = true;
 					else {
 						its_exclusive = false;
 						break
 					}
 				}
-				var multipleNodes = graphObject.graphInput.mergedNodes[graphObject.selectedNodes[j].data.key];
+				var multipleNodes = graphObject.graphInput.mergedNodes[graphObject.graphInput.nodes[j].key];
 				for(k in multipleNodes){
 					var profile = multipleNodes[k].profile;
-					if(profile[i] != '0') its_exclusive = true;
+					if(profile[i] != graphObject.graphInput.missingsInfo[1]) its_exclusive = true;
 					else {
 						its_exclusive = false;
 						break
