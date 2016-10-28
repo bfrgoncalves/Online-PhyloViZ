@@ -164,7 +164,6 @@ function getLinks(data){
             }
           }) 
         }, 30000);
-        
 
       }
       else if(data.dupProfiles.length > 0 || data.dupIDs.length >0){

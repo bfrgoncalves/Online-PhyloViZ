@@ -115,7 +115,7 @@ if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().
 		
 		if(datasetID != undefined){ 
 
-			loadProfiles(datasetID, userID, function(profileArray, identifiers, datasetID, dupProfiles, dupIDs, profiles){
+			loadProfiles(datasetID, userID, function(profileArray, identifiers, datasetID, dupProfiles, dupIDs, profiles, entries_ids){
 				datasetId = datasetID;
 				old_profiles = profiles;
 
@@ -123,7 +123,7 @@ if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().
 					if(save){
 						saveLinks(datasetID, links, missings, function(){
 							if(hasmissings == 'true'){
-								save_profiles(profilegoeBURST, old_profiles, datasetID, indexToRemove, function(){
+								save_profiles(profilegoeBURST, old_profiles, datasetID, indexToRemove, entries_ids, function(){
 									if(send_email){
 										console.log('getting mail');
 										getEmail(userID, function(email){
@@ -211,14 +211,14 @@ router.get('/', function(req, res, next){
 			});
 		}
 		else{	
-			loadProfiles(datasetID, userID, function(profileArray, identifiers, datasetID, dupProfiles, dupIDs, profiles){
+			loadProfiles(datasetID, userID, function(profileArray, identifiers, datasetID, dupProfiles, dupIDs, profiles, entries_ids){
 				datasetId = datasetID;
 				old_profiles = profiles;
 				goeBURST(profileArray, identifiers, algorithmToUse, missings, analysis_method, function(links, distanceMatrix, profilegoeBURST, indexToRemove){
 					if(req.query.save){
 						saveLinks(datasetID, links, missings, function(){
 							if(req.query.missings == 'true'){
-								save_profiles(profilegoeBURST, old_profiles, datasetID, indexToRemove, function(){
+								save_profiles(profilegoeBURST, old_profiles, datasetID, indexToRemove, entries_ids, function(){
 									res.send({datasetID: req.query.dataset_id, links: links, distanceMatrix: distanceMatrix, dupProfiles: dupProfiles, dupIDs: dupIDs});
 								});
 							}
@@ -294,7 +294,7 @@ function loadProfiles(datasetID, userID, callback){
 	  }
 
 		query = "SELECT data_type FROM datasets.datasets WHERE dataset_id = '"+datasetID+"';" +
-				"SELECT data FROM datasets.profiles WHERE dataset_id = '"+datasetID+"';" +
+				"SELECT data, id FROM datasets.profiles WHERE dataset_id = '"+datasetID+"';" +
 				"SELECT schemeGenes FROM datasets.profiles WHERE dataset_id = '"+datasetID+"';";
 		
 		client.query(query, function(err, result) {
@@ -302,9 +302,23 @@ function loadProfiles(datasetID, userID, callback){
 	      return console.error('error running query', err);
 	    }
 
-	    var data_type = result.rows[0].data_type;
-	    var profiles = result.rows[1].data.profiles;
-	    var schemeGenes = result.rows[2].schemegenes;
+	    var profiles = [];
+	    var entries_ids = [];
+	    for(row in result.rows){
+	    	var resultObject = result.rows[row];
+	    	if(resultObject.hasOwnProperty('data')){
+	    		profiles = profiles.concat(result.rows[row].data.profiles);
+	    		entries_ids.push(result.rows[row].id);
+	    	}
+	    	else if(resultObject.hasOwnProperty('data_type')) var data_type = result.rows[row].data_type;
+	    	else if(resultObject.hasOwnProperty('schemegenes')) var schemeGenes = result.rows[row].schemegenes;
+	    }
+	    //console.log(profiles);
+	    //var data_type = result.rows[0].data_type;
+
+	    //console.log(profiles);
+	    //var profiles = result.rows[1].data.profiles;
+	    //var schemeGenes = result.rows[2].schemegenes;
 
 		
 		var existsProfile = {};
@@ -341,7 +355,7 @@ function loadProfiles(datasetID, userID, callback){
 			}
 		});
 		client.end();
-		callback(profileArray, identifiers, datasetID, dupProfiles, dupIDs, profiles);
+		callback(profileArray, identifiers, datasetID, dupProfiles, dupIDs, profiles, entries_ids);
 
 
 	  });
@@ -381,7 +395,7 @@ function saveLinks(datasetID, links, missings, callback){
 		});
 }
 
-function save_profiles(profilegoeBURST, profiles, datasetID, indexesToRemove, callback){
+function save_profiles(profilegoeBURST, profiles, datasetID, indexesToRemove, entries_ids, callback){
 	
 	var countProfiles = 0;
 	var newProfiles = [];
@@ -390,28 +404,43 @@ function save_profiles(profilegoeBURST, profiles, datasetID, indexesToRemove, ca
 	var connectionString = "pg://" + config.databaseUserString + "@localhost/"+ config.db;
 
 	//if(profilegoeBURST[0].length != Object.keys(profiles[0]).length) 
-		var profilesToUse = { profiles: profiles, indexestoremove: indexesToRemove, profilesize: profilegoeBURST[0].length };
+	var profilesToUse = { profiles: profiles, indexestoremove: indexesToRemove, profilesize: profilegoeBURST[0].length };
 	//else var profilesToUse = { profiles: profiles };
 	//var distanceMatrixToUse =  { distanceMatrix: distanceMatrix };
 	//distanceMatrixToUse = {distanceMatrix: []};
 
 	var client = new pg.Client(connectionString);
 
-		query = "UPDATE datasets.profiles SET data = '"+JSON.stringify(profilesToUse)+"' WHERE dataset_id ='"+datasetID+"';";
-				//"UPDATE datasets.links SET distanceMatrix = '"+JSON.stringify(distanceMatrixToUse)+"' WHERE dataset_id ='"+datasetID+"';";
-		
-		client.connect(function(err) {
-		  if(err) {
-		    return console.error('could not connect to postgres', err);
-		  }
-		  client.query(query, function(err, result) {
-		    if(err) {
-		      return console.error('error running query', err);
-		    }
-		    client.end();
-			callback();
-		  });
-		});
+	 client.connect(function(err) {
+      if(err) {
+        data.hasError = true;
+        data.errorMessage = 'Could not connect to database.'; //+ err.toString();
+        return callback(data);
+      }
+
+		var pTouse = {};
+		countEntries = 0;
+		countBatches = 0;
+
+		while(profilesToUse.profiles.length){
+	        countBatches+=1;
+	        pTouse[countBatches] = { profiles: profilesToUse.profiles.splice(0, config.batchSize), indexestoremove: indexesToRemove, profilesize: profilegoeBURST[0].length };
+
+	        queryUpdate = "UPDATE datasets.profiles SET data = $1 WHERE dataset_id ='"+datasetID+"' AND id ='"+String(entries_ids[countEntries])+"';";
+
+	          client.query(queryUpdate, [pTouse[countBatches]], function(err, result) {
+	            if(err) {
+	              data.hasError = true;
+	              console.log(err);
+	              data.errorMessage = 'Could not upload input data. Possible unsupported file type. For information on supported file types click <a href="/index/inputinfo">here</a>.'; //+ err.toString();
+	              return callback(data);
+	            }
+	            if (countBatches == entries_ids.length) callback();
+
+	          });
+	        countEntries+=1;
+	    }
+	   });
 
 }
 

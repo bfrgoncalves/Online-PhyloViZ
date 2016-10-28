@@ -168,7 +168,7 @@ function getDataset(datasetID, userID, isPublic, callback) {
 		  	query = "SELECT data AS profiles, schemeGenes FROM datasets.profiles WHERE dataset_id='"+datasetID+"' LIMIT 1;" +
 		    		"SELECT data AS isolates, metadata FROM datasets.isolates WHERE dataset_id='"+datasetID+"' LIMIT 1;" +
 		    		"SELECT data AS links FROM datasets.links WHERE dataset_id='"+datasetID+"' LIMIT 1;" +
-		    		"SELECT distanceMatrix FROM datasets.links WHERE dataset_id='"+datasetID+"' LIMIT 1;" +
+		    		//"SELECT distanceMatrix FROM datasets.links WHERE dataset_id='"+datasetID+"' LIMIT 1;" +
 		    		"SELECT data AS newick FROM datasets.newick WHERE dataset_id='"+datasetID+"' LIMIT 1;" +
 		    		"SELECT data AS positions FROM datasets.positions WHERE dataset_id='"+datasetID+"' LIMIT 1;" +
 		    		"SELECT name, key, data_type FROM datasets.datasets WHERE dataset_id='"+datasetID+"' LIMIT 1;";
@@ -176,7 +176,7 @@ function getDataset(datasetID, userID, isPublic, callback) {
 		  }
 		  else{
 
-		    query = "SELECT data AS profiles, schemeGenes FROM datasets.profiles WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;" +
+		    query = "SELECT data AS profiles, schemeGenes FROM datasets.profiles WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t');" +
 		    		"SELECT data AS isolates, metadata FROM datasets.isolates WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;" +
 		    		"SELECT data AS links FROM datasets.links WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;" +
 		    		//"SELECT distanceMatrix FROM datasets.links WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;" +
@@ -194,12 +194,15 @@ function getDataset(datasetID, userID, isPublic, callback) {
 			    }
 
 				var dataset = {};
+				dataset.profiles = [];
 
 			    for(i in result.rows){
 			    	for(x in result.rows[i]){
 			    		if( x == 'profiles') {
-			    			dataset.profiles = JSON.parse(JSON.stringify(result.rows[i][x]['profiles']).replace(/&39/g, "'"));
-			    			if (result.rows[i][x].hasOwnProperty('indexestoremove')) dataset.indexestoremove = JSON.parse(JSON.stringify(result.rows[i][x]['indexestoremove']).replace(/&39/g, "'"));
+			    			//console.log(result.rows[i][x]['indexestoremove']);
+			    			
+			    			dataset.profiles = dataset.profiles.concat(result.rows[i][x]['profiles']);//JSON.parse(JSON.stringify(result.rows[i][x]['profiles']).replace(/&39/g, "'"));
+			    			if (result.rows[i][x].hasOwnProperty('indexestoremove')) dataset.indexestoremove = result.rows[i][x]['indexestoremove'];//JSON.parse(JSON.stringify(result.rows[i][x]['indexestoremove']).replace(/&39/g, "'"));
 			    			dataset.profilesize = result.rows[i][x]['profilesize'];
 			    		}
 			    		else if( x  == 'isolates') dataset.isolates = JSON.parse(JSON.stringify(result.rows[i][x]['isolates']).replace(/&39/g, "'"));
