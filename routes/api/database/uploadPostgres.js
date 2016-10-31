@@ -389,10 +389,12 @@ function uploadToDatabase(data, callback){
       while(profiles.profiles.length){
         countBatches+=1;
         pTouse[countBatches] = {profiles: profiles.profiles.splice(0, config.batchSize)}; 
+        console.log('BATCH ', countBatches);
 
         var profileQuery = "INSERT INTO datasets.profiles (user_id, data, schemeGenes, dataset_id, put_public, is_public, data_timestamp) VALUES ('"+userID+"', $1, '{"+data['fileProfile_headers']+"}', '"+data.datasetID+"', '"+ data.makePublic +"', '"+ data.is_public + "', NOW());";
 
           client.query(profileQuery, [pTouse[countBatches]], function(err, result) {
+            console.log('DONE');
             if(err) {
               data.hasError = true;
               console.log(err);
