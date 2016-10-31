@@ -422,7 +422,8 @@ function save_profiles(profilegoeBURST, profiles, datasetID, indexesToRemove, en
 
 		while(profilesToUse.profiles.length){
 	        countBatches+=1;
-	        pTouse[countBatches] = { profiles: profilesToUse.profiles.splice(0, config.batchSize), indexestoremove: indexesToRemove, profilesize: profilegoeBURST[0].length };
+	        if(countBatches == 1) pTouse[countBatches] = { profiles: profilesToUse.profiles.splice(0, config.batchSize), indexestoremove: indexesToRemove, profilesize: profilegoeBURST[0].length };
+	        else pTouse[countBatches] = { profiles: profilesToUse.profiles.splice(0, config.batchSize)};
 
 	        queryUpdate = "UPDATE datasets.profiles SET data = $1 WHERE dataset_id ='"+datasetID+"' AND id ='"+String(entries_ids[countEntries])+"';";
 

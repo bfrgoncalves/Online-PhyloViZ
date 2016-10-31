@@ -199,11 +199,9 @@ function getDataset(datasetID, userID, isPublic, callback) {
 			    for(i in result.rows){
 			    	for(x in result.rows[i]){
 			    		if( x == 'profiles') {
-			    			//console.log(result.rows[i][x]['indexestoremove']);
-			    			
 			    			dataset.profiles = dataset.profiles.concat(result.rows[i][x]['profiles']);//JSON.parse(JSON.stringify(result.rows[i][x]['profiles']).replace(/&39/g, "'"));
 			    			if (result.rows[i][x].hasOwnProperty('indexestoremove')) dataset.indexestoremove = result.rows[i][x]['indexestoremove'];//JSON.parse(JSON.stringify(result.rows[i][x]['indexestoremove']).replace(/&39/g, "'"));
-			    			dataset.profilesize = result.rows[i][x]['profilesize'];
+			    			if (result.rows[i][x].hasOwnProperty('profilesize')) dataset.profilesize = result.rows[i][x]['profilesize'];
 			    		}
 			    		else if( x  == 'isolates') dataset.isolates = JSON.parse(JSON.stringify(result.rows[i][x]['isolates']).replace(/&39/g, "'"));
 			    		else if( x  == 'links'){

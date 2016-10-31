@@ -387,6 +387,7 @@ function uploadToDatabase(data, callback){
       
       var countBatches = 0;
       var pTouse = {};
+      var completeBatches = 0;
       
       while(profiles.profiles.length){
         countBatches+=1;
@@ -397,6 +398,7 @@ function uploadToDatabase(data, callback){
         var profileQuery = "INSERT INTO datasets.profiles (user_id, data, schemeGenes, dataset_id, put_public, is_public, data_timestamp) VALUES ('"+userID+"', $1, '{"+data['fileProfile_headers']+"}', '"+data.datasetID+"', '"+ data.makePublic +"', '"+ data.is_public + "', NOW());";
 
           client.query(profileQuery, [pTouse[countBatches]], function(err, result) {
+            completeBatches += 1;
             console.log('DONE');
             if(err) {
               data.hasError = true;
@@ -427,6 +429,11 @@ function uploadToDatabase(data, callback){
             return callback(data);
           }
           client.end();
+          
+          while(completeBatches != countBatches){
+            console.log(completeBatches, countBatches);
+          }
+          
           callback(data);
         });
       });
