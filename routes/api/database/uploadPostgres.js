@@ -392,8 +392,7 @@ function uploadToDatabase(data, callback){
         countBatches+=1;
         pTouse[countBatches] = {profiles: profiles.profiles.splice(0, config.batchSize)}; 
         console.log(profiles.profiles.length);
-        console.log('B ', pTouse[countBatches].profiles.length);
-        if(countBatches == 3) break
+        console.log('BATCH ', countBatches);
 
         var profileQuery = "INSERT INTO datasets.profiles (user_id, data, schemeGenes, dataset_id, put_public, is_public, data_timestamp) VALUES ('"+userID+"', $1, '{"+data['fileProfile_headers']+"}', '"+data.datasetID+"', '"+ data.makePublic +"', '"+ data.is_public + "', NOW());";
 
