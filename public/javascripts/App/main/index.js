@@ -86,8 +86,8 @@ $(document).ready(function(){
 
           graph.firstshownColumn = graph.minColumns;
 
-          create_subset_profile(graph, function(graph){
-            if(graph.nodes.length < 2000 && graph.schemeGenes.length < 1000){
+          if(graph.nodes.length < 2000 && graph.schemeGenes.length < 1000){
+            create_subset_profile(graph, function(graph){
               status('Computing Distance Matrix...');
               calculateDistanceMatrix(graph, function(graph){
 
@@ -111,28 +111,26 @@ $(document).ready(function(){
                 });
 
               });
-            }
-            else {
-                status('Loading tables...');
-                createTable(graph, datasetID, 'isolates', function(){
+            })
+          }
+          else {
+              status('Loading tables...');
+              createTable(graph, datasetID, 'isolates', function(){
 
-                  if (graph.data_type == 'fasta'){
-                    status('Loading tree...');
-                    getPublicInfo(graph, datasetID, function(graph){
-                      constructGraph(graph, datasetID);
-                    });
-                  }
-                  else{
-                    status('Loading tree...');
-                    getPublicInfo(graph, datasetID, function(graph){
-                      constructGraph(graph, datasetID);
-                    });
-                  }
-                });
-            }
-
-            
-          })
+                if (graph.data_type == 'fasta'){
+                  status('Loading tree...');
+                  getPublicInfo(graph, datasetID, function(graph){
+                    constructGraph(graph, datasetID);
+                  });
+                }
+                else{
+                  status('Loading tree...');
+                  getPublicInfo(graph, datasetID, function(graph){
+                    constructGraph(graph, datasetID);
+                  });
+                }
+              });
+          }
 
       });
     });
