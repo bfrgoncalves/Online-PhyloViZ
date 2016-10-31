@@ -429,11 +429,11 @@ function uploadToDatabase(data, callback){
             return callback(data);
           }
           client.end();
-          
+          console.log(completeBatches, countBatches);
           while(completeBatches != countBatches){
             console.log(completeBatches, countBatches);
           }
-          
+
           callback(data);
         });
       });
