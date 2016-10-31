@@ -419,6 +419,7 @@ function save_profiles(profilegoeBURST, profiles, datasetID, indexesToRemove, en
 		var pTouse = {};
 		countEntries = 0;
 		countBatches = 0;
+		var completeBatches = 0;
 
 		while(profilesToUse.profiles.length){
 	        countBatches+=1;
@@ -428,13 +429,14 @@ function save_profiles(profilegoeBURST, profiles, datasetID, indexesToRemove, en
 	        queryUpdate = "UPDATE datasets.profiles SET data = $1 WHERE dataset_id ='"+datasetID+"' AND id ='"+String(entries_ids[countEntries])+"';";
 
 	          client.query(queryUpdate, [pTouse[countBatches]], function(err, result) {
+	          	completeBatches += 1;
 	            if(err) {
 	              data.hasError = true;
 	              console.log(err);
 	              data.errorMessage = 'Could not upload input data. Possible unsupported file type. For information on supported file types click <a href="/index/inputinfo">here</a>.'; //+ err.toString();
 	              return callback(data);
 	            }
-	            if (countBatches == entries_ids.length){
+	            if (countBatches == completeBatches){
 	            	callback();
 	           	}
 
