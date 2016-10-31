@@ -270,13 +270,13 @@ block normalBody
 											h5 Dataset Description
 											input.form-control.input-sm(id="dataset_description", type="text", placeholder="Description")
 											br
-											div(id="emailcheckbox", style="margin-left:3%; text-align:right;")
-												label Send E-mail when completed
-												input(id="email_input", type="checkbox", style="margin-left:3%;", checked)
 											if (user)
 												div(id="publiccheckbox", style="margin-left:3%; text-align:right;")
 													label Make public
 													input(id="makepublic", type="checkbox", style="margin-left:3%;")
+												div(id="emailcheckbox", style="margin-left:3%; text-align:right;")
+													label Send E-mail when completed
+													input(id="email_input", type="checkbox", style="margin-left:3%;", checked)
 											else
 												div(id="publiccheckbox", style="margin-left:3%; text-align:right; display:none;")
 													label Make public

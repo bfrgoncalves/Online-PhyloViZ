@@ -127,12 +127,17 @@ function getLinks(data){
 */
   var missings = false;
   var missingChar = '';
-  var email_input = document.getElementById('email_input').checked;
+  try{
+    var email_input = document.getElementById('email_input').checked;
+  }
+  catch(err){
+    var email_input = false;
+  }
 
   var datasetID = data.datasetID;
   var onqueue = false;
 
-  if(data.fileProfile.length > 300 || data.fileProfile_headers.length > 40) onqueue = true;
+  if(data.numberOfProfiles > 300 || data.profileLength > 40) onqueue = true;
 
   var analysis_method = 'core';
 
@@ -160,6 +165,10 @@ function getLinks(data){
 
             if(status == 'complete'){
               window.location.replace("/main/dataset/" + datasetID);
+              clearInterval(checkI);
+            }
+            if(status == 'error'){
+              alert('Error');
               clearInterval(checkI);
             }
           }) 

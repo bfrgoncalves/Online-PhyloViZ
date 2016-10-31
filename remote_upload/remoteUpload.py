@@ -49,7 +49,7 @@ def main():
 	if not "datasetID" in dataset:
 		sys.exit()
 
-	if len(dataset["fileProfile"]) > 300 or len(dataset["fileProfile_headers"]) > 100:
+	if len(dataset["numberOfProfiles"]) > 300 or len(dataset["profileLength"]) > 100:
 		onqueue = 'true'
 	
 	goe_message = rungoeBURST(args, dataset['datasetID'], currentRoot, cookie_file, onqueue)

@@ -65,7 +65,7 @@ router.post('/', multer({
               dataToDB.dataset_description = req.body.dataset_description;
               
               uploadToDatabase(dataToDB, function(){
-                res.send(dataToDB);
+                res.send({datasetID: dataToDB.datasetID, hasError: dataToDB.hasError, errorMessage: dataToDB.errorMessage, numberOfProfiles: dataToDB.numberOfProfiles, profileLength: dataToDB.fileProfile_headers.length});
               });
               
           }
@@ -81,7 +81,7 @@ router.post('/', multer({
               dataToDB.errorMessage = "Possible unsupported file type. For information on supported file types click <a href='/index/inputinfo'>here</a>.";
             }
             alreadyError = true;
-            res.send(dataToDB);
+            res.send({datasetID: dataToDB.datasetID, hasError: dataToDB.hasError, errorMessage: dataToDB.errorMessage, numberOfProfiles: dataToDB.numberOfProfiles, profileLength: dataToDB.fileProfile_headers.length});
           }
     });
   }
@@ -349,6 +349,7 @@ function uploadToDatabase(data, callback){
     */
     userID = data.userID;
     //console.log(userID);
+    data.numberOfProfiles = data.fileProfile.length;
     profiles = { profiles : data.fileProfile};
     isolates = { isolates : data.fileMetadata};
     positions = {};

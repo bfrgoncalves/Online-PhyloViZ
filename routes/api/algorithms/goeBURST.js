@@ -239,17 +239,15 @@ router.get('/', function(req, res, next){
 });
 
 router.get('/status', function(req,res,next){
-	if(req.isAuthenticated()){
-		if(req.query.jobid){
-			queue.getJob(req.query.jobid).then(function(job){
-				if(job.isCompleted()){
-					res.send({status: 'complete'});
-				}
-				else res.send({status: 'running'});
-			});
-		}
+	if(req.query.jobid){
+		queue.getJob(req.query.jobid).then(function(job){
+			if(job.isCompleted()){
+				res.send({status: 'complete'});
+			}
+			else res.send({status: 'running'});
+		});
 	}
-	else res.send({status:401});
+	else res.send({status: 'error'});
 
 });
 
@@ -435,7 +433,9 @@ function save_profiles(profilegoeBURST, profiles, datasetID, indexesToRemove, en
 	              data.errorMessage = 'Could not upload input data. Possible unsupported file type. For information on supported file types click <a href="/index/inputinfo">here</a>.'; //+ err.toString();
 	              return callback(data);
 	            }
-	            if (countBatches == entries_ids.length) callback();
+	            if (countBatches == entries_ids.length){
+	            	callback();
+	           	}
 
 	          });
 	        countEntries+=1;
