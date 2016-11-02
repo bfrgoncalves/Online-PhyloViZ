@@ -62,9 +62,10 @@ router.get('/nodes', function(req, res, next){
 		      				res.write('[');
 		      				var batches = 0;
 		      				while(graphInput.nodes.length){
+		      					console.log('BATCH ', batches);
 		      					if (batches == 0) addToBatches = '';
 		      					else addToBatches = ',';
- 		      					res.write(addToBatches + JSON.stringify({nodes: graphInput.nodes.splice(0, 30)}));
+ 		      					res.write(addToBatches + JSON.stringify({nodes: graphInput.nodes.splice(0, config.batchSize)}));
  		      					batches += 1;
 		      				}
 		      				res.write(']');
