@@ -47,7 +47,6 @@ router.get('/nodes', function(req, res, next){
 
 		checkIfpublic(datasetID, userID, function(isPublic){
 			getNodes(datasetID, userID, isPublic, function(dataset){
-				console.log(dataset.isolates);
 		      	createPhyloviZInput(dataset, function(graphInput){
 		      		var counts = 0;
 		      		var numKeys = Object.keys(graphInput).length;
@@ -61,6 +60,7 @@ router.get('/nodes', function(req, res, next){
 		      			if(i == 'nodes'){
 		      				res.write('[');
 		      				var batches = 0;
+		      				console.log(i, graphInput.nodes.length);
 		      				while(graphInput.nodes.length){
 		      					console.log('BATCH ', batches);
 		      					if (batches == 0) addToBatches = '';
@@ -72,6 +72,7 @@ router.get('/nodes', function(req, res, next){
 
 		      			}
 		      			else{
+		      				//console.log(i, graphInput[i].length);
 		      				res.write('[');
 		      				res.write(JSON.stringify({values:graphInput[i]}));
 		      				res.write(']');

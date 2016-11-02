@@ -79,7 +79,7 @@ client.on('connect', function() {
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({limit: '8mb', extended: false}));
+app.use(bodyParser.urlencoded({limit: '100mb', extended: false}));
 app.use(cookieParser());      //FOR PASSPORT
 app.use(expressSession({ 
   secret: 'keyboard cat',
