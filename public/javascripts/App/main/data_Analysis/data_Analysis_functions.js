@@ -701,8 +701,6 @@ function create_subset_profile(graph, callback){
 			else newProfile = profile;
 		}
 
-		console.log(String(newProfile));
-
 		if(!sameProfileHas[String(newProfile)]){
 			if(newNodes.length == 0) nodeIndex = 0;
 			else nodeIndex = newNodes.length - 1;
