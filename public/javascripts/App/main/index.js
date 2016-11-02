@@ -195,6 +195,9 @@ function createInput(datasetID, callback) {
             eraseDataset();
           }
           callback(data);
+        },
+        error: function(error){
+          console.log(error);
         }
       });
   }
