@@ -304,7 +304,6 @@ function getNodes(datasetID, userID, isPublic, callback) {
 			    		else if( x == 'schemegenes' || x == 'metadata' || x == 'key') dataset[x] = result.rows[i][x].toString().replace(/&39/g, "'").split(',');
 			    	}
 			    }
-			    console.log(dataset.indexestoremove);
 
 			    dataset.links = [];
 			    dataset.positions = {};
