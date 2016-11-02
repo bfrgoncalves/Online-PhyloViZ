@@ -205,8 +205,8 @@ function getDataset(datasetID, userID, isPublic, callback) {
 			    		}
 			    		else if( x  == 'isolates') dataset.isolates = JSON.parse(JSON.stringify(result.rows[i][x]['isolates']).replace(/&39/g, "'"));
 			    		else if( x  == 'links'){
-			    			dataset.links = result.rows[i][x]['links']);
-			    			dataset.missings = result.rows[i][x]['missings']);
+			    			dataset.links = result.rows[i][x]['links'];
+			    			dataset.missings = result.rows[i][x]['missings'];
 			    		}
 			    		else if( x  == 'distancematrix'){
 			    			try{
