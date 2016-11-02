@@ -61,7 +61,7 @@ $(document).ready(function(){
     status('Loading input data...');
     
     createInput(datasetID, function(graph){
-      //console.log(graph);
+      console.log(graph);
       checkInput(graph, function(graph){
 
           if(graph.data_type != 'fasta'){
@@ -85,6 +85,7 @@ $(document).ready(function(){
           }
 
           graph.firstshownColumn = graph.minColumns;
+          console.log(graph.nodes.length, graph.schemeGenes.length);
 
           if(graph.nodes.length < 2000 && graph.schemeGenes.length < 1000){
             create_subset_profile(graph, function(graph){
@@ -179,21 +180,72 @@ function checkInput(graph, callback){
 
 function createInput(datasetID, callback) {
 
-  $.ajax({
-      url: '/api/utils/phylovizInput',
-      data: $.param({dataset_id: datasetID}),
-      processData: false,
-      contentType: false,
-      type: 'GET',
-      success: function(data){
-        if (data.error){
-          alert(data.error);
-          eraseDataset();
-        }
-        callback(data);
-      }
+  var input = {};
 
-    });
+  function getInputPart(part, callback){
+      
+      $.ajax({
+        url: '/api/utils/phylovizInput/' + part,
+        data: $.param({dataset_id: datasetID}),
+        processData: false,
+        contentType: false,
+        type: 'GET',
+        success: function(data){
+          if (data.error){
+            alert(data.error);
+            eraseDataset();
+          }
+          callback(data);
+        }
+      });
+  }
+
+  getInputPart('aux', function(data){
+        input.key = data.key;
+        input.data_type = data.data_type;
+        input.dataset_name = data.dataset_name;
+        input.schemeGenes = data.schemeGenes;
+
+        if(input.data_type == 'newick'){
+          getInputPart('newick', function(data){
+            input = data;
+            callback(input);
+          });
+        }
+        else{
+
+          getInputPart('nodes', function(data){
+            input.indexesToRemove = data.indexesToRemove;
+            input.goeburstprofilesize = data.goeburstprofilesize;
+            input.nodes = data.nodes;
+            input.mergedNodes = data.mergedNodes;
+            input.sameNodeHas = data.sameNodeHas;
+            input.sameProfileHas = data.sameProfileHas;
+            input.subsetProfiles = data.subsetProfiles;
+            input.usedLoci = data.usedLoci;
+
+            getInputPart('links', function(data){
+              input.links = data.links;
+
+              getInputPart('positions', function(data){
+                input.positions = data.positions;
+
+                getInputPart('metadata', function(data){
+                  if(data[0].metadata.length == 0) input.metadata = [];
+                  else input.metadata = data[0].metadata;
+
+                  callback(input);
+                });
+
+              });
+            
+            });
+
+          });
+
+        }
+  });
+
 }
 
 
