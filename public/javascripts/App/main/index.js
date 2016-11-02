@@ -85,7 +85,6 @@ $(document).ready(function(){
           }
 
           graph.firstshownColumn = graph.minColumns;
-          console.log(graph.nodes.length, graph.schemeGenes.length);
 
           if(graph.nodes.length < 2000 && graph.schemeGenes.length < 1000){
             create_subset_profile(graph, function(graph){
@@ -167,7 +166,7 @@ function eraseDataset(){
 }
 
 function checkInput(graph, callback){
-  console.log(graph);
+
   if (graph.nodes.length == 0){
     //alert('There was an error uploading the dataset. Possible input format error.');
     eraseDataset();
@@ -215,14 +214,33 @@ function createInput(datasetID, callback) {
         else{
 
           getInputPart('nodes', function(data){
+            //console.log(data);
+            var newNodes = [];
+            parsedString = JSON.parse(data);
+            
+            for(i in parsedString){
+              if(i == 'nodes'){
+                for(j in parsedString[i]){
+                  newNodes = newNodes.concat(parsedString[i][j].nodes);
+                  input.nodes = newNodes;
+                }
+              }
+              else if(i=='indexesToRemove' || i=='goeburstprofilesize' || i=='mergedNodes'|| i=='sameNodeHas'||i=='sameProfileHas'||i=='subsetProfiles'||i=='usedLoci'){
+                input[i] = parsedString[i][0].values;
+              }
+
+            }
+            /*
+            console.log(ToUse);
             input.indexesToRemove = data.indexesToRemove;
             input.goeburstprofilesize = data.goeburstprofilesize;
-            input.nodes = data.nodes;
+            input.nodes = newNodes;
             input.mergedNodes = data.mergedNodes;
             input.sameNodeHas = data.sameNodeHas;
             input.sameProfileHas = data.sameProfileHas;
             input.subsetProfiles = data.subsetProfiles;
             input.usedLoci = data.usedLoci;
+            */
 
             getInputPart('links', function(data){
               input.links = data.links;

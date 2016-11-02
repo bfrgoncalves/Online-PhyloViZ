@@ -49,7 +49,36 @@ router.get('/nodes', function(req, res, next){
 			getNodes(datasetID, userID, isPublic, function(dataset){
 				console.log(dataset.isolates);
 		      	createPhyloviZInput(dataset, function(graphInput){
-			      	res.send(graphInput);
+		      		var counts = 0;
+		      		var numKeys = Object.keys(graphInput).length;
+		      		var toAdd = '';
+		      		res.write('{');
+		      		for(i in graphInput){
+		      			res.write('"'+i+'":');
+		      			counts += 1;
+		      			console.log(i);
+
+		      			if(i == 'nodes'){
+		      				res.write('[');
+		      				var batches = 0;
+		      				while(graphInput.nodes.length){
+		      					if (batches == 0) addToBatches = '';
+		      					else addToBatches = ',';
+ 		      					res.write(addToBatches + JSON.stringify({nodes: graphInput.nodes.splice(0, 30)}));
+ 		      					batches += 1;
+		      				}
+		      				res.write(']');
+
+		      			}
+		      			else{
+		      				res.write('[');
+		      				res.write(JSON.stringify({values:graphInput[i]}));
+		      				res.write(']');
+		      			}
+		      			if(counts != numKeys) res.write(',');
+		      		}
+		      		res.write('}');
+			      	res.end();
 			      });
 		    });
 
