@@ -214,7 +214,7 @@ function createInput(datasetID, callback) {
         else{
 
           getInputPart('nodes', function(data){
-            //console.log(data);
+            console.log(data);
             var newNodes = [];
             parsedString = JSON.parse(data);
             
