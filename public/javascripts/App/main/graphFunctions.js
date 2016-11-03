@@ -16,12 +16,12 @@ function loadGraphFunctions(){
 		        if (maxNodeValue < graph.nodes[i].isolates.length){
 		        	maxNodeValue = graph.nodes[i].isolates.length;
 		        }
-		        console.log(i, graph.nodes[i].key);
 		        graphGL.addNode(graph.nodes[i].key, graph.nodes[i]);
 		        countAddedNodes++;
 		    }
 
 		    for (j in graph.links){
+		    	console.log(graph.links[j].source, graph.links[j].target);
 		        if (maxLinkValue < graph.links[j].value) maxLinkValue = graph.links[j].value;
 		        var toBoot = graph.data_type == 'newick'? graph.links[j].bootstrap : "";
 			    graphGL.addLink(graph.links[j].source, graph.links[j].target, { connectionStrength: graph.links[j].value , value: graph.links[j].value, color: "#000", bootstrap: toBoot});
