@@ -401,13 +401,15 @@ function getNodes(datasetID, userID, isPublic, callback) {
 		  if(isPublic == true){
 		  	query = "SELECT data AS profiles, schemeGenes FROM datasets.profiles WHERE dataset_id='"+datasetID+"';"+
 		  			"SELECT data AS isolates, metadata FROM datasets.isolates WHERE dataset_id='"+datasetID+"' LIMIT 1;" +
-		  			"SELECT key FROM datasets.datasets WHERE dataset_id='"+datasetID+"' LIMIT 1;";
+		  			"SELECT key FROM datasets.datasets WHERE dataset_id='"+datasetID+"' LIMIT 1;" +
+		  			"SELECT data AS links FROM datasets.links WHERE dataset_id='"+datasetID+"' LIMIT 1;";;
 
 		  }
 		  else{
 		  	query = "SELECT data AS profiles, schemeGenes FROM datasets.profiles WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t');" +
 		  			"SELECT data AS isolates, metadata FROM datasets.isolates WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;" +
-		  			"SELECT key FROM datasets.datasets WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;";
+		  			"SELECT key FROM datasets.datasets WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;" +
+		  			"SELECT data AS links FROM datasets.links WHERE (dataset_id='"+datasetID+"' AND user_id='"+userID+"') OR (dataset_id='"+datasetID+"' AND is_public='t') LIMIT 1;";
 		  }
 
 		    client.query(query, function(err, result) {
@@ -425,12 +427,16 @@ function getNodes(datasetID, userID, isPublic, callback) {
 			    			if (result.rows[i][x].hasOwnProperty('indexestoremove')) dataset.indexestoremove = result.rows[i][x]['indexestoremove'];//JSON.parse(JSON.stringify(result.rows[i][x]['indexestoremove']).replace(/&39/g, "'"));
 			    			if (result.rows[i][x].hasOwnProperty('profilesize')) dataset.profilesize = result.rows[i][x]['profilesize'];
 			    		}
+			    		else if( x  == 'links'){
+			    			dataset.links = result.rows[i][x]['links'];
+			    			dataset.missings = result.rows[i][x]['missings'];
+			    		}
 			    		else if( x  == 'isolates') dataset.isolates = result.rows[i][x]['isolates'];
 			    		else if( x == 'schemegenes' || x == 'metadata' || x == 'key') dataset[x] = result.rows[i][x].toString().replace(/&39/g, "'").split(',');
 			    	}
 			    }
 
-			    dataset.links = [];
+			    //dataset.links = [];
 			    dataset.positions = {};
 
 			    client.end();
