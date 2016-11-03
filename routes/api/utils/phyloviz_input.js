@@ -61,7 +61,7 @@ router.get('/nodes', function(req, res, next){
 		      				res.write('[');
 		      				var batches = 0;
 		      				console.log(i, graphInput.nodes.length);
-		      				while(graphInput.nodes.length){
+		      				while(batches < 1 && graphInput.nodes.length){
 		      					console.log('BATCH ', batches);
 		      					if (batches == 0) addToBatches = '';
 		      					else addToBatches = ',';
@@ -73,9 +73,9 @@ router.get('/nodes', function(req, res, next){
 		      			}
 		      			else{
 		      				//console.log(i, graphInput[i].length);
-		      				res.write('[');
-		      				res.write(JSON.stringify({values:graphInput[i]}));
-		      				res.write(']');
+		      				//res.write('[');
+		      				//res.write(JSON.stringify({values:graphInput[i]}));
+		      				//res.write(']');
 		      			}
 		      			if(counts != numKeys) res.write(',');
 		      		}
