@@ -49,10 +49,11 @@ router.get('/nodes', function(req, res, next){
 	function send(dataString, profileLength, nodeLength, callback) {
 
 	  if(profileLength != null && profileLength > 1000){
+	  	setTimeout(function(){
 	  		write_to_client(function(){
 	  			callback();
 	  		});
-	  	
+	  	}, 10)
 	  }
 	  else{
 	  	write_to_client(function(){
