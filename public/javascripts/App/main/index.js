@@ -229,7 +229,7 @@ function createInput(datasetID, callback) {
           var messageKey = Object.keys(data);
           
           if(messageKey[0] == 'nodes'){
-            if(input.hasOwnProperty(messageKey[0])); //input[messageKey[0]] = input[messageKey[0]].concat(data[messageKey[0]]);
+            if(input.hasOwnProperty(messageKey[0])) input[messageKey[0]] = input[messageKey[0]].concat(data[messageKey[0]]);
             else{
               input[messageKey[0]] = [];
               input[messageKey[0]] = input[messageKey[0]].concat(data[messageKey[0]]);

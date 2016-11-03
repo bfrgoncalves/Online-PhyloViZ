@@ -39,21 +39,38 @@ router.get('/nodes', function(req, res, next){
 	var iterCount = 0;
 	var maxCount = 0;
 
-	function populateArray(dataString, callback) {
+	function populateArray(dataString, profileLength, nodeLength, callback) {
 
-	    send(dataString, function(){
+	    send(dataString, profileLength, nodeLength, function(){
 	    	callback();
 	    });
 	}
 
-	function send(dataString, callback) {
-      res.write("data: " + dataString + '\n\n');
-      res.flush(function() { // <--------- callback to flush which on invocation resumes the array population
-      	console.log('Flush sent');
-	    callback();
-        //populateArray(++iterCount);
+	function send(dataString, profileLength, nodeLength, callback) {
 
-      });
+	  if(profileLength != null && profileLength > 1000){
+	  	setTimeout(function(){
+	  		console.log('Node flush');
+	  		write_to_client(function(){
+	  			callback();
+	  		});
+	  	}, config.batchSize * nodeLength );
+	  }
+	  else{
+	  	write_to_client(function(){
+	  		callback();
+	  	});
+	  }
+
+	  function write_to_client(callback){
+	  	  res.write("data: " + dataString + '\n\n');
+	      res.flush(function() { // <--------- callback to flush which on invocation resumes the array population
+	      	console.log('Flush sent');
+		    callback();
+	        //populateArray(++iterCount);
+
+	      });
+	  }
 	}
 	
 	if (req.query.dataset_id){
@@ -92,12 +109,16 @@ router.get('/nodes', function(req, res, next){
   						if(arrayOfKeys[index] == 'nodes'){
   							var batches = 0;
   							var doneBatches = 0;
+  							var profileLength = graphInput.nodes[0].profile.length;
+
   							while(graphInput.nodes.length){
 		      					console.log('BATCH ', batches);
-		      					var toSend = '{"' + arrayOfKeys[index] + '":' + JSON.stringify(graphInput.nodes.splice(0, config.batchSize)) + '}';
+		      					var nodeSlice = graphInput.nodes.splice(0, config.batchSize);
+		      					nodeLength = nodeSlice.length;
+		      					var toSend = '{"' + arrayOfKeys[index] + '":' + JSON.stringify(nodeSlice) + '}';
  		      					batches += 1;
 
- 		      					populateArray(toSend, function(){
+ 		      					populateArray(toSend, profileLength, nodeLength, function(){
 		  							doneBatches += 1;
 		  							if(doneBatches == batches){
 		  								index += 1;
@@ -111,7 +132,7 @@ router.get('/nodes', function(req, res, next){
 
   							var toSend = '{"' + arrayOfKeys[index] + '":' + JSON.stringify(graphInput[arrayOfKeys[index]]) + '}';
 
-	  						populateArray(toSend, function(){
+	  						populateArray(toSend, null, null, function(){
 	  							index += 1;
 	  							if(index < numKeys) runFlush(index);
 	  							else{
