@@ -227,12 +227,13 @@ function createInput(datasetID, callback) {
         try{
           var data = JSON.parse(e.data);
           var messageKey = Object.keys(data);
+          console.log('AQUI');
           
           if(messageKey[0] == 'nodes'){
-            if(input.hasOwnProperty(messageKey[0])) input[messageKey[0]] = input[messageKey[0]].concat(data[messageKey[0]]);
+            if(input.hasOwnProperty(messageKey[0])) input[messageKey[0]].push(data[messageKey[0]][0]);
             else{
               input[messageKey[0]] = [];
-              input[messageKey[0]] = input[messageKey[0]].concat(data[messageKey[0]]);
+              input[messageKey[0]].push(data[messageKey[0]][0]);
             }
           }
           else input[messageKey[0]] = data[messageKey[0]];

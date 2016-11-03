@@ -54,7 +54,7 @@ router.get('/nodes', function(req, res, next){
 	  		write_to_client(function(){
 	  			callback();
 	  		});
-	  	}, config.batchSize * nodeLength );
+	  	}, 100 );
 	  }
 	  else{
 	  	console.log('Other flush');
@@ -115,7 +115,7 @@ router.get('/nodes', function(req, res, next){
   							if(graphInput.nodes.length != 0){
   								batches += 1;
   								console.log('BATCH ', batches);
-		      					var nodeSlice = graphInput.nodes.splice(0, config.batchSize);
+		      					var nodeSlice = graphInput.nodes.splice(0, 1); //config.batchSize
 		      					nodeLength = nodeSlice.length;
 		      					var toSend = '{"' + arrayOfKeys[index] + '":' + JSON.stringify(nodeSlice) + '}';
 
