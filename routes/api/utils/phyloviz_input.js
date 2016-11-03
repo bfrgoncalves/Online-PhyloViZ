@@ -34,6 +34,27 @@ router.get('/', function(req, res, next){
 });
 
 router.get('/nodes', function(req, res, next){
+
+
+	var iterCount = 0;
+	var maxCount = 0;
+
+	function populateArray(dataString, callback) {
+
+	    send(dataString, function(){
+	    	callback();
+	    });
+	}
+
+	function send(dataString, callback) {
+      res.write("data: " + dataString + '\n\n');
+      res.flush(function() { // <--------- callback to flush which on invocation resumes the array population
+      	console.log('Flush sent');
+	    callback();
+        //populateArray(++iterCount);
+
+      });
+	}
 	
 	if (req.query.dataset_id){
 
@@ -48,39 +69,105 @@ router.get('/nodes', function(req, res, next){
 		checkIfpublic(datasetID, userID, function(isPublic){
 			getNodes(datasetID, userID, isPublic, function(dataset){
 		      	createPhyloviZInput(dataset, function(graphInput){
+
+		      		//res.setMaxListeners(0); //set listerners to infinity
+
 		      		var counts = 0;
-		      		var numKeys = Object.keys(graphInput).length;
+		      		var arrayOfKeys = Object.keys(graphInput);
+		      		var numKeys = arrayOfKeys.length;
 		      		var toAdd = '';
-		      		res.write('{');
+
+		      		maxCount = numKeys;
+
+		      		res.setHeader('Content-Type', 'text/event-stream')
+  					res.setHeader('Cache-Control', 'no-cache')
+
+  					function flushSubset(toSend, callback){
+
+
+  					}
+
+  					function runFlush(index){
+
+  						if(arrayOfKeys[index] == 'nodes'){
+  							var batches = 0;
+  							var doneBatches = 0;
+  							while(graphInput.nodes.length){
+		      					console.log('BATCH ', batches);
+		      					var toSend = '{"' + arrayOfKeys[index] + '":' + JSON.stringify(graphInput.nodes.splice(0, config.batchSize)) + '}';
+ 		      					batches += 1;
+
+ 		      					populateArray(toSend, function(){
+		  							doneBatches += 1;
+		  							if(doneBatches == batches){
+		  								index += 1;
+		  								runFlush(index);
+		  							}
+		  						});
+		      				}
+
+  						}
+  						else{
+
+  							var toSend = '{"' + arrayOfKeys[index] + '":' + JSON.stringify(graphInput[arrayOfKeys[index]]) + '}';
+
+	  						populateArray(toSend, function(){
+	  							index += 1;
+	  							if(index < numKeys) runFlush(index);
+	  							else{
+							      res.end();
+							      return;
+								    
+	  							}
+	  						});
+
+  						}
+  					}
+
+  					runFlush(0);
+
+  					/*
+
 		      		for(i in graphInput){
-		      			res.write('"'+i+'":');
 		      			counts += 1;
 		      			console.log(i);
 
 		      			if(i == 'nodes'){
-		      				res.write('[');
+		      				
+		      				/*
 		      				var batches = 0;
 		      				console.log(i, graphInput.nodes.length);
-		      				while(batches < 1 && graphInput.nodes.length){
+		      				while(graphInput.nodes.length){
 		      					console.log('BATCH ', batches);
 		      					if (batches == 0) addToBatches = '';
 		      					else addToBatches = ',';
  		      					res.write(addToBatches + JSON.stringify({nodes: graphInput.nodes.splice(0, config.batchSize)}));
  		      					batches += 1;
 		      				}
-		      				res.write(']');
+		      				*/
+		      				
 
-		      			}
-		      			else{
+		      			//}
+		      			//else{
 		      				//console.log(i, graphInput[i].length);
-		      				//res.write('[');
 		      				//res.write(JSON.stringify({values:graphInput[i]}));
-		      				//res.write(']');
-		      			}
-		      			if(counts != numKeys) res.write(',');
-		      		}
-		      		res.write('}');
-			      	res.end();
+
+		      			//}
+		      			
+		      			//if(counts != numKeys) res.write(',');
+		      			//populateArray({values:graphInput[i]});
+
+		      			//res.flush(); //used in the compression module to send data to the client
+		      		//}
+		      		/*
+		      		res.on('close', function () {
+		      			console.log('End');
+					    res.end();
+					})
+					*/
+		      		//res.flush();
+			      	//res.end();
+
 			      });
 		    });
 

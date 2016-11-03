@@ -202,6 +202,54 @@ function createInput(datasetID, callback) {
       });
   }
 
+  function getStreamOfNodes(part, callback){
+
+    var NodeStream = new EventSource('/api/utils/phylovizInput/' + part + '?dataset_id=' + datasetID);
+    
+    NodeStream.onopen = function(e){
+      console.log(e);
+    }
+
+    /*
+    NodeStream.addEventListener('message', function(data){
+      console.log(data);
+    });
+    */
+
+    NodeStream.onmessage = function(e){
+
+      if(!e){
+        console.log('End of Connection');
+        NodeStream.close();
+        //callback('bah');
+      }
+      else{
+        try{
+          var data = JSON.parse(e.data);
+          var messageKey = Object.keys(data);
+          
+          if(messageKey[0] == 'nodes'){
+            if(input.hasOwnProperty(messageKey[0])) input[messageKey[0]] = input[messageKey[0]].concat(data[messageKey[0]]);
+            else{
+              input[messageKey[0]] = [];
+              input[messageKey[0]] = input[messageKey[0]].concat(data[messageKey[0]]);
+            }
+          }
+          else input[messageKey[0]] = data[messageKey[0]];
+        }
+        catch(err){
+          console.log(data);
+        }
+        //console.log(data);
+      }
+    }
+    
+    NodeStream.onerror = function(e){
+      NodeStream.close();
+      callback();
+    }
+  }
+
   getInputPart('aux', function(data){
         input.key = data.key;
         input.data_type = data.data_type;
@@ -216,8 +264,9 @@ function createInput(datasetID, callback) {
         }
         else{
 
-          getInputPart('nodes', function(data){
+          getStreamOfNodes('nodes', function(data){
 
+            /*
             var newNodes = [];
             parsedString = JSON.parse(data);
             
@@ -233,7 +282,7 @@ function createInput(datasetID, callback) {
               }
 
             }
-            /*
+            
             console.log(ToUse);
             input.indexesToRemove = data.indexesToRemove;
             input.goeburstprofilesize = data.goeburstprofilesize;

@@ -6,6 +6,8 @@ var http = require('http');
 var cluster = require('cluster');
 var os = require('os');
 
+var compression = require('compression')
+
 //var session = require('express-session');
 
 var express = require('express');
@@ -94,6 +96,8 @@ app.use(passport.session());
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(flash());
+
+app.use(compression());
 
 
 app.use('/', firstPage);
