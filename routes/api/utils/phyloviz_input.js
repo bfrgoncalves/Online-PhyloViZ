@@ -53,7 +53,7 @@ router.get('/nodes', function(req, res, next){
 	  		write_to_client(function(){
 	  			callback();
 	  		});
-	  	}, 10)
+	  	}, 50)
 	  }
 	  else{
 	  	write_to_client(function(){
