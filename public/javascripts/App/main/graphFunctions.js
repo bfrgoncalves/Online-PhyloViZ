@@ -21,6 +21,7 @@ function loadGraphFunctions(){
 		    }
 
 		    for (j in graph.links){
+		    	if(graph.links[j].source == undefined || graph.links[j].target == undefined) continue;
 		    	console.log(graph.links[j].source, graph.links[j].target);
 		        if (maxLinkValue < graph.links[j].value) maxLinkValue = graph.links[j].value;
 		        var toBoot = graph.data_type == 'newick'? graph.links[j].bootstrap : "";
