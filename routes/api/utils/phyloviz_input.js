@@ -57,6 +57,7 @@ router.get('/nodes', function(req, res, next){
 	  	}, config.batchSize * nodeLength );
 	  }
 	  else{
+	  	console.log('Other flush');
 	  	write_to_client(function(){
 	  		callback();
 	  	});
@@ -65,7 +66,6 @@ router.get('/nodes', function(req, res, next){
 	  function write_to_client(callback){
 	  	  res.write("data: " + dataString + '\n\n');
 	      res.flush(function() { // <--------- callback to flush which on invocation resumes the array population
-	      	console.log('Flush sent');
 		    callback();
 	        //populateArray(++iterCount);
 
@@ -94,6 +94,10 @@ router.get('/nodes', function(req, res, next){
 		      		var numKeys = arrayOfKeys.length;
 		      		var toAdd = '';
 
+		      		var batches = 0;
+					//var doneBatches = 0;
+					var profileLength = graphInput.nodes[0].profile.length;
+
 		      		maxCount = numKeys;
 
 		      		res.setHeader('Content-Type', 'text/event-stream')
@@ -107,25 +111,26 @@ router.get('/nodes', function(req, res, next){
   					function runFlush(index){
 
   						if(arrayOfKeys[index] == 'nodes'){
-  							var batches = 0;
-  							var doneBatches = 0;
-  							var profileLength = graphInput.nodes[0].profile.length;
 
-  							while(graphInput.nodes.length){
-		      					console.log('BATCH ', batches);
+  							if(graphInput.nodes.length != 0){
+  								batches += 1;
+  								console.log('BATCH ', batches);
 		      					var nodeSlice = graphInput.nodes.splice(0, config.batchSize);
 		      					nodeLength = nodeSlice.length;
 		      					var toSend = '{"' + arrayOfKeys[index] + '":' + JSON.stringify(nodeSlice) + '}';
- 		      					batches += 1;
 
  		      					populateArray(toSend, profileLength, nodeLength, function(){
-		  							doneBatches += 1;
-		  							if(doneBatches == batches){
-		  								index += 1;
-		  								runFlush(index);
-		  							}
+		  							runFlush(index);
 		  						});
-		      				}
+  							}
+  							else{
+  								index += 1;
+  								runFlush(index);
+  							}
+
+  							function runSubset(){
+
+  							}
 
   						}
   						else{
