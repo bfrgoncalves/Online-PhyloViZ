@@ -128,14 +128,12 @@ router.get('/nodes', function(req, res, next){
   								runFlush(index);
   							}
 
-  							function runSubset(){
-
-  							}
-
   						}
   						else{
 
-  							var toSend = '{"' + arrayOfKeys[index] + '":' + JSON.stringify(graphInput[arrayOfKeys[index]]) + '}';
+  							//var toSend = '{"' + arrayOfKeys[index] + '":' + JSON.stringify(graphInput[arrayOfKeys[index]]) + '}';
+
+  							var toSend = '{"' + arrayOfKeys[index] + '":' + JSON.stringify({}) + '}';
 
 	  						populateArray(toSend, null, null, function(){
 	  							index += 1;
