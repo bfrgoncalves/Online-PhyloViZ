@@ -228,7 +228,7 @@ function createInput(datasetID, callback) {
           var data = JSON.parse(e.data);
           var messageKey = Object.keys(data);
           
-          if(messageKey[0] == 'nodes' || messageKey[0] == 'subsetProfiles'){
+          if(messageKey[0] == 'nodes' || messageKey[0] == 'subsetProfiles' || messageKey[0] == 'links'){
             console.log(messageKey[0]);
             if(input.hasOwnProperty(messageKey[0])) input[messageKey[0]].push(data[messageKey[0]][0]);
             else{
@@ -236,7 +236,7 @@ function createInput(datasetID, callback) {
               input[messageKey[0]].push(data[messageKey[0]][0]);
             }
           }
-          else input[messageKey[0]] = data[messageKey[0]];
+          else if(messageKey[0] != 'schemeGenes') input[messageKey[0]] = data[messageKey[0]];
         }
         catch(err){
           console.log(data);
@@ -294,23 +294,37 @@ function createInput(datasetID, callback) {
             input.subsetProfiles = data.subsetProfiles;
             input.usedLoci = data.usedLoci;
             */
+            if(input.hasOwnProperty('links')){
+                getInputPart('positions', function(data){
+                  input.positions = data.positions;
 
-            getInputPart('links', function(data){
-              input.links = data.links;
+                  getInputPart('metadata', function(data){
+                    if(data[0].metadata.length == 0) input.metadata = [];
+                    else input.metadata = data[0].metadata;
 
-              getInputPart('positions', function(data){
-                input.positions = data.positions;
+                    callback(input);
+                  });
 
-                getInputPart('metadata', function(data){
-                  if(data[0].metadata.length == 0) input.metadata = [];
-                  else input.metadata = data[0].metadata;
-
-                  callback(input);
                 });
+            }
+            else{
+              getInputPart('links', function(data){
+                input.links = data.links;
 
+                getInputPart('positions', function(data){
+                  input.positions = data.positions;
+
+                  getInputPart('metadata', function(data){
+                    if(data[0].metadata.length == 0) input.metadata = [];
+                    else input.metadata = data[0].metadata;
+
+                    callback(input);
+                  });
+
+                });
+              
               });
-            
-            });
+            }
 
           });
 

@@ -49,15 +49,12 @@ router.get('/nodes', function(req, res, next){
 	function send(dataString, profileLength, nodeLength, callback) {
 
 	  if(profileLength != null && profileLength > 1000){
-	  	setTimeout(function(){
-	  		console.log('Node flush');
 	  		write_to_client(function(){
 	  			callback();
 	  		});
-	  	}, 10);
+	  	
 	  }
 	  else{
-	  	console.log('Other flush');
 	  	write_to_client(function(){
 	  		callback();
 	  	});
@@ -110,12 +107,12 @@ router.get('/nodes', function(req, res, next){
 
   					function runFlush(index){
 
-  						if(arrayOfKeys[index] == 'nodes'){
-
-  							if(graphInput.nodes.length != 0){
+  						if(arrayOfKeys[index] == 'nodes' || arrayOfKeys[index] == 'subsetProfiles' || arrayOfKeys[index] == 'links'){
+  							console.log(arrayOfKeys[index]);
+  							if(graphInput[arrayOfKeys[index]].length != 0){
   								batches += 1;
   								console.log('BATCH ', batches);
-		      					var nodeSlice = graphInput.nodes.splice(0, 1); //config.batchSize
+		      					var nodeSlice = graphInput[arrayOfKeys[index]].splice(0, 1); //config.batchSize
 		      					nodeLength = nodeSlice.length;
 		      					var toSend = '{"' + arrayOfKeys[index] + '":' + JSON.stringify(nodeSlice) + '}';
 
@@ -129,7 +126,7 @@ router.get('/nodes', function(req, res, next){
   							}
 
   						}
-  						else if (arrayOfKeys[index] == 'subsetProfiles'){
+  						/*else if (arrayOfKeys[index] == 'subsetProfiles'){
   							if(graphInput.subsetProfiles.length != 0){
   								batches += 1;
   								console.log('BATCH ', batches);
@@ -145,9 +142,9 @@ router.get('/nodes', function(req, res, next){
   								index += 1;
   								runFlush(index);
   							}
-  						}
+  						}*/
   						else{
-
+  							console.log(arrayOfKeys[index]);
   							var toSend = '{"' + arrayOfKeys[index] + '":' + JSON.stringify(graphInput[arrayOfKeys[index]]) + '}';
 
   							//var toSend = '{"' + arrayOfKeys[index] + '":' + JSON.stringify({}) + '}';
