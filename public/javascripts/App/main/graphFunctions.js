@@ -16,6 +16,7 @@ function loadGraphFunctions(){
 		        if (maxNodeValue < graph.nodes[i].isolates.length){
 		        	maxNodeValue = graph.nodes[i].isolates.length;
 		        }
+		        console.log(i, graph.nodes[i].key);
 		        graphGL.addNode(graph.nodes[i].key, graph.nodes[i]);
 		        countAddedNodes++;
 		    }
