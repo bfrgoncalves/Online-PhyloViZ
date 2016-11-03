@@ -54,7 +54,7 @@ router.get('/nodes', function(req, res, next){
 	  		write_to_client(function(){
 	  			callback();
 	  		});
-	  	}, 100 );
+	  	}, 10);
 	  }
 	  else{
 	  	console.log('Other flush');
@@ -129,11 +129,28 @@ router.get('/nodes', function(req, res, next){
   							}
 
   						}
+  						else if (arrayOfKeys[index] == 'subsetProfiles'){
+  							if(graphInput.subsetProfiles.length != 0){
+  								batches += 1;
+  								console.log('BATCH ', batches);
+		      					var nodeSlice = graphInput.subsetProfiles.splice(0, 1); //config.batchSize
+		      					nodeLength = nodeSlice.length;
+		      					var toSend = '{"' + arrayOfKeys[index] + '":' + JSON.stringify(nodeSlice) + '}';
+
+ 		      					populateArray(toSend, profileLength, nodeLength, function(){
+		  							runFlush(index);
+		  						});
+  							}
+  							else{
+  								index += 1;
+  								runFlush(index);
+  							}
+  						}
   						else{
 
-  							//var toSend = '{"' + arrayOfKeys[index] + '":' + JSON.stringify(graphInput[arrayOfKeys[index]]) + '}';
+  							var toSend = '{"' + arrayOfKeys[index] + '":' + JSON.stringify(graphInput[arrayOfKeys[index]]) + '}';
 
-  							var toSend = '{"' + arrayOfKeys[index] + '":' + JSON.stringify({}) + '}';
+  							//var toSend = '{"' + arrayOfKeys[index] + '":' + JSON.stringify({}) + '}';
 
 	  						populateArray(toSend, null, null, function(){
 	  							index += 1;

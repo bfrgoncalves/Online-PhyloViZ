@@ -37,9 +37,9 @@ function constructGraph(graph, datasetID){
       var iterations = graphObject.graphInput.nodes.length;
 
       if (Object.keys(graphObject.graphInput.positions).length == 0){
-        graphFunctions.precompute(graphObject, iterations, function(){
+        //graphFunctions.precompute(graphObject, iterations, function(){
           afterPrecompute();
-        });
+        //});
       }
       else afterPrecompute();
 
