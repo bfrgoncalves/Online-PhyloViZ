@@ -37,8 +37,8 @@ def main():
 	def randomword(length):
 	   return ''.join(random.choice(string.lowercase) for i in range(length))
 	
-	cookie_file = os.path.join(os.getcwd(), randomword(6) + '.txt')
-	print cookie_file
+	#cookie_file = os.path.join(os.getcwd(), randomword(6) + '.txt')
+
 	onqueue = 'false'
 
 	if (not args.u or not args.u) and not args.t:
@@ -154,7 +154,7 @@ def remoteUpload(args, currentRoot, cookie_file): #upload the input files to the
 					  -F numberOfFiles='+ str(numberOfFiles) +' \
 					  '+currentRoot+'/api/db/postgres/upload'
 	else:
-		bashCommandUpload = 'curl --cookie '+cookie_file+' --cookie-jar '+cookie_file+' \
+		bashCommandUpload = 'curl --cookie '+args.t+' --cookie-jar '+cookie_file+' \
 					  -F datasetName='+ datasetName +' \
 					  -F dataset_description='+ description +' \
 					  -F makePublic='+ makePublic +' \
@@ -186,9 +186,9 @@ def rungoeBURST(args, datasetID, currentRoot, cookie_file, onqueue): #run the go
 		print 'Running goeBURST...'
 		print 'cookie'
 		if args.mc == False:
-			bashCommand = 'curl --cookie '+cookie_file+' --cookie-jar '+cookie_file+' -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true&analysis_method=' + args.am + '&onqueue=' + onqueue
+			bashCommand = 'curl --cookie '+args.t+' --cookie-jar '+cookie_file+' -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true&analysis_method=' + args.am + '&onqueue=' + onqueue
 		else:
-			bashCommand = 'curl --cookie '+cookie_file+' --cookie-jar '+cookie_file+' -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true&missings=true&missingchar=' + str(args.mc) + '&analysis_method=' + args.am + '&onqueue=' + onqueue
+			bashCommand = 'curl --cookie '+args.t+' --cookie-jar '+cookie_file+' -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true&missings=true&missingchar=' + str(args.mc) + '&analysis_method=' + args.am + '&onqueue=' + onqueue
 		
 		process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
 		output = json.loads(process.communicate()[0])
@@ -207,7 +207,7 @@ def generatePublicLink(args, datasetID, currentRoot, cookie_file):
 		#make data set visible	
 		bashCommand = 'curl --cookie jarfile -X PUT -d dataset_id='+ datasetID + ' -d change=true '+currentRoot+'/api/db/postgres/update/all/is_public'
 	else:
-		bashCommand = 'curl --cookie '+cookie_file+' --cookie-jar '+cookie_file+' -X PUT -d dataset_id='+ datasetID + ' -d change=true '+currentRoot+'/api/db/postgres/update/all/is_public'
+		bashCommand = 'curl --cookie '+args.t+' --cookie-jar '+cookie_file+' -X PUT -d dataset_id='+ datasetID + ' -d change=true '+currentRoot+'/api/db/postgres/update/all/is_public'
 	
 	process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
 	output = process.communicate()[0]
@@ -217,7 +217,7 @@ def generatePublicLink(args, datasetID, currentRoot, cookie_file):
 		#get sharable link
 		bashCommand = 'curl --cookie jarfile -X GET '+currentRoot+'/api/utils/publiclink?dataset_id='+ datasetID
 	else:
-		bashCommand = 'curl --cookie '+cookie_file+' --cookie-jar '+cookie_file+' -X GET '+currentRoot+'/api/utils/publiclink?dataset_id='+ datasetID
+		bashCommand = 'curl --cookie '+args.t+' --cookie-jar '+cookie_file+' -X GET '+currentRoot+'/api/utils/publiclink?dataset_id='+ datasetID
 	
 	process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
 	output = json.loads(process.communicate()[0])
