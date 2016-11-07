@@ -409,6 +409,7 @@ function saveLinks(datasetID, links, missings, callback){
 		    if(err) {
 		      return console.error('error running query', err);
 		    }
+		    console.log(result);
 		    client.end();
 			callback();
 		  });
