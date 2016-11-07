@@ -124,13 +124,13 @@ if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().
 
 				goeBURST(profileArray, identifiers, algorithmToUse, missings, analysis_method, function(links, distanceMatrix, profilegoeBURST, indexToRemove){
 					if(save){
+						console.log(links);
 						saveLinks(datasetID, links, missings, function(){
 							if(hasmissings == 'true'){
 								save_profiles(profilegoeBURST, old_profiles, datasetID, indexToRemove, entries_ids, function(){
 									phyloviz_input_utils.getNodes(datasetID, userID, false, function(dataset){
 								      	createPhyloviZInput(dataset, function(graphInput){
 								      		graphInput.distanceMatrix = distanceMatrix;
-								      		console.log(graphInput);
 								      		phyloviz_input_utils.addToFilterTable(graphInput, userID, datasetID, function(){
 								      			
 								      			console.log('ADDED TO FILTER');
