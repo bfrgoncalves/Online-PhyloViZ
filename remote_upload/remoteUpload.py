@@ -92,7 +92,7 @@ def checkDatasets(args, currentRoot, cookie_file): #Check if the database name t
 		bashCommand = 'curl --cookie jarfile -X GET '+currentRoot+'/api/db/postgres/find/datasets/name?name='+ args.d
 	else:
 		with open(cookie_file, 'w') as f:
-			f.write('#HttpOnly_localhost\tFALSE\t/\tFALSE\t0\t' + args.t.split('=')[0] + '\t' + args.t.split('=')[1])
+			f.write(args.root+'\tFALSE\t/\tFALSE\t0\t' + args.t.split('=')[0] + '\t' + args.t.split('=')[1])
 		bashCommand = 'curl --cookie '+cookie_file+' --cookie-jar '+cookie_file+' -X GET '+currentRoot+'/api/db/postgres/find/datasets/name?name='+ args.d
 	
 	process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
