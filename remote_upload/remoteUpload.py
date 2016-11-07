@@ -37,7 +37,7 @@ def main():
 	def randomword(length):
 	   return ''.join(random.choice(string.lowercase) for i in range(length))
 	
-	cookie_file = randomword(6) + '.txt'
+	cookie_file = os.path.join(os.getcwd(), randomword(6) + '.txt')
 	onqueue = 'false'
 
 	if (not args.u or not args.u) and not args.t:
@@ -92,7 +92,7 @@ def checkDatasets(args, currentRoot, cookie_file): #Check if the database name t
 		bashCommand = 'curl --cookie jarfile -X GET '+currentRoot+'/api/db/postgres/find/datasets/name?name='+ args.d
 	else:
 		with open(cookie_file, 'w') as f:
-			f.write(args.root+'\tFALSE\t/\tFALSE\t0\t' + args.t.split('=')[0] + '\t' + args.t.split('=')[1])
+			f.write(args.root+'\tTRUE\t/\tFALSE\t0\t' + args.t.split('=')[0] + '\t' + args.t.split('=')[1])
 		bashCommand = 'curl --cookie '+cookie_file+' --cookie-jar '+cookie_file+' -X GET '+currentRoot+'/api/db/postgres/find/datasets/name?name='+ args.d
 	
 	process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
