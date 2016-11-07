@@ -236,8 +236,16 @@ function createInput(datasetID, callback) {
               input[messageKey[0]].push(data[messageKey[0]][0]);
             }
           }
+          else if (messageKey[0] == 'mergedNodes' || messageKey[0] == 'sameNodeHas' || messageKey[0] == 'usedLoci' || messageKey[0] == 'indexesToRemove'){
+            
+            console.log(messageKey[0]);
+            if(!input.hasOwnProperty(messageKey[0])) input[messageKey[0]] = {};
+            var obkey = Object.keys(data[messageKey[0]])[0];
+            input[messageKey[0]][obkey] = data[messageKey[0]][obkey];
+          }
           else if(messageKey[0] != 'schemeGenes') input[messageKey[0]] = data[messageKey[0]];
         }
+        
         catch(err){
           console.log(data);
         }

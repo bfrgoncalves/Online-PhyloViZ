@@ -162,17 +162,16 @@ function getLinks(data){
         
         setInterval(function(){ 
           var checkI = checkgoeBURSTstatus(data.jobid, function(status){
-
             if(status == 'complete'){
               window.location.replace("/main/dataset/" + datasetID);
               clearInterval(checkI);
             }
-            if(status == 'error'){
-              alert('Error');
+            else if(status == 'failed'){
+              alert('Job Failed');
               clearInterval(checkI);
             }
           }) 
-        }, 30000);
+        }, 6000);
 
       }
       else if(data.dupProfiles.length > 0 || data.dupIDs.length >0){

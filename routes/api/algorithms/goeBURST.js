@@ -25,6 +25,9 @@ var transporter = nodemailer.createTransport(smtpTransport({
     }
 }));
 
+var createPhyloviZInput = require('phyloviz_input');
+var phyloviz_input_utils = require('phyloviz_input_utils')(config);
+
 
 function getEmail(userID, callback){
 
@@ -124,33 +127,53 @@ if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().
 						saveLinks(datasetID, links, missings, function(){
 							if(hasmissings == 'true'){
 								save_profiles(profilegoeBURST, old_profiles, datasetID, indexToRemove, entries_ids, function(){
-									if(send_email){
-										console.log('getting mail');
-										getEmail(userID, function(email){
-											mailObject.email = email;
-											mailObject.message = 'Your data set is now available at: ' + config.final_root + '/main/dataset/' + datasetID;
-											console.log('have mail');
-											sendMail(mailObject, function(){
-												console.log('Mail sent');
+									phyloviz_input_utils.getNodes(datasetID, userID, false, function(dataset){
+								      	createPhyloviZInput(dataset, function(graphInput){
+								      		graphInput.distanceMatrix = distanceMatrix;
+								      		console.log(graphInput.distanceMatrix);
+								      		phyloviz_input_utils.addToFilterTable(graphInput, userID, datasetID, function(){
+								      			console.log(graphInput);
+								      			console.log('ADDED TO FILTER');
+								      			if(send_email){
+													console.log('getting mail');
+													getEmail(userID, function(email){
+														mailObject.email = email;
+														mailObject.message = 'Your data set is now available at: ' + config.final_root + '/main/dataset/' + datasetID;
+														console.log('have mail');
+														sendMail(mailObject, function(){
+															console.log('Mail sent');
+														});
+													});
+												}
+												jobDone();
+								      			
 											});
-										});
-									}
-									jobDone();
+									      });
+								    });
 								});
 							}
 							else {
-								if(send_email){
-									console.log('getting mail');
-									getEmail(userID, function(email){
-										mailObject.email = email;
-										mailObject.message = 'Your data set is now available at: ' + config.final_root + '/main/dataset/' + datasetID;
-										console.log('have mail');
-										sendMail(mailObject, function(){
-											console.log('Mail sent');
+								phyloviz_input_utils.getNodes(datasetID, userID, false, function(dataset){
+							      	createPhyloviZInput(dataset, function(graphInput){
+							      		graphInput.distanceMatrix = distanceMatrix;
+							      		phyloviz_input_utils.addToFilterTable(graphInput, userID, datasetID, function(){
+
+							      			if(send_email){
+												console.log('getting mail');
+												getEmail(userID, function(email){
+													mailObject.email = email;
+													mailObject.message = 'Your data set is now available at: ' + config.final_root + '/main/dataset/' + datasetID;
+													console.log('have mail');
+													sendMail(mailObject, function(){
+														console.log('Mail sent');
+													});
+												});
+											}
+											jobDone();
+							      			
 										});
-									});
-									jobDone();
-								}
+								      });
+							    });
 							}
 						});
 					}
@@ -241,10 +264,9 @@ router.get('/', function(req, res, next){
 router.get('/status', function(req,res,next){
 	if(req.query.jobid){
 		queue.getJob(req.query.jobid).then(function(job){
-			if(job.isCompleted()){
+			job.getState().then(function(state){
 				res.send({status: 'complete'});
-			}
-			else res.send({status: 'running'});
+			});
 		});
 	}
 	else res.send({status: 'error'});
