@@ -89,7 +89,7 @@ router.get('/links', function(req, res, next){
 
 		phyloviz_input_utils.checkIfpublic(datasetID, userID, function(isPublic){
 			phyloviz_input_utils.getLinks(datasetID, userID, isPublic, function(dataset){
-				console.log(dataset.links);
+				//console.log(dataset.links);
 		      	createPhyloviZInput(dataset, function(graphInput){
 			      	res.send(graphInput);
 			      });
