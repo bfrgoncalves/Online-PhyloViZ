@@ -87,6 +87,7 @@ router.get('/links', function(req, res, next){
 
 		var isNewick = false;
 		phyloviz_input_utils.checkIfpublic(datasetID, userID, function(isPublic){
+			console.log(datasetID);
 			phyloviz_input_utils.getLinks(datasetID, userID, isPublic, function(dataset){
 				//console.log(dataset.links);
 		      	createPhyloviZInput(dataset, function(graphInput){
