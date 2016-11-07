@@ -86,7 +86,7 @@ router.get('/links', function(req, res, next){
 		else var userID = req.user.id;
 
 		var isNewick = false;
-
+		console.log('GET LINKs');
 		phyloviz_input_utils.checkIfpublic(datasetID, userID, function(isPublic){
 			phyloviz_input_utils.getLinks(datasetID, userID, isPublic, function(dataset){
 				//console.log(dataset.links);
