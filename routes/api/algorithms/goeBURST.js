@@ -393,6 +393,7 @@ function saveLinks(datasetID, links, missings, callback){
 	var pg = require("pg");
 	var connectionString = "pg://" + config.databaseUserString + "@localhost/"+ config.db;
 	var linksToUse = { links: links, missings: missings };
+	console.log(JSON.stringify(linksToUse));
 	//var distanceMatrixToUse =  { distanceMatrix: distanceMatrix };
 	//distanceMatrixToUse = {distanceMatrix: []};
 
