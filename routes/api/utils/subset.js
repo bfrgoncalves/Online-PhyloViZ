@@ -24,6 +24,7 @@ router.post('/', function(req, res, next){
 		var cookie_string = '';
 		
 		for(i in req.cookies){
+			console.log(req.cookies[i]);
 			cookie_string = i + '=' + req.cookies[i]; 
 		}
 
