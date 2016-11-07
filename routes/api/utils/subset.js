@@ -48,8 +48,8 @@ router.post('/', function(req, res, next){
 			    output='';
 			    var python = require('child_process').exec;
 			    
-			    if(req.body.missings == 'true') var commandstring = 'cd remote_upload/ & python remoteUpload.py -t '+cookie_string+' -cd '+config.final_root+' -root http://localhost:3000 -mc ' + req.body.missingschar + ' -sdt profile -sd uploads/'+profileName+' -d '+req.body.name+' -dn '+req.body.description+' -m uploads/'+metadataName;
-			    else var commandstring = 'cd remote_upload/ & python remoteUpload.py -t '+cookie_string+' -cd '+config.final_root+' -root http://localhost:3000 -sdt profile -sd uploads/'+profileName+' -d '+req.body.name+' -dn '+req.body.description+' -m uploads/'+metadataName;
+			    if(req.body.missings == 'true') var commandstring = 'python remote_upload/remoteUpload.py -t '+cookie_string+' -cd '+config.final_root+' -root http://localhost:3000 -mc ' + req.body.missingschar + ' -sdt profile -sd uploads/'+profileName+' -d '+req.body.name+' -dn '+req.body.description+' -m uploads/'+metadataName;
+			    else var commandstring = 'python remote_upload/remoteUpload.py -t '+cookie_string+' -cd '+config.final_root+' -root http://localhost:3000 -sdt profile -sd uploads/'+profileName+' -d '+req.body.name+' -dn '+req.body.description+' -m uploads/'+metadataName;
 			    
 			    python(commandstring, {maxBuffer: 1024 * 4000}, function(error,stdout,stderr){
 			    	if(error){
