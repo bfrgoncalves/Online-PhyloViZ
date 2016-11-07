@@ -38,6 +38,7 @@ def main():
 	   return ''.join(random.choice(string.lowercase) for i in range(length))
 	
 	cookie_file = os.path.join(os.getcwd(), randomword(6) + '.txt')
+	print cookie_file
 	onqueue = 'false'
 
 	if (not args.u or not args.u) and not args.t:
