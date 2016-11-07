@@ -59,7 +59,7 @@ def main():
 		print 'Sharable link: ' + sharableLink['url']
 		sys.exit()
 
-	os.remove(cookie_file)
+	#os.remove(cookie_file)
 
 	print 'datasetID:' + str(dataset['datasetID'])
 	
