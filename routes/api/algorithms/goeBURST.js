@@ -130,7 +130,9 @@ if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().
 									phyloviz_input_utils.getNodes(datasetID, userID, false, function(dataset){
 								      	createPhyloviZInput(dataset, function(graphInput){
 								      		graphInput.distanceMatrix = distanceMatrix;
+								      		console.log(graphInput);
 								      		phyloviz_input_utils.addToFilterTable(graphInput, userID, datasetID, function(){
+								      			
 								      			console.log('ADDED TO FILTER');
 								      			if(send_email){
 													console.log('getting mail');
