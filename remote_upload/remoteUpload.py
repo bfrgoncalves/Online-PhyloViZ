@@ -37,7 +37,7 @@ def main():
 	def randomword(length):
 	   return ''.join(random.choice(string.lowercase) for i in range(length))
 	
-	#cookie_file = os.path.join(os.getcwd(), randomword(6) + '.txt')
+	cookie_file = os.path.join(os.getcwd(), randomword(6) + '.txt')
 
 	onqueue = 'false'
 
@@ -60,7 +60,7 @@ def main():
 		print 'Sharable link: ' + sharableLink['url']
 		sys.exit()
 
-	#os.remove(cookie_file)
+	os.remove(cookie_file)
 
 	print 'datasetID:' + str(dataset['datasetID'])
 	
