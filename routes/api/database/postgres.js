@@ -89,6 +89,7 @@ router.post('/insert/:table', function(req, res, next){
 });
 
 router.get('/find/:table/:field/', function(req, res, next){
+	console.log(req.cookies);
 
 	function getusernames(userIDs, callback){
 		
