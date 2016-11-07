@@ -182,6 +182,7 @@ def rungoeBURST(args, datasetID, currentRoot, cookie_file, onqueue): #run the go
 			bashCommand = 'curl --cookie jarfile -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true&missings=true&missingchar=' + str(args.mc) + '&analysis_method=' + args.am + '&onqueue=' + onqueue
 	else:
 		print 'Running goeBURST...'
+		print 'cookie'
 		if args.mc == False:
 			bashCommand = 'curl --cookie '+cookie_file+' --cookie-jar '+cookie_file+' -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true&analysis_method=' + args.am + '&onqueue=' + onqueue
 		else:
