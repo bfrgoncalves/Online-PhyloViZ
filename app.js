@@ -38,6 +38,7 @@ var Queue = require('bull');
 
 var queue = Queue("goeBURST queue", 6379, '127.0.0.1');
 
+queue.clean(0,'active').then(function(){ console.log('Cleaned')});
 queue.empty().then(function(){console.log('Empty Queue');});
 
 var upload = require('./routes/api/database/uploadPostgres');
