@@ -45,6 +45,7 @@ function constructGraph(graph, datasetID){
 
 
       function afterPrecompute(){
+        return true;
         console.log('After compute');
         graphFunctions.initGraphics(graphObject);
         console.log('Graphics');
