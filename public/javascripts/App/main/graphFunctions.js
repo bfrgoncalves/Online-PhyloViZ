@@ -123,6 +123,10 @@ function loadGraphFunctions(){
 
 	        graphics.node(function (node) {
 	          console.log(node);
+	          if(node.data == undefined){
+	          	node.data.key = node.id;
+	          	node.data.isolates = [];
+	          }
 	          if (node.id.search('TransitionNode') > -1) sizeToUse = 5;
 	          else sizeToUse = DefaultnodeSize+(node.data.isolates.length * graphObject.NodeScaleFactor);
 	          return new WebglCircle(sizeToUse, nodeColor, [1], [nodeColor], null);
