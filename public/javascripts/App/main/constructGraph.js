@@ -45,6 +45,7 @@ function constructGraph(graph, datasetID){
 
 
       function afterPrecompute(){
+        return true;
         console.log('After compute');
         graphFunctions.initGraphics(graphObject);
         console.log('Graphics');
@@ -89,9 +90,11 @@ function constructGraph(graph, datasetID){
           $("#AddLogScaleNodes").trigger("click");
         }
 
+        /*
         graphObject.graphGL.forEachNode(function(node){
           graphObject.layout.getBody(node.id).defaultMass = graphObject.layout.getBody(node.id).mass;
         });
+        */
 
         graphObject.defaultLayoutParams.dragCoeff = 15;
         $("#DragSlider").val(graphObject.defaultLayoutParams.dragCoeff);
