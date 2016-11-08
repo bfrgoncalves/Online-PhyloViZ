@@ -122,7 +122,7 @@ function loadGraphFunctions(){
 
 
 	        graphics.node(function (node) {
-	          console.log(node);
+	          //console.log(node);
 	          //Check what causes
 	          if(node.data == undefined){
 	          	node.data = [];
