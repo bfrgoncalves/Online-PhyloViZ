@@ -12,7 +12,7 @@ function loadGraphFunctions(){
 			var maxNodeValue = 0;
 			
 			for (i in graph.nodes){
-				console.log(graph.nodes[i]);
+				//console.log(graph.nodes[i]);
 		        graph.nodes[i].idGL = countAddedNodes;
 		        if (maxNodeValue < graph.nodes[i].isolates.length){
 		        	maxNodeValue = graph.nodes[i].isolates.length;
