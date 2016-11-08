@@ -47,22 +47,37 @@ router.get('/nodes', function(req, res, next){
 		if (!req.isAuthenticated()) var userID = "1";
 		else var userID = req.user.id;
 
+		if(req.query.update == 'true'){
+			update = true;
+		}
+		else update = false;
+
 		var isNewick = false;
 
 		phyloviz_input_utils.checkIfpublic(datasetID, userID, function(isPublic){
 			phyloviz_input_utils.getFromFilterTable(datasetID, function(graph){
-				if(graph.nodes.length != 0){
+				if(graph.nodes.length != 0 && !update){
 					console.log('From Filters');
 					phyloviz_input_utils.FlushFunction(graph, res);
 
 				}
 				else{
 					phyloviz_input_utils.getNodes(datasetID, userID, isPublic, function(dataset){
-				      	createPhyloviZInput(dataset, function(graphInput){
-				      		phyloviz_input_utils.addToFilterTable(graphInput, userID, datasetID, function(){
-				      			phyloviz_input_utils.FlushFunction(graphInput, res);
+						if (update){
+							newMetadata = {metadata:dataset[0].metadata, isolates:dataset[0].isolates};
+							phyloviz_input_utils.mergeMetadata(graph, newMetadata, function(graph){
+								phyloviz_input_utils.addToFilterTable(graph, userID, datasetID, ['nodes'], function(){
+									res.send({status:true});
+								});
 							});
-					      });
+						}
+						else{
+					      	createPhyloviZInput(dataset, function(graphInput){
+					      		phyloviz_input_utils.addToFilterTable(graphInput, userID, datasetID, [], function(){
+					      			phyloviz_input_utils.FlushFunction(graphInput, res);
+								});
+						      });
+					    }
 				    });
 				}
 			})
@@ -87,7 +102,6 @@ router.get('/links', function(req, res, next){
 
 		var isNewick = false;
 		phyloviz_input_utils.checkIfpublic(datasetID, userID, function(isPublic){
-			console.log(datasetID);
 			phyloviz_input_utils.getLinks(datasetID, userID, isPublic, function(dataset){
 				//console.log(dataset.links);
 		      	createPhyloviZInput(dataset, function(graphInput){
@@ -204,5 +218,6 @@ router.get('/metadata', function(req, res, next){
 	else res.send(false);
 		
 });
+
 
 module.exports = router; 

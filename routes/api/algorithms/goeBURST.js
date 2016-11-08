@@ -130,8 +130,7 @@ if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().
 									phyloviz_input_utils.getNodes(datasetID, userID, false, function(dataset){
 								      	createPhyloviZInput(dataset, function(graphInput){
 								      		graphInput.distanceMatrix = distanceMatrix;
-								      		console.log(graphInput.links);
-								      		phyloviz_input_utils.addToFilterTable(graphInput, userID, datasetID, function(){
+								      		phyloviz_input_utils.addToFilterTable(graphInput, userID, datasetID, [], function(){
 								      			
 								      			console.log('ADDED TO FILTER');
 								      			if(send_email){
@@ -156,7 +155,7 @@ if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().
 								phyloviz_input_utils.getNodes(datasetID, userID, false, function(dataset){
 							      	createPhyloviZInput(dataset, function(graphInput){
 							      		graphInput.distanceMatrix = distanceMatrix;
-							      		phyloviz_input_utils.addToFilterTable(graphInput, userID, datasetID, function(){
+							      		phyloviz_input_utils.addToFilterTable(graphInput, userID, datasetID, [], function(){
 
 							      			if(send_email){
 												console.log('getting mail');
@@ -203,7 +202,7 @@ router.get('/', function(req, res, next){
 		if (!req.isAuthenticated()) var userID = "1";
 		else var userID = req.user.id;
 
-		console.log(req.user);
+		//console.log(req.user);
 
 		var datasetId;
 		var missings = [false, ''];
@@ -409,7 +408,6 @@ function saveLinks(datasetID, links, missings, callback){
 		    if(err) {
 		      return console.error('error running query', err);
 		    }
-		    console.log(result);
 		    client.end();
 			callback();
 		  });

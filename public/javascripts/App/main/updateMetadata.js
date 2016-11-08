@@ -99,11 +99,7 @@ function changeMetadata(graphObject){
 
 	        statusupdateMetadata('Linking new auxiliary data...');
 	        getMetadata(graphObject.datasetID, function(newMetadata){
-	        	console.log(newMetadata);
 	        	mergeMetadata(graphObject, newMetadata[0], function(){
-	        		console.log(graphObject);
-
-
 
 	        		if(graphObject.graphInput.metadata.length > graphObject.graphInput.maxColumns){
 			            graphObject.graphInput.increment = graphObject.graphInput.metadata.length - 1;
@@ -164,7 +160,21 @@ function getMetadata(datasetID, callback){
         if (data.error){
           alert(data.error);
         }
-        callback(data);
+
+        $.ajax({
+	      url: '/api/utils/phylovizInput/nodes',
+	      data: $.param({dataset_id: datasetID, update:true}),
+	      processData: false,
+	      contentType: false,
+	      type: 'GET',
+	      success: function(data1){
+	        if (data.error){
+	          alert(data.error);
+	        }
+	        callback(data);
+	      }
+
+	    });
       }
 
     });

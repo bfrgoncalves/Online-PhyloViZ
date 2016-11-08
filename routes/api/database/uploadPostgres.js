@@ -34,9 +34,9 @@ router.post('/', multer({
   // Here you can check `Object.keys(req.files).length`
   // or for specific fields like `req.files.imageField`
   //console.log(req.body.numberOfFiles);
-  console.log('cookies', req.cookies);
-  console.log('auth', req.isAuthenticated());
-  
+  //console.log('cookies', req.cookies);
+  //console.log('auth', req.isAuthenticated());
+
   var dataToDB = {};
   countProgress = 0;
   var alreadyError = false;

@@ -24,7 +24,6 @@ router.post('/', function(req, res, next){
 		var cookie_string = '';
 		
 		for(i in req.cookies){
-			console.log(req.cookies[i]);
 			cookie_string = i + '=' + req.cookies[i]; 
 		}
 
@@ -55,11 +54,11 @@ router.post('/', function(req, res, next){
 			    python(commandstring, {maxBuffer: 1024 * 4000}, function(error,stdout,stderr){
 			    	if(error){
 			    		console.log(error);
-			    		console.log(stdout);
+			    		//console.log(stdout);
 			    		res.send({stdout:error, status: 500});
 			    	}
 			    	else {
-			    		console.log(stdout);
+			    		//console.log(stdout);
 			    		res.send({stdout:stdout, status: 200});
 			    	}
 			    });
