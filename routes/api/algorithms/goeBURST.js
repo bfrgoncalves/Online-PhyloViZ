@@ -265,7 +265,8 @@ router.get('/status', function(req,res,next){
 	if(req.query.jobid){
 		queue.getJob(req.query.jobid).then(function(job){
 			job.getState().then(function(state){
-				res.send({status: 'complete'});
+				console.log(state);
+				res.send({status: state});
 			});
 		});
 	}
