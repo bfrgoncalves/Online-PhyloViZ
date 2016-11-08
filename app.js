@@ -38,8 +38,6 @@ var Queue = require('bull');
 
 var queue = Queue("goeBURST queue", 6379, '127.0.0.1');
 
-queue.LOCK_RENEW_TIME = 100000 * 1000; // 1min
-
 Promise.all([
   queue.clean(0, 'active'),
   queue.clean(0, 'waiting'),
@@ -168,7 +166,7 @@ if (cluster.isMaster) {
     }
     
 } else {
-  if(cluster.worker.id == 1 || cluster.worker.id < (os.cpus().length)){
+  if(cluster.worker.id == 1 || cluster.worker.id <= (os.cpus().length/4)){
     console.log('Worker server');
     var server = http.createServer(app).listen(3000); //http listen and express app will use all the middlewere
     server.timeout = 100000000000;
