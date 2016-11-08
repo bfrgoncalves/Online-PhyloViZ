@@ -45,10 +45,13 @@ function constructGraph(graph, datasetID){
 
 
       function afterPrecompute(){
-
+        console.log('After compute');
         graphFunctions.initGraphics(graphObject);
+        console.log('Graphics');
         graphFunctions.generateDOMLabels(graphObject);
+        console.log('DOM elements');
         graphFunctions.initRenderer(graphObject);
+        console.log('Renderer');
         graphFunctions.setPositions(graphObject);
         graphFunctions.adjustScale(graphObject);
         graphFunctions.searchNodeByID(graphObject, '#nodeid');
