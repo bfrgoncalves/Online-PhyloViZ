@@ -230,7 +230,7 @@ router.get('/', function(req, res, next){
 
 		if(req.query.onqueue == 'true'){
 			var parameters = {datasetID:datasetID, sendEmail:sendEmail, userID:userID, algorithmToUse:algorithmToUse, analysis_method:analysis_method, missings:missings, save:req.query.save, hasmissings:req.query.missings};
-			queue.add(parameters).then(function(job){
+			queue.add(parameters, {timeout:10000000000000, attempts:2}).then(function(job){
 				queue_message = 'Your data set is being processed. You will be redirected to your <a href="'+config.final_root+'/main/dataset/'+datasetID+'">data set URL</a> ';
 				if(sendEmail) queue_message += 'and receive an email ';
 				queue_message += 'when the job is finished.';
