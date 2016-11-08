@@ -48,7 +48,7 @@ function constructGraph(graph, datasetID){
         console.log('After compute');
         graphFunctions.initGraphics(graphObject);
         console.log('Graphics');
-        //graphFunctions.generateDOMLabels(graphObject);
+        graphFunctions.generateDOMLabels(graphObject);
         console.log('DOM elements');
         graphFunctions.initRenderer(graphObject);
         console.log('Renderer');
