@@ -123,6 +123,7 @@ if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().
 				old_profiles = profiles;
 
 				goeBURST(profileArray, identifiers, algorithmToUse, missings, analysis_method, function(links, distanceMatrix, profilegoeBURST, indexToRemove){
+					console.log(distanceMatrix);
 					if(save){
 						saveLinks(datasetID, links, missings, function(){
 							if(hasmissings == 'true'){
@@ -185,7 +186,7 @@ if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().
 				
 			});
 		}
-		jobDone();
+		else jobDone();
 
 	});
 
