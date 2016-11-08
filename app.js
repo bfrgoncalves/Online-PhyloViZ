@@ -38,6 +38,8 @@ var Queue = require('bull');
 
 var queue = Queue("goeBURST queue", 6379, '127.0.0.1');
 
+queue.LOCK_RENEW_TIME = 120 * 1000; // 1min
+
 Promise.all([
   queue.clean(0, 'active'),
   queue.clean(0, 'waiting'),

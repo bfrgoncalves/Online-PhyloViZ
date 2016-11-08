@@ -99,6 +99,10 @@ if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().
 	
 	console.log('Process queue');
 
+	queue.on('stalled', function(job){
+	  console.log('stalled job, restarting it again!', job.jobId);
+	});
+
 	queue.process(function(job, jobDone){
 
 		console.log(job.jobId);
