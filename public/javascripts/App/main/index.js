@@ -257,6 +257,7 @@ function createInput(datasetID, callback) {
     
     NodeStream.onerror = function(e){
       NodeStream.close();
+      console.log(e);
       callback();
     }
   }
