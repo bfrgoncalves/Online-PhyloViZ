@@ -105,7 +105,11 @@ router.get('/links', function(req, res, next){
 			phyloviz_input_utils.getLinks(datasetID, userID, isPublic, function(dataset){
 				//console.log(dataset.links);
 		      	createPhyloviZInput(dataset, function(graphInput){
-			      	res.send(graphInput);
+		      		console.log('flush links');
+		      		var graph = {};
+		      		graph.links = graphInput.links;
+		      		phyloviz_input_utils.FlushFunction(graph, res);
+			      	//res.send(graphInput);
 			      });
 		    });
 

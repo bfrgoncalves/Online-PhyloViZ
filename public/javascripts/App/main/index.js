@@ -202,7 +202,7 @@ function createInput(datasetID, callback) {
       });
   }
 
-  function getStreamOfNodes(part, callback){
+  function getStream(part, callback){
 
     var NodeStream = new EventSource('/api/utils/phylovizInput/' + part + '?dataset_id=' + datasetID);
     
@@ -273,7 +273,7 @@ function createInput(datasetID, callback) {
         }
         else{
 
-          getStreamOfNodes('nodes', function(data){
+          getStream('nodes', function(){
 
             /*
             var newNodes = [];
@@ -316,8 +316,8 @@ function createInput(datasetID, callback) {
                 });
             }
             else{
-              getInputPart('links', function(data){
-                input.links = data.links;
+              getStream('links', function(){
+                //input.links = data.links;
 
                 getInputPart('positions', function(data){
                   input.positions = data.positions;
