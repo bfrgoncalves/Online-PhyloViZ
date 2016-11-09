@@ -278,33 +278,6 @@ function createInput(datasetID, callback) {
           console.log('Nodes');
           getStream('nodes', function(){
 
-            /*
-            var newNodes = [];
-            parsedString = JSON.parse(data);
-            
-            for(i in parsedString){
-              if(i == 'nodes'){
-                for(j in parsedString[i]){
-                  newNodes = newNodes.concat(parsedString[i][j].nodes);
-                  input.nodes = newNodes;
-                }
-              }
-              else if(i=='indexesToRemove' || i=='goeburstprofilesize' || i=='mergedNodes'|| i=='sameNodeHas'||i=='sameProfileHas'||i=='subsetProfiles'||i=='usedLoci'){
-                input[i] = parsedString[i][0].values;
-              }
-
-            }
-            
-            console.log(ToUse);
-            input.indexesToRemove = data.indexesToRemove;
-            input.goeburstprofilesize = data.goeburstprofilesize;
-            input.nodes = newNodes;
-            input.mergedNodes = data.mergedNodes;
-            input.sameNodeHas = data.sameNodeHas;
-            input.sameProfileHas = data.sameProfileHas;
-            input.subsetProfiles = data.subsetProfiles;
-            input.usedLoci = data.usedLoci;
-            */
             if(input.hasOwnProperty('links')){
                 console.log('Positions');
                 getInputPart('positions', function(data){
