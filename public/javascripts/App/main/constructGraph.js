@@ -34,12 +34,12 @@ function constructGraph(graph, datasetID){
       graphFunctions.init(graphObject);
       graphFunctions.initLayout(graphObject);
 
-      var iterations = graphObject.graphInput.nodes.length;
+      var iterations = graphObject.graphInput.nodes.length/2;
 
       if (Object.keys(graphObject.graphInput.positions).length == 0){
-        //graphFunctions.precompute(graphObject, iterations, function(){
+        graphFunctions.precompute(graphObject, iterations, function(){
           afterPrecompute();
-        //});
+        });
       }
       else afterPrecompute();
 
@@ -89,11 +89,11 @@ function constructGraph(graph, datasetID){
           $("#AddLogScaleNodes").trigger("click");
         }
 
-        /*
+        
         graphObject.graphGL.forEachNode(function(node){
           graphObject.layout.getBody(node.id).defaultMass = graphObject.layout.getBody(node.id).mass;
         });
-        */
+        
 
         graphObject.defaultLayoutParams.dragCoeff = 15;
         $("#DragSlider").val(graphObject.defaultLayoutParams.dragCoeff);

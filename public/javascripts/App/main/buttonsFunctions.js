@@ -534,6 +534,10 @@ function loadButtonFunctions(){
 		        "value" : 0
 		    });
 
+		    if(graphObject.graphInput.distanceMatrix.length == 0){
+		    	$('#NLVgraph').css({"display": "none"});
+		    }
+
 	        $('#SplitTreeSlider').change(function(e){
 	            splitTree(graphObject, this.value);
 	        });
