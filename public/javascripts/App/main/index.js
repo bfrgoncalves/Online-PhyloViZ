@@ -228,7 +228,7 @@ function createInput(datasetID, callback) {
           var data = JSON.parse(e.data);
           console.log('parsed');
           var messageKey = Object.keys(data);
-          console.log('keys');
+          console.log(messageKey[0]);
           
           if(messageKey[0] == 'nodes' || messageKey[0] == 'subsetProfiles' || messageKey[0] == 'links' || messageKey[0] == 'distanceMatrix'){
             //console.log(messageKey[0]);
@@ -240,7 +240,7 @@ function createInput(datasetID, callback) {
           }
           else if (messageKey[0] == 'mergedNodes' || messageKey[0] == 'sameNodeHas' || messageKey[0] == 'usedLoci' || messageKey[0] == 'indexesToRemove'){
             
-            console.log(messageKey[0]);
+            //console.log(messageKey[0]);
             if(!input.hasOwnProperty(messageKey[0])) input[messageKey[0]] = {};
             var obkey = Object.keys(data[messageKey[0]])[0];
             input[messageKey[0]][obkey] = data[messageKey[0]][obkey];
