@@ -228,7 +228,7 @@ function createInput(datasetID, callback) {
           var data = JSON.parse(e.data);
           //console.log('parsed');
           var messageKey = Object.keys(data);
-          console.log(messageKey);
+          console.log(messageKey[0]);
           
           if(messageKey[0] == 'nodes' || messageKey[0] == 'subsetProfiles' || messageKey[0] == 'links' || messageKey[0] == 'distanceMatrix'){
             //console.log(messageKey[0]);
