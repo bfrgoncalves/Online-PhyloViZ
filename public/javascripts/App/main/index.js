@@ -228,7 +228,7 @@ function createInput(datasetID, callback) {
           var data = JSON.parse(e.data);
           //console.log('parsed');
           var messageKey = Object.keys(data);
-          console.log(messageKey[0]);
+          //console.log(messageKey[0]);
           
           if(messageKey[0] == 'nodes' || messageKey[0] == 'subsetProfiles' || messageKey[0] == 'links' || messageKey[0] == 'distanceMatrix'){
             //console.log(messageKey[0]);
@@ -261,7 +261,7 @@ function createInput(datasetID, callback) {
       callback();
     }
   }
-
+  console.log('Aux');
   getInputPart('aux', function(data){
         input.key = data.key;
         input.data_type = data.data_type;
@@ -275,7 +275,7 @@ function createInput(datasetID, callback) {
           });
         }
         else{
-
+          console.log('Nodes');
           getStream('nodes', function(){
 
             /*
@@ -306,9 +306,10 @@ function createInput(datasetID, callback) {
             input.usedLoci = data.usedLoci;
             */
             if(input.hasOwnProperty('links')){
+                console.log('Positions');
                 getInputPart('positions', function(data){
                   input.positions = data.positions;
-
+                  console.log('Metadata');
                   getInputPart('metadata', function(data){
                     if(data[0].metadata.length == 0) input.metadata = [];
                     else input.metadata = data[0].metadata;
@@ -319,12 +320,13 @@ function createInput(datasetID, callback) {
                 });
             }
             else{
+              console.log('Links');
               getStream('links', function(){
                 //input.links = data.links;
-
+                console.log('Positions');
                 getInputPart('positions', function(data){
                   input.positions = data.positions;
-
+                  console.log('Metadata');
                   getInputPart('metadata', function(data){
                     if(data[0].metadata.length == 0) input.metadata = [];
                     else input.metadata = data[0].metadata;
