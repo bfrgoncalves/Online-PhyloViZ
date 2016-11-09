@@ -534,7 +534,7 @@ function loadButtonFunctions(){
 		        "value" : 0
 		    });
 
-		    if(graphObject.graphInput.distanceMatrix.length == 0){
+		    if(!graphObject.graphInput.hasOwnProperty('distanceMatrix')){
 		    	$('#NLVgraph').css({"display": "none"});
 		    }
 
