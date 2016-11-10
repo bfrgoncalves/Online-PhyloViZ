@@ -216,11 +216,12 @@ function createInput(datasetID, callback) {
     });
     */
 
+    var prevMessage = '';
+    var count = 1;
+    var partTS = '';
+
     NodeStream.onmessage = function(e){
-      var prevMessage = '';
-      var count = 1;
       var toShow = '';
-      var partTS = '';
 
 
       if(!e){
@@ -233,14 +234,15 @@ function createInput(datasetID, callback) {
           var data = JSON.parse(e.data);
           //console.log('parsed');
           var messageKey = Object.keys(data);
-          //console.log(messageKey[0]);
+          
           if (prevMessage != messageKey[0]){
             partTS = messageKey[0];
             count = 1;
           }
-          count += 1;
-          status('Loading ' + partTS + ' ' + String(count)+ '...');
 
+          count += 1;
+
+          status('Loading ' + partTS + ' ' + String(count)+ '...');
           
           if(messageKey[0] == 'nodes' || messageKey[0] == 'subsetProfiles' || messageKey[0] == 'links' || messageKey[0] == 'distanceMatrix'){
             //console.log(messageKey[0]);
@@ -257,7 +259,9 @@ function createInput(datasetID, callback) {
             var obkey = Object.keys(data[messageKey[0]])[0];
             input[messageKey[0]][obkey] = data[messageKey[0]][obkey];
           }
-          else if(messageKey[0] != 'schemeGenes') input[messageKey[0]] = data[messageKey[0]];
+          else if(messageKey[0] != 'schemeGenes'){
+            input[messageKey[0]] = data[messageKey[0]];
+          }
           prevMessage = messageKey[0];
         }
         

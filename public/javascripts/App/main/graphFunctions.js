@@ -464,8 +464,8 @@ function loadGraphFunctions(){
 		              graphObject.selectedNodes = [];
 
 		              if(graphObject.isLayoutPaused){
-				        renderer.resume();
-				        setTimeout(function(){ renderer.pause();}, 2);
+				        renderer.rerender();
+				        //setTimeout(function(){ renderer.pause();}, 2);
 				      }
 		            }
 		          

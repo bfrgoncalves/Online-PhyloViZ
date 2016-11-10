@@ -7,8 +7,12 @@ var goeBURST = require('goeBURST');
 var config = require('../../../config.js');
 
 var os = require('os');
-var Queue = require('bull');
-var queue = Queue("goeBURST queue", 6379, '127.0.0.1');
+//var Queue = require('bull');
+//var queue = Queue("goeBURST queue", 6379, '127.0.0.1');
+
+var kue = require('kue')
+var queue = kue.createQueue();
+
 var cluster = require('cluster');
 
 var pg = require("pg");
@@ -103,7 +107,7 @@ if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().
 	  console.log('stalled job, restarting it again!', job.jobId);
 	});
 
-	queue.process(function(job, jobDone){
+	queue.process('goeBURST', function(job, jobDone){
 
 		console.log(job.jobId);
 
@@ -230,12 +234,25 @@ router.get('/', function(req, res, next){
 
 		if(req.query.onqueue == 'true'){
 			var parameters = {datasetID:datasetID, sendEmail:sendEmail, userID:userID, algorithmToUse:algorithmToUse, analysis_method:analysis_method, missings:missings, save:req.query.save, hasmissings:req.query.missings};
+			
+			var job = queue.create('goeBURST', parameters).save(function(err){
+				if(!err) {
+					queue_message = 'Your data set is being processed. You will be redirected to your <a href="'+config.final_root+'/main/dataset/'+datasetID+'">data set URL</a> ';
+					if(sendEmail) queue_message += 'and receive an email ';
+					queue_message += 'when the job is finished.';
+					res.send({queue: queue_message, jobid: job.id});
+				}
+			});
+			/* Bull
 			queue.add(parameters, {timeout:10000000000000, attempts:2}).then(function(job){
 				queue_message = 'Your data set is being processed. You will be redirected to your <a href="'+config.final_root+'/main/dataset/'+datasetID+'">data set URL</a> ';
 				if(sendEmail) queue_message += 'and receive an email ';
 				queue_message += 'when the job is finished.';
 				res.send({queue: queue_message, jobid: job.jobId});
 			});
+			*/	
+
+
 		}
 		else{	
 			loadProfiles(datasetID, userID, function(profileArray, identifiers, datasetID, dupProfiles, dupIDs, profiles, entries_ids){
@@ -267,12 +284,32 @@ router.get('/', function(req, res, next){
 
 router.get('/status', function(req,res,next){
 	if(req.query.jobid){
+		var status = '';
+		queue.complete(function(err, ids){
+			ids.forEach( function( job_id ) {
+				if (parseInt(job_id) == parseInt(req.query.jobid)){
+					status = 'completed';
+					kue.Job.get(job_id, function(err, job) {
+						job.remove();
+					});
+					res.send({status: status});
+				}
+				
+			});
+			
+		})
+		if (status != 'completed'){
+			status = 'active';
+		}
+
+		/* Bull
 		queue.getJob(req.query.jobid).then(function(job){
 			job.getState().then(function(state){
 				console.log(state);
 				res.send({status: state});
 			});
 		});
+		*/
 	}
 	else res.send({status: 'error'});
 

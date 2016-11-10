@@ -32,8 +32,8 @@ function NodeSize(newSize, max, graphObject){
     });
 
     if(graphObject.isLayoutPaused){
-        renderer.resume();
-        setTimeout(function(){ renderer.pause();}, 50);
+        renderer.rerender();
+        //setTimeout(function(){ renderer.pause();}, 50);
     }
     else renderer.resume();
 }
@@ -63,8 +63,8 @@ function ChangeNodeSizeOption(graphObject, option){
     });
 
     if(graphObject.isLayoutPaused){
-        renderer.resume();
-        setTimeout(function(){ renderer.pause();}, 50);
+        renderer.rerender();
+        //setTimeout(function(){ renderer.pause();}, 50);
     }
     else renderer.resume();
 }
@@ -118,11 +118,13 @@ function changeLogScale(graphObject){
 
         })
 
-    if(graphObject.isLayoutPaused){
+    /*
+    if(!graphObject.isLayoutPaused){
         renderer.resume();
         setTimeout(function(){ renderer.pause();}, 50);
     }
     else renderer.resume();
+    */
 }
 
 function changeLogScaleNodes(graphObject){
@@ -154,10 +156,9 @@ function changeLogScaleNodes(graphObject){
     });
 
     if(graphObject.isLayoutPaused){
-        renderer.resume();
-        setTimeout(function(){ renderer.pause();}, 50);
+        renderer.rerender();
+        //setTimeout(function(){ renderer.pause();}, 50);
     }
-    else renderer.resume();
 }
 
 function changeSpringLength(newValue, max, graphObject){
@@ -177,13 +178,8 @@ function changeSpringLength(newValue, max, graphObject){
             else if(graphObject.isLogScale) spring.length = spring.length;
             else spring.length = graphObject.defaultLayoutParams.springLength * (linkUI.data.value + (20 * (1 + Math.log10(linkUI.data.value)) * (newValue/max)));
 
-        })
+    })
 
-    if(graphObject.isLayoutPaused){
-        renderer.resume();
-        setTimeout(function(){ renderer.pause();}, 50);
-    }
-    else renderer.resume();
 
 }
 
@@ -196,12 +192,6 @@ function changeDragCoefficient(newValue, max, graphObject){
 
     layout.simulator.dragCoeff(parseInt(newValue) * 0.001);
 
-    if(graphObject.isLayoutPaused){
-        renderer.resume();
-        setTimeout(function(){ renderer.pause();}, 50);
-    }
-    else renderer.resume();
-
 }
 
 function changeSpringCoefficient(newValue, max, graphObject){
@@ -213,11 +203,6 @@ function changeSpringCoefficient(newValue, max, graphObject){
 
     layout.simulator.springCoeff(parseInt(newValue) * 0.0001);
 
-    if(graphObject.isLayoutPaused){
-        renderer.resume();
-        setTimeout(function(){ renderer.pause();}, 50);
-    }
-    else renderer.resume();
 
 }
 
@@ -230,12 +215,6 @@ function changeGravity(newValue, max, graphObject){
 
     layout.simulator.gravity(parseInt(newValue));
 
-    if(graphObject.isLayoutPaused){
-        renderer.resume();
-        setTimeout(function(){ renderer.pause();}, 50);
-    }
-    else renderer.resume();
-
 }
 
 function changeTheta(newValue, max, graphObject){
@@ -246,12 +225,6 @@ function changeTheta(newValue, max, graphObject){
     var graph = graphObject.graphInput;
 
     layout.simulator.theta(parseInt(newValue) * 0.1);
-
-    if(graphObject.isLayoutPaused){
-        renderer.resume();
-        setTimeout(function(){ renderer.pause();}, 50);
-    }
-    else renderer.resume();
 
 }
 
@@ -267,12 +240,6 @@ function changeMass(newValue, max, graphObject){
         if(parseInt(newValue) == 1) graphObject.layout.getBody(node.id).mass = graphObject.layout.getBody(node.id).defaultMass;
         else graphObject.layout.getBody(node.id).mass = graphObject.layout.getBody(node.id).defaultMass * ((graphObject.layout.getBody(node.id).defaultMass / parseFloat(newValue)));
     });
-
-    if(graphObject.isLayoutPaused){
-        renderer.resume();
-        setTimeout(function(){ renderer.pause();}, 50);
-    }
-    else renderer.resume();
 
 }
 
@@ -309,12 +276,6 @@ function scaleLink(newScale, graphObject){
 
         })
 
-    if(graphObject.isLayoutPaused){
-        renderer.resume();
-        setTimeout(function(){ renderer.pause();}, 50);
-    }
-    else renderer.resume();
-
 }
 
 function scaleNodes(newNodeScaleFactor, graphObject){
@@ -338,10 +299,10 @@ function scaleNodes(newNodeScaleFactor, graphObject){
     });
 
     if(graphObject.isLayoutPaused){
-        renderer.resume();
-        setTimeout(function(){ renderer.pause();}, 50);
+        renderer.rerender();
+        //setTimeout(function(){ renderer.pause();}, 50);
     }
-    else renderer.resume();
+
 }
 
 function splitTree(graphObject, value) {
@@ -386,8 +347,8 @@ function splitTree(graphObject, value) {
     prevValue = value;
 
     if(graphObject.isLayoutPaused){
-        renderer.resume();
-        setTimeout(function(){ renderer.pause();}, 50);
+        renderer.rerender();
+        //setTimeout(function(){ renderer.pause();}, 50);
     }
 
     graphObject.removedLinks = removedLinks;
@@ -457,8 +418,7 @@ function NLVgraph(graphObject, value) {
     prevValue = value;
 
     if(graphObject.isLayoutPaused){
-        renderer.resume();
-        setTimeout(function(){ renderer.pause();}, 50);
+        renderer.rerender();
     }
 
     graphObject.addedLinks = addedLinks;

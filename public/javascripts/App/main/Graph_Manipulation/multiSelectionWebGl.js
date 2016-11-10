@@ -31,7 +31,7 @@ function startMultiSelect(graphObject) {
     overlay.bottomRight = bottomRight;
 
     graph.forEachNode(higlightIfInside);
-    //renderer.rerender();
+    renderer.rerender();
 
     return;
 
@@ -49,16 +49,16 @@ function startMultiSelect(graphObject) {
         nodeUI.colorIndexes = newColors;
       } 
       else if (!sdown) {
-        console.log('AQUI');
-        console.log(sdown);
         nodeUI.colorIndexes = nodeUI.backupColor;
         //nodeUI.size = nodeUI.backupSize;
       }
       
+      /*
       if(graphObject.isLayoutPaused){
-        renderer.resume();
-        setTimeout(function(){ renderer.pause();}, 2);
+        renderer.rerender();
+        //setTimeout(function(){ renderer.pause();}, 2);
       }
+      */
       
     }
 

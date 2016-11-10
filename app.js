@@ -34,10 +34,11 @@ var cronFunctions = require('./cronJobs/cronFunctions');
 
 var users = require('./routes/users');
 
-var Queue = require('bull');
+//var Queue = require('bull');
 
-var queue = Queue("goeBURST queue", 6379, '127.0.0.1');
+//var queue = Queue("goeBURST queue", 6379, '127.0.0.1');
 
+/*
 Promise.all([
   queue.clean(0, 'active'),
   queue.clean(0, 'waiting'),
@@ -47,6 +48,7 @@ Promise.all([
 ]).then(function () {
   console.log('Empty');
 });
+*/
 
 //queue.empty().then(function(){console.log('Empty Queue');});
 
