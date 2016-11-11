@@ -562,7 +562,17 @@ function selectedDataToString(graphObject){
 
 }
 
-function createSubset(toFiles, name, description, missings, missingsChar, analysis_method, callback){
+function selectedDataNames(graphObject){
+
+	var nodeNames = [];
+
+	for(i in graphObject.selectedNodes){
+		nodeNames.push(graphObject.selectedNodes[i].data.idGL);
+	}
+	return nodeNames;
+}
+
+function createSubset(nodeNames, parentID, name, description, missings, missingsChar, analysis_method, callback){
 
 	$('#dialog').dialog('close');
 
@@ -571,7 +581,7 @@ function createSubset(toFiles, name, description, missings, missingsChar, analys
 
 	$.ajax({
       url: '/api/utils/phylovizsubset',
-      data: {auxData: toFiles[0], profileData: toFiles[1], name: name, description: description, missings: missings, missingschar: missingsChar, analysis_method: analysis_method},
+      data: {nodeindexes: JSON.stringify(nodeNames), parentName: parentID, name: name, description: description, missings: missings, missingschar: missingsChar, analysis_method: analysis_method},
       type: 'POST',
       success: function(data){
   
@@ -594,7 +604,14 @@ function createSubset(toFiles, name, description, missings, missingsChar, analys
 				var checkI = setInterval(function(){ 
 					checkgoeBURSTstatus(jobid, function(status){
 			            if(status == 'completed'){
-			              window.location.replace("/main/dataset/" + datasetID);
+			              var win = window.open("/main/dataset/" + datasetID);
+							if (win) {
+							    //Browser has allowed it to be opened
+							    win.focus();
+							} else {
+							    //Browser has blocked it
+							    alert('Please allow popups for this website');
+							}
 			              clearInterval(checkI);
 			            }
 			            else if(status == 'failed'){

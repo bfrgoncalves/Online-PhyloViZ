@@ -129,7 +129,7 @@ if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().
 			loadProfiles(datasetID, userID, function(profileArray, identifiers, datasetID, dupProfiles, dupIDs, profiles, entries_ids){
 				datasetId = datasetID;
 				old_profiles = profiles;
-
+				console.log(profileArray.length);
 				goeBURST(profileArray, identifiers, algorithmToUse, missings, analysis_method, function(links, distanceMatrix, profilegoeBURST, indexToRemove){
 					//console.log(distanceMatrix);
 					if(save){
@@ -387,6 +387,8 @@ function loadProfiles(datasetID, userID, callback){
 		var dupProfiles = [];
 		var dupIDs = [];
 		var existsIdentifiers = {}
+
+		console.log('before', profiles.length);
 
 		profiles.forEach(function(profile){
 

@@ -433,8 +433,9 @@ function loadButtonFunctions(){
 					var analysis_method = 'core';
 					analysis_method = $('#sel_analysis_method').val();
 
-					toFiles = selectedDataToString(graphObject);
-	            	createSubset(toFiles, datasetN, descriptionS, missingsubset, missingCharsubset, analysis_method, function(data){
+					nodeNames = selectedDataNames(graphObject);
+
+	            	createSubset(nodeNames, window.location.href.substr(window.location.href.lastIndexOf('/') + 1), datasetN, descriptionS, missingsubset, missingCharsubset, analysis_method, function(data){
 	            		if(!data.error){
 	            			$('#dialog').dialog('close');
 	            			graphObject.freezeSelection = false;
