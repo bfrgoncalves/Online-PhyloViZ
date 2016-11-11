@@ -593,13 +593,16 @@ function createSubset(toFiles, name, description, missings, missingsChar, analys
 				var datasetID = data.stdout.split('datasetID:')[1].split('\n')[0];
 				var checkI = setInterval(function(){ 
 					checkgoeBURSTstatus(jobid, function(status){
-			            if(status == 'complete'){
-			            	var win = window.open(datasetID, '_blank');
-  							win.focus();
-  							clearInterval(checkI);
+			            if(status == 'completed'){
+			              window.location.replace("/main/dataset/" + datasetID);
+			              clearInterval(checkI);
+			            }
+			            else if(status == 'failed'){
+			              alert('Job Failed');
+			              clearInterval(checkI);
 			            }
 			          }) 
-			        }, 30000);
+			        }, 6000);
 
 
   			}
