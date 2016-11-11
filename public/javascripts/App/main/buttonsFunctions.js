@@ -457,6 +457,33 @@ function loadButtonFunctions(){
 	            createMSA(graphObject);
 	        });
 
+	        var showExclusiveInfo = true;
+
+	        if(graphObject.graphInput.nodes[0].profile.length > 2000 && graphObject.graphInput.nodes.length > 3000){
+	        	$('#exclusiveLoci').css({'display': 'none'});
+	        	showExclusiveInfo = false;
+	        }
+
+	        if(graphObject.graphInput.nodes.length > 3000){
+	        	var toDialog = '<div style="text-align: center;"><label>Due to the large number of nodes, <b>NLV graph</b> option ';
+	        	if(!showExclusiveInfo) toDialog += 'and <b>Find Exclusive Loci</b> option are not available.';
+	        	else toDialog += 'is not available.';
+
+	        	toDialog += 'We are working to solve this problem.</label></div>';
+
+	        	$('#dialog').empty();
+				$('#dialog').append(toDialog);
+				$('#dialog').dialog({
+			              height: $(window).height() * 0.20,
+			              width: $(window).width() * 0.40,
+			              modal: true,
+			              resizable: true,
+			              dialogClass: 'no-close success-dialog'
+			          });
+	        }
+
+
+
 	        $('#exclusiveLoci').click(function(e){
 	            get_exclusive_loci(graphObject, function(){
 	            	if (graphObject.exclusive_loci.length == 0){
@@ -537,6 +564,8 @@ function loadButtonFunctions(){
 		    if(!graphObject.graphInput.hasOwnProperty('distanceMatrix')){
 		    	$('#NLVgraph').css({"display": "none"});
 		    }
+
+
 
 	        $('#SplitTreeSlider').change(function(e){
 	            splitTree(graphObject, this.value);
