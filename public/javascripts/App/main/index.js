@@ -88,9 +88,12 @@ $(document).ready(function(){
 
           if(graph.nodes.length < 3000){
             //$('#profilec').css({'display':'none'});
-            /*
-            create_subset_profile(graph, function(graph){
-              status('Computing Distance Matrix...');
+            
+            //create_subset_profile(graph, function(graph){
+              if(!graph.hasOwnProperty('distanceMatrix') || graph.distanceMatrix.length == 0){
+                calculateDistanceMatrix(graph, function(graph){});
+              }
+              /*
               calculateDistanceMatrix(graph, function(graph){
               */
                 status('Loading tables...');
