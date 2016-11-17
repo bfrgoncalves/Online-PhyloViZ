@@ -47,7 +47,7 @@ function linkTableAndGraph(property, graphObject){
 	  	firstTimeFilterProfiles = false;
 	  }
 
-      var columnIndex = $(this).index();
+      var columnIndex = parseInt($(this).attr('real_index'));
 
       //if( columnIndex == 0 && property == 'profiles') return 0;
 
@@ -194,6 +194,7 @@ function destroyLink(property){
 function linkGraphAndTable(property, indexProperty, columnName, key, graphObject){
 
   key = key[0];
+  console.log(indexProperty);
 	
 	var tableToCheck = 'table' + property;
 	

@@ -50,15 +50,21 @@ $(document).ready( function(){
 		if($(this).val() == 'core'){
 			$('#span_missings').css({"display":"block"});
 			$('#missingcheck').css({"display":"block"});
+			$('#div_threshold').css({"display":"none"});
 			$('#missingdelimiter').css({"display":"none"});
 			document.getElementById('missingcheck').checked = false;
 		}
 		else{
 			$('#span_missings').css({"display":"none"});
 			$('#missingdelimiter').css({"display":"block"});
+			$('#div_threshold').css({"display":"block"});
 			document.getElementById('missingcheck').checked = true;
 
 		}
+	});
+
+	$('#missingthreshold').change(function(){
+  		document.getElementById('textInput').value=this.value; 
 	});
 
 	$('#possibleInputFormats').change(function(){

@@ -300,10 +300,10 @@ function checkLociDifferences(graphObject){
 		for(i=0; i<arrayOfNodes.length; i++){
 			var iDistances = {};
 			for (j=0; j<arrayOfNodes.length; j++){
-				if(graphObject.graphInput.hasOwnProperty('indexesToRemove')){
-					distance = hamming(graphObject.graphInput.subsetProfiles[arrayOfNodes[i].data.idGL].profile, graphObject.graphInput.subsetProfiles[arrayOfNodes[j].data.idGL].profile);
-				}
-				else distance = hamming(arrayOfNodes[i].data.profile, arrayOfNodes[j].data.profile);
+				//if(graphObject.graphInput.hasOwnProperty('indexesToRemove')){
+				distance = hamming(graphObject.graphInput.subsetProfiles[arrayOfNodes[i].data.idGL].profile, graphObject.graphInput.subsetProfiles[arrayOfNodes[j].data.idGL].profile);
+				//}
+				//else distance = hamming(arrayOfNodes[i].data.profile, arrayOfNodes[j].data.profile);
 				iDistances[arrayOfNodes[j].id] = distance;
 				if(distance > maxDistance) maxDistance = distance;
 			}
@@ -572,7 +572,7 @@ function selectedDataNames(graphObject){
 	return nodeNames;
 }
 
-function createSubset(nodeNames, parentID, name, description, missings, missingsChar, analysis_method, callback){
+function createSubset(nodeNames, parentID, name, description, missings, missingsChar, analysis_method, missing_threshold, callback){
 
 	$('#dialog').dialog('close');
 
@@ -581,7 +581,7 @@ function createSubset(nodeNames, parentID, name, description, missings, missings
 
 	$.ajax({
       url: '/api/utils/phylovizsubset',
-      data: {nodeindexes: JSON.stringify(nodeNames), parentName: parentID, name: name, description: description, missings: missings, missingschar: missingsChar, analysis_method: analysis_method},
+      data: {nodeindexes: JSON.stringify(nodeNames), parentName: parentID, name: name, description: description, missings: missings, missingschar: missingsChar, analysis_method: analysis_method, missing_threshold:missing_threshold, parent_id:window.location.href.substr(window.location.href.lastIndexOf('/') + 1)},
       type: 'POST',
       success: function(data){
   
@@ -613,13 +613,17 @@ function createSubset(nodeNames, parentID, name, description, missings, missings
 							    alert('Please allow popups for this website');
 							}
 			              clearInterval(checkI);
+			              $('#dialog').dialog('close');
+			              return true;
 			            }
 			            else if(status == 'failed'){
 			              alert('Job Failed');
 			              clearInterval(checkI);
+			              $('#dialog').dialog('close');
+			              return true;
 			            }
 			          }) 
-			        }, 6000);
+			        }, 3000);
 
 
   			}
@@ -823,19 +827,21 @@ function exportgoeBURSTprofiles(graphObject){
 	var toFile = '';
 	var firstLine = true;
 
-	for(i in graphObject.graphInput.goeBURSTprofileExport){
-		var profileData = graphObject.graphInput.goeBURSTprofileExport[i];
+	for(i in graphObject.graphInput.subsetProfiles){
+		var profileData = graphObject.graphInput.subsetProfiles[i].profile;
 		if(firstLine){
 			toFile += graphObject.graphInput.key[0];
-			for(j in profileData){
-				toFile += '\t' + profileData[j].gene;
+			for(j in graphObject.graphInput.goeBURSTschemeGenesExport){
+				toFile += '\t' + graphObject.graphInput.goeBURSTschemeGenesExport[j].gene;
 			}
 			toFile += '\n';
 			firstLine = false
 		}
-		toFile += i;
+		//toFile += i;
+		toFile += graphObject.graphInput.nodes[i].key;
+
 		for(j in profileData){
-			toFile += '\t' + profileData[j].value;
+			toFile += '\t' + profileData[j];
 		}
 		toFile += '\n';
 	}

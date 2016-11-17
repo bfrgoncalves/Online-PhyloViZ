@@ -6,29 +6,45 @@ function loadButtonFunctions(){
 
 			$("#datasetInfobt").click(function(){
 
-				var toDialog = '<div id="divinfoDataset"></div>';
+				var toDialog = '<div id="divinfoDataset">';
+
+
 
 	        	$('#dialog').empty();
-				$('#dialog').append(toDialog);
 
 				var table = {};
-				table.headers = ['Data Set Name', 'Data Set Size', 'Type', 'Metadata', 'Max. Link Distance'];
-				if (graphObject.graphInput.data_type == 'profile' || graphObject.graphInput.data_type == 'fasta') table.headers.push('Profile Size');
-				table.data = [[graphObject.graphInput.dataset_name, graphObject.graphInput.nodes.length, graphObject.graphInput.data_type]];
+				//table.headers = ['Data Set Name', 'Data Set Size', 'Type', 'Metadata', 'Max. Link Distance'];
+				table.data = {'Data Set Name':graphObject.graphInput.dataset_name, 'Data Set Size':graphObject.graphInput.nodes.length, 'Data Type':graphObject.graphInput.data_type};
+				table.data['Date'] = graphObject.graphInput.data_timestamp[0].split('T')[0];
 
-				if (graphObject.graphInput.metadata.length > 0) table.data[0].push('True');
-				else table.data[0].push('False');
+				if (graphObject.graphInput.metadata.length > 0) table.data.Metadata = 'True';
+				else table.data.Metadata = 'False';
 
-				table.data[0].push(graphObject.maxLinkValue);
+				if (graphObject.graphInput.data_type == 'profile' || graphObject.graphInput.data_type == 'fasta') table.data['Original Profile Size'] = graphObject.graphInput.nodes[0].profile.length;
+				if(graphObject.graphInput.hasOwnProperty('goeburst_timer')) table.data['goeBURST Execution Time'] = graphObject.graphInput.goeburst_timer;
+				
+				table.data['Max. Link Distance'] = graphObject.maxLinkValue;
 
-				if (graphObject.graphInput.data_type == 'profile' || graphObject.graphInput.data_type == 'fasta'){
-					table.data[0].push(graphObject.graphInput.nodes[0].profile.length);
+				if(graphObject.graphInput.hasOwnProperty('missing_threshold')) table.data['Missing Data Threshold'] = graphObject.graphInput.missing_threshold;
+				if(graphObject.graphInput.hasOwnProperty('analysis_method')) table.data['Analysis Method'] = graphObject.graphInput.analysis_method;
+				table.data['goeBURST Profile Size'] = graphObject.graphInput.subsetProfiles[0].profile.length;
+				if(graphObject.graphInput.hasOwnProperty('parent_id')){
+					url = window.location.href.substring(0,window.location.href.lastIndexOf("/")) + '/' + graphObject.graphInput.parent_id;
+					table.data['Parent Data Set'] = '<a href="'+url+'">'+url+'</a>';
+				}
+				for(parameter in table.data){
+					toDialog += '<p><b>' + parameter + '</b> : ' + table.data[parameter];
 				}
 
-				
+				toDialog += '</div>';
+
+				$('#dialog').append(toDialog);
+
+				/*
 				constructTable(graphObject.graphInput, table, 'infoDataset', function(){
 					$('#tableinfoDataset tfoot').remove();
 				});
+				*/
 
 				$('#dialog').dialog({
 			              height: $(window).height() * 0.40,
@@ -387,22 +403,44 @@ function loadButtonFunctions(){
 								'<label class="checkbox-inline"><input type="checkbox" id="missingchecksubset"/>Has missings</label>'+
 								'<label class="checkbox-inline"><input class="input-sm" id="missingdelimitersubset" type="text" placeholder="Missings character" required style="display:none"/></label>'+
 	        					'</div><br>'+
+	        					'<div class="col-md-12" id="div_threshold" style="display:none;">'+
+								'<div class="col-md-6">'+
+								'<span id="span_threshold">Threshold (Absent Loci)<input id="missingthreshold" type="range" value="100" min="0" max="100" required/></span>'+
+								'</div><div>'+
+								'<input type="text" style="width:30%;" id="textInput" value="100" disabled></div></div>'+
 	        					'<div style="width:100%;text-align:center"><button id="okButtonsubset" class="btn btn-primary btn-md">OK</button></div><br><div id="errorSubset" style="width:100%;text-align:center;"></div>';
 
 	        	$('#dialog').empty();
 				$('#dialog').append(toDialog);
 				$('#dialog').dialog({
-			              height: $(window).height() * 0.40,
-			              width: $(window).width() * 0.40,
+			              height: $(window).height() * 0.50,
+			              width: $(window).width() * 0.50,
 			              modal: true,
 			              resizable: true,
 			              dialogClass: 'no-close success-dialog'
 			          });
 
 				$('#sel_analysis_method').change(function(){
-					if($(this).val() == 'core') $('#missingcheckboxsubset').css({"display":"block"});
-					else $('#missingcheckboxsubset').css({"display":"none"});
+					if($(this).val() == 'core') {
+						$('#missingcheckboxsubset').css({"display":"block"});
+						$('#missingchecksubset').css({"display":"block"});
+						$('#missingdelimitersubset').css({"display":"none"});
+						$('#div_threshold').css({"display":"none"});
+						document.getElementById('missingchecksubset').checked = false;
+					}
+					else{
+						$('#missingcheckboxsubset').css({"display":"block"});
+						$('#missingchecksubset').css({"display":"none"});
+						$('#missingdelimitersubset').css({"display":"block"});
+						$('#div_threshold').css({"display":"block"});
+						document.getElementById('missingchecksubset').checked = true;
+					}
 				});
+
+				$('#missingthreshold').change(function(){
+			  		document.getElementById('textInput').value=this.value; 
+				});
+
 
 				$('#missingchecksubset').click(function(){
 				  if ($(this).is(':checked')) $('#missingdelimitersubset').css({"display": "block"});
@@ -425,17 +463,20 @@ function loadButtonFunctions(){
 					var descriptionS = $('#dataset_description_Subset').val();
 					var missingsubset = true;
 					var missingCharsubset = '';
-					if(document.getElementById('missingchecksubset').checked){
-					    missingsubset = true;
-					    missingCharsubset = $('#missingdelimitersubset').val();
-					}
 
 					var analysis_method = 'core';
 					analysis_method = $('#sel_analysis_method').val();
+					var missing_threshold = '0';
+
+					if(document.getElementById('missingchecksubset').checked){
+					    missingsubset = true;
+					    missingCharsubset = $('#missingdelimitersubset').val();
+					    if (analysis_method == 'pres-abs') missing_threshold = $('#missingthreshold').val();
+					}
 
 					nodeNames = selectedDataNames(graphObject);
 
-	            	createSubset(nodeNames, window.location.href.substr(window.location.href.lastIndexOf('/') + 1), datasetN, descriptionS, missingsubset, missingCharsubset, analysis_method, function(data){
+	            	createSubset(nodeNames, window.location.href.substr(window.location.href.lastIndexOf('/') + 1), datasetN, descriptionS, missingsubset, missingCharsubset, analysis_method, missing_threshold, function(data){
 	            		if(!data.error){
 	            			$('#dialog').dialog('close');
 	            			graphObject.freezeSelection = false;

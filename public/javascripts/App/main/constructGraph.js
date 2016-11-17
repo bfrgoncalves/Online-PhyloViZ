@@ -217,6 +217,9 @@ function constructGraph(graph, datasetID){
             $('#countProfileSize').css({"display": "none"});
             
           }
+          else if(graphObject.graphInput.nodes.length > 2000){
+            $('#noProfiles').css({"display": "block"});
+          }
           else $('#noProfiles').css({"display": "none"});
 
         })

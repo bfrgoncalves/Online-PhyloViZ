@@ -421,13 +421,30 @@ function loadGraphFunctions(){
 
 	        var shiftDown = false, altDown = false, remakeSelection = false, multipleselection = false, sdown = false;
 
-	        events.mouseEnter(function (node) {
+	        events.mouseEnter(function (node, e) {
+	        	var header_height = $(".tabs_headers").height() + 5;
+
+	        	nodeUI_1 = graphics.getNodeUI(node.id);
+
+	        	var domPos = {
+                  x: nodeUI_1.position.x,
+                  y: nodeUI_1.position.y
+              };
+              // And ask graphics to transform it to DOM coordinates:
+              graphics.transformGraphToClientCoordinates(domPos);
+
+              domPos.x = (domPos.x + nodeUI_1.size) + 'px';
+		      domPos.y = (domPos.y  +header_height - 30)+ 'px';
+	        	$('#popup_description').empty();
+	        	$('#popup_description').append(showInfo(graphics, node, e));
+	        	$('#popup_description').css({'padding': '10px 10px 10px 10px', 'border':'1px solid grey', 'border-radius': '10px', 'background-color':'white','display':'block', 'left':domPos.x, 'top':domPos.y, 'position':'fixed', 'z-index':2});
 	             //console.log('Mouse entered node: ' + node.id);
 	         }).mouseLeave(function (node) {
+	         	$('#popup_description').css({'display':'none'});
 	             //console.log('Mouse left node: ' + node.id);
 	         })
 	        events.dblClick(function (node, e) {
-	          showInfo(graphics, node, e);
+	          //showInfo(graphics, node, e);
 	          //
 	        }).click(function (node, e) {
 

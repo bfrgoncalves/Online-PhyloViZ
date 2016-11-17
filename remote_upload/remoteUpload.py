@@ -27,6 +27,8 @@ def main():
 	parser.add_argument('-root', nargs='?', type=str, help="root of the application", required=False, default="https://online.phyloviz.net")
 	parser.add_argument('-cd', nargs='?', type=str, help="Cookie domain", required=False, default="https://online.phyloviz.net")
 	parser.add_argument('-mc', nargs='?', type=str, help="Missings Character (defaults to None)", required=False, default=False)
+	parser.add_argument('-mt', nargs='?', type=str, help="Missing threshold (defaults to None)", required=False, default=False)
+	parser.add_argument('-pid', nargs='?', type=str, help="Parent dataset identifier (Defaults to None)", required=False, default=False)
 	parser.add_argument('-am', nargs='?', type=str, help="Analysis Method in case of Profile Data (defaults to core) options: core; pres-abs (presence/absence)", required=False, default='core')
 
 	args = parser.parse_args()
@@ -173,20 +175,30 @@ def remoteUpload(args, currentRoot): #upload the input files to the database
 
 def rungoeBURST(args, datasetID, currentRoot, onqueue): #run the goeBURST algorithm to store the links in the database
 	
+	if args.mt:
+		missing_T = args.mt
+	else:
+		missing_T = 0
+
+	if args.pid:
+		parent_id = args.pid
+	else:
+		parent_id = 'false'
+
 	if not args.t:
 		login(args, currentRoot)
 		print 'Running goeBURST...'
 		if args.mc == False:
-			bashCommand = 'curl --cookie jarfile -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true&analysis_method=' + args.am + '&onqueue=' + onqueue
+			bashCommand = 'curl --cookie jarfile -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true&analysis_method=' + args.am + '&onqueue=' + onqueue + '&parent_id=' + parent_id
 		else:
-			bashCommand = 'curl --cookie jarfile -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true&missings=true&missingchar=' + str(args.mc) + '&analysis_method=' + args.am + '&onqueue=' + onqueue
+			bashCommand = 'curl --cookie jarfile -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true&missings=true&missingchar=' + str(args.mc) + '&analysis_method=' + args.am + '&missing_threshold='+str(missing_T)+'&onqueue=' + onqueue + '&parent_id=' + parent_id
 	else:
 		print 'Running goeBURST...'
 		print 'cookie'
 		if args.mc == False:
-			bashCommand = 'curl --cookie '+args.t+' -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true&analysis_method=' + args.am + '&onqueue=' + onqueue
+			bashCommand = 'curl --cookie '+args.t+' -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true&analysis_method=' + args.am + '&onqueue=' + onqueue + '&parent_id=' + parent_id
 		else:
-			bashCommand = 'curl --cookie '+args.t+' -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true&missings=true&missingchar=' + str(args.mc) + '&analysis_method=' + args.am + '&onqueue=' + onqueue
+			bashCommand = 'curl --cookie '+args.t+' -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true&missings=true&missingchar=' + str(args.mc) + '&analysis_method=' + args.am + '&missing_threshold='+str(missing_T)+'&onqueue=' + onqueue + '&parent_id=' + parent_id
 		
 		process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
 		output = json.loads(process.communicate()[0])

@@ -54,6 +54,7 @@ block normalBody
 		div.tab-content
 			
 			div.tab-pane.active(id="treeContent")
+				div(id="popup_description" style="display: none")
 				div(style="width:30%;margin-top:1%;left:35%;position:absolute;z-index:2;text-align:center;")
 					form.form-inline(id='searchForm')
 						div.form-group
@@ -220,7 +221,7 @@ block normalBody
 
 
 
-				div(id="col_information")
+				//div(id="col_information")
 					div(id="divButtonInfo")
 						a.btn.btn-md.btn-info(type='button',id='toggle_col_info') Hide Information
 					div(id="divButtonClearInfo")
@@ -228,7 +229,7 @@ block normalBody
 					div(id="info_container")
 						div(id="info_place")
 
-				div(id="divButtonInfoOutside")
+				//div(id="divButtonInfoOutside")
 						a.btn.btn-info(type='button',id='toggle_col_in') Show Information
 				
 				div(id="divButtonLegend")
@@ -277,8 +278,13 @@ block normalBody
 				div(id="divprofiles")
 					div(id="exportprofiles")
 				br
-				div Profile Size: <label id="countProfileSize"></label>
-				div goeBURST Profile Size: <label id="countgoeBURSTProfileSize"></label>&nbsp<button class="btn btn-md btn-primary" id="exportgoeBURST">Download Profiles</button>
+				div.col-md-2(id="HideColumnProfiles")
+					b Filter By Profile Position
+					select.selectpicker(id="searchProfileHeaders", data-live-search="true")
+				div.col-md-2
+					button.btn.btn-md.btn-default(id="resetHideColumns") Reset
+				div.col-md-4 Profile Size: <label id="countProfileSize"></label></label>&nbsp<button class="btn btn-md btn-default" id="exportoriginal">Download Original Profiles</button>
+				div.col-md-4 goeBURST Profile Size: <label id="countgoeBURSTProfileSize"></label>&nbsp<button class="btn btn-md btn-default" id="exportgoeBURST">Download goeBURST Profiles</button>
 				br
 				div.pieRegion
 					//div.numberOfColumns(id='numberOfColumnsprofiles')

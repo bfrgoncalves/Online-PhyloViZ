@@ -1,7 +1,7 @@
 
 function createTable(graph, dataset, datasetParameter, callback){
 
-	getTableData(dataset, datasetParameter, function(tableData){
+	getTableData(graph, dataset, datasetParameter, function(tableData){
     if (tableData.data.length != 0) constructTable(graph, tableData, datasetParameter, function(){
       callback();
     });
@@ -10,11 +10,20 @@ function createTable(graph, dataset, datasetParameter, callback){
 
 }
 
-function getTableData(datasetID, parameterId, callback){
+function getTableData(graph, datasetID, parameterId, callback){
+
+  if(graph.hasOwnProperty('analysis_method')){
+    analysis_method = graph.analysis_method;
+    delimiter = graph.missingsInfo[1];
+  }
+  else{
+    analysis_method = graph.analysis_method;
+    delimiter = null;
+  }
 
 	$.ajax({
       url: '/api/utils/tableData',
-      data: $.param({dataset_id: datasetID, parameter: parameterId}),
+      data: $.param({dataset_id: datasetID, parameter: parameterId, analysis_method:analysis_method, delimiter:delimiter}),
       processData: false,
       contentType: false,
       type: 'GET',
@@ -176,6 +185,10 @@ function constructTable(graph, tableData, datasetParameter, callback){
 
         "fnInitComplete": function(oSettings, json) {
 
+          $('#' + tableToCheck + ' thead tr th').each(function(i){
+            $(this).attr('real_index', i);
+          })
+
           createFooter('#' + tableToCheck, toShowColumns, function(){
             createColumnSearch(tableToCheck);
             addToDiv(tableToCheck);
@@ -193,12 +206,66 @@ function constructTable(graph, tableData, datasetParameter, callback){
             }
           }
 
+          if(tableToCheck == 'tableprofiles'){
+            $('#searchProfileHeaders').empty();
+            var headerData = toShowColumns.map(function(d){return d});
+            headerData.shift();
+            var table1 = $('#' + tableToCheck).DataTable();
+            for (i in headerData){
+              $('#searchProfileHeaders').append('<option>'+headerData[i].title+'</option>');
+            }
+
+            $('.selectpicker').selectpicker('refresh');
+
+            var arrayIndex = toShowColumns.map(function(d,i){ return i;});
+            arrayIndex.shift();
+            var firstTime = true;
+            var shown = [0]; 
+
+            $('#searchProfileHeaders').change(function(){
+              indexCol = $('#searchProfileHeaders').prop('selectedIndex') + 1;
+              if(shown.indexOf(indexCol) > -1) return;
+              if(firstTime){
+                firstTime = false;
+                table.columns( arrayIndex ).visible( false, false );
+              }
+              shown.push(indexCol);
+              table.columns( [indexCol] ).visible( true, true );
+              table.columns.adjust().draw( false ); // adjust column sizing and redraw
+
+              var newCol = shown.map(function(d){
+                return headerData[d];
+              });
+
+              $('#' + tableToCheck + ' tfoot').remove();
+
+              createFooter('#' + tableToCheck, newCol, function(){
+                createColumnSearch(tableToCheck);
+                addToDiv(tableToCheck);
+                //$(divToCheck).css('overflow-x','auto');
+              });
+            })
+
+            $('#resetHideColumns').click(function(){
+              firstTime = true;
+              shown = [0];
+              table.columns( arrayIndex ).visible( true, false );
+              $('#' + tableToCheck + ' tfoot').remove();
+              createFooter('#' + tableToCheck, toShowColumns, function(){
+                createColumnSearch(tableToCheck);
+                addToDiv(tableToCheck);
+                //$(divToCheck).css('overflow-x','auto');
+              });
+            })
+          }
+
           exportButtons = $('#' + tableToCheck + '_wrapper .buttons-html5');
           buttonPrint = $('#' + tableToCheck + '_wrapper .buttons-print');
           $('#export'+datasetParameter).append(exportButtons);
           $('#export'+datasetParameter).append(buttonPrint);
 
           $('table thead tr th').addClass('doHover');
+          $('table thead tr th').addClass('ToHide');
           $(".next10" + datasetParameter).css({"background": '#008CBA'});
           $(".prev10" + datasetParameter).css({"background": '#7d9c6a'});
           $("table").css({"overflow-x": 'auto'});

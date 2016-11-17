@@ -37,8 +37,14 @@ $('#inputForm').submit(function() {
 });
 
 $('#missingcheck').click(function(){
-  if ($(this).is(':checked')) $('#missingdelimiter').css({"display": "block"});
-  else $('#missingdelimiter').css({"display": "none"});
+  if ($(this).is(':checked')){
+    $('#missingdelimiter').css({"display": "block"});
+    if($('#sel_analysis_method').val() == 'pres-abs') $('#div_threshold').css({"display":"block"});
+  }
+  else{
+    $('#missingdelimiter').css({"display": "none"});
+    $('#div_threshold').css({"display":"none"});
+  }
   
 });
 
@@ -140,17 +146,19 @@ function getLinks(data){
   if(data.numberOfProfiles > 300 || data.profileLength > 40) onqueue = true;
 
   var analysis_method = 'core';
+  var missing_threshold = '0';
 
   analysis_method = $('#sel_analysis_method').val();
 
   if(document.getElementById('missingcheck').checked){
     missings = true;
     missingChar = $('#missingdelimiter').val();
+    if (analysis_method == 'pres-abs') missing_threshold = $('#missingthreshold').val();
   }
   
   $.ajax({
     url: '/api/algorithms/goeBURST',
-    data: $.param({dataset_id: datasetID, send_email:email_input, save: true, missings: missings, missingchar: missingChar, analysis_method:analysis_method, onqueue:onqueue}),
+    data: $.param({dataset_id: datasetID, send_email:email_input, save: true, missings: missings, missingchar: missingChar, analysis_method:analysis_method, onqueue:onqueue, missing_threshold:missing_threshold}),
     processData: false,
     contentType: false,
     type: 'GET',
@@ -171,7 +179,7 @@ function getLinks(data){
               clearInterval(checkI);
             }
           }) 
-        }, 6000);
+        }, 3000);
 
       }
       else if(data.dupProfiles.length > 0 || data.dupIDs.length >0){

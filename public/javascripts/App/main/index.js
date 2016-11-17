@@ -86,11 +86,13 @@ $(document).ready(function(){
 
           graph.firstshownColumn = graph.minColumns;
 
-          if(graph.nodes.length < 2000 && graph.schemeGenes.length < 1000){
+          if(graph.nodes.length < 3000){
+            //$('#profilec').css({'display':'none'});
+            /*
             create_subset_profile(graph, function(graph){
               status('Computing Distance Matrix...');
               calculateDistanceMatrix(graph, function(graph){
-
+              */
                 status('Loading tables...');
                 createTable(graph, datasetID, 'isolates', function(){
 
@@ -110,11 +112,14 @@ $(document).ready(function(){
                   }
                 });
 
-              });
-            })
+              //});
+            //})
           }
           else {
               status('Loading tables...');
+              $('#profilec').css({'display':'none'});
+              $('#noProfiles').append('<p>Due to the large large profile length or number of profiles, table visualization is not available.</p>');
+
               createTable(graph, datasetID, 'isolates', function(){
 
                 if (graph.data_type == 'fasta'){

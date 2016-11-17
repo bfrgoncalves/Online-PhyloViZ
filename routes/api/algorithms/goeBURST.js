@@ -52,6 +52,12 @@ function getEmail(userID, callback){
     });
 }
 
+function clock(start) {
+    if ( !start ) return process.hrtime();
+    var end = process.hrtime(start);
+    return Math.round((end[0]*1000) + (end[1]/1000000));
+}
+
 
 function sendMail(mailInfo, callback){
 
@@ -111,6 +117,8 @@ if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().
 
 		console.log(job.jobId);
 
+		var start = clock(); //Timer
+
 		var datasetId;
 		var datasetID = job.data.datasetID;
 		var userID = job.data.userID;
@@ -120,6 +128,8 @@ if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().
 		var save = job.data.save;
 		var hasmissings = job.data.hasmissings;
 		var send_email = job.data.sendEmail;
+		var missing_threshold = job.data.missing_threshold;
+		var parent_id = job.data.parent_id;
 		var mailObject = {};
 
 		console.log('processing');
@@ -129,13 +139,16 @@ if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().
 			loadProfiles(datasetID, userID, function(profileArray, identifiers, datasetID, dupProfiles, dupIDs, profiles, entries_ids){
 				datasetId = datasetID;
 				old_profiles = profiles;
-				console.log(profileArray.length);
-				goeBURST(profileArray, identifiers, algorithmToUse, missings, analysis_method, function(links, distanceMatrix, profilegoeBURST, indexToRemove){
-					//console.log(distanceMatrix);
+				goeBURST(profileArray, identifiers, algorithmToUse, missings, analysis_method, missing_threshold, function(links, distanceMatrix, profilegoeBURST, indexToRemove){
 					if(save){
 						saveLinks(datasetID, links, missings, function(){
-							if(hasmissings == 'true'){
-								save_profiles(profilegoeBURST, old_profiles, datasetID, indexToRemove, entries_ids, function(){
+							//if(hasmissings == 'true'){
+								goeburstTimer = clock(start);
+								min = (goeburstTimer/1000/60) << 0;
+   								sec = (goeburstTimer/1000) % 60;
+   								goeburstTimer = min + ':' + sec;
+
+								save_profiles(profilegoeBURST, old_profiles, datasetID, indexToRemove, entries_ids, analysis_method, missing_threshold, goeburstTimer, parent_id, function(){
 									phyloviz_input_utils.getNodes(datasetID, userID, false, function(dataset){
 								      	createPhyloviZInput(dataset, function(graphInput){
 								      		graphInput.distanceMatrix = distanceMatrix;
@@ -159,11 +172,13 @@ if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().
 									      });
 								    });
 								});
-							}
+							/*}
 							else {
 								phyloviz_input_utils.getNodes(datasetID, userID, false, function(dataset){
 							      	createPhyloviZInput(dataset, function(graphInput){
 							      		graphInput.distanceMatrix = distanceMatrix;
+							      		var t1 = performance.now();
+							      		graphInput.goeburstTimer = t0-t1;
 							      		phyloviz_input_utils.addToFilterTable(graphInput, userID, datasetID, [], function(){
 
 							      			if(send_email){
@@ -183,6 +198,7 @@ if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().
 								      });
 							    });
 							}
+							*/
 						});
 					}
 					else{
@@ -216,6 +232,7 @@ router.get('/', function(req, res, next){
 		var datasetId;
 		var missings = [false, ''];
 		var analysis_method = 'core';
+		var missing_threshold = '100';
 
 		if (req.query.send_email == 'true'){
 			sendEmail = true;
@@ -225,15 +242,26 @@ router.get('/', function(req, res, next){
 			missings = [true, req.query.missingchar];
 		}
 
+		if (req.query.parent_id != undefined || req.query.parent_id != 'false'){
+			parent_id = req.query.parent_id;
+		}
+		else parent_id = undefined;
+
+		if (req.query.missing_threshold){
+			missing_threshold = req.query.missing_threshold;
+		}
+
 		if (req.query.analysis_method){
 			analysis_method = req.query.analysis_method;
 		}
+
+		missing_threshold = parseFloat(missing_threshold)/100;
 
 		if (req.query.algorithm) var algorithmToUse = req.query.algorithm;
 		else var algorithmToUse = 'prim';
 
 		if(req.query.onqueue == 'true'){
-			var parameters = {datasetID:datasetID, sendEmail:sendEmail, userID:userID, algorithmToUse:algorithmToUse, analysis_method:analysis_method, missings:missings, save:req.query.save, hasmissings:req.query.missings};
+			var parameters = {datasetID:datasetID, sendEmail:sendEmail, userID:userID, algorithmToUse:algorithmToUse, analysis_method:analysis_method, missings:missings, save:req.query.save, hasmissings:req.query.missings, missing_threshold:missing_threshold, parent_id:parent_id};
 			
 			var job = queue.create('goeBURST', parameters).save(function(err){
 				if(!err) {
@@ -254,19 +282,25 @@ router.get('/', function(req, res, next){
 
 
 		}
-		else{	
+		else{
+			var start = clock();	
 			loadProfiles(datasetID, userID, function(profileArray, identifiers, datasetID, dupProfiles, dupIDs, profiles, entries_ids){
 				datasetId = datasetID;
 				old_profiles = profiles;
-				goeBURST(profileArray, identifiers, algorithmToUse, missings, analysis_method, function(links, distanceMatrix, profilegoeBURST, indexToRemove){
+				goeBURST(profileArray, identifiers, algorithmToUse, missings, analysis_method, missing_threshold, function(links, distanceMatrix, profilegoeBURST, indexToRemove){
+					var goeburstTimer = clock(start);
+					min = (goeburstTimer/1000/60) << 0;
+					sec = (goeburstTimer/1000) % 60;
+					goeburstTimer = min + ':' + sec;
+
 					if(req.query.save){
 						saveLinks(datasetID, links, missings, function(){
-							if(req.query.missings == 'true'){
-								save_profiles(profilegoeBURST, old_profiles, datasetID, indexToRemove, entries_ids, function(){
-									res.send({datasetID: req.query.dataset_id, links: links, distanceMatrix: distanceMatrix, dupProfiles: dupProfiles, dupIDs: dupIDs});
-								});
-							}
-							else res.send({datasetID: req.query.dataset_id, links: links, distanceMatrix: distanceMatrix, dupProfiles: dupProfiles, dupIDs: dupIDs});
+							//if(req.query.missings == 'true'){
+							save_profiles(profilegoeBURST, old_profiles, datasetID, indexToRemove, entries_ids, analysis_method, missings[1], goeburstTimer, parent_id, function(){
+								res.send({datasetID: req.query.dataset_id, links: links, distanceMatrix: distanceMatrix, dupProfiles: dupProfiles, dupIDs: dupIDs});
+							});
+							//}
+							//else res.send({datasetID: req.query.dataset_id, links: links, distanceMatrix: distanceMatrix, dupProfiles: dupProfiles, dupIDs: dupIDs});
 						});
 					}
 					else res.send({datasetID: req.query.dataset_id, links: links, distanceMatrix: distanceMatrix, dupProfiles: dupProfiles, dupIDs: dupIDs});
@@ -459,10 +493,11 @@ function saveLinks(datasetID, links, missings, callback){
 		});
 }
 
-function save_profiles(profilegoeBURST, profiles, datasetID, indexesToRemove, entries_ids, callback){
+function save_profiles(profilegoeBURST, profiles, datasetID, indexesToRemove, entries_ids, analysis_method, missing_threshold, goeburst_timer, parent_id, callback){
 	
 	var countProfiles = 0;
 	var newProfiles = [];
+	console.log('S', missing_threshold);
 
 	var pg = require("pg");
 	var connectionString = "pg://" + config.databaseUserString + "@localhost/"+ config.db;
@@ -489,7 +524,7 @@ function save_profiles(profilegoeBURST, profiles, datasetID, indexesToRemove, en
 
 		while(profilesToUse.profiles.length){
 	        countBatches+=1;
-	        if(countBatches == 1) pTouse[countBatches] = { profiles: profilesToUse.profiles.splice(0, config.batchSize), indexestoremove: indexesToRemove, profilesize: profilegoeBURST[0].length };
+	        if(countBatches == 1) pTouse[countBatches] = { profiles: profilesToUse.profiles.splice(0, config.batchSize), indexestoremove: indexesToRemove, profilesize: profilegoeBURST[0].length, analysis_method:analysis_method, missing_threshold: missing_threshold, goeburst_timer: goeburst_timer, parent_id:parent_id};
 	        else pTouse[countBatches] = { profiles: profilesToUse.profiles.splice(0, config.batchSize)};
 
 	        queryUpdate = "UPDATE datasets.profiles SET data = $1 WHERE dataset_id ='"+datasetID+"' AND id ='"+String(entries_ids[countEntries])+"';";

@@ -15,12 +15,18 @@ router.get('/', function(req, res, next){
 		if (!req.isAuthenticated()) var userID = "1";
 		else var userID = req.user.id;
 
+		if(req.query.analysis_method !=null) analysis_method = req.query.analysis_method;
+		else analysis_method = 'core';
+
+		if(req.query.delimiter !=null) delimiter = req.query.delimiter;
+		else delimiter = null;
+
 		if (req.query.parameter != null){
 			var parameter = req.query.parameter;
 			checkIfpublic(datasetID, userID, function(isPublic){
 
 				getDataset(datasetID, userID, isPublic, parameter, function(dataset){
-			      createTable_data({dataset: dataset[0].data, parameter: parameter, headers: dataset[1].headers}, function(table_data){
+			      createTable_data({dataset: dataset[0].data, parameter: parameter, headers: dataset[1].headers, analysis_method:analysis_method, delimiter:delimiter}, function(table_data){
 			      	res.send({status: 'OK', data: table_data.data, headers: table_data.headers});
 			      });
 			    });

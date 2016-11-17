@@ -259,8 +259,13 @@ block normalBody
 												span.input-group-addon(id="Metadata", onclick="getFile(this.id)") Browse
 
 									div.col-md-6
-										div.checkbox.input-sm(id="missingcheckbox", style="text-align:left;")
+										div.checkbox.col-md-12(id="missingcheckbox", style="text-align:left;")
 											<span class="checkbox-inline" id="span_missings"><input type="checkbox" id="missingcheck"/>Has Missing Data</span><span id="span_character" class="checkbox-inline"><input class="input-sm" id="missingdelimiter" type="text" placeholder="Missings character" required style="display:none"/></span>
+										div.col-md-12(id="div_threshold", style="display:none;")
+											div.col-md-6
+												<span id="span_threshold">Threshold (Absent Loci)<input id="missingthreshold" type="range" value='100' min='0' max='100' required/></span>
+											div
+												<input type="text" style="width:30%;" id="textInput" value="100" disabled>
 								
 								div.row
 									div.col-md-12

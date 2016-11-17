@@ -52,7 +52,6 @@ var colorAttributes = function(graphObject){
     parent.append('<select id="selectByMetadata" data-live-search="true"><optgroup>'+options+'</optgroup></select>');
 	
 
-
     $('#selectByScheme').change(function(d){
 
       graphObject.linkFromLinkButton = false;
@@ -73,6 +72,7 @@ var colorAttributes = function(graphObject){
 
       //propertyIndex = graph.schemeGenes.indexOf(propertyToCheck);
       propertyIndex = $("#selectByScheme").prop('selectedIndex');
+      //console.log(propertyIndex);
 
       if (changeFromTable == false){
         linkGraphAndTable('profiles', propertyIndex-1, propertyToCheck, graph.key, graphObject);
