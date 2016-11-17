@@ -3,7 +3,7 @@
  * Module dependencies
  */
 
-var utils = require('./utils')
+var utils = require('./utils');
 
 /*!
  * Prepare a set of path options for query population.
@@ -13,14 +13,14 @@ var utils = require('./utils')
  * @return {Array}
  */
 
-exports.preparePopulationOptions = function preparePopulationOptions (query, options) {
+exports.preparePopulationOptions = function preparePopulationOptions(query, options) {
   var pop = utils.object.vals(query.options.populate);
 
   // lean options should trickle through all queries
   if (options.lean) pop.forEach(makeLean);
 
   return pop;
-}
+};
 
 /*!
  * Prepare a set of path options for query population. This is the MongooseQuery
@@ -31,14 +31,14 @@ exports.preparePopulationOptions = function preparePopulationOptions (query, opt
  * @return {Array}
  */
 
-exports.preparePopulationOptionsMQ = function preparePopulationOptionsMQ (query, options) {
+exports.preparePopulationOptionsMQ = function preparePopulationOptionsMQ(query, options) {
   var pop = utils.object.vals(query._mongooseOptions.populate);
 
   // lean options should trickle through all queries
   if (options.lean) pop.forEach(makeLean);
 
   return pop;
-}
+};
 
 /*!
  * If the document is a mapped discriminator type, it returns a model instance for that type, otherwise,
@@ -64,7 +64,7 @@ exports.createModel = function createModel(model, doc, fields) {
   }
 
   return new model(undefined, fields, true);
-}
+};
 
 /*!
  * Set each path query option to lean
@@ -72,8 +72,7 @@ exports.createModel = function createModel(model, doc, fields) {
  * @param {Object} option
  */
 
-function makeLean (option) {
+function makeLean(option) {
   option.options || (option.options = {});
   option.options.lean = true;
 }
-

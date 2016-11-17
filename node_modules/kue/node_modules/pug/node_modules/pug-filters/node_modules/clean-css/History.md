@@ -1,3 +1,10 @@
+[3.4.21 / 2016-11-16](https://github.com/jakubpawlowicz/clean-css/compare/v3.4.20...v3.4.21)
+==================
+
+* Fixed issue [#821](https://github.com/jakubpawlowicz/clean-css/issues/821) - reducing non-adjacent rules.
+* Fixed issue [#830](https://github.com/jakubpawlowicz/clean-css/issues/830) - reordering border-* properties.
+* Fixed issue [#833](https://github.com/jakubpawlowicz/clean-css/issues/833) - moving `@media` queries.
+
 [3.4.20 / 2016-09-26](https://github.com/jakubpawlowicz/clean-css/compare/v3.4.19...v3.4.20)
 ==================
 

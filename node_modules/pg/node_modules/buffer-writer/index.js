@@ -13,7 +13,10 @@ Writer.prototype._ensure = function(size) {
   var remaining = this.buffer.length - this.offset;
   if(remaining < size) {
     var oldBuffer = this.buffer;
-    this.buffer = new Buffer(oldBuffer.length + size);
+    // exponential growth factor of around ~ 1.5
+    // https://stackoverflow.com/questions/2269063/buffer-growth-strategy
+    var newSize = oldBuffer.length + (oldBuffer.length >> 1) + size;
+    this.buffer = new Buffer(newSize);
     oldBuffer.copy(this.buffer);
   }
 };

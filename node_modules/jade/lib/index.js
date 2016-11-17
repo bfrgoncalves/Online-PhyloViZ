@@ -205,7 +205,7 @@ exports.compile = function(str, options){
   var parsed = parse(str, options);
   if (options.compileDebug !== false) {
     fn = [
-        'var jade_debug = [{ lineno: 1, filename: ' + filename + ' }];'
+        'var jade_debug = [ new jade.DebugItem( 1, ' + filename + ' ) ];'
       , 'try {'
       , parsed.body
       , '} catch (err) {'
@@ -256,7 +256,7 @@ exports.compileClientWithDependenciesTracked = function(str, options){
   var parsed = parse(str, options);
   if (options.compileDebug) {
     fn = [
-        'var jade_debug = [{ lineno: 1, filename: ' + filename + ' }];'
+        'var jade_debug = [ new jade.DebugItem( 1, ' + filename + ' ) ];'
       , 'try {'
       , parsed.body
       , '} catch (err) {'
@@ -397,7 +397,7 @@ exports.compileFileClient = function(path, options){
   options.filename = path;
 
   if (options.cache && exports.cache[key]) {
-      return exports.cache[key];
+    return exports.cache[key];
   }
 
   var str = fs.readFileSync(options.filename, 'utf8');
@@ -410,4 +410,9 @@ exports.compileFileClient = function(path, options){
  * Express support.
  */
 
-exports.__express = exports.renderFile;
+exports.__express = function(path, options, fn) {
+  if(options.compileDebug == undefined && process.env.NODE_ENV === 'production') {
+    options.compileDebug = false;
+  }
+  exports.renderFile(path, options, fn);
+}

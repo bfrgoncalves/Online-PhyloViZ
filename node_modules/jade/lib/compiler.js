@@ -195,11 +195,11 @@ Compiler.prototype = {
     var debug = this.debug;
 
     if (debug) {
-      this.buf.push('jade_debug.unshift({ lineno: ' + node.line
-        + ', filename: ' + (node.filename
+      this.buf.push('jade_debug.unshift(new jade.DebugItem( ' + node.line
+        + ', ' + (node.filename
           ? utils.stringify(node.filename)
           : 'jade_debug[0].filename')
-        + ' });');
+        + ' ));');
     }
 
     // Massive hack to fix our context
@@ -404,7 +404,9 @@ Compiler.prototype = {
       if (args.length && /^\.\.\./.test(args[args.length - 1].trim())) {
         rest = args.pop().trim().replace(/^\.\.\./, '');
       }
-      this.buf.push(name + ' = function(' + args.join(',') + '){');
+      // we need use jade_interp here for v8: https://code.google.com/p/v8/issues/detail?id=4165
+      // once fixed, use this: this.buf.push(name + ' = function(' + args.join(',') + '){');
+      this.buf.push(name + ' = jade_interp = function(' + args.join(',') + '){');
       this.buf.push('var block = (this && this.block), attributes = (this && this.attributes) || {};');
       if (rest) {
         this.buf.push('var ' + rest + ' = [];');

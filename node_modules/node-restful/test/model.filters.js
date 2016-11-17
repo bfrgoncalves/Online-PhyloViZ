@@ -141,7 +141,18 @@ describe('Model', function() {
         .get('/api/movies?title__regex=2')
         .end(function(err, res) {
           res.body.forEach(function(movie) {
-            movie.title.should.include('2');
+            movie.title.should.containEql('2');
+          });
+          done();
+        });
+    });
+    it('should filter fields using regex with options', function(done) {
+      request(app)
+        .get('/api/movies?title__regex=' + encodeURIComponent("/tITLE/i"))
+        .end(function(err, res) {
+          res.body.length.should.be.above(0);
+          res.body.forEach(function(movie) {
+            movie.title.toLowerCase().should.containEql('title');
           });
           done();
         });
@@ -161,6 +172,17 @@ describe('Model', function() {
         .end(function(err, res) {
           res.body.forEach(function(movie) {
             [2010,2011].indexOf(movie.year).should.be.above(-1);
+          });
+          done();
+        });
+    });
+    it('should filter using nin', function(done) {
+      request(app)
+        .get('/api/movies?year__nin=2012,2013,2014')
+        .end(function(err, res) {
+          res.body.length.should.be.above(0)
+          res.body.forEach(function(movie) {
+            [2012,2013,2014].indexOf(movie.year).should.equal(-1);
           });
           done();
         });

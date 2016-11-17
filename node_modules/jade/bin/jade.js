@@ -33,6 +33,7 @@ program
   .option('-D, --no-debug', 'compile without debugging (smaller functions)')
   .option('-w, --watch', 'watch files for changes and automatically re-render')
   .option('-E, --extension <ext>', 'specify the output file extension')
+  .option('-H, --hierarchy', 'keep directory hierarchy when a directory is specified')
   .option('--name-after-file', 'Name the template after the last section of the file path (requires --client and overriden by --name)')
   .option('--doctype <str>', 'Specify the doctype on the command line (useful if it is not specified by the template)')
 
@@ -119,6 +120,9 @@ var files = program.args;
 
 var watchList = [];
 
+// function for rendering
+var render = program.watch ? tryRender : renderFile;
+
 // compile files
 
 if (files.length) {
@@ -127,10 +131,10 @@ if (files.length) {
     process.on('SIGINT', function() {
       process.exit(1);
     });
-    files.forEach(tryRender);
-  } else {
-    files.forEach(renderFile);
   }
+  files.forEach(function (file) {
+    render(file);
+  });
   process.on('exit', function () {
     console.log();
   });
@@ -144,7 +148,7 @@ if (files.length) {
  *
  * Renders `base` if specified, otherwise renders `path`.
  */
-function watchFile(path, base) {
+function watchFile(path, base, rootPath) {
   path = normalize(path);
   if (watchList.indexOf(path) !== -1) return;
   console.log("  \033[90mwatching \033[36m%s\033[0m", path);
@@ -154,7 +158,7 @@ function watchFile(path, base) {
     if (curr.mtime.getTime() === 0) return;
     // istanbul ignore if
     if (curr.mtime.getTime() === prev.mtime.getTime()) return;
-    tryRender(base || path);
+    tryRender(base || path, rootPath);
   });
   watchList.push(path);
 }
@@ -172,9 +176,9 @@ function errorToString(e) {
  *
  * This is used in watch mode.
  */
-function tryRender(path) {
+function tryRender(path, rootPath) {
   try {
-    renderFile(path);
+    renderFile(path, rootPath);
   } catch (e) {
     // keep watching when error occured.
     console.error(errorToString(e));
@@ -208,37 +212,59 @@ function stdin() {
   })
 }
 
+var hierarchyWarned = false;
+
 /**
  * Process the given path, compiling the jade files found.
  * Always walk the subdirectories.
+ *
+ * @param path      path of the file, might be relative
+ * @param rootPath  path relative to the directory specified in the command
  */
 
-function renderFile(path) {
+function renderFile(path, rootPath) {
   var re = /\.jade$/;
   var stat = fs.lstatSync(path);
   // Found jade file/\.jade$/
   if (stat.isFile() && re.test(path)) {
-    if (options.watch) watchFile(path);
-    var str = fs.readFileSync(path, 'utf8');
-    options.filename = path;
+    // Try to watch the file if needed. watchFile takes care of duplicates.
+    if (options.watch) watchFile(path, null, rootPath);
     if (program.nameAfterFile) {
       options.name = getNameFromFileName(path);
     }
-    var fn = options.client ? jade.compileClient(str, options) : jade.compile(str, options);
+    var fn = options.client
+           ? jade.compileFileClient(path, options)
+           : jade.compileFile(path, options);
     if (options.watch && fn.dependencies) {
       // watch dependencies, and recompile the base
       fn.dependencies.forEach(function (dep) {
-        watchFile(dep, path);
+        watchFile(dep, path, rootPath);
       });
     }
 
     // --extension
-    if (program.extension)   var extname = '.' + program.extension;
-    else if (options.client) var extname = '.js';
-    else                     var extname = '.html';
+    var extname;
+    if (program.extension)   extname = '.' + program.extension;
+    else if (options.client) extname = '.js';
+    else                     extname = '.html';
 
+    // path: foo.jade -> foo.<ext>
     path = path.replace(re, extname);
-    if (program.out) path = join(program.out, basename(path));
+    if (program.out) {
+      // prepend output directory
+      if (rootPath && program.hierarchy) {
+        // replace the rootPath of the resolved path with output directory
+        path = resolve(path).replace(new RegExp('^' + resolve(rootPath)), '');
+        path = join(program.out, path);
+      } else {
+        if (rootPath && !hierarchyWarned) {
+          console.warn('In Jade 2.0.0 --hierarchy will become the default.');
+          hierarchyWarned = true;
+        }
+        // old behavior or if no rootPath handling is needed
+        path = join(program.out, basename(path));
+      }
+    }
     var dir = resolve(dirname(path));
     mkdirp.sync(dir, 0755);
     var output = options.client ? fn : fn(options);
@@ -249,7 +275,9 @@ function renderFile(path) {
     var files = fs.readdirSync(path);
     files.map(function(filename) {
       return path + '/' + filename;
-    }).forEach(renderFile);
+    }).forEach(function (file) {
+      render(file, rootPath || path);
+    });
   }
 }
 

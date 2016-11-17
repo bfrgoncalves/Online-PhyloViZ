@@ -9,6 +9,7 @@ function isFloat(n){
 
 describe('CSV Stream',function(){
 	it('should support massive streams',function(done){
+		this.timeout(10000);
 		var csv=new CSVStream({headers:true});
 
 		var numColumns=20;

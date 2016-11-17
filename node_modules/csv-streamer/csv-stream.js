@@ -56,7 +56,7 @@ function CSVToArray( strData, strDelimiter ){
 		// Now that we have our delimiter out of the way,
 		// let's check to see which kind of value we
 		// captured (quoted or unquoted).
-		if (arrMatches[ 2 ]){
+		if (arrMatches[ 2 ] !== undefined){
 
 			// We found a quoted value. When we capture
 			// this value, unescape any double quotes.

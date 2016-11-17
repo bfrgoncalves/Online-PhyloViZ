@@ -53,10 +53,10 @@ Promise.all([
 //queue.empty().then(function(){console.log('Empty Queue');});
 
 var upload = require('./routes/api/database/uploadPostgres');
-var updateDataset = require('./routes/api/database/modifyDataset');
+//var updateDataset = require('./routes/api/database/modifyDataset');
 var goeBURST = require('./routes/api/algorithms/goeBURST');
 var apiHome = require('./routes/api/index');
-var mongoSearch = require('./routes/api/database/mongo');
+//var mongoSearch = require('./routes/api/database/mongo');
 var phylovizInput = require('./routes/api/utils/phyloviz_input');
 var mailer = require('./routes/api/utils/mailer');
 var phyloviztableData = require('./routes/api/utils/tableData');
@@ -117,13 +117,13 @@ app.use('/users', users);
 app.use('/main', main);
 app.use('/api', apiHome);
 app.use('/api/db/postgres/upload', upload);
-app.use('/api/db/datasets/update', updateDataset);
+//app.use('/api/db/datasets/update', updateDataset);
 app.use('/api/algorithms/goeBURST', goeBURST);
 app.use('/api/utils/phylovizInput', phylovizInput);
 app.use('/api/utils/tableData', phyloviztableData);
 app.use('/api/utils/mailer', mailer);
 app.use('/api/utils/publiclink', publicLink);
-app.use('/api/db', mongoSearch);
+//app.use('/api/db', mongoSearch);
 app.use('/api/utils/phylovizsubset', phylovizsubset);
 //app.use('/api/pubmlst', pubmlst);
 
