@@ -1,5 +1,5 @@
 config.js
-node_modules/
+node_modules
 !node_modules/goeBURST
 !node_modules/goeBURSTparser
 !node_modules/phyloviz_input
