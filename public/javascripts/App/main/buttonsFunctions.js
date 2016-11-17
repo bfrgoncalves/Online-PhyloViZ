@@ -15,7 +15,12 @@ function loadButtonFunctions(){
 				var table = {};
 				//table.headers = ['Data Set Name', 'Data Set Size', 'Type', 'Metadata', 'Max. Link Distance'];
 				table.data = {'Data Set Name':graphObject.graphInput.dataset_name, 'Data Set Size':graphObject.graphInput.nodes.length, 'Data Type':graphObject.graphInput.data_type};
-				table.data['Date'] = graphObject.graphInput.data_timestamp[0].split('T')[0];
+				try{
+					table.data['Date'] = graphObject.graphInput.data_timestamp[0].split('T')[0];
+				}
+				catch(err){
+					table.data['Date'] = 'Undefined';
+				}
 
 				if (graphObject.graphInput.metadata.length > 0) table.data.Metadata = 'True';
 				else table.data.Metadata = 'False';
@@ -493,6 +498,10 @@ function loadButtonFunctions(){
 
 			$('#exportgoeBURST').click(function(){
 				exportgoeBURSTprofiles(graphObject);
+			});
+
+			$('#exportoriginal').click(function(){
+				exportprofiles(graphObject);
 			});
 
 	        $('#viewSequences').click(function(e){

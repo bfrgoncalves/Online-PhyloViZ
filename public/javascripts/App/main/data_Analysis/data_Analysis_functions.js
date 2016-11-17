@@ -862,6 +862,43 @@ function exportgoeBURSTprofiles(graphObject){
 
 }
 
+function exportprofiles(graphObject){
+
+	var toFile = '';
+	var firstLine = true;
+
+	for(i in graphObject.graphInput.nodes){
+		var profileData = graphObject.graphInput.nodes[i].profile;
+		if(firstLine){
+			toFile = graphObject.graphInput.schemeGenes.join('\t');
+			toFile += '\n';
+			firstLine = false
+		}
+		//toFile += i;
+		toFile += graphObject.graphInput.nodes[i].key;
+
+		for(j in profileData){
+			toFile += '\t' + profileData[j];
+		}
+		toFile += '\n';
+	}
+
+	csvDataF = new Blob([toFile], { type: 'text/csv' }); //new way
+    var encodedUriP = URL.createObjectURL(csvDataF);
+
+	//var encodedUriProfiles = 'data:text/csv;charset=utf-8,' + encodeURIComponent(toFile);
+
+	$('#dialog').empty();
+
+	var a = $('<p>Download <a id="linkDownloadgoeBURSTData">Profiles</a></p>');
+
+	$('#dialog').append(a);
+	$('#linkDownloadgoeBURSTData').attr("href", encodedUriP).attr('download', "profileData.tab");
+	$('#dialog').dialog();
+
+
+}
+
 
 function exportSelectedDataMatrix(graphObject, selectedNodes, stored){
 

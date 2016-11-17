@@ -14,7 +14,7 @@ function showInfo(graphics, node, e) {
 	for(x in rData) total += rData[x];
 
 	for (i in rData){
-		toShow += '<br><b>Property value</b>: ' + i + '<br><b>Counts inside node</b>: ' + rData[i] + '<br><b>Percentage in node</b>: ' + String(Math.round(rData[i]/total*100)) + '%';
+		toShow += '<hr style="padding:0px;margin:0px;border-top: 2px solid #ccc;"><br><b>Property value</b>: ' + i + '<br><b>Counts inside node</b>: ' + rData[i] + '<br><b>Percentage in node</b>: ' + String(Math.round(rData[i]/total*100)) + '%';
 		count += 1;
 	}
 	//$('#info_place').append('<p>' + toShow + '</p>');
