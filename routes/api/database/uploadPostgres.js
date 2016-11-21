@@ -350,17 +350,17 @@ function uploadToDatabase(data, callback){
       return callback(data);
     }
     */
-    userID = data.userID;
+    var userID = data.userID;
     //console.log(userID);
     data.numberOfProfiles = data.fileProfile.length;
     console.log(data.numberOfProfiles);
     console.log(data['fileProfile_headers'].length);
-    profiles = { profiles : data.fileProfile};
-    isolates = { isolates : data.fileMetadata};
-    positions = {};
-    links = { links : []};
+    var profiles = { profiles : data.fileProfile};
+    var isolates = { isolates : data.fileMetadata};
+    var positions = {};
+    var links = { links : []};
     //console.log(data.fileNewick);
-    newick = { newick : data.fileNewick[0]};
+    var newick = { newick : data.fileNewick[0]};
 
     var cipher = crypto.createCipher(config.cipherUser.algorithm, config.cipherUser.pass);
     dataset_id = userID + data.datasetName + getDateTime();
