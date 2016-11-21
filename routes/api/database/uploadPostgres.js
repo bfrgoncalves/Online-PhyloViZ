@@ -415,7 +415,8 @@ function uploadToDatabase(data, callback){
 
 
       var isolateQuery = "INSERT INTO datasets.isolates (user_id, data, metadata, dataset_id, put_public, is_public, data_timestamp) VALUES ('"+userID+"', $1, '{"+data['fileMetadata_headers']+"}', '"+data.datasetID+"', '"+ data.makePublic +"', '"+ data.is_public + "', NOW());";
-    
+      
+      console.log('isolates',isolates);
       client.query(isolateQuery, [isolates], function(err, result) {
         if(err) {
           data.hasError = true;
