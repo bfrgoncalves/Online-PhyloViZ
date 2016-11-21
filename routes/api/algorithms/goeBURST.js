@@ -83,7 +83,7 @@ function sendMail(mailInfo, callback){
 
 
 console.log(cluster.worker.id);
-if(cluster.isWorker && cluster.worker.id > (os.cpus().length/2)){
+if(cluster.isWorker && cluster.worker.id <= (os.cpus().length/2)){
 //if(cluster.isWorker){
 /*
 	if(os.cpus().length >= 8){
