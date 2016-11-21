@@ -138,78 +138,81 @@ if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().
 		
 		if(datasetID != undefined){ 
 
-			loadProfiles(datasetID, userID, function(profileArray, identifiers, datasetID, dupProfiles, dupIDs, profiles, entries_ids){
-				datasetId = datasetID;
-				old_profiles = profiles;
-				goeBURST(profileArray, identifiers, algorithmToUse, missings, analysis_method, missing_threshold, function(links, distanceMatrix, profilegoeBURST, indexToRemove){
-					if(save){
-						saveLinks(datasetID, links, missings, function(){
-							//if(hasmissings == 'true'){
-								goeburstTimer = clock(start);
-								min = (goeburstTimer/1000/60) << 0;
-   								sec = (goeburstTimer/1000) % 60;
-   								goeburstTimer = min + ':' + sec;
+			process.nextTick(function(){
+				loadProfiles(datasetID, userID, function(profileArray, identifiers, datasetID, dupProfiles, dupIDs, profiles, entries_ids){
+					datasetId = datasetID;
+					old_profiles = profiles;
+					process.nextTick(function(){
+						goeBURST(profileArray, identifiers, algorithmToUse, missings, analysis_method, missing_threshold, function(links, distanceMatrix, profilegoeBURST, indexToRemove){
+							if(save){
+								saveLinks(datasetID, links, missings, function(){
+									//if(hasmissings == 'true'){
+										goeburstTimer = clock(start);
+										min = (goeburstTimer/1000/60) << 0;
+		   								sec = (goeburstTimer/1000) % 60;
+		   								goeburstTimer = min + ':' + sec;
 
-								save_profiles(profilegoeBURST, old_profiles, datasetID, indexToRemove, entries_ids, analysis_method, missing_threshold, goeburstTimer, parent_id, function(){
-									phyloviz_input_utils.getNodes(datasetID, userID, false, function(dataset){
-								      	createPhyloviZInput(dataset, function(graphInput){
-								      		graphInput.distanceMatrix = distanceMatrix;
-								      		phyloviz_input_utils.addToFilterTable(graphInput, userID, datasetID, [], function(){
-								      			
-								      			console.log('ADDED TO FILTER');
-								      			if(send_email){
-													console.log('getting mail');
-													getEmail(userID, function(email){
-														mailObject.email = email;
-														mailObject.message = 'Your data set is now available at: ' + config.final_root + '/main/dataset/' + datasetID;
-														console.log('have mail');
-														sendMail(mailObject, function(){
-															console.log('Mail sent');
-														});
+										save_profiles(profilegoeBURST, old_profiles, datasetID, indexToRemove, entries_ids, analysis_method, missing_threshold, goeburstTimer, parent_id, function(){
+											phyloviz_input_utils.getNodes(datasetID, userID, false, function(dataset){
+										      	createPhyloviZInput(dataset, function(graphInput){
+										      		graphInput.distanceMatrix = distanceMatrix;
+										      		phyloviz_input_utils.addToFilterTable(graphInput, userID, datasetID, [], function(){
+										      			
+										      			console.log('ADDED TO FILTER');
+										      			if(send_email){
+															console.log('getting mail');
+															getEmail(userID, function(email){
+																mailObject.email = email;
+																mailObject.message = 'Your data set is now available at: ' + config.final_root + '/main/dataset/' + datasetID;
+																console.log('have mail');
+																sendMail(mailObject, function(){
+																	console.log('Mail sent');
+																});
+															});
+														}
+														jobDone();
+										      			
 													});
-												}
-												jobDone();
-								      			
-											});
-									      });
-								    });
-								});
-							/*}
-							else {
-								phyloviz_input_utils.getNodes(datasetID, userID, false, function(dataset){
-							      	createPhyloviZInput(dataset, function(graphInput){
-							      		graphInput.distanceMatrix = distanceMatrix;
-							      		var t1 = performance.now();
-							      		graphInput.goeburstTimer = t0-t1;
-							      		phyloviz_input_utils.addToFilterTable(graphInput, userID, datasetID, [], function(){
-
-							      			if(send_email){
-												console.log('getting mail');
-												getEmail(userID, function(email){
-													mailObject.email = email;
-													mailObject.message = 'Your data set is now available at: ' + config.final_root + '/main/dataset/' + datasetID;
-													console.log('have mail');
-													sendMail(mailObject, function(){
-														console.log('Mail sent');
-													});
-												});
-											}
-											jobDone();
-							      			
+											      });
+										    });
 										});
-								      });
-							    });
+									/*}
+									else {
+										phyloviz_input_utils.getNodes(datasetID, userID, false, function(dataset){
+									      	createPhyloviZInput(dataset, function(graphInput){
+									      		graphInput.distanceMatrix = distanceMatrix;
+									      		var t1 = performance.now();
+									      		graphInput.goeburstTimer = t0-t1;
+									      		phyloviz_input_utils.addToFilterTable(graphInput, userID, datasetID, [], function(){
+
+									      			if(send_email){
+														console.log('getting mail');
+														getEmail(userID, function(email){
+															mailObject.email = email;
+															mailObject.message = 'Your data set is now available at: ' + config.final_root + '/main/dataset/' + datasetID;
+															console.log('have mail');
+															sendMail(mailObject, function(){
+																console.log('Mail sent');
+															});
+														});
+													}
+													jobDone();
+									      			
+												});
+										      });
+									    });
+									}
+									*/
+								});
 							}
-							*/
+							else{
+								jobDone();
+							}
+							//else res.send({datasetID: req.query.dataset_id, links: links, distanceMatrix: distanceMatrix, dupProfiles: dupProfiles, dupIDs: dupIDs});
+							//jobDone();
 						});
-					}
-					else{
-						jobDone();
-					}
-					//else res.send({datasetID: req.query.dataset_id, links: links, distanceMatrix: distanceMatrix, dupProfiles: dupProfiles, dupIDs: dupIDs});
-					//jobDone();
+					});
 				});
-				
 			});
 		}
 		else jobDone();
