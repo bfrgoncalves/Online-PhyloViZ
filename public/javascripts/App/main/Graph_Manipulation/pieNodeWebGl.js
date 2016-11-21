@@ -159,6 +159,7 @@ function buildCircleNodeShader() {
                     '}',
                     */
                     
+                    
 
                     'if (quadrant == 1.0 && gl_PointCoord.y < 0.5 && gl_PointCoord.x > 0.5){',
                             'rad = radians(angle);',
@@ -331,34 +332,85 @@ function buildCircleNodeShader() {
 
                     allNodesNumberAttr[idx] = 0;
 
-                    interNodeSize = (nodeUI.data[0].length + nodeUI.data[1].length + nodeUI.data[2].length +nodeUI.data[3].length) * ATTRIBUTES_PER_PRIMITIVE;
-                    //interNodeSize = (nodeUI.data[0].length + nodeUI.data[1].length + nodeUI.data[2].length +nodeUI.data[3].length + 1) * ATTRIBUTES_PER_PRIMITIVE;
+                    //interNodeSize = (nodeUI.data[0].length + nodeUI.data[1].length + nodeUI.data[2].length +nodeUI.data[3].length) * ATTRIBUTES_PER_PRIMITIVE;
 
-                    var interNode = new Float32Array(interNodeSize);
 
                     var countProperties = 0;
-                    /*
-                    //Test outer circle
                     
+                    //Test outer circle
+                    /*
                     interNode[countProperties] = pos.x;
                     interNode[countProperties+1] = -pos.y;
                     interNode[countProperties+2] = 5; //quadrant
                     interNode[countProperties+3] = 233; //angle
-                    interNode[countProperties+4] = 0xa5a5a5; //color
+                    try{
+                        interNode[countProperties+4] = nodeUI.outercolorIndexes[0];
+                    }
+                    catch(err){
+                        interNode[countProperties+4] = 0xa5a7b5;
+                    }
                     interNode[countProperties+5] = 232; //prevAngle
                     interNode[countProperties+6] = 234; //total Angles
-                    interNode[countProperties+7] = nodeUI.size + 30; //total Angles
+                    interNode[countProperties+7] = nodeUI.size + 10; //total Angles
                     
                     allNodesNumberAttr[idx] += 1;
 
                     countProperties += ATTRIBUTES_PER_PRIMITIVE;
-
                     */
+                    if(nodeUI.hasOwnProperty('outerdata')){
+                        interNodeSize = (nodeUI.data[0].length + nodeUI.data[1].length + nodeUI.data[2].length +nodeUI.data[3].length + nodeUI.outerdata[0].length + nodeUI.outerdata[1].length + nodeUI.outerdata[2].length +nodeUI.outerdata[3].length) * ATTRIBUTES_PER_PRIMITIVE;
+                        var interNode = new Float32Array(interNodeSize);
+                    }
+                    else{
+                        interNodeSize = (nodeUI.data[0].length + nodeUI.data[1].length + nodeUI.data[2].length +nodeUI.data[3].length) * ATTRIBUTES_PER_PRIMITIVE;
+                        var interNode = new Float32Array(interNodeSize);
+                    }
 
+                    //outercircle piechart
+                    if(nodeUI.hasOwnProperty('outerdata')){
+
+                        for (y=0; y < nodeUI.outerdata.length;y++){
+
+                            var numberOf = nodeUI.outerdata[y].length;
+                            //console.log(numberOfAngles);
+                            var angleTo = nodeUI.outerdata[y];
+
+                            var color = nodeUI.outercolorIndexes[y];
+                            //var interNode = new Float32Array(numberOfAngles*ATTRIBUTES_PER_PRIMITIVE);
+                            //var countProp = 0;                        
+                            
+                            allNodesNumberAttr[idx] += numberOf;
+
+                            for (v = 0; v < numberOf; v++){
+
+                                currentTotal += angleTo[v];
+
+                                if (v==0) prevAngles = 0;
+                                else prevAngles += angleTo[v-1];
+                                
+                                interNode[countProperties] = pos.x;
+                                interNode[countProperties+1] = -pos.y;
+                                interNode[countProperties+2] = y+1; //quadrant
+                                interNode[countProperties+3] = angleTo[v]; //angle
+                                interNode[countProperties+4] = color[v]; //color
+                                interNode[countProperties+5] = Math.radians(prevAngles); //prevAngle
+                                interNode[countProperties+6] = currentTotal; //total Angles
+                                interNode[countProperties+7] = nodeUI.size + 10; //total Angles
+
+                                countProperties += ATTRIBUTES_PER_PRIMITIVE;
+
+                            }     
+                        }
+                    }
+
+                    var currentTotal = 0;
+                    var prevAngles = 0.0;
+                    
+                    //if(!nodeUI.hasOwnProperty('outerdata'))console.log(nodeUI.data, nodeUI.colorIndexes);
                     for (x=0; x < nodeUI.data.length;x++){
 
                         var numberOfAngles = nodeUI.data[x].length;
-                        //console.log(numberOfAngles);
+
                         var angleToUse = nodeUI.data[x];
 
                         var colors = nodeUI.colorIndexes[x];

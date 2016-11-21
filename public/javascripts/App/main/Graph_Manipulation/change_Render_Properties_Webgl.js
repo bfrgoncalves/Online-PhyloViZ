@@ -357,6 +357,30 @@ function splitTree(graphObject, value) {
 
 }
 
+function changeColorToOuterRing(graphObject){
+
+     if(graphObject.hasMultipleFields) graphObject.multipleOnOuterRing = true;
+     else graphObject.multipleOnOuterRing = false;
+
+     graphObject.graphInput.nodes.forEach(function(node){
+        var nodeUI = graphObject.graphics.getNodeUI(node.key);
+        
+        nodeUI.outercolorIndexes = nodeUI.colorIndexes;
+        nodeUI.outerdata = nodeUI.data;
+        
+
+        nodeUI.colorIndexes = nodeUI.colorIndexes.map(function(d){
+            return d.map(function(){
+                return graphObject.nodeColor;
+            });
+        });
+    });
+
+    $( "#cloneLegendPie" ).empty();
+    $( "#legendcurrentpiePlace" ).clone().appendTo( "#cloneLegendPie" );
+    
+}
+
 
 function NLVgraph(graphObject, value) {
 

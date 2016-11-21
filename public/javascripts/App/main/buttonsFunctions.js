@@ -203,6 +203,14 @@ function loadButtonFunctions(){
 	            changeMass(this.value, this.max, graphObject);
 	        });
 
+	        $('#buttonChangeToOuter').click(function(e){
+	        	if(graphObject.withcenter){
+	        		changeColorToOuterRing(graphObject);
+	            	$('#outerColorLegendDiv').css({'display':'block'});
+	            	graphObject.withcenter = false;
+	        	}
+	        });
+
 	        $('#resetLayout').on('click', function(e){
 
 	        	$("#ThetaSlider").val(graphObject.defaultLayoutParams.theta);

@@ -45,12 +45,15 @@ function buildSimpleCircleNodeShader() {
          * Called by webgl renderer to load the shader into gl context.
          */
         load : function (glContext, Nodescount) {
+
             if (Nodescount){
                 nodesCount = Nodescount;
                 for (i = 0; i<Nodescount;i++){
-                    nodes = webglUtils.extendArray(nodes, i, ATTRIBUTES_PER_PRIMITIVE);
+                    nodes = webglUtils.extendArray(nodes, nodesCount, ATTRIBUTES_PER_PRIMITIVE); //increase buffer for outer ring
+                    nodesCount += 2;
                 }
             }
+            
             isCanvasDirty = true;
             gl = glContext;
             webglUtils = Viva.Graph.webgl(glContext);
@@ -71,11 +74,25 @@ function buildSimpleCircleNodeShader() {
          */
         position : function (nodeUI, pos) {
             var idx = nodeUI.id;
-            nodes[idx * ATTRIBUTES_PER_PRIMITIVE] = pos.x;
-            nodes[idx * ATTRIBUTES_PER_PRIMITIVE + 1] = -pos.y;
-            nodes[idx * ATTRIBUTES_PER_PRIMITIVE + 2] = nodeUI.colorIndexes[0];
-            nodes[idx * ATTRIBUTES_PER_PRIMITIVE + 3] = nodeUI.size;
-            console
+
+            if(nodeUI.hasOwnProperty('outerdata')){
+
+                nodes[idx * ATTRIBUTES_PER_PRIMITIVE*2] = pos.x;
+                nodes[idx * ATTRIBUTES_PER_PRIMITIVE*2 + 1] = -pos.y;
+                try{
+                    nodes[idx * ATTRIBUTES_PER_PRIMITIVE*2 + 2] = nodeUI.outercolorIndexes[0];
+                }
+                catch(err){
+                    nodes[idx * ATTRIBUTES_PER_PRIMITIVE*2 + 2] = 0xa5a7b5;
+                }
+                nodes[idx * ATTRIBUTES_PER_PRIMITIVE*2 + 3] = nodeUI.size + 10;
+
+            }
+
+            nodes[idx * ATTRIBUTES_PER_PRIMITIVE*2 + 4] = pos.x;
+            nodes[idx * ATTRIBUTES_PER_PRIMITIVE*2 + 5] = -pos.y;
+            nodes[idx * ATTRIBUTES_PER_PRIMITIVE*2 + 6] = nodeUI.colorIndexes[0];
+            nodes[idx * ATTRIBUTES_PER_PRIMITIVE*2 + 7] = nodeUI.size;
         },
         /**
          * Request from webgl renderer to actually draw our stuff into the
@@ -118,7 +135,7 @@ function buildSimpleCircleNodeShader() {
          */
         createNode : function (node) {
             nodes = webglUtils.extendArray(nodes, nodesCount, ATTRIBUTES_PER_PRIMITIVE);
-            nodesCount += 1;
+            nodesCount += 2;
         },
         /**
          * Called by webgl renderer to notify us that the node was removed from the graph

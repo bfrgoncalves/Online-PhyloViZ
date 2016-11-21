@@ -585,7 +585,20 @@ select {
   background-color:white;
   z-index: 1;
   display:none;
+}
 
+#outerColorLegendDiv{
+  text-align: center;
+  position: absolute;
+  top: 55%;
+  right: 1%;
+  width: 15%; 
+  height: 20%;
+  border-radius: 10px;
+  border: 2px solid black;
+  background-color:white;
+  z-index: 1;
+  display:none;
 }
 
 #col_information{

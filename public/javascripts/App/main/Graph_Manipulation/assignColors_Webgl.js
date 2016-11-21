@@ -91,10 +91,10 @@ var colorAttributes = function(graphObject){
         gatherSchemeData(graph, propertyToCheck, schemeFilter, function(objectOfTotal, objectOfType, countProperties, hasMultipleFields){
              graphObject.objectOfType = objectOfType;
              graphObject.property_index = property_IndexProfiles;
+             graphObject.hasMultipleFields = hasMultipleFields;
 
-
-             if (hasMultipleFields == false && graphObject.currentNodeProgram == 'buildCircleNodeShader') setNewProgram(graphObject, buildSimpleCircleNodeShader);
-             else if (hasMultipleFields == true && graphObject.currentNodeProgram == 'buildSimpleCircleNodeShader') setNewProgram(graphObject, buildCircleNodeShader);
+             if (hasMultipleFields == false && graphObject.currentNodeProgram == 'buildCircleNodeShader' && !graphObject.multipleOnOuterRing) setNewProgram(graphObject, buildSimpleCircleNodeShader);
+             else if (hasMultipleFields == true && (graphObject.currentNodeProgram == 'buildSimpleCircleNodeShader' || graphObject.multipleOnOuterRing)) setNewProgram(graphObject, buildCircleNodeShader);
              graphObject.linkMethod = 'profiles';
 
              changeNodeUIData(graphObject.objectOfType, graphics, graphObject.property_index, arrayColorsProfiles, renderer);
@@ -102,6 +102,7 @@ var colorAttributes = function(graphObject){
 
              graphObject.arrayOfCurrentCategories = [];
              graphObject.changeFromFilterCategories = false;
+             graphObject.withcenter = true;
         });
         if (propertyToCheck == 'None'){
           $('#divButtonLegend').css({'display':'none', 'right': '10.5%'});
@@ -136,14 +137,17 @@ var colorAttributes = function(graphObject){
         gatherMetadata(graph, propertyToCheck, metadataFilter, function(objectOfTotal, objectOfType, countProperties, hasMultipleFields){
            graphObject.objectOfType = objectOfType;
            graphObject.property_index = property_IndexIsolates;
-           if (hasMultipleFields == false && graphObject.currentNodeProgram == 'buildCircleNodeShader') setNewProgram(graphObject, buildSimpleCircleNodeShader);
-           else if (hasMultipleFields == true && graphObject.currentNodeProgram == 'buildSimpleCircleNodeShader') setNewProgram(graphObject, buildCircleNodeShader);
+           graphObject.hasMultipleFields = hasMultipleFields;
+
+           if (hasMultipleFields == false && graphObject.currentNodeProgram == 'buildCircleNodeShader' && !graphObject.multipleOnOuterRing) setNewProgram(graphObject, buildSimpleCircleNodeShader);
+           else if (hasMultipleFields == true && (graphObject.currentNodeProgram == 'buildSimpleCircleNodeShader' || !graphObject.multipleOnOuterRing)) setNewProgram(graphObject, buildCircleNodeShader);
            graphObject.linkMethod = 'isolates';
            changeNodeUIData(graphObject.objectOfType, graphics, graphObject.property_index, arrayColorsIsolates, renderer);
            changeFromTable = false;
 
            graphObject.arrayOfCurrentCategories = [];
            graphObject.changeFromFilterCategories = false;
+           graphObject.withcenter = true;
         });
 
         

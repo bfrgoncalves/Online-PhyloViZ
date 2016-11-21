@@ -629,7 +629,7 @@ function createSubset(nodeNames, parentID, name, description, missings, missings
   			}
   			else if (code == 'complete'){
   				var datasetID = data.stdout.split('datasetID:')[1].split('\n')[0];
-  				var win = window.open(datasetID, '_blank');
+  				var win = window.open("/main/dataset/" + datasetID);
   				win.focus();
   				return true;
   			}
