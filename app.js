@@ -163,17 +163,21 @@ app.use(function(err, req, res, next) {
 
 if (cluster.isMaster) {
 
-    for (var i = 0; i < os.cpus().length - 1; i++) {
+    for (var i = 0; i < os.cpus().length/2; i++) {
         cluster.fork();
     }
     
-} else {
+} /*else {
   if(cluster.worker.id == 1 || cluster.worker.id <= (os.cpus().length/4)){
     console.log('Worker server');
     var server = http.createServer(app).listen(3000); //http listen and express app will use all the middlewere
     server.timeout = 100000000000;
   }
-}
+}*/
+
+console.log('Worker server');
+var server = http.createServer(app).listen(3000); //http listen and express app will use all the middlewere
+server.timeout = 100000000000;
 
 /*
 var server = http.createServer(app); //http listen and express app will use all the middlewere
