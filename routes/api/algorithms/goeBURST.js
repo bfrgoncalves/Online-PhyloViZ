@@ -83,8 +83,8 @@ function sendMail(mailInfo, callback){
 
 
 
-//if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().length/4)){
-if(cluster.isWorker){
+if(cluster.isWorker && cluster.worker.id != 1 && cluster.worker.id > (os.cpus().length/4)){
+//if(cluster.isWorker){
 /*
 	if(os.cpus().length >= 8){
 		console.log('8 or more cores');
@@ -117,6 +117,7 @@ if(cluster.isWorker){
 	queue.process('goeBURST', function(job, jobDone){
 
 		console.log(job.jobId);
+		console.log('WORKER:', cluster.worker.id);
 
 		var start = clock(); //Timer
 
@@ -221,6 +222,8 @@ if(cluster.isWorker){
 router.get('/', function(req, res, next){
 	
 	if (req.query.dataset_id){
+
+		console.log('WORKER:', cluster.worker.id);
 
 		var datasetID = req.query.dataset_id;
 		var sendEmail = false;

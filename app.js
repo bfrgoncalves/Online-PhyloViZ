@@ -168,11 +168,11 @@ if (cluster.isMaster) {
     }
     
 } else {
-  //if(cluster.worker.id == 1 || cluster.worker.id <= (os.cpus().length/4)){
+  if(cluster.worker.id == 1 || cluster.worker.id <= (os.cpus().length/4)){
     console.log('Worker server');
     var server = http.createServer(app).listen(3000); //http listen and express app will use all the middlewere
     server.timeout = 100000000000;
-  //}
+  }
 }
 
 /*
