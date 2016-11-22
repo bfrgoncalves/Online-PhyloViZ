@@ -376,6 +376,12 @@ function changeColorToOuterRing(graphObject){
         });
     });
 
+    if(graphObject.isLayoutPaused){
+        renderer.rerender();
+    }
+
+
+
     $( "#cloneLegendPie" ).empty();
     $( "#legendcurrentpiePlace" ).clone().appendTo( "#cloneLegendPie" );
     
