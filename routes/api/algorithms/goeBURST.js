@@ -153,11 +153,12 @@ router.get('/status', function(req,res,next){
 				}
 				
 			});
+			if (status != 'completed'){
+				status = 'active';
+				res.send({status: status});
+			}
 			
 		})
-		if (status != 'completed'){
-			status = 'active';
-		}
 
 		/* Bull
 		queue.getJob(req.query.jobid).then(function(job){

@@ -249,8 +249,12 @@ function createInput(datasetID, callback) {
           }
 
           count += 1;
+          if(data.hasOwnProperty('size')) totalSize = data.size;
 
-          status('Loading ' + partTS + ' ' + String(count)+ '...');
+          if (messageKey[0] == 'mergedNodes' || messageKey[0] == 'sameNodeHas' || messageKey[0] == 'usedLoci' || messageKey[0] == 'indexesToRemove'){
+            status('Loading aditional data ' + String(count)+ ' of ' + totalSize + '...');
+          }
+          else status('Loading ' + partTS + ' ' + String(count)+ ' of ' + totalSize + '...');
           
           if(messageKey[0] == 'nodes' || messageKey[0] == 'subsetProfiles' || messageKey[0] == 'links' || messageKey[0] == 'distanceMatrix'){
             //console.log(messageKey[0]);

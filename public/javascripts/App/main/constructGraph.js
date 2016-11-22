@@ -81,10 +81,15 @@ function constructGraph(graph, datasetID){
           $('#goeburstProfileSize').text(graphObject.graphInput.schemeGenes.length-1);
           $('#countgoeBURSTProfileSize').text(graphObject.graphInput.schemeGenes.length-1);
         }
-
-        if(graphObject.maxLinkValue > 10 || graphObject.graphInput.positions.isLogScale == true){
+        
+        if($('#AddLogScale:checked').length > 0){
+          graphObject.isLogScale = true;  
+          changeLogScale(graphObject);
+        }
+        else if(graphObject.maxLinkValue > 10 || graphObject.graphInput.positions.isLogScale == true){
           $("#AddLogScale").trigger("click");
         }
+        
         if(graphObject.maxNodeValue > 10){
           $("#AddLogScaleNodes").trigger("click");
         }
