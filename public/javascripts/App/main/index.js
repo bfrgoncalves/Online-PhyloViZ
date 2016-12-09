@@ -106,12 +106,22 @@ $(document).ready(function(){
                     });
                   }
                   else{
-                    createTable(graph, datasetID, 'profiles', function(){
+                    if(graph.nodes[0].profile.length < 8000){
+                      createTable(graph, datasetID, 'profiles', function(){
+                        status('Loading tree...');
+                        getPublicInfo(graph, datasetID, function(graph){
+                          constructGraph(graph, datasetID);
+                        });
+                      });
+                    }
+                    else{
+                      $('#profilec').css({'display':'none'});
+                      $('#noProfiles').append('<p>Due to the large large profile length or number of profiles, table visualization is not available.</p>');
                       status('Loading tree...');
                       getPublicInfo(graph, datasetID, function(graph){
                         constructGraph(graph, datasetID);
                       });
-                    });
+                    }
                   }
                 });
 
