@@ -10,3 +10,4 @@ node_modules/*
 !node_modules/phyloviz_input_utils/
 !node_modules/phyloviz_TableData/
 !node_modules/compression/
+!node_modules/newick_parser/

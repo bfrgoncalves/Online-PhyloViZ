@@ -111,7 +111,7 @@ queue.process('goeBURST', function(job, jobDone){
 		loadProfiles(datasetID, userID, function(profileArray, identifiers, datasetID, dupProfiles, dupIDs, profiles, entries_ids){
 			datasetId = datasetID;
 			old_profiles = profiles;
-			goeBURST(profileArray, identifiers, algorithmToUse, missings, analysis_method, missing_threshold, function(links, distanceMatrix, profilegoeBURST, indexToRemove){
+			goeBURST(profileArray, identifiers, algorithmToUse, missings, analysis_method, missing_threshold, function(links, distanceMatrix, profilegoeBURST, indexToRemove, maxDistance){
 				if(save){
 					saveLinks(datasetID, links, missings, function(){
 						//if(hasmissings == 'true'){
@@ -124,6 +124,7 @@ queue.process('goeBURST', function(job, jobDone){
 								phyloviz_input_utils.getNodes(datasetID, userID, false, function(dataset){
 							      	createPhyloviZInput(dataset, function(graphInput){
 							      		graphInput.distanceMatrix = distanceMatrix;
+							      		graphInput.maxDistanceValue = maxDistance;
 							      		phyloviz_input_utils.addToFilterTable(graphInput, userID, datasetID, [], function(){
 							      			
 							      			console.log('ADDED TO FILTER');

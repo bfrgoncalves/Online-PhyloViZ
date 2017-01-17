@@ -66,6 +66,13 @@ router.post('/', function(req, res, next){
 										var body_profile = graph.nodes[index].key + '\t' + graph.nodes[index].profile.join('\t') + '\n';
 										var aux_isolates = '';
 
+										for(x in graph.mergedNodes[graph.nodes[index].key]){
+											console.log(graph.mergedNodes[graph.nodes[index].key][x].key);
+											body_profile += graph.mergedNodes[graph.nodes[index].key][x].key + '\t' + graph.mergedNodes[graph.nodes[index].key][x].profile.join('\t') + '\n';
+										}
+
+
+
 										for(j in graph.nodes[index].isolates){
 											aux_isolates += graph.nodes[index].isolates[j].join('\t') + '\n';
 										}

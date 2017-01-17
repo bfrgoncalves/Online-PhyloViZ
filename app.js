@@ -160,7 +160,7 @@ app.use(function(err, req, res, next) {
   });
 });
 
-
+/*
 if (cluster.isMaster) {
 
     for (var i = 0; i < os.cpus().length/2; i++) {

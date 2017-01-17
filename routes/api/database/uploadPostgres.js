@@ -68,7 +68,9 @@ router.post('/', multer({
               dataToDB.dataset_description = req.body.dataset_description;
               
               uploadToDatabase(dataToDB, function(){
-                res.send({datasetID: dataToDB.datasetID, hasError: dataToDB.hasError, errorMessage: dataToDB.errorMessage, numberOfProfiles: dataToDB.numberOfProfiles, profileLength: dataToDB.fileProfile_headers.length});
+                if(dataToDB.data_type != 'newick') pLength = dataToDB.fileProfile_headers.length;
+                else pLength = 1;
+                res.send({datasetID: dataToDB.datasetID, hasError: dataToDB.hasError, errorMessage: dataToDB.errorMessage, numberOfProfiles: dataToDB.numberOfProfiles, profileLength: pLength});
               });
               
           }
@@ -353,14 +355,13 @@ function uploadToDatabase(data, callback){
     var userID = data.userID;
     //console.log(userID);
     data.numberOfProfiles = data.fileProfile.length;
-    console.log(data.numberOfProfiles);
-    console.log(data['fileProfile_headers'].length);
     var profiles = { profiles : data.fileProfile};
     var isolates = { isolates : data.fileMetadata};
     var positions = {};
     var links = { links : []};
     //console.log(data.fileNewick);
     var newick = { newick : data.fileNewick[0]};
+    console.log(isolates);
 
     var cipher = crypto.createCipher(config.cipherUser.algorithm, config.cipherUser.pass);
     dataset_id = userID + data.datasetName + getDateTime();
@@ -369,7 +370,7 @@ function uploadToDatabase(data, callback){
     if (data['is_fileFasta']) data.data_type = 'fasta';
     if (data['is_fileProfile']) data.data_type = 'profile'; 
 
-    data['fileProfile_headers'] = data['fileProfile_headers'].toString().replace(/'/g, '&39').split(',');
+    if (data.data_type != 'newick') data['fileProfile_headers'] = data['fileProfile_headers'].toString().replace(/'/g, '&39').split(',');
     data['fileMetadata_headers'] = data['fileMetadata_headers'].toString().replace(/'/g, '&39').split(',');
 
     query = "INSERT INTO datasets.datasets (name, key, user_id, dataset_id, data_type, description, put_public, is_public, data_timestamp) VALUES ('"+data.datasetName+"', '"+data.key.replace(/'/g, '&39')+"', '"+userID+"', '"+data.datasetID+"', '"+data.data_type+"', '" + data.dataset_description +"', '"+ data.makePublic +"', '"+ data.is_public + "', NOW());" +

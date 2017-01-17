@@ -488,6 +488,7 @@ function loadButtonFunctions(){
 					}
 
 					nodeNames = selectedDataNames(graphObject);
+					console.log(nodeNames);
 
 	            	createSubset(nodeNames, window.location.href.substr(window.location.href.lastIndexOf('/') + 1), datasetN, descriptionS, missingsubset, missingCharsubset, analysis_method, missing_threshold, function(data){
 	            		if(!data.error){
@@ -614,7 +615,7 @@ function loadButtonFunctions(){
 		        "max" : graphObject.maxLinkValue,
 		        "value" : graphObject.maxLinkValue 
 		    });
-
+		    
 		    $("#NLVnumber").attr({
 		        "max" : graphObject.graphInput.maxDistanceValue,
 		        "value" : 0

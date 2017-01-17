@@ -178,6 +178,7 @@ router.get('/newick', function(req, res, next){
 
 		var dataToGraph = {};
 		var datasetID = req.query.dataset_id;
+		var dataSet = [{}];
 
 		if (!req.isAuthenticated()) var userID = "1";
 		else var userID = req.user.id;
@@ -186,9 +187,24 @@ router.get('/newick', function(req, res, next){
 
 		phyloviz_input_utils.checkIfpublic(datasetID, userID, function(isPublic){
 			phyloviz_input_utils.getNewick(datasetID, userID, isPublic, function(dataset){
-		      	createPhyloviZInput(dataset, function(graphInput){
-			      	res.send(graphInput);
-			      });
+				dataSet[0].newick = dataset[0].newick;
+				phyloviz_input_utils.getMetadata(datasetID, userID, isPublic, function(dataset){
+					dataSet[0].isolates = dataset[0].isolates;
+					dataSet[0].metadata = dataset[0].metadata;
+					try{
+						dataSet[0].key = [dataset[0].metadata[0]];
+					}
+					catch(err){
+
+					}
+					//console.log(dataSet[0].isolates);
+					phyloviz_input_utils.getPositions(datasetID, userID, isPublic, function(dataset){
+						dataSet[0].positions = dataset[0].positions;
+						createPhyloviZInput(dataSet, function(graphInput){
+					      	res.send(graphInput);
+					      });
+					});
+			    });
 		    });
 
 		});

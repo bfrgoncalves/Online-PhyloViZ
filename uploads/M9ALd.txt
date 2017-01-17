@@ -1,0 +1,8 @@
+strain_barcode	Strain_Name	Collection_month	Collection_year	Country	Lab_contact	Source_details	Source_niche	Source_type	sample_accession	secondary_sample_accession	secondary_study_accession	study_accession	MLST_ACHTMAN_ST
+SAL_EA4108AA	NY58642507	8	2015	United States	None	"Stool/Fecal; Homo sapiens"	Human	Human	SAMN04044036	SRS1061528	SRP033012	PRJNA227458	11
+SAL_DA0883AA	H123580521	8	2012	United Kingdom	Gastrointestinal Bacteria Reference Unit Public Health England	"Human; Homo sapiens"	Human	Human	SAMN03169047	SRS740433	SRP042645	PRJNA248792	11
+SAL_CA8687AA	CFSAN026627		2002	Belgium	FOOD AND DRUG ADMINISTRATION CENTER FOR FOOD SAFETY AND APPLIED NUTRITION				SAMN03165673	SRS821646	SRP046787	PRJNA259341	11
+SAL_CA6453AA	46612	7	2014	United Kingdom	Gastrointestinal Bacteria Reference Unit Public Health England	"Human; Homo sapiens"	Human	Human	SAMN03466017	SRS898167	SRP042645	PRJNA248792	11
+SAL_DA1176AA	H123860321	9	2012	United Kingdom	Gastrointestinal Bacteria Reference Unit Public Health England	"Human; Homo sapiens"	Human	Human	SAMN03168696	SRS739965	SRP042645	PRJNA248792	11
+SAL_CA5049AA	74304	12	2014	United Kingdom	Gastrointestinal Bacteria Reference Unit Public Health England	"Human; Homo sapiens"	Human	Human	SAMN03469816	SRS900755	SRP042645	PRJNA248792	11
+SAL_FA3831AA	133214	7	2015	United Kingdom	Public Health England	"Human; Homo sapiens"	Human	Human	SAMN04574820	SRS1356530	SRP042645	PRJNA248792	11

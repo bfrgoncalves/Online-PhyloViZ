@@ -23,20 +23,23 @@ var colorAttributes = function(graphObject){
     //schemeGenes.shift();
 
     var maxScheme = 0;
-    if(schemeGenes.length < graphObject.graphInput.maxColumns) maxScheme = schemeGenes.length;
-    else maxScheme = graphObject.graphInput.maxColumns;
+    if(graphObject.graphInput.data_type[0] != 'newick'){
 
-    for (var index = graphObject.graphInput.minColumns-1; index<maxScheme; index++){
-      countValues += 1;
-      var property = schemeGenes[index];
-      options += '<option value=' + countValues + '>' +property+'</option>';
-      
+      if(schemeGenes.length < graphObject.graphInput.maxColumns) maxScheme = schemeGenes.length;
+      else maxScheme = graphObject.graphInput.maxColumns;
+
+      for (var index = graphObject.graphInput.minColumns-1; index<maxScheme; index++){
+        countValues += 1;
+        var property = schemeGenes[index];
+        options += '<option value=' + countValues + '>' +property+'</option>';
+        
+      }
+      if(graphObject.graphInput.minColumns > 1){
+        options += '<option value="prev10">Load previous 10 entries</option>';
+      }
+      if(schemeGenes.length > graphObject.graphInput.maxColumns) options += '<option value="next10">Load next 10 entries</option>';
+      parent.append('<select id="selectByScheme" data-live-search="true"><optgroup>'+options+'</optgroup></select>');
     }
-    if(graphObject.graphInput.minColumns > 1){
-      options += '<option value="prev10">Load previous 10 entries</option>';
-    }
-    if(schemeGenes.length > graphObject.graphInput.maxColumns) options += '<option value="next10">Load next 10 entries</option>';
-    parent.append('<select id="selectByScheme" data-live-search="true"><optgroup>'+options+'</optgroup></select>');
 
     options = '';
     var countValues = 1;

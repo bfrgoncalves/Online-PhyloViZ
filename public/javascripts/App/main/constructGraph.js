@@ -77,7 +77,7 @@ function constructGraph(graph, datasetID){
           $('#goeburstProfileSize').text(graphObject.graphInput.goeburstprofilesize);
           $('#countgoeBURSTProfileSize').text(graphObject.graphInput.goeburstprofilesize);
         }
-        else{
+        else if(graphObject.graphInput.data_type[0] != 'newick'){
           $('#goeburstProfileSize').text(graphObject.graphInput.schemeGenes.length-1);
           $('#countgoeBURSTProfileSize').text(graphObject.graphInput.schemeGenes.length-1);
         }
@@ -110,7 +110,7 @@ function constructGraph(graph, datasetID){
         linkTableAndGraph('isolates', graphObject); //link between operations from the tables and the graph tab
         linkTableAndGraph('profiles', graphObject);
 
-        if (graphObject.graphInput.schemeGenes.length == 1 && graphObject.graphInput.schemeGenes[0] == 'undefined'){
+        if (graphObject.graphInput.data_type != 'newick' && graphObject.graphInput.schemeGenes.length == 1 && graphObject.graphInput.schemeGenes[0] == 'undefined'){
           //$("#TreeOperations").css('display', 'none');
           //$("#computeDistances").css('display', 'none');
         }

@@ -63,6 +63,7 @@ $(document).ready(function(){
     createInput(datasetID, function(graph){
       console.log(graph);
       checkInput(graph, function(graph){
+          console.log(graph.positions);
 
           if(graph.data_type != 'fasta'){
             $("#FASTATab").css('display', 'none');
@@ -99,7 +100,7 @@ $(document).ready(function(){
                 status('Loading tables...');
                 createTable(graph, datasetID, 'isolates', function(){
 
-                  if (graph.data_type == 'fasta'){
+                  if (graph.data_type == 'fasta' || graph.data_type == 'newick'){
                     status('Loading tree...');
                     getPublicInfo(graph, datasetID, function(graph){
                       constructGraph(graph, datasetID);
@@ -309,7 +310,11 @@ function createInput(datasetID, callback) {
 
         if(input.data_type == 'newick'){
           getInputPart('newick', function(data){
-            input = data;
+            input.links = data.links;
+            input.nodes = data.nodes;
+            input.JSONnewick = data.JSONnewick;
+            input.positions = data.positions;
+            input.metadata = data.metadata;
             callback(input);
           });
         }
