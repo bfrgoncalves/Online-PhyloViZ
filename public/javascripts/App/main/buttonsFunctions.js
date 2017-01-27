@@ -655,6 +655,8 @@ function AddLinkLabels(graphObject){
   $('.link-label').css('display','block');
   if(graphObject.graphInput.data_type != "newick") {
   	$('#labelType').css({"display": "block"});
+  	if(graphObject.graphInput.missingsInfo[0]) $('#withmissings').css({"display": "block"});
+  	else $('#withmissings').css({"display": "none"});
   	$('#labelTypeNewick').css({"display": "none"});
   }
   else{
