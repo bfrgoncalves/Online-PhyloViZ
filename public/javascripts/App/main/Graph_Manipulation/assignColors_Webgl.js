@@ -100,7 +100,7 @@ var colorAttributes = function(graphObject){
              else if (hasMultipleFields == true && (graphObject.currentNodeProgram == 'buildSimpleCircleNodeShader' || graphObject.multipleOnOuterRing)) setNewProgram(graphObject, buildCircleNodeShader);
              graphObject.linkMethod = 'profiles';
 
-             changeNodeUIData(graphObject.objectOfType, graphics, graphObject.property_index, arrayColorsProfiles, renderer);
+             changeNodeUIData(graphObject.objectOfType, graphics, graphObject.property_index, arrayColorsProfiles, renderer, graphObject.graphInput.sameNodeHas);
              changeFromTable = false;
 
              graphObject.arrayOfCurrentCategories = [];
@@ -145,7 +145,7 @@ var colorAttributes = function(graphObject){
            if (hasMultipleFields == false && graphObject.currentNodeProgram == 'buildCircleNodeShader' && !graphObject.multipleOnOuterRing) setNewProgram(graphObject, buildSimpleCircleNodeShader);
            else if (hasMultipleFields == true && (graphObject.currentNodeProgram == 'buildSimpleCircleNodeShader' || !graphObject.multipleOnOuterRing)) setNewProgram(graphObject, buildCircleNodeShader);
            graphObject.linkMethod = 'isolates';
-           changeNodeUIData(graphObject.objectOfType, graphics, graphObject.property_index, arrayColorsIsolates, renderer);
+           changeNodeUIData(graphObject.objectOfType, graphics, graphObject.property_index, arrayColorsIsolates, renderer, graphObject.graphInput.sameNodeHas);
            changeFromTable = false;
 
            graphObject.arrayOfCurrentCategories = [];

@@ -13,11 +13,23 @@ function gatherMetadata(graph, propertyToCheck, metadataFilter, callback){
 
 	graph.nodes.forEach(function(node){
 
-		objectOfType[node.key] = [];
+		checkMetadataInNodes(node, function(){
+			graph.mergedNodes[node.key].forEach(function(mergedNode){
+				checkMetadataInNodes(mergedNode, function(){});
+			});
+		})
+
+  	});
+
+  	callback(objectOfTotal, objectOfType, countProperties, hasMultipleFields);
+
+  	function checkMetadataInNodes(node, callback){
+
+  		objectOfType[node.key] = [];
 		var numberTypes = 0;
 		var prevProperty = null;
 
-		if (propertyToCheck != 'None'){
+  		if (propertyToCheck != 'None'){
 
 			if (node.isolates.length > 0){
 
@@ -43,10 +55,9 @@ function gatherMetadata(graph, propertyToCheck, metadataFilter, callback){
 			  }
 			}
 		}
-
-  	});
-
-  	callback(objectOfTotal, objectOfType, countProperties, hasMultipleFields);
+		callback();
+			
+	}
 
 }
 
@@ -135,35 +146,45 @@ function gatherSchemeData(graph, propertyToCheck, schemeFilter, callback){
 
 
 
-function changeNodeUIData(objectOfType, graphics, propertyIndexes, arrayColors, renderer){
+function changeNodeUIData(objectOfType, graphics, propertyIndexes, arrayColors, renderer, sameNodeHas){
+
+	//console.log(objectOfType);
+
+	noDataColor = 0xa5a5a5; //Color to use when there is no associated data to the nodes
+	changedColor = {};
 
 
-	for(i in objectOfType){
+	for(k in objectOfType){
 	    var dataToChange = [];
 	    var indexes = [];
-	    var nodeUI = graphics.getNodeUI(i);
+	    var nodeUI = graphics.getNodeUI(sameNodeHas[k]);
+	    if(k == 'Hi-12368' || k == 'Hi-11358') console.log(k, nodeUI);
 	    
-	    if(!$.isEmptyObject(objectOfType[i])){
-		    nodeUI.rawData = objectOfType[i];
-		    for (j in objectOfType[i]){
-		      dataToChange.push(objectOfType[i][j]);
+	    if(!$.isEmptyObject(objectOfType[k])){
+		    nodeUI.rawData = objectOfType[k];
+		    for (j in objectOfType[k]){
+		      dataToChange.push(objectOfType[k][j]);
 		      indexes.push(arrayColors[propertyIndexes[j]]);
 		    }
-		}
 
-		noDataColor = 0xa5a5a5; //Color to use when there is no associated data to the nodes
+		}
 
 	    if (dataToChange.length < 1) newValues = assignQuadrant(getDataPercentage([1]), [noDataColor]);
 	    else newValues = assignQuadrant(getDataPercentage(dataToChange), indexes);
 	    
 	    dataToChange = newValues[0];
 	    indexes = newValues[1];
-	    
-	    nodeUI.data = dataToChange;  //Apply data to the nodeUI
-	    nodeUI.colorIndexes = indexes; //Apply data to the nodeUI
-	    nodeUI.backupColor = indexes;
+	    //if(k == 'Hi-12368') console.log(k, dataToChange, indexes);
+	    if(changedColor[sameNodeHas[k]] != true || nodeUI.colorIndexes[0][0] == noDataColor){
+	    	//if(k == 'Hi-12368' || k == 'Hi-11358') console.log(k, nodeUI);
+		    nodeUI.data = dataToChange;  //Apply data to the nodeUI
+		    nodeUI.colorIndexes = indexes; //Apply data to the nodeUI
+		    nodeUI.backupColor = indexes;
+		    changedColor[sameNodeHas[k]] = true;
+		}
 
   	}
+  	//console.log(changedColor);
 
   	if($('#pauseLayout')[0].innerHTML == "Resume Layout"){
         renderer.resume();
