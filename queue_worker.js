@@ -113,8 +113,7 @@ queue.process('goeBURST', function(job, jobDone){
 			old_profiles = profiles;
 			goeBURST(profileArray, identifiers, algorithmToUse, missings, analysis_method, missing_threshold, function(links, distanceMatrix, profilegoeBURST, indexToRemove, maxDistance){
 				if(save){
-					saveLinks(datasetID, links, missings, function(){
-						//if(hasmissings == 'true'){
+						saveLinks(datasetID, links, missings, function(){
 							goeburstTimer = clock(start);
 							min = (goeburstTimer/1000/60) << 0;
 								sec = (goeburstTimer/1000) % 60;
@@ -126,21 +125,23 @@ queue.process('goeBURST', function(job, jobDone){
 							      		graphInput.distanceMatrix = distanceMatrix;
 							      		graphInput.maxDistanceValue = maxDistance;
 							      		phyloviz_input_utils.addToFilterTable(graphInput, userID, datasetID, [], function(){
+							      			saveLinks(datasetID, graphInput.links, missings, function(){
+												//if(hasmissings == 'true'){
 							      			
-							      			console.log('ADDED TO FILTER');
-							      			if(send_email){
-												console.log('getting mail');
-												getEmail(userID, function(email){
-													mailObject.email = email;
-													mailObject.message = 'Your data set is now available at: ' + config.final_root + '/main/dataset/' + datasetID;
-													console.log('have mail');
-													sendMail(mailObject, function(){
-														console.log('Mail sent');
-													});
-												});
-											}
-											jobDone();
-							      			
+									      			console.log('ADDED TO FILTER');
+									      			if(send_email){
+														console.log('getting mail');
+														getEmail(userID, function(email){
+															mailObject.email = email;
+															mailObject.message = 'Your data set is now available at: ' + config.final_root + '/main/dataset/' + datasetID;
+															console.log('have mail');
+															sendMail(mailObject, function(){
+																console.log('Mail sent');
+															});
+														});
+													}
+													jobDone();
+							      			});
 										});
 								      });
 							    });
@@ -172,7 +173,7 @@ queue.process('goeBURST', function(job, jobDone){
 						    });
 						}
 						*/
-					});
+						});
 				}
 				else{
 					jobDone();

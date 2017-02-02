@@ -47,7 +47,7 @@ $(document).ready( function(){
 	createDropdown(optionsToDropDown, '#possibleInputFormats', 'Input formats', 1, 'inputFormats');
 
 	$('#sel_analysis_method').change(function(){
-		if($(this).val() == 'core'){
+		if($(this).val() == 'core' || $(this).val() == 'pairwise' || $(this).val() == 'pair+tie'){
 			$('#span_missings').css({"display":"block"});
 			$('#missingcheck').css({"display":"block"});
 			$('#div_threshold').css({"display":"none"});
