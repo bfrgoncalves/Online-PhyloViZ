@@ -29,12 +29,11 @@ function runColorPicker(graphObject){
 			          arrayOfcol = arrayColorsIsolates;
 			        }
 			        else if(graphObject.linkMethod=='profiles'){
-			          console.log(arrayColorsProfiles);
 			          arrayColorsProfiles[indexOnArray] = '0x' + hex;
 			          arrayOfcol = arrayColorsProfiles;
 			        } 
 			        //console.log(arrayOfcol);
-			        changeNodeUIData(graphObject.objectOfType, graphObject.graphics, graphObject.property_index, arrayOfcol, graphObject.renderer);
+			        changeNodeUIData(graphObject.objectOfType, graphObject.graphics, graphObject.property_index, arrayOfcol, graphObject.renderer, graphObject.graphInput.sameNodeHas);
 			        $(el).val(hex);
 			        $(el).ColorPickerHide();
 			      },

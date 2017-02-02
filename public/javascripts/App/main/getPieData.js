@@ -100,7 +100,7 @@ function gatherSchemeData(graph, propertyToCheck, schemeFilter, callback){
 
 	        propertyIndex = schemeGenes.indexOf(propertyToCheck);
 
-	        if (Object.keys(objectOfProfile[graph.sameNodeHas[node.key]]).length > 1) hasMultipleFields = true;
+	        if (Object.keys(objectOfProfile[graph.sameNodeHas[node.key]]).length > 0) hasMultipleFields = true;
 
 	        if(propertyIndex == 0){
 
@@ -129,7 +129,6 @@ function gatherSchemeData(graph, propertyToCheck, schemeFilter, callback){
 		          }
 
 		        if (schemeFilter[2].length == 0 || (schemeFilter[1].indexOf(node.key) > -1 && schemeFilter[2].indexOf(String(node.profile[propertyIndex])) > -1)){
-			        console.log()
 			        if(objectOfProfile[graph.sameNodeHas[node.key]][String(node.profile[propertyIndex])]) objectOfProfile[graph.sameNodeHas[node.key]][String(node.profile[propertyIndex])] += 1;
 			        else{
 			          numberTypes += 1;
@@ -153,12 +152,10 @@ function changeNodeUIData(objectOfType, graphics, propertyIndexes, arrayColors, 
 	noDataColor = 0xa5a5a5; //Color to use when there is no associated data to the nodes
 	changedColor = {};
 
-
 	for(k in objectOfType){
 	    var dataToChange = [];
 	    var indexes = [];
 	    var nodeUI = graphics.getNodeUI(sameNodeHas[k]);
-	    if(k == 'Hi-12368' || k == 'Hi-11358') console.log(k, nodeUI);
 	    
 	    if(!$.isEmptyObject(objectOfType[k])){
 		    nodeUI.rawData = objectOfType[k];
@@ -166,7 +163,6 @@ function changeNodeUIData(objectOfType, graphics, propertyIndexes, arrayColors, 
 		      dataToChange.push(objectOfType[k][j]);
 		      indexes.push(arrayColors[propertyIndexes[j]]);
 		    }
-
 		}
 
 	    if (dataToChange.length < 1) newValues = assignQuadrant(getDataPercentage([1]), [noDataColor]);
@@ -179,6 +175,7 @@ function changeNodeUIData(objectOfType, graphics, propertyIndexes, arrayColors, 
 	    	//if(k == 'Hi-12368' || k == 'Hi-11358') console.log(k, nodeUI);
 		    nodeUI.data = dataToChange;  //Apply data to the nodeUI
 		    nodeUI.colorIndexes = indexes; //Apply data to the nodeUI
+		    //console.log(nodeUI.colorIndexes);
 		    nodeUI.backupColor = indexes;
 		    changedColor[sameNodeHas[k]] = true;
 		}

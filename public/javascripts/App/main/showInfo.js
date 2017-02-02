@@ -1,5 +1,5 @@
 
-function showInfo(graphics, node, e) {
+function showInfo(mergedNodes, graphics, node, e) {
 	var nodeUI = graphics.getNodeUI(node.id);
 	rData = nodeUI.rawData;
 	pData = nodeUI.data;
@@ -7,6 +7,16 @@ function showInfo(graphics, node, e) {
 	var toShow = '';
 	var count = 0;
 	toShow = '<b>Key</b>: ' + node.id;
+
+  keyToShow = '';
+
+  mergedNodes[node.id].forEach(function(mergedNode){
+    keyToShow += ' and ' + mergedNode.key
+  });
+
+  keyToShow.substring(0, keyToShow.length - 6);
+
+  toShow += ' ' + keyToShow;
 	
 	var newPercentageData = [];
 	var total = 0;
