@@ -177,7 +177,7 @@ if (cluster.isMaster) {
 
 console.log('Worker server');
 var server = http.createServer(app).listen(3000); //http listen and express app will use all the middlewere
-server.timeout = 100000000000;
+server.timeout = 100000000000000;
 
 /*
 var server = http.createServer(app); //http listen and express app will use all the middlewere

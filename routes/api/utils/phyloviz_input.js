@@ -79,7 +79,7 @@ router.get('/nodes', function(req, res, next){
 						      });
 					    }
 				    });
-				}
+				//}
 			})
 			
 

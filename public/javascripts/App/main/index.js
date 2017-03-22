@@ -301,6 +301,7 @@ function createInput(datasetID, callback) {
       callback();
     }
   }
+  
   console.log('Aux');
   getInputPart('aux', function(data){
         input.key = data.key;

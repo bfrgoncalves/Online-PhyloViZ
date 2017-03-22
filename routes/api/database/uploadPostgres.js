@@ -314,6 +314,7 @@ function readFastafile(pathToFile, fileType, dataToDB, callback){
         fastaProfiles[i][dataToDB.key] = fastaIDs[i];
         dataToDB[fileType].push({profile: fastaProfiles[i], sequence: fastaSequences[i].join("")});
       }
+
       headerArray = [];
 
       for (i in headers) headerArray.push(i);
