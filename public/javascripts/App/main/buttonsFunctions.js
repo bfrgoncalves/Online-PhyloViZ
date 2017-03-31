@@ -616,10 +616,17 @@ function loadButtonFunctions(){
 		        "value" : graphObject.maxLinkValue 
 		    });
 		    
-		    $("#NLVnumber").attr({
-		        "max" : graphObject.graphInput.maxDistanceValue,
-		        "value" : 0
-		    });
+		    if(graphObject.graphInput.maxDistanceValue == -1){
+	        	$("#NLVnumber").attr({
+			        "value" : 0
+			    });
+	        }
+	        else {
+	        	$("#NLVnumber").attr({
+			        "max" : graphObject.graphInput.maxDistanceValue,
+			        "value" : 0
+			    });
+	        }
 
 		    if(!graphObject.graphInput.hasOwnProperty('distanceMatrix')){
 		    	$('#NLVgraph').css({"display": "none"});
