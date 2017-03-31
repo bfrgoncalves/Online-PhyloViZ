@@ -54,14 +54,14 @@ block normalBody
 		div.tab-content
 			
 			div.tab-pane.active(id="treeContent")
-				div(id="popup_description" style="display: none")
 				div(style="width:30%;margin-top:1%;left:35%;position:absolute;z-index:2;text-align:center;")
-					form.form-inline(id='searchForm')
-						div.form-group
+					form(id='searchForm')
+						div.input-group.input-group-sm
 							input.form-control(type='text' id='nodeid' style='color:black' placehorder="Search")
-						button.btn.btn-default(type='submit') Search
+							span.input-group-btn
+								button.btn.btn-default.btn-search(type='submit') Search
 				div(id="col_webgl")
-					div(id="pauseRegion", style="height:20%;overflow-y:auto;")
+					div(id="pauseRegion", style="height:17.5%;overflow-y:auto;")
 						ul.nav.nav-stacked
 							li
 								div(id='toggleLayout')
@@ -74,8 +74,8 @@ block normalBody
 							li
 								div(style="width:100%;")
 									div(style="text-align:center;")
-										a.btn.btn-default.btn-sm(id="zoomOut" class="glyphicon glyphicon-minus")
-										a.btn.btn-default.btn-sm(id="zoomIn" class="glyphicon glyphicon-plus")
+										a.btn.btn-default(id="zoomOut" class="glyphicon glyphicon-minus")
+										a.btn.btn-default(id="zoomIn" class="glyphicon glyphicon-plus")
 									div
 										p(style="text-align:center;") Zoom
 							li
@@ -87,16 +87,12 @@ block normalBody
 										div(style="text-align:center;")
 											button(type='button',id='getLinkButton', name='publicLink1') Get Data Set Link
 								br
-					div(id="pauseRegion", style="height:10%;overflow-y:auto;")
+					div(id="pauseRegion", style="height:7%;overflow-y:auto;")
 						ul.nav.nav-stacked
 							li
 								i Links log Scale: <b id="isLogScaleOn"></b>
 							li
 								i Nodes log Scale: <b id="isLogScaleNodesOn"></b>
-							li
-								i goeBURST Profile Size: <b id="goeburstProfileSize"></b>
-							li
-								i(style="display:none", id="i_parent_dataset") Parent Data Set: <b id="parentDataset"></b>
 
 					div(id="buttonRegion", style="height:60%;overflow-y:auto;")		
 						ul.nav.nav-stacked
@@ -130,10 +126,6 @@ block normalBody
 											div.well(id='NodesSizeAttributes')
 												label Nodes Size
 												input(type='range',id='NodeSizeSlider', name='points1', value = 1, min='1', max='100')
-												label Size By:
-												select(id="SizeProperty")
-													option(value="isolates") By Isolate
-													option(value="profiles") By Profile
 												label Scaling Factor
 												input(type='number',id='scaleNode', name='points10', value = 1, min='1', max='40')
 												div(id="logScaleNodesDiv")
@@ -163,7 +155,6 @@ block normalBody
 													select(id="labelType")
 														option(value="absolute") Absolute Distance
 														option(value="relative") Relative Distance
-														option(value="withmissings") Differences/Missings
 													select(id="labelTypeNewick")
 														option(value="linkLength") Link Length
 														option(value="bootstrap") Bootstrap Values
@@ -190,39 +181,31 @@ block normalBody
 								div
 									a.btn.btn-primary.actionButton.collapsebt(data-toggle='collapse', href='#collapseOperations', aria-expanded="false", aria-controls="collapseExample" id="treeop") Operations
 									div.collapse(id='collapseOperations')
-										a.btn.btn-primary.actionButton.submenu.collapsebt(data-toggle='collapse', href='#TreeOpCol', aria-expanded="false", aria-controls="collapseExample" id="treeopcol") Tree Modifiers
-										div.collapse(id='TreeOpCol')
-											div.well(id='TreeOperations')
-												label Tree cut-off
-												input(type='number',id='SplitTreeSlider', name='points2', value = 7, min='0', max='7')
+										div.well(id='TreeOperations')
+											label Tree cut-off
+											input(type='number',id='SplitTreeSlider', name='points2', value = 7, min='0', max='7')
+											br
+											br
+											div(id="NLVgraph")
+												label(id="nlvgraphLabel") NLV graph
+												input(type='number',id='NLVnumber', name='points2', value = 7, min='0', max='7')
+
+										div.well(id='OperationsToMake')
+											div(id="viewSequences")
+												a.btn.btn-default(type='button',id='viewSequencesButton', name='saveImage1') View Sequences
+											div(id="computeDistances")
+												a.btn.btn-default(type='button',id='distanceButton', name='distances1') Compute Distances
+												a.btn.btn-default(type='button',id='exportSelectedDataButton', name='distances1') Export Selected Data
+											if (user && !isPublic)
 												br
-												br
-												div(id="NLVgraph")
-													label(id="nlvgraphLabel") NLV graph
-													input(type='number',id='NLVnumber', name='points2', value = 7, min='0')
-
-										a.btn.btn-primary.actionButton.submenu.collapsebt(data-toggle='collapse', href='#SelOpCol', aria-expanded="false", aria-controls="collapseExample" id="selopcol") Subset Operations
-										div.collapse(id='SelOpCol')
-											div.well(id='OperationsToMake')
-												div(id="viewSequences")
-													a.btn.btn-default(type='button', style='width:100%;', id='viewSequencesButton', name='saveImage1') View Sequences
-												a.btn.btn-default(type='button',style='width:100%;', id='createSubset1', name='createSubset1') Create Subset
-												a.btn.btn-default(type='button',style='width:100%;', id='exclusiveLoci', name='findex') Find Exclusive Loci
-												div(id="computeDistances")
-													a.btn.btn-default(type='button',style='width:100%;', id='distanceButton', name='distances1') Compute Distances
-													a.btn.btn-default(type='button',style='width:100%;', id='exportSelectedDataButton', name='distances1') Export Selected Data
-												div(id='downloadContainer', style='display:none')
-
-										a.btn.btn-primary.actionButton.submenu.collapsebt(data-toggle='collapse', href='#DispOp', aria-expanded="false", aria-controls="collapseExample" id="dispop") Display Operations
-										div.collapse(id='DispOp')
-											div.well(id='DisplayOperations')
-												if (user && !isPublic)
-													a.btn.btn-default(type='button',style='width:100%;', id='savePositionsButton', name='downloadPositions1') Save Positions
-												a.btn.btn-default(type='button',style='width:100%;', id='saveImageButton1', name='saveImage1') Save Displayed Image
+												a.btn.btn-default(type='button',id='savePositionsButton', name='downloadPositions1') Save Positions
+											a.btn.btn-default(type='button',id='saveImageButton1', name='saveImage1') Save Image
+											//a.btn.btn-default(type='button',id='createSubset1', name='createSubset1') Create Subset
+											div(id='downloadContainer', style='display:none')
 
 
 
-				//div(id="col_information")
+				div(id="col_information")
 					div(id="divButtonInfo")
 						a.btn.btn-md.btn-info(type='button',id='toggle_col_info') Hide Information
 					div(id="divButtonClearInfo")
@@ -230,7 +213,7 @@ block normalBody
 					div(id="info_container")
 						div(id="info_place")
 
-				//div(id="divButtonInfoOutside")
+				div(id="divButtonInfoOutside")
 						a.btn.btn-info(type='button',id='toggle_col_in') Show Information
 				
 				div(id="divButtonLegend")
@@ -243,12 +226,6 @@ block normalBody
 						div(id="legendcurrentpiePlace")
 						div(style="text-align:center;margin:1%")
 							a.btn.btn-default(type='button',id='Choosecategories', name='categories1') Choose categories
-							button.btn.btn-md.btn-default(id="buttonChangeToOuter") Append To Outer Ring
-				
-				div(id="outerColorLegendDiv")
-					div(style="padding:1px 1px 1px 1px;")
-						b Outer Ring Legend
-						div(id="cloneLegendPie")
 
 				div(id="divtablePercentages" style="display:none;")
 					div(id="tableContainer")
@@ -285,13 +262,7 @@ block normalBody
 				div(id="divprofiles")
 					div(id="exportprofiles")
 				br
-				div.col-md-2(id="HideColumnProfiles")
-					b Filter By Profile Position
-					select.selectpicker(id="searchProfileHeaders", data-live-search="true")
-				div.col-md-2
-					button.btn.btn-md.btn-default(id="resetHideColumns") Reset
-				div.col-md-4 Profile Size: <label id="countProfileSize"></label></label>&nbsp<button class="btn btn-md btn-default" id="exportoriginal">Download Original Profiles</button>
-				div.col-md-4 goeBURST Profile Size: <label id="countgoeBURSTProfileSize"></label>&nbsp<button class="btn btn-md btn-default" id="exportgoeBURST">Download goeBURST Profiles</button>
+				div(id="countProfileSize") Profile Size:
 				br
 				div.pieRegion
 					//div.numberOfColumns(id='numberOfColumnsprofiles')
