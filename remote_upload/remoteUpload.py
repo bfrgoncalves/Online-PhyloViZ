@@ -22,6 +22,7 @@ def main():
 	parser.add_argument('-m', nargs='?', type=str, help="Metadata", required=False)
 	parser.add_argument('-d', nargs='?', type=str, help="Dataset name", required=True)
 	parser.add_argument('-dn', nargs='?', type=str, help="Description", required=False)
+        parser.add_argument('-j', nargs='?', type=str, help="Cookie filename", required=False)
 
 	args = parser.parse_args()
 
@@ -45,8 +46,10 @@ def main():
 
 
 def login(args, currentRoot): #Required before each of the tasks
-
-	bashCommand = 'curl --cookie-jar jarfile --data username='+ args.u + '&' + 'password=' + args.p + ' ' +currentRoot+'/users/api/login'
+ 
+        if args.j is None:
+                args.j = 'jarfile'
+        bashCommand = 'curl --cookie-jar ' + args.j + ' --data username='+ args.u + '&' + 'password=' + args.p + ' ' +currentRoot+'/users/api/login'
 	process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
 	output = process.communicate()[0]
 	if output == 'Unauthorized':
@@ -59,7 +62,7 @@ def checkDatasets(args, currentRoot): #Check if the database name to upload exis
 	
 	login(args, currentRoot)
 
-	bashCommand = 'curl --cookie jarfile -X GET '+currentRoot+'/api/db/postgres/find/datasets/name?name='+ args.d
+        bashCommand = 'curl --cookie ' + args.j + ' -X GET '+currentRoot+'/api/db/postgres/find/datasets/name?name='+ args.d
 	process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
 	output = process.communicate()[0]
 	io = StringIO(output)
@@ -104,8 +107,8 @@ def remoteUpload(args, currentRoot): #upload the input files to the database
 		makePublic = 'true'
 	else:
 		makePublic = 'false'
-	
-	bashCommandUpload = 'curl --cookie jarfile \
+
+	bashCommandUpload = 'curl --cookie ' + args.j +' \
 					  -F datasetName='+ datasetName +' \
 					  -F dataset_description='+ description +' \
 					  -F makePublic='+ makePublic +' \
@@ -128,7 +131,7 @@ def rungoeBURST(args, datasetID, currentRoot): #run the goeBURST algorithm to st
 
 	print 'Running goeBURST...'
 
-	bashCommand = 'curl --cookie jarfile -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true'
+	bashCommand = 'curl --cookie ' + args.j + ' -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true'
 
 	process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
 	output = process.communicate()[0]
