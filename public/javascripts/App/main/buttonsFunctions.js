@@ -8,9 +8,8 @@ function loadButtonFunctions(){
 
 				var toDialog = '<div id="divinfoDataset">';
 
-
-
 	        	$('#dialog').empty();
+	        	
 
 				var table = {};
 				//table.headers = ['Data Set Name', 'Data Set Size', 'Type', 'Metadata', 'Max. Link Distance'];
