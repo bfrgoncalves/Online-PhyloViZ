@@ -114,8 +114,9 @@ function constructGraph(graph, datasetID){
           //$("#TreeOperations").css('display', 'none');
           //$("#computeDistances").css('display', 'none');
         }
-
         else buttonFunctions.profileLength(graphObject);
+
+        console.log(graphObject);
 
         if (graphObject.graphInput.data_type == 'newick'){
           $("#logScaleDiv").css('display', 'none');

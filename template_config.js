@@ -12,15 +12,23 @@ function makeid(length)
 var port = 'port(integer)';
 
 module.exports = {
-	db : 'databaseName',
-	databaseUserString: 'username:password',
-	randomId : makeid,
-	title : "PHYLOViZ Online",
-	email: '-',
-	spe: '-',
-	cipherUser: { algorithm: 'aes-256-ctr', pass: 'passwordCipher'},
-	currentRoot: 'https://localhost:'+String(port) + '/',
-	//certPath: 'certificatePath',
-	//keyPath: 'keyPath',
-	port: port
+	db: 'databaseName',
+	databaseUserString: 'username:password', //Database user
+	randomId: makeid,
+	title: "PHYLOViZ Online",
+	email: '-', //email for job link submission
+	spe: '-', //email pass
+	cipherUser: {
+		algorithm: 'aes-256-ctr',
+		pass: 'passwordCipher' //select one cipher
+	},
+	currentRoot: 'http://localhost:' + String(port) + '/',
+	certPath: 'my.crt',
+	keyPath: 'my.key',
+	port: port,
+	maxComparisons: 800000000,
+	maxNumberOfNodes: 10000,
+	batchSize: 200,
+	token_secret: 'phyloviz_auth_secret', //secret for autentication
+	final_root: 'http://localhost:' + String(port)
 }

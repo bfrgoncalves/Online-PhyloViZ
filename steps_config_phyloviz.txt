@@ -1,15 +1,40 @@
 For Ubuntu 16.04:
 
 git clone https://github.com/bfrgoncalves/Online-PhyloViZ.git
+
 cd Online-PhyloViZ/
+
+######################
+
+Switch to the branch phyloviz2.0:
+
+git branch phyloviz2.0
+
+######################
+
+Copy the template config file to a file named config.js and modify the required fields
+
 cp template_config.js config.js
+
 vi config.js
-  change postgresstring, port, databasename, pass, email and spe
+  change postgresstring, port, databasename, pass, email, spe and the other required fields
+
+######################
+
+Install NodeJS and PostgresQL:
 
 sudo apt-get install nodejs-legacy
 sudo apt-get install postgresql
- 
+
+######################
+
+Create a database user using the default postgres user (postgres). In this case we selected the phyloviz username:
+
 sudo -u postgres /usr/lib/postgresql/9.X/bin/createuser phyloviz #user with the name assigned in the config file
+
+######################
+
+Create a password for the default user and allow the created user to construct databases. Then we create a new database:
 
 sudo -u postgres psql postgres
   \password newpass
@@ -17,26 +42,57 @@ sudo -u postgres psql postgres
   CREATE DATABASE phyloviz OWNER phyloviz; #create database with the name assigned in the config file
   \q
 
+######################
+
+Set a password for the created user
+
 psql -U phyloviz phyloviz
   \password newpass #same as the password assigned assigned in the config file
+
+######################
+
+Change postgres configuration to require password to access to the database:
 
 locate pg_hba.conf
 cd /etc/postgresql/9.X/main/
 vi pg_hba.conf 
   change all METHOD to md5
 
+######################
+
+Restart postgres
+
 sudo service postgresql restart
+
+######################
+
+Login with the new user to the created database and create the schema datasets. This schema is where all phyloviz tables will be placed:
 
 psql -U phyloviz phyloviz
   CREATE SCHEMA datasets;
   \q
 
+######################
 
-cd Online-PhyloViZ/
-node app
+Install redis database https://redis.io/
 
-go to:
+Start redis with the default parameters with the command:
 
-	https://localhost:port/api/db/postgres/init  #launches the db structure
+redis-server
+
+######################
+
+Install pm2: https://github.com/Unitech/pm2
+
+Start the application by running these two commands:
+
+pm2 start app.js -i 1
+pm2 start queue_worker.js -i 1
+
+######################
+
+Load the database structure by going to the next URL in your browser:
+
+https://localhost:(port)/api/db/postgres/init  #launches the db structure. Change (port) by the port used in the config file
 
 Enjoy
