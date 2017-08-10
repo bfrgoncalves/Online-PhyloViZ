@@ -433,7 +433,7 @@ function loadGraphFunctions(){
 
 			for(y in distanceMatrix){
 				for(z in original_position_to_id){
-					distanceMatrix[y].splice(original_position_to_id[z]);
+					distanceMatrix[y].splice(parseInt(z), 1);
 				}
 			}
 
