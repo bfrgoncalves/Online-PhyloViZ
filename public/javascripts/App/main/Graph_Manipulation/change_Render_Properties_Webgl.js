@@ -422,20 +422,25 @@ function NLVgraph(graphObject, value) {
                     if (graph.distanceMatrix[countNodes][i] <= value && graph.distanceMatrix[countNodes][i] != 0){
                         //console.log(graph.distanceMatrix[countNodes][i]);
                         console.log(countNodes, i)
-                        targetIndex = parseInt(countNodes) + parseInt(i) - 1;
-                        console.log(graph.nodes)
-                        console.log(countNodes, i, targetIndex, graph.nodes[countNodes].key, graph.nodes[targetIndex].key);
+                        sourceKey = graph.original_position_to_id[String(countNodes)] == undefined ? graph.nodes[countNodes].key : graph.original_position_to_id[String(countNodes)];
+                        targetKey = graph.original_position_to_id[String(parseInt(countNodes) + parseInt(i))] == undefined ? graph.nodes[parseInt(countNodes) + parseInt(i)].key : graph.original_position_to_id[String(parseInt(countNodes) + parseInt(i))]
+                        
+                        sourceKey = graph.sameNodeHas[sourceKey];
+                        targetKey = graph.sameNodeHas[targetKey];
 
-                        if(graph.nodes[targetIndex].key.indexOf('TransitionNode') < 0){
+                        //targetIndex = parseInt(countNodes) + parseInt(i);
+                        console.log(countNodes, i, targetIndex, sourceKey, targetKey, graph.original_position_to_id);
 
-                            LinkID = graph.nodes[countNodes].key + "👉 " + graph.nodes[targetIndex].key;
+                        if(targetKey.indexOf('TransitionNode') < 0){
+
+                            LinkID = sourceKey + "👉 " + targetKey;
                             if (addedLinks.hasOwnProperty(LinkID)){
                                 continue;
                             }
                             if (!treeLinks.hasOwnProperty(LinkID)){
 
-                                graphGL.addLink(graph.nodes[countNodes].key, graph.nodes[targetIndex].key, { connectionStrength: graph.distanceMatrix[countNodes][i] , value: graph.distanceMatrix[countNodes][i], color: "#00ff00"});
-                                var link = graphGL.getLink(graph.nodes[countNodes].key, graph.nodes[targetIndex].key);
+                                graphGL.addLink(sourceKey, targetKey, { connectionStrength: graph.distanceMatrix[countNodes][i] , value: graph.distanceMatrix[countNodes][i], color: "#00ff00"});
+                                var link = graphGL.getLink(sourceKey, targetKey);
 
                                 addedLinks[LinkID] = link;
                             }
