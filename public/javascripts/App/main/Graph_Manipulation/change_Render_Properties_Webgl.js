@@ -427,14 +427,14 @@ function NLVgraph(graphObject, value) {
 
                         if(graph.nodes[targetIndex].key.indexOf('TransitionNode') < 0){
 
-                            LinkID = graph.nodes[countNodes].key + "👉 " + graph.nodes[targetIndex].key;
+                            LinkID = graph.nodes[countNodes-1].key + "👉 " + graph.nodes[targetIndex-1].key;
                             if (addedLinks.hasOwnProperty(LinkID)){
                                 continue;
                             }
                             if (!treeLinks.hasOwnProperty(LinkID)){
 
-                                graphGL.addLink(graph.nodes[countNodes].key, graph.nodes[targetIndex].key, { connectionStrength: graph.distanceMatrix[countNodes][i] , value: graph.distanceMatrix[countNodes][i], color: "#00ff00"});
-                                var link = graphGL.getLink(graph.nodes[countNodes].key, graph.nodes[targetIndex].key);
+                                graphGL.addLink(graph.nodes[countNodes-1].key, graph.nodes[targetIndex-1].key, { connectionStrength: graph.distanceMatrix[countNodes][i] , value: graph.distanceMatrix[countNodes][i], color: "#00ff00"});
+                                var link = graphGL.getLink(graph.nodes[countNodes-1].key, graph.nodes[targetIndex-1].key);
 
                                 addedLinks[LinkID] = link;
                             }
