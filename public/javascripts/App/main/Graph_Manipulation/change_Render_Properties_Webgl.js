@@ -436,7 +436,7 @@ function NLVgraph(graphObject, value) {
                             LinkID_reverse = targetKey + "👉 " + sourceKey;
 
                             if (addedLinks.hasOwnProperty(LinkID) || addedLinks.hasOwnProperty(LinkID_reverse)){
-                                //console.log(LinkID_reverse)
+                                console.log("BAH")
                                 continue;
                             }
                             if (!treeLinks.hasOwnProperty(LinkID)){
