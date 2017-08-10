@@ -433,7 +433,9 @@ function NLVgraph(graphObject, value) {
                         if(targetKey.indexOf('TransitionNode') < 0){
 
                             LinkID = sourceKey + "👉 " + targetKey;
-                            if (addedLinks.hasOwnProperty(LinkID)){
+                            LinkID_reverse = targetKey + "👉 " + sourceKey;
+
+                            if (addedLinks.hasOwnProperty(LinkID) || addedLinks.hasOwnProperty(LinkID_reverse)){
                                 continue;
                             }
                             if (!treeLinks.hasOwnProperty(LinkID)){
