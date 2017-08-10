@@ -57,7 +57,9 @@ function constructGraph(graph, datasetID){
         graphFunctions.searchNodeByID(graphObject, '#nodeid');
 
         graphFunctions.launchGraphEvents(graphObject);
-        graphFunctions.mergedNode_positions_to_ids(graphObject);
+        graphFunctions.mergedNode_positions_to_ids(graphObject, function(){
+          graphFunctions.process_distance_matrix(graphObject);
+        });
 
         var buttonFunctions = loadButtonFunctions(); //Functions to be applied to the graphObject object. buttonsFunctions.js
 
