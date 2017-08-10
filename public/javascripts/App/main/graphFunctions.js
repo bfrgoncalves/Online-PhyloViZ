@@ -407,6 +407,18 @@ function loadGraphFunctions(){
 			});
 		},
 
+		mergedNode_positions_to_ids: function(graphObject){
+
+			mergedNodes = graphObject.graphInput.mergedNodes;
+			original_position_to_id = {};
+
+			for (x in mergedNodes){
+				original_position_to_id[mergedNodes[x].position] = mergedNodes[x].key;
+			}
+
+			graphObject.graphInput.original_position_to_id = original_position_to_id;
+		}
+
 		launchGraphEvents: function(graphObject){
 
 			var graphGL = graphObject.graphGL;
