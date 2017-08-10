@@ -422,7 +422,7 @@ function NLVgraph(graphObject, value) {
                     if (graph.distanceMatrix[countNodes][i] <= value && graph.distanceMatrix[countNodes][i] != 0){
                         //console.log(graph.distanceMatrix[countNodes][i]);
                         console.log(countNodes, i)
-                        targetIndex = parseInt(countNodes) + parseInt(i);
+                        targetIndex = parseInt(countNodes) + parseInt(i) - 1;
                         console.log(graph.nodes)
                         console.log(countNodes, i, targetIndex, graph.nodes[countNodes].key, graph.nodes[targetIndex].key);
 
