@@ -421,7 +421,7 @@ function NLVgraph(graphObject, value) {
                 for (i=1; i<graph.distanceMatrix[countNodes].length; i++){
                     if (graph.distanceMatrix[countNodes][i] <= value && graph.distanceMatrix[countNodes][i] != 0){
 
-                        targetIndex = parseInt(countNodes-1) + parseInt(i);
+                        targetIndex = parseInt(countNodes) + parseInt(i);
                         
                         sourceKey = graph.original_position_to_id[String(countNodes)] == undefined ? graph.nodes[countNodes].key : graph.original_position_to_id[String(countNodes)];
                         targetKey = graph.original_position_to_id[String(targetIndex)] == undefined ? graph.nodes[targetIndex].key : graph.original_position_to_id[String(targetIndex)]
