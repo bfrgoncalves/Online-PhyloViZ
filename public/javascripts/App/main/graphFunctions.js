@@ -417,7 +417,7 @@ function loadGraphFunctions(){
 			}
 
 			graphObject.graphInput.original_position_to_id = original_position_to_id;
-		}
+		},
 
 		launchGraphEvents: function(graphObject){
 
