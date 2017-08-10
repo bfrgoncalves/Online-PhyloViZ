@@ -407,7 +407,7 @@ function loadGraphFunctions(){
 			});
 		},
 
-		mergedNode_positions_to_ids: function(graphObject){
+		mergedNode_positions_to_ids: function(graphObject, callback){
 
 			mergedNodes = graphObject.graphInput.mergedNodes;
 			original_position_to_id = {};
@@ -418,6 +418,26 @@ function loadGraphFunctions(){
 			}
 
 			graphObject.graphInput.original_position_to_id = original_position_to_id;
+
+			callback();
+		},
+
+		process_distance_matrix: function(graphObject){
+
+			distanceMatrix = graphObject.graphInput.distanceMatrix;
+			original_position_to_id = graphObject.graphInput.original_position_to_id;
+			
+			for(x in original_position_to_id){
+				distanceMatrix.splice(parseInt(x), 1);
+			}
+
+			for(y in distanceMatrix){
+				for(z in original_position_to_id){
+					distanceMatrix[y].splice(original_position_to_id[z]);
+				}
+			}
+
+			graphObject.graphInput.distanceMatrix = distanceMatrix;
 		},
 
 		launchGraphEvents: function(graphObject){
