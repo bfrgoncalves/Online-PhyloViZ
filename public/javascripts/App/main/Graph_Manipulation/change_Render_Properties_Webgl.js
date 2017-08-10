@@ -417,7 +417,7 @@ function NLVgraph(graphObject, value) {
             //console.log(countNodes);
 
             if(node.id.indexOf('TransitionNode') < 0) {
-
+                console.log(countNodes);
                 for (i=0; i<graph.distanceMatrix[countNodes].length; i++){
                     if (graph.distanceMatrix[countNodes][i] <= value && graph.distanceMatrix[countNodes][i] != 0){
 
