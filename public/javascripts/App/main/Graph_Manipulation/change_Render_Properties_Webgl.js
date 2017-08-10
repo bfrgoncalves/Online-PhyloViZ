@@ -436,11 +436,11 @@ function NLVgraph(graphObject, value) {
                             LinkID_reverse = targetKey + "👉 " + sourceKey;
 
                             if (addedLinks.hasOwnProperty(LinkID) || addedLinks.hasOwnProperty(LinkID_reverse)){
-                                console.log(LinkID_reverse)
+                                //console.log(LinkID_reverse)
                                 continue;
                             }
                             if (!treeLinks.hasOwnProperty(LinkID)){
-
+                                console.log("AQUI");
                                 graphGL.addLink(sourceKey, targetKey, { connectionStrength: graph.distanceMatrix[countNodes][i] , value: graph.distanceMatrix[countNodes][i], color: "#00ff00"});
                                 var link = graphGL.getLink(sourceKey, targetKey);
 
