@@ -51,7 +51,9 @@ router.post('/', function(req, res, next){
 
 							var selectedIndexes = JSON.parse(req.body.nodeindexes);
 							//Headers
+							console.log(graphInput_aux.schemeGenes);
 							Headers_Profiles = graphInput_aux.schemeGenes.join('\t') + '\n';
+							console.log(graphInput_aux.metadata);
 							if(graphInput_aux.metadata != undefined) Headers_Aux = graphInput_aux.metadata.join('\t') + '\n';
 							else Headers_Aux = '';
 							
