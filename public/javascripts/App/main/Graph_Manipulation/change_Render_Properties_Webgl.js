@@ -429,11 +429,12 @@ function NLVgraph(graphObject, value) {
                         targetKey = graph.sameNodeHas[targetKey];
 
                         console.log(countNodes, i, targetIndex, sourceKey, targetKey, graph.original_position_to_id);
-
+                        console.log(targetKey);
                         if(targetKey.indexOf('TransitionNode') < 0){
 
                             LinkID = sourceKey + "👉 " + targetKey;
                             LinkID_reverse = targetKey + "👉 " + sourceKey;
+                            console.log("PASSOU");
 
                             if (addedLinks.hasOwnProperty(LinkID) || addedLinks.hasOwnProperty(LinkID_reverse)){
                                 console.log("BAH")
