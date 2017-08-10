@@ -423,18 +423,19 @@ function NLVgraph(graphObject, value) {
                         //console.log(graph.distanceMatrix[countNodes][i]);
                         console.log(countNodes, i)
                         targetIndex = parseInt(countNodes) + parseInt(i);
+                        console.log(graph.nodes)
                         console.log(countNodes, i, targetIndex, graph.nodes[countNodes].key, graph.nodes[targetIndex].key);
 
                         if(graph.nodes[targetIndex].key.indexOf('TransitionNode') < 0){
 
-                            LinkID = graph.nodes[countNodes-1].key + "👉 " + graph.nodes[targetIndex-1].key;
+                            LinkID = graph.nodes[countNodes].key + "👉 " + graph.nodes[targetIndex].key;
                             if (addedLinks.hasOwnProperty(LinkID)){
                                 continue;
                             }
                             if (!treeLinks.hasOwnProperty(LinkID)){
 
-                                graphGL.addLink(graph.nodes[countNodes-1].key, graph.nodes[targetIndex-1].key, { connectionStrength: graph.distanceMatrix[countNodes][i] , value: graph.distanceMatrix[countNodes][i], color: "#00ff00"});
-                                var link = graphGL.getLink(graph.nodes[countNodes-1].key, graph.nodes[targetIndex-1].key);
+                                graphGL.addLink(graph.nodes[countNodes].key, graph.nodes[targetIndex].key, { connectionStrength: graph.distanceMatrix[countNodes][i] , value: graph.distanceMatrix[countNodes][i], color: "#00ff00"});
+                                var link = graphGL.getLink(graph.nodes[countNodes].key, graph.nodes[targetIndex].key);
 
                                 addedLinks[LinkID] = link;
                             }
