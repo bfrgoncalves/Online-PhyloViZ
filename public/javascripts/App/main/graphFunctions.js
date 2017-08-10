@@ -433,9 +433,9 @@ function loadGraphFunctions(){
 
 			for(y in distanceMatrix){
 				for(z in original_position_to_id){
-					console.log(distanceMatrix[y].length);
+					console.log("ENTRA", distanceMatrix[y].length);
 					distanceMatrix[y].splice(parseInt(z), 1);
-					console.log(distanceMatrix[y].length);
+					console.log("SAI", distanceMatrix[y].length);
 				}
 			}
 
