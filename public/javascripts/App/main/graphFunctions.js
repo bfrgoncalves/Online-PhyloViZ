@@ -430,13 +430,16 @@ function loadGraphFunctions(){
 			for(x in original_position_to_id){
 				distanceMatrix.splice(parseInt(x), 1);
 			}
+			count_lines = 0;
 
 			for(y in distanceMatrix){
 				for(z in original_position_to_id){
 					console.log("ENTRA", distanceMatrix[y].length);
-					distanceMatrix[y].splice(parseInt(z), 1);
+					index_to_remove = parseInt(z)-count_lines;
+					if(index_to_remove > 0) distanceMatrix[y].splice(parseInt(z)-count_lines, 1);
 					console.log("SAI", distanceMatrix[y].length);
 				}
+				count_lines += 1;
 			}
 
 			graphObject.graphInput.distanceMatrix = distanceMatrix;
