@@ -413,22 +413,22 @@ function NLVgraph(graphObject, value) {
         countNodes = 0;
         nodesLength = graph.nodes.length;
 
-        graphGL.forEachNode(function(node, index){
+        graphGL.forEachNode(function(node){
             //console.log(countNodes);
-            console.log(index);
+
             if(node.id.indexOf('TransitionNode') < 0) {
 
-                for (i=0; i<graph.distanceMatrix[index].length; i++){
-                    if (graph.distanceMatrix[index][i] <= value && graph.distanceMatrix[index][i] != 0){
+                for (i=1; i<graph.distanceMatrix[countNodes].length; i++){
+                    if (graph.distanceMatrix[countNodes][i] <= value && graph.distanceMatrix[countNodes][i] != 0){
 
-                        targetIndex = parseInt(index) + parseInt(i);
-                        sourceKey = graph.original_position_to_id[String(index)] == undefined ? graph.nodes[index].key : graph.original_position_to_id[String(index)];
+                        targetIndex = parseInt(countNodes) + parseInt(i);
+                        sourceKey = graph.original_position_to_id[String(countNodes)] == undefined ? graph.nodes[countNodes].key : graph.original_position_to_id[String(countNodes)];
                         targetKey = graph.original_position_to_id[String(targetIndex)] == undefined ? graph.nodes[targetIndex].key : graph.original_position_to_id[String(targetIndex)]
                         
                         sourceKey = graph.sameNodeHas[sourceKey];
                         targetKey = graph.sameNodeHas[targetKey];
 
-                        console.log(index, i, targetIndex, sourceKey, targetKey, graph.original_position_to_id);
+                        console.log(countNodes, i, targetIndex, sourceKey, targetKey, graph.original_position_to_id);
                         console.log(targetKey);
                         if(targetKey.indexOf('TransitionNode') < 0){
 
@@ -442,7 +442,7 @@ function NLVgraph(graphObject, value) {
                             }
                             if (!treeLinks.hasOwnProperty(LinkID) && !treeLinks.hasOwnProperty(LinkID_reverse)){
                                 console.log("AQUI");
-                                graphGL.addLink(sourceKey, targetKey, { connectionStrength: graph.distanceMatrix[index][i] , value: graph.distanceMatrix[index][i], color: "#00ff00"});
+                                graphGL.addLink(sourceKey, targetKey, { connectionStrength: graph.distanceMatrix[countNodes][i] , value: graph.distanceMatrix[countNodes][i], color: "#00ff00"});
                                 var link = graphGL.getLink(sourceKey, targetKey);
 
                                 addedLinks[LinkID] = link;
@@ -453,7 +453,7 @@ function NLVgraph(graphObject, value) {
                 }
             }
 
-            //if (nodesLength > countNodes) countNodes += 1;
+            if (nodesLength > countNodes) countNodes += 1;
         });
     }
     prevValue = value;
