@@ -445,7 +445,7 @@ function NLVgraph(graphObject, value) {
                 }
             }
 
-            if (nodesLength > countNodes+2) countNodes += 1;
+            if (nodesLength > countNodes) countNodes += 1;
         });
     }
     prevValue = value;
