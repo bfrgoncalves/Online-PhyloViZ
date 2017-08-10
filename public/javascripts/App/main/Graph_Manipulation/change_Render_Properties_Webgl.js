@@ -420,15 +420,14 @@ function NLVgraph(graphObject, value) {
 
                 for (i=0; i<graph.distanceMatrix[countNodes].length; i++){
                     if (graph.distanceMatrix[countNodes][i] <= value && graph.distanceMatrix[countNodes][i] != 0){
-                        //console.log(graph.distanceMatrix[countNodes][i]);
-                        console.log(countNodes, i)
+
+                        targetIndex = parseInt(countNodes) + parseInt(i-1);
                         sourceKey = graph.original_position_to_id[String(countNodes)] == undefined ? graph.nodes[countNodes].key : graph.original_position_to_id[String(countNodes)];
-                        targetKey = graph.original_position_to_id[String(parseInt(countNodes) + parseInt(i))] == undefined ? graph.nodes[parseInt(countNodes) + parseInt(i)].key : graph.original_position_to_id[String(parseInt(countNodes) + parseInt(i))]
+                        targetKey = graph.original_position_to_id[String(targetIndex)] == undefined ? graph.nodes[targetIndex].key : graph.original_position_to_id[String(targetIndex)]
                         
                         sourceKey = graph.sameNodeHas[sourceKey];
                         targetKey = graph.sameNodeHas[targetKey];
 
-                        targetIndex = parseInt(countNodes) + parseInt(i);
                         console.log(countNodes, i, targetIndex, sourceKey, targetKey, graph.original_position_to_id);
 
                         if(targetKey.indexOf('TransitionNode') < 0){
