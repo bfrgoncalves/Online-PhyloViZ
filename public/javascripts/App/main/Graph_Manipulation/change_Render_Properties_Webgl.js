@@ -1,9 +1,7 @@
 
 function setNewProgram(graphObject, newProgram){
-     //graphObject.graphics.release();
      var newCircleNode = newProgram();
      var prevProgram = graphObject.graphics.getNodeProgram();
-     //prevProgram.releaseResources();
      var currentContext = graphObject.graphics.getgl();
      var canvasSize = graphObject.graphics.getWidthAndHeight();
 
@@ -12,9 +10,6 @@ function setNewProgram(graphObject, newProgram){
      newCircleNode.load(currentContext, graphObject.graphInput.nodes.length);
      newCircleNode.updateSize(canvasSize[0] / 2, canvasSize[1] / 2);
      graphObject.graphics.transformUniform();
-     //graphObject.graphics.updateSize();
-     //graphObject.renderer.initDom();
-     //graphObject.renderer.updateCenter();
 }
 
 //adjust Node Size
@@ -33,7 +28,6 @@ function NodeSize(newSize, max, graphObject){
 
     if(graphObject.isLayoutPaused){
         renderer.rerender();
-        //setTimeout(function(){ renderer.pause();}, 50);
     }
     else renderer.resume();
 }
@@ -51,11 +45,9 @@ function ChangeNodeSizeOption(graphObject, option){
         var nodeUI = graphics.getNodeUI(node.key);
 
         if(option == 'isolates'){
-            //if (node.id.search('TransitionNode') > -1) sizeToUse = 5;
             nodeUI.size = graphObject.DefaultnodeSize+(node.isolates.length * graphObject.NodeScaleFactor);
         }
         else if (option == 'profiles'){
-            //if (node.id.search('TransitionNode') > -1) sizeToUse = 5;
             nodeUI.size = graphObject.DefaultnodeSize+(graphObject.graphInput.mergedNodes[node.key].length * graphObject.NodeScaleFactor);
         }
 
@@ -64,7 +56,6 @@ function ChangeNodeSizeOption(graphObject, option){
 
     if(graphObject.isLayoutPaused){
         renderer.rerender();
-        //setTimeout(function(){ renderer.pause();}, 50);
     }
     else renderer.resume();
 }
@@ -85,8 +76,6 @@ function LabelSize(newSize, graphObject, domLabels, type){
         graph.links.forEach(function(link){
             ID = link.source + "👉 " + link.target;
             var labelStyle = domLabels[ID].style;
-            //console.log(labelStyle);
-            console.log(String(newSize) + 'px');
             labelStyle.fontSize = String(newSize) + 'px';
         });
     }
@@ -117,14 +106,6 @@ function changeLogScale(graphObject){
             else spring.length = graphObject.defaultLayoutParams.springLength * linkUI.data.connectionStrength;
 
         })
-
-    /*
-    if(!graphObject.isLayoutPaused){
-        renderer.resume();
-        setTimeout(function(){ renderer.pause();}, 50);
-    }
-    else renderer.resume();
-    */
 }
 
 function changeLogScaleNodes(graphObject){
@@ -157,7 +138,6 @@ function changeLogScaleNodes(graphObject){
 
     if(graphObject.isLayoutPaused){
         renderer.rerender();
-        //setTimeout(function(){ renderer.pause();}, 50);
     }
 }
 
@@ -267,11 +247,8 @@ function scaleLink(newScale, graphObject){
     graph.links.forEach(function(link){
 
             var linkUI = graphGL.getLink(link.source, link.target);
-
             var spring = layout.getSpring(link.source, link.target);
-
             prevValue = spring.length;
-
             spring.length = graphObject.defaultLayoutParams.springLength * (spring.length / prevScale);
 
         })
@@ -300,7 +277,6 @@ function scaleNodes(newNodeScaleFactor, graphObject){
 
     if(graphObject.isLayoutPaused){
         renderer.rerender();
-        //setTimeout(function(){ renderer.pause();}, 50);
     }
 
 }
