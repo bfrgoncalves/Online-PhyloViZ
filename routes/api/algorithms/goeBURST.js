@@ -146,13 +146,11 @@ router.get('/status', function(req,res,next){
 			ids.forEach( function( job_id ) {
 				if (parseInt(job_id) == parseInt(req.query.jobid)){
 					kue.Job.get(job_id, function(err, job) {
-						job.getState().then(function(state){
-							console.log(state);
-							if(state == 'completed'){
-								job.remove();
-							}
-							res.send({status: state});
-						});
+						console.log(job.state);
+						if(job.state == 'completed'){
+							job.remove();
+						}
+						res.send({status: state});
 					});
 				}
 				
