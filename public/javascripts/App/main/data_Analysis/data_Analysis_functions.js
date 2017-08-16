@@ -603,7 +603,7 @@ function createSubset(nodeNames, parentID, name, description, missings, missings
 				var datasetID = data.stdout.split('datasetID:')[1].split('\n')[0];
 				var checkI = setInterval(function(){ 
 					checkgoeBURSTstatus(jobid, function(status){
-			            if(status == 'completed'){
+			            if(status == 'complete'){
 			              var win = window.open("/main/dataset/" + datasetID);
 							if (win) {
 							    //Browser has allowed it to be opened
