@@ -187,7 +187,7 @@ queue.process('goeBURST', function(job, jobDone){
 
 });
 
-queue.on('job complete', function(id, result){
+/*queue.on('job complete', function(id, result){
 	kue.Job.get(id, function(err, job){
 	    if (err) return;
 	    job.remove(function(err){
@@ -195,7 +195,7 @@ queue.on('job complete', function(id, result){
 	      console.log('removed completed job #%d', job.id);
 	    });
 	});
-})
+})*/
 
 
 function loadProfiles(datasetID, userID, callback){

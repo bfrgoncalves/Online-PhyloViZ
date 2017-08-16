@@ -142,7 +142,7 @@ router.get('/', function(req, res, next){
 router.get('/status', function(req,res,next){
 	if(req.query.jobid){
 		var status = '';
-		/*queue.complete(function(err, ids){
+		queue.complete(function(err, ids){
 			ids.forEach( function( job_id ) {
 				if (parseInt(job_id) == parseInt(req.query.jobid)){
 					queue.getJob(req.query.jobid).then(function(job){
@@ -159,16 +159,16 @@ router.get('/status', function(req,res,next){
 				}
 				
 			});
-		})*/
+		})
 
-		// Bull
+		/* Bull
 		queue.getJob(req.query.jobid).then(function(job){
 			job.getState().then(function(state){
 				console.log(state);
 				res.send({status: state});
 			});
 		});
-		
+		*/
 	}
 	else res.send({status: 'error'});
 
