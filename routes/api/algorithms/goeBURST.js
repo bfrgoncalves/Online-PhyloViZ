@@ -150,7 +150,7 @@ router.get('/status', function(req,res,next){
 						if(job.state == 'completed'){
 							job.remove();
 						}
-						res.send({status: state});
+						res.send({status: job.state});
 					});
 				}
 				
