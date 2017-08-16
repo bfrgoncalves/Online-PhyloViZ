@@ -51,9 +51,7 @@ router.post('/', function(req, res, next){
 
 							var selectedIndexes = JSON.parse(req.body.nodeindexes);
 							//Headers
-							console.log(graphInput_aux.schemeGenes);
 							Headers_Profiles = graphInput_aux.schemeGenes.join('\t') + '\n';
-							console.log(graphInput_aux.metadata);
 							if(graphInput_aux.metadata != undefined) Headers_Aux = graphInput_aux.metadata.join('\t') + '\n';
 							else Headers_Aux = '';
 							
@@ -69,7 +67,6 @@ router.post('/', function(req, res, next){
 										var aux_isolates = '';
 
 										for(x in graph.mergedNodes[graph.nodes[index].key]){
-											console.log(graph.mergedNodes[graph.nodes[index].key][x].key);
 											body_profile += graph.mergedNodes[graph.nodes[index].key][x].key + '\t' + graph.mergedNodes[graph.nodes[index].key][x].profile.join('\t') + '\n';
 										}
 
@@ -88,26 +85,6 @@ router.post('/', function(req, res, next){
 						            	});
 						            }
 						            add_toFiles(l);
-						            /*
-									for(i in selectedIndexes){
-										index = parseInt(selectedIndexes[i]);
-										var body_profile = graph.nodes[index].key + '\t' + graph.nodes[index].profile.join('\t') + '\n';
-										var aux_isolates = '';
-
-										for(j in graph.nodes[index].isolates){
-											aux_isolates += graph.nodes[index].isolates[j].join('\t') + '\n';
-										}
-
-
-										fs.appendFile("uploads/"+profileName, body_profile, function(err) {
-												fs.appendFile("uploads/"+metadataName, aux_isolates, function(err) {
-													countLines += 1;
-													if (countLines == selectedIndexes.length) runPython();
-							            	});
-						            	});
-
-									}
-									*/
 				            	});
 				            });
 
@@ -131,39 +108,6 @@ router.post('/', function(req, res, next){
 							    });
 							}
 							
-
-						    /*
-							fs.writeFile("uploads/"+profileName, req.body.profileData, function(err) {
-							    if(err) {
-							        return console.log(err);
-							    }
-
-							    fs.writeFile("uploads/"+metadataName, req.body.auxData, function(err) {
-								    if(err) {
-								        return console.log(err);
-								    }
-								    output='';
-								    var python = require('child_process').exec;
-								    
-								    if(req.body.missings == 'true') var commandstring = 'python remote_upload/remoteUpload.py -t '+cookie_string+' -cd '+config.final_root+' -root '+config.final_root+' -mc ' + req.body.missingschar + ' -sdt profile -sd uploads/'+profileName+' -d '+req.body.name+' -dn '+req.body.description+' -m uploads/'+metadataName;
-								    else var commandstring = 'python remote_upload/remoteUpload.py -t '+cookie_string+' -cd '+config.final_root+' -root '+config.final_root+' -sdt profile -sd uploads/'+profileName+' -d '+req.body.name+' -dn '+req.body.description+' -m uploads/'+metadataName;
-								    
-								    python(commandstring, {maxBuffer: 1024 * 4000}, function(error,stdout,stderr){
-								    	if(error){
-								    		console.log(error);
-								    		//console.log(stdout);
-								    		res.send({stdout:error, status: 500});
-								    	}
-								    	else {
-								    		//console.log(stdout);
-								    		res.send({stdout:stdout, status: 200});
-								    	}
-								    });
-									
-
-								}); 
-							}); 
-							*/
 						});
 					});
 				});
