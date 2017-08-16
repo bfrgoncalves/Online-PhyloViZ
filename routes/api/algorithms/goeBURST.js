@@ -145,13 +145,11 @@ router.get('/status', function(req,res,next){
 		queue.complete(function(err, ids){
 			ids.forEach( function( job_id ) {
 				if (parseInt(job_id) == parseInt(req.query.jobid)){
-					queue.getJob(req.query.jobid).then(function(job){
+					kue.Job.get(job_id, function(err, job) {
 						job.getState().then(function(state){
 							console.log(state);
 							if(state == 'completed'){
-								kue.Job.get(job_id, function(err, job) {
-									job.remove();
-								});
+								job.remove();
 							}
 							res.send({status: state});
 						});
@@ -159,6 +157,11 @@ router.get('/status', function(req,res,next){
 				}
 				
 			});
+			if (status != 'completed'){
+				status = 'active';
+				res.send({status: status});
+			}
+			
 		})
 
 		/* Bull
