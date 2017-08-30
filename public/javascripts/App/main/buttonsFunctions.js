@@ -619,9 +619,16 @@ function loadButtonFunctions(){
 	        	$("#NLVnumber").attr({
 			        "value" : 0
 			    });
+			    $("#nlvcollapsenumber").attr({
+			        "value" : 0
+			    });
 	        }
 	        else {
 	        	$("#NLVnumber").attr({
+			        "max" : graphObject.graphInput.maxDistanceValue,
+			        "value" : 0
+			    });
+			    $("#nlvcollapsenumber").attr({
 			        "max" : graphObject.graphInput.maxDistanceValue,
 			        "value" : 0
 			    });
@@ -629,6 +636,7 @@ function loadButtonFunctions(){
 
 		    if(!graphObject.graphInput.hasOwnProperty('distanceMatrix')){
 		    	$('#NLVgraph').css({"display": "none"});
+		    	$('#NLVcollapse').css({"display": "none"});
 		    }
 
 
@@ -639,7 +647,11 @@ function loadButtonFunctions(){
 
 	        $('#NLVnumber').change(function(e){
             	NLVgraph(graphObject, this.value);
-          });
+          	});
+
+          	$('#nlvcollapsenumber').change(function(e){
+            	NLVcollapse(graphObject, this.value);
+          	});
 
 		},
 

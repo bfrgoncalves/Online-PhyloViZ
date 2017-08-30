@@ -440,6 +440,83 @@ function NLVgraph(graphObject, value) {
 
 }
 
+function NLVcollapse(graphObject, value) {
+
+    var graphGL = graphObject.graphGL;
+    var graph = graphObject.graphInput;
+    var graphics = graphObject.graphics;
+    var addedLinks = graphObject.addedLinks;
+    var prevValue = graphObject.prevNLVvalue;
+    var treeLinks = graphObject.treeLinks;
+    var renderer = graphObject.renderer;
+
+    value = parseFloat(value);
+
+    if (value < prevValue){
+        for (i in addedLinks){
+            if (addedLinks[i].data.value > value) {
+                graphGL.removeLink(addedLinks[i]);
+                delete addedLinks[i];
+            }    
+        }
+    }
+    else{
+
+        countNodes = 0;
+        nodesLength = graph.nodes.length;
+
+        graphGL.forEachNode(function(node){
+
+            if(node.id.indexOf('TransitionNode') < 0) {
+                for (i=1; i<graph.distanceMatrix[countNodes].length; i++){
+                    if (graph.distanceMatrix[countNodes][i] <= value && graph.distanceMatrix[countNodes][i] != 0){
+
+                        targetIndex = parseInt(countNodes) + parseInt(i);
+
+                        graphGL.removeNode(node);
+                        
+                        sourceKey = graph.original_position_to_id[String(countNodes)] == undefined ? graph.nodes[countNodes].key : graph.original_position_to_id[String(countNodes)];
+                        targetKey = graph.original_position_to_id[String(targetIndex)] == undefined ? graph.nodes[targetIndex].key : graph.original_position_to_id[String(targetIndex)]
+                        
+                        sourceKey = graph.sameNodeHas[sourceKey];
+                        targetKey = graph.sameNodeHas[targetKey];
+
+                        //console.log(countNodes, i, targetIndex, sourceKey, targetKey, graph.original_position_to_id);
+                        if(targetKey.indexOf('TransitionNode') < 0){
+
+                            LinkID = sourceKey + "👉 " + targetKey;
+                            LinkID_reverse = targetKey + "👉 " + sourceKey;
+
+                            if (addedLinks.hasOwnProperty(LinkID)){
+                                continue;
+                            }
+                            if (!treeLinks.hasOwnProperty(LinkID) && !treeLinks.hasOwnProperty(LinkID_reverse)){
+                                graphGL.addLink(sourceKey, targetKey, { connectionStrength: graph.distanceMatrix[countNodes][i] , value: graph.distanceMatrix[countNodes][i], color: "#00ff00"});
+                                var link = graphGL.getLink(sourceKey, targetKey);
+
+                                addedLinks[LinkID] = link;
+                            }
+
+                        }
+                    }
+                }
+            }
+
+            if (nodesLength > countNodes+2) countNodes += 1;
+        });
+    }
+    prevValue = value;
+
+    if(graphObject.isLayoutPaused){
+        renderer.rerender();
+    }
+
+    graphObject.addedLinks = addedLinks;
+    graphObject.prevNLVvalue = prevValue;
+    changeLogScale(graphObject);
+
+}
+
 function printDiv(graphObject) 
 {
 
