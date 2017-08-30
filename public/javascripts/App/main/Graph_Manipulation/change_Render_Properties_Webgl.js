@@ -478,7 +478,11 @@ function NLVcollapse(graphObject, value) {
                         
                         console.log(targetKey);
                         graph.sameNodeHas[targetKey] = sourceKey;
-                        graphGL.removeNode(targetKey);
+
+                        graphGL.forEachLinkedNode(targetKey, function(linkedNode, link){
+                          console.log(link); 
+                        });
+                        //graphGL.removeNode(targetKey);
 
                         sourceKey = graph.sameNodeHas[sourceKey];
                         targetKey = graph.sameNodeHas[targetKey];
