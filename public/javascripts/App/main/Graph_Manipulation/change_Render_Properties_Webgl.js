@@ -474,7 +474,7 @@ function NLVcollapse(graphObject, value) {
 
                         targetIndex = parseInt(countNodes) + parseInt(i);
 
-                        graphGL.removeNode(node);
+                        graphGL.removeNode(node.id);
                         
                         /*sourceKey = graph.original_position_to_id[String(countNodes)] == undefined ? graph.nodes[countNodes].key : graph.original_position_to_id[String(countNodes)];
                         targetKey = graph.original_position_to_id[String(targetIndex)] == undefined ? graph.nodes[targetIndex].key : graph.original_position_to_id[String(targetIndex)]
