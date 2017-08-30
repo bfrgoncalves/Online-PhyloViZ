@@ -473,32 +473,16 @@ function NLVcollapse(graphObject, value) {
                     if (graph.distanceMatrix[countNodes][i] <= value && graph.distanceMatrix[countNodes][i] != 0){
 
                         targetIndex = parseInt(countNodes) + parseInt(i);
+                        
+                        sourceKey = graph.original_position_to_id[String(countNodes)] == undefined ? graph.nodes[countNodes].key : graph.original_position_to_id[String(countNodes)];
+                        targetKey = graph.original_position_to_id[String(targetIndex)] == undefined ? graph.nodes[targetIndex].key : graph.original_position_to_id[String(targetIndex)];
+                        
+                        graph.sameNodeHas[targetKey] = sourceKey;
+                        graphGL.removeNode(targetKey);
 
-                        graphGL.removeNode(node.id);
-                        
-                        /*sourceKey = graph.original_position_to_id[String(countNodes)] == undefined ? graph.nodes[countNodes].key : graph.original_position_to_id[String(countNodes)];
-                        targetKey = graph.original_position_to_id[String(targetIndex)] == undefined ? graph.nodes[targetIndex].key : graph.original_position_to_id[String(targetIndex)]
-                        
                         sourceKey = graph.sameNodeHas[sourceKey];
                         targetKey = graph.sameNodeHas[targetKey];
-
-                        //console.log(countNodes, i, targetIndex, sourceKey, targetKey, graph.original_position_to_id);
-                        if(targetKey.indexOf('TransitionNode') < 0){
-
-                            LinkID = sourceKey + "👉 " + targetKey;
-                            LinkID_reverse = targetKey + "👉 " + sourceKey;
-
-                            if (addedLinks.hasOwnProperty(LinkID)){
-                                continue;
-                            }
-                            if (!treeLinks.hasOwnProperty(LinkID) && !treeLinks.hasOwnProperty(LinkID_reverse)){
-                                graphGL.addLink(sourceKey, targetKey, { connectionStrength: graph.distanceMatrix[countNodes][i] , value: graph.distanceMatrix[countNodes][i], color: "#00ff00"});
-                                var link = graphGL.getLink(sourceKey, targetKey);
-
-                                addedLinks[LinkID] = link;
-                            }
-
-                        }*/
+                        
                     }
                 }
             }
