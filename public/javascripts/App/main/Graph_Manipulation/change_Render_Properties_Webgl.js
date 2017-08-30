@@ -476,7 +476,7 @@ function NLVcollapse(graphObject, value) {
 
                         graphGL.removeNode(node);
                         
-                        sourceKey = graph.original_position_to_id[String(countNodes)] == undefined ? graph.nodes[countNodes].key : graph.original_position_to_id[String(countNodes)];
+                        /*sourceKey = graph.original_position_to_id[String(countNodes)] == undefined ? graph.nodes[countNodes].key : graph.original_position_to_id[String(countNodes)];
                         targetKey = graph.original_position_to_id[String(targetIndex)] == undefined ? graph.nodes[targetIndex].key : graph.original_position_to_id[String(targetIndex)]
                         
                         sourceKey = graph.sameNodeHas[sourceKey];
@@ -498,7 +498,7 @@ function NLVcollapse(graphObject, value) {
                                 addedLinks[LinkID] = link;
                             }
 
-                        }
+                        }*/
                     }
                 }
             }
