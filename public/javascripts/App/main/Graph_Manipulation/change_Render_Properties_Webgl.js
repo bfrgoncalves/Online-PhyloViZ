@@ -441,6 +441,7 @@ function NLVgraph(graphObject, value) {
 }
 
 function NLVcollapse(graphObject, value) {
+    console.log("AQUI");
 
     var graphGL = graphObject.graphGL;
     var graph = graphObject.graphInput;
