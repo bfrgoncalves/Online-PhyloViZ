@@ -441,7 +441,6 @@ function NLVgraph(graphObject, value) {
 }
 
 function NLVcollapse(graphObject, value) {
-    console.log("AQUI");
 
     var graphGL = graphObject.graphGL;
     var graph = graphObject.graphInput;
@@ -468,7 +467,6 @@ function NLVcollapse(graphObject, value) {
 
         graphGL.forEachNode(function(node){
 
-            console.log(node);
             if(node != undefined && node.id.indexOf('TransitionNode') < 0) {
                 for (i=1; i<graph.distanceMatrix[countNodes].length; i++){
                     if (graph.distanceMatrix[countNodes][i] <= value && graph.distanceMatrix[countNodes][i] != 0){
@@ -478,6 +476,7 @@ function NLVcollapse(graphObject, value) {
                         sourceKey = graph.original_position_to_id[String(countNodes)] == undefined ? graph.nodes[countNodes].key : graph.original_position_to_id[String(countNodes)];
                         targetKey = graph.original_position_to_id[String(targetIndex)] == undefined ? graph.nodes[targetIndex].key : graph.original_position_to_id[String(targetIndex)];
                         
+                        console.log(targetKey);
                         graph.sameNodeHas[targetKey] = sourceKey;
                         graphGL.removeNode(targetKey);
 
