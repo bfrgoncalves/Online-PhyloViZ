@@ -6,7 +6,7 @@ function loadGraphFunctions(){
 
 			var graph = graphObject.graphInput;
 			var graphGL = graphObject.graphGL;
-
+			var already_source = {};
 			var maxLinkValue = 0;
 			var countAddedNodes = 0;
 			var maxNodeValue = 0;
@@ -26,7 +26,15 @@ function loadGraphFunctions(){
 		    	//console.log(graph.links[j].source, graph.links[j].target);
 		        if (maxLinkValue < graph.links[j].value) maxLinkValue = graph.links[j].value;
 		        var toBoot = graph.data_type == 'newick'? graph.links[j].bootstrap : "";
-			    graphGL.addLink(graph.links[j].source, graph.links[j].target, { connectionStrength: graph.links[j].value , value: graph.links[j].value, color: "#000", bootstrap: toBoot});
+		        
+		        if(already_source[graph.links[j].target] != true){
+		        	graphGL.addLink(graph.links[j].source, graph.links[j].target, { connectionStrength: graph.links[j].value , value: graph.links[j].value, color: "#000", bootstrap: toBoot});
+		        	already_source[graph.links[j].target] = true;
+		        }
+		        else{
+		        	graphGL.addLink(graph.links[j].target, graph.links[j].source, { connectionStrength: graph.links[j].value , value: graph.links[j].value, color: "#000", bootstrap: toBoot});
+		        	already_source[graph.links[j].source] = true;
+		        }
 		    }
 
 		    maxLinkValue += 1;
