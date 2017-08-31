@@ -496,6 +496,8 @@ function NLVcollapse(graphObject, value) {
                   }
                   for(p in to_same_node_as){
                         graph.sameNodeHas[to_same_node_as[p][0]] = graph.sameNodeHas[to_same_node_as[p][1]];
+                        node_to_change = graphGL.getNode(graph.sameNodeHas[to_same_node_as[p][0]]);
+                        console.log(node_to_change);
                   }
                 });
 
@@ -510,12 +512,12 @@ function NLVcollapse(graphObject, value) {
             graphGL.addLink(graph.sameNodeHas[links_to_add[k][0]], graph.sameNodeHas[links_to_add[k][1]], links_to_add[k][2])
         }
 
-        for(l in links_to_remove){
-            graphGL.removeLink(links_to_remove[l]);
-        }
-
         for(n in nodes_to_remove){
             graphGL.removeNode(nodes_to_remove[n]);
+        }
+
+        for(l in links_to_remove){
+            graphGL.removeLink(links_to_remove[l]);
         }
         console.log(to_same_node_as);
         console.log(links_to_add);
