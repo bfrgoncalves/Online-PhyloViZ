@@ -160,7 +160,8 @@ function changeNodeUIData(objectOfType, graphics, propertyIndexes, arrayColors, 
 	    var indexes = [];
 
 	    var nodeUI = graphics.getNodeUI(k);
-	    console.log(nodeUI);
+	    if(nodeUI == undefined) continue;
+
 	    if(!$.isEmptyObject(objectOfType[k])){
 		    nodeUI.rawData = objectOfType[k];
 		    console.log(nodeUI.rawData);
