@@ -453,6 +453,7 @@ function NLVcollapse(graphObject, value) {
     var nodes_to_remove = [];
     var links_to_remove = [];
     var links_to_add = [];
+    var to_same_node_as = [];
 
     value = parseFloat(value);
 
@@ -480,12 +481,13 @@ function NLVcollapse(graphObject, value) {
                   if(link.data.connectionStrength == value){
                     if(nodes_to_remove.indexOf(linkedNode.id) < 0){
                         nodes_to_remove.push(linkedNode.id);
-                        graph.sameNodeHas[linkedNode.id] = id_to_use;
+                        to_same_node_as.push([linkedNode.id, id_to_use]);
+                        //graph.sameNodeHas[linkedNode.id] = id_to_use;
                     }
                     graphGL.forEachLinkedNode(linkedNode.id, function(linkedNode2, link2){
                         if(nodes_to_remove.indexOf(linkedNode2.id) < 0 && id_to_use != linkedNode2.id){
                             LinkID = id_to_use + "👉 " + linkedNode2.id;
-                            links_to_add.push([graph.sameNodeHas[id_to_use], graph.sameNodeHas[linkedNode2.id], { connectionStrength: link2.data.connectionStrength , value: link2.data.connectionStrength, color: "#00ff00"}]);
+                            links_to_add.push([id_to_use, linkedNode2.id, { connectionStrength: link2.data.connectionStrength , value: link2.data.connectionStrength, color: "#00ff00"}]);
                         }
                     });
                     links_to_remove.push(link);
@@ -497,8 +499,12 @@ function NLVcollapse(graphObject, value) {
             }
         });
 
+        for(p in to_same_node_as){
+            graph.sameNodeHas[to_same_node_as[p][0]] = to_same_node_as[p][1];
+        }
+
         for(k in links_to_add){
-            graphGL.addLink(links_to_add[k][0], links_to_add[k][1], links_to_add[k][2])
+            graphGL.addLink(graph.sameNodeHas[links_to_add[k][0]], graph.sameNodeHas[links_to_add[k][1]], links_to_add[k][2])
         }
 
         for(n in nodes_to_remove){
