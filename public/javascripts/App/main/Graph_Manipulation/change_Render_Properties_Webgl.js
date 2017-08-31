@@ -476,6 +476,7 @@ function NLVcollapse(graphObject, value) {
             if(node != undefined && node.id.indexOf('TransitionNode') < 0) {
                 //id_to_use = graph.sameNodeHas[node.id];
                 id_to_use = node.id;
+                to_same_node_as = [];
 
                 graphGL.forEachLinkedNode(id_to_use, function(linkedNode, link){
                   if(link.data.connectionStrength == value){
@@ -493,16 +494,15 @@ function NLVcollapse(graphObject, value) {
                         links_to_remove.push(link);
                     }
                   }
+                  for(p in to_same_node_as){
+                        graph.sameNodeHas[to_same_node_as[p][0]] = graph.sameNodeHas[to_same_node_as[p][1]];
+                  }
                 });
 
 
                 
             }
         });
-
-        for(p in to_same_node_as){
-            graph.sameNodeHas[to_same_node_as[p][0]] = to_same_node_as[p][1];
-        }
 
         for(k in links_to_add){
             console.log(graph.sameNodeHas[links_to_add[k][0]], graph.sameNodeHas[links_to_add[k][1]])
