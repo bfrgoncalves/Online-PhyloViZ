@@ -514,20 +514,12 @@ function NLVcollapse(graphObject, value) {
         }
 
         for(n in nodes_to_remove){
-            console.log(nodes_to_remove[n]);
             graphGL.removeNode(nodes_to_remove[n]);
         }
 
         /*for(l in links_to_remove){
             graphGL.removeLink(links_to_remove[l]);
         }*/
-
-        console.log(to_same_node_as);
-        console.log(links_to_add);
-        console.log(links_to_remove);
-        console.log(nodes_to_remove);
-        console.log(graph.sameNodeHas);
-        console.log(graph.mergedNodes);
     }
     prevValue = value;
 
@@ -538,6 +530,8 @@ function NLVcollapse(graphObject, value) {
     graphObject.addedLinks = addedLinks;
     graphObject.prevNLVvalue = prevValue;
     changeLogScale(graphObject);
+
+    setNewProgram(graphObject, buildCircleNodeShader);
 
 }
 
