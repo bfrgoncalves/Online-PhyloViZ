@@ -497,6 +497,9 @@ function NLVcollapse(graphObject, value) {
         for(l in links_to_remove){
             graphGL.removeLink(links_to_remove[l]);
         }
+        for(k in links_to_add){
+            graphGL.addLink(links_to_add[k][0], links_to_add[k][1], links_to_add[k][2])
+        }
         console.log(links_to_add);
     }
     prevValue = value;
