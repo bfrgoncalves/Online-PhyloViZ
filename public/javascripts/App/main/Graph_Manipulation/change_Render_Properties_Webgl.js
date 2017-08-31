@@ -511,9 +511,9 @@ function NLVcollapse(graphObject, value) {
             graphGL.removeLink(links_to_remove[l]);
         }
 
-        /*for(n in nodes_to_remove){
-            graphGL.removeNode(nodes_to_remove[n])
-        }*/
+        for(n in nodes_to_remove){
+            graphGL.removeNode(graph.sameNodeHas[nodes_to_remove[n]]);
+        }
         console.log(links_to_add);
         console.log(links_to_remove);
         console.log(nodes_to_remove);
