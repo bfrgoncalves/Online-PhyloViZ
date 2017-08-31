@@ -476,7 +476,6 @@ function NLVcollapse(graphObject, value) {
                 id_to_use = node.id;
 
                 graphGL.forEachLinkedNode(id_to_use, function(linkedNode, link){
-                  console.log(link); 
                   if(link.data.connectionStrength == value){
                     nodes_to_remove.push(linkedNode.id);
                     graphGL.forEachLinkedNode(linkedNode.id, function(linkedNode2, link2){
@@ -504,6 +503,8 @@ function NLVcollapse(graphObject, value) {
             graphGL.addLink(links_to_add[k][0], links_to_add[k][1], links_to_add[k][2])
         }
         console.log(links_to_add);
+        console.log(links_to_remove);
+        console.log(nodes_to_remove);
     }
     prevValue = value;
 
