@@ -46,10 +46,12 @@ function gatherMetadata(graph, propertyToCheck, metadataFilter, callback){
 
 			      if (metadataFilter[2].length == 0 || (metadataFilter[1].indexOf(node.key) > -1 && metadataFilter[2].indexOf(String(node.isolates[i][propertyIndex])) > -1)){
 		      		  if(objectOfType[graph.sameNodeHas[node.key]][String(node.isolates[i][propertyIndex])]) objectOfType[graph.sameNodeHas[node.key]][String(node.isolates[i][propertyIndex])] += 1;
+				      
 				      else{
 				        numberTypes += 1;
 				        objectOfType[graph.sameNodeHas[node.key]][String(node.isolates[i][propertyIndex])] = 1;
 				      } 
+				      console.log(objectOfType[graph.sameNodeHas[node.key]][String(node.isolates[i][propertyIndex])], String(node.isolates[i][propertyIndex]), graph.sameNodeHas[node.key]);
 			      }
 
 			      prevProperty = node.isolates[i][propertyIndex];
