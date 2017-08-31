@@ -520,6 +520,7 @@ function NLVcollapse(graphObject, value) {
         console.log(links_to_add);
         console.log(links_to_remove);
         console.log(nodes_to_remove);
+        console.log(graph.sameNodeHas);
     }
     prevValue = value;
 
