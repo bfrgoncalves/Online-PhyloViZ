@@ -91,22 +91,8 @@ var colorAttributes = function(graphObject){
       }
       else{
 
-        gatherSchemeData(graph, propertyToCheck, schemeFilter, function(objectOfTotal, objectOfType, countProperties, hasMultipleFields){
-             graphObject.objectOfType = objectOfType;
-             graphObject.property_index = property_IndexProfiles;
-             graphObject.hasMultipleFields = hasMultipleFields;
+        changeColorsOfNodes_Schema(graph, propertyToCheck, schemeFilter);
 
-             if (hasMultipleFields == false && graphObject.currentNodeProgram == 'buildCircleNodeShader' && !graphObject.multipleOnOuterRing) setNewProgram(graphObject, buildSimpleCircleNodeShader);
-             else if (hasMultipleFields == true && (graphObject.currentNodeProgram == 'buildSimpleCircleNodeShader' || graphObject.multipleOnOuterRing)) setNewProgram(graphObject, buildCircleNodeShader);
-             graphObject.linkMethod = 'profiles';
-
-             changeNodeUIData(graphObject.objectOfType, graphics, graphObject.property_index, arrayColorsProfiles, renderer, graphObject.graphInput.sameNodeHas);
-             changeFromTable = false;
-
-             graphObject.arrayOfCurrentCategories = [];
-             graphObject.changeFromFilterCategories = false;
-             graphObject.withcenter = true;
-        });
         if (propertyToCheck == 'None'){
           $('#divButtonLegend').css({'display':'none', 'right': '10.5%'});
           $('#col_info').css('display', 'none');
@@ -137,21 +123,7 @@ var colorAttributes = function(graphObject){
       }
       else{
 
-        gatherMetadata(graph, propertyToCheck, metadataFilter, function(objectOfTotal, objectOfType, countProperties, hasMultipleFields){
-           graphObject.objectOfType = objectOfType;
-           graphObject.property_index = property_IndexIsolates;
-           graphObject.hasMultipleFields = hasMultipleFields;
-
-           if (hasMultipleFields == false && graphObject.currentNodeProgram == 'buildCircleNodeShader' && !graphObject.multipleOnOuterRing) setNewProgram(graphObject, buildSimpleCircleNodeShader);
-           else if (hasMultipleFields == true && (graphObject.currentNodeProgram == 'buildSimpleCircleNodeShader' || !graphObject.multipleOnOuterRing)) setNewProgram(graphObject, buildCircleNodeShader);
-           graphObject.linkMethod = 'isolates';
-           changeNodeUIData(graphObject.objectOfType, graphics, graphObject.property_index, arrayColorsIsolates, renderer, graphObject.graphInput.sameNodeHas);
-           changeFromTable = false;
-
-           graphObject.arrayOfCurrentCategories = [];
-           graphObject.changeFromFilterCategories = false;
-           graphObject.withcenter = true;
-        });
+        changeColorsOfNodes_Metadata(graphObject, propertyToCheck, metadataFilter);
 
         
       }
@@ -163,4 +135,51 @@ var colorAttributes = function(graphObject){
   LoadOptions();
   global_object.LoadOptions = LoadOptions;
 
+}
+
+function changeColorsOfNodes_Schema(graphObject, propertyToCheck, schemeFilter){
+
+    element = $('#selectByScheme');
+      //console.log(element);
+    propertyToCheck = element.find(":selected").text();
+
+    gatherSchemeData(graphObject.graphInput, propertyToCheck, schemeFilter, function(objectOfTotal, objectOfType, countProperties, hasMultipleFields){
+       graphObject.objectOfType = objectOfType;
+       graphObject.property_index = property_IndexProfiles;
+       graphObject.hasMultipleFields = hasMultipleFields;
+
+       if (hasMultipleFields == false && graphObject.currentNodeProgram == 'buildCircleNodeShader' && !graphObject.multipleOnOuterRing) setNewProgram(graphObject, buildSimpleCircleNodeShader);
+       else if (hasMultipleFields == true && (graphObject.currentNodeProgram == 'buildSimpleCircleNodeShader' || graphObject.multipleOnOuterRing)) setNewProgram(graphObject, buildCircleNodeShader);
+       graphObject.linkMethod = 'profiles';
+
+       changeNodeUIData(graphObject.objectOfType, graphObject.graphics, graphObject.property_index, arrayColorsProfiles, graphObject.renderer, graphObject.graphInput.sameNodeHas);
+       changeFromTable = false;
+
+       graphObject.arrayOfCurrentCategories = [];
+       graphObject.changeFromFilterCategories = false;
+       graphObject.withcenter = true;
+  });
+
+}
+
+function changeColorsOfNodes_Metadata(graphObject, propertyToCheck, metadataFilter){
+
+  element = $('#selectByMetadata');
+  propertyToCheck = element.find(":selected").text();
+
+  gatherMetadata(graphObject.graphInput, propertyToCheck, metadataFilter, function(objectOfTotal, objectOfType, countProperties, hasMultipleFields){
+     graphObject.objectOfType = objectOfType;
+     graphObject.property_index = property_IndexIsolates;
+     graphObject.hasMultipleFields = hasMultipleFields;
+
+     if (hasMultipleFields == false && graphObject.currentNodeProgram == 'buildCircleNodeShader' && !graphObject.multipleOnOuterRing) setNewProgram(graphObject, buildSimpleCircleNodeShader);
+     else if (hasMultipleFields == true && (graphObject.currentNodeProgram == 'buildSimpleCircleNodeShader' || !graphObject.multipleOnOuterRing)) setNewProgram(graphObject, buildCircleNodeShader);
+     graphObject.linkMethod = 'isolates';
+     changeNodeUIData(graphObject.objectOfType, graphObject.graphics, graphObject.property_index, arrayColorsIsolates, graphObject.renderer, graphObject.graphInput.sameNodeHas);
+     changeFromTable = false;
+
+     graphObject.arrayOfCurrentCategories = [];
+     graphObject.changeFromFilterCategories = false;
+     graphObject.withcenter = true;
+  });
 }
