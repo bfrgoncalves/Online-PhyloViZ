@@ -514,6 +514,7 @@ function NLVcollapse(graphObject, value) {
         }
 
         for(n in nodes_to_remove){
+            console.log(nodes_to_remove[n]);
             graphGL.removeNode(nodes_to_remove[n]);
         }
 
