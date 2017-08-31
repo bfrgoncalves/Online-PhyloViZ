@@ -478,10 +478,12 @@ function NLVcollapse(graphObject, value) {
                 graphGL.forEachLinkedNode(id_to_use, function(linkedNode, link){
                   console.log(link); 
                   if(link.data.connectionStrength == value){
-                    nodes_to_remove.push(linkedNode);
+                    nodes_to_remove.push(linkedNode.id);
                     graphGL.forEachLinkedNode(linkedNode.id, function(linkedNode2, link2){
-                        LinkID = id_to_use + "👉 " + linkedNode2.id;
-                        links_to_add.push([id_to_use, linkedNode2.id, { connectionStrength: link2.data.connectionStrength , value: link2.data.connectionStrength, color: "#00ff00"}]);
+                        if(nodes_to_remove.indexOf(linkedNode2.id) < 0){
+                            LinkID = id_to_use + "👉 " + linkedNode2.id;
+                            links_to_add.push([id_to_use, linkedNode2.id, { connectionStrength: link2.data.connectionStrength , value: link2.data.connectionStrength, color: "#00ff00"}]);
+                        }
                     });
                     links_to_remove.push(link);
                   }
@@ -493,7 +495,7 @@ function NLVcollapse(graphObject, value) {
         });
 
         for(n in nodes_to_remove){
-            graphGL.removeNode(nodes_to_remove[n].id)
+            graphGL.removeNode(nodes_to_remove[n])
         }
         for(l in links_to_remove){
             graphGL.removeLink(links_to_remove[l]);
