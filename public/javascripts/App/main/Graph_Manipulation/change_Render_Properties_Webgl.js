@@ -452,6 +452,7 @@ function NLVcollapse(graphObject, value) {
 
     var nodes_to_remove = [];
     var links_to_remove = [];
+    var links_to_add = [];
 
     value = parseFloat(value);
 
@@ -479,8 +480,7 @@ function NLVcollapse(graphObject, value) {
                     nodes_to_remove.push(linkedNode);
                     graphGL.forEachLinkedNode(linkedNode.id, function(linkedNode2, link2){
                         LinkID = id_to_use + "👉 " + linkedNode2.id;
-                        console.log(link2);
-                        graphGL.addLink(id_to_use, linkedNode2.id, { connectionStrength: link2.data.connectionStrength , value: link2.data.connectionStrength, color: "#00ff00"})
+                        links_to_add.push([id_to_use, linkedNode2.id, { connectionStrength: link2.data.connectionStrength , value: link2.data.connectionStrength, color: "#00ff00"}]);
                     });
                     links_to_remove.push(link);
                   }
@@ -497,6 +497,7 @@ function NLVcollapse(graphObject, value) {
         for(l in links_to_remove){
             graphGL.removeLink(links_to_remove[l]);
         }
+        console.log(links_to_add);
     }
     prevValue = value;
 
