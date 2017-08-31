@@ -472,8 +472,9 @@ function NLVcollapse(graphObject, value) {
         graphGL.forEachNode(function(node){
 
             if(node != undefined && node.id.indexOf('TransitionNode') < 0) {
-                //id_to_use = graph.sameNodeHas[node.id];
-                id_to_use = node.id;
+                id_to_use = graph.sameNodeHas[node.id];
+                console.log(node.id, id_to_use);
+                //id_to_use = node.id;
 
                 graphGL.forEachLinkedNode(id_to_use, function(linkedNode, link){
                   if(link.data.connectionStrength == value){
@@ -484,7 +485,6 @@ function NLVcollapse(graphObject, value) {
                     graphGL.forEachLinkedNode(linkedNode.id, function(linkedNode2, link2){
                         if(nodes_to_remove.indexOf(linkedNode2.id) < 0 && id_to_use != linkedNode2.id){
                             LinkID = id_to_use + "👉 " + linkedNode2.id;
-                            console.log(LinkID);
                             links_to_add.push([graph.sameNodeHas[id_to_use], graph.sameNodeHas[linkedNode2.id], { connectionStrength: link2.data.connectionStrength , value: link2.data.connectionStrength, color: "#00ff00"}]);
                         }
                     });
