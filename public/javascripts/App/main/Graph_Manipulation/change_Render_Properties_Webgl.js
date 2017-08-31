@@ -472,12 +472,15 @@ function NLVcollapse(graphObject, value) {
         graphGL.forEachNode(function(node){
 
             if(node != undefined && node.id.indexOf('TransitionNode') < 0) {
-                //id_to_use = graph.sameNodeHas[node.id];
-                id_to_use = node.id;
+                id_to_use = graph.sameNodeHas[node.id];
+                //id_to_use = node.id;
 
                 graphGL.forEachLinkedNode(id_to_use, function(linkedNode, link){
                   if(link.data.connectionStrength == value){
-                    if(nodes_to_remove.indexOf(linkedNode.id) < 0) nodes_to_remove.push(linkedNode.id);
+                    if(nodes_to_remove.indexOf(linkedNode.id) < 0){
+                        nodes_to_remove.push(linkedNode.id);
+                        graph.sameNodeHas[linkedNode.id] = id_to_use;
+                    }
                     graphGL.forEachLinkedNode(linkedNode.id, function(linkedNode2, link2){
                         if(nodes_to_remove.indexOf(linkedNode2.id) < 0 && id_to_use != linkedNode2.id){
                             LinkID = id_to_use + "👉 " + linkedNode2.id;
