@@ -3,6 +3,7 @@ function showInfo(mergedNodes, graphics, node, e) {
 	var nodeUI = graphics.getNodeUI(node.id);
 	rData = nodeUI.rawData;
 	pData = nodeUI.data;
+  console.log(rData, pData);
 
 	var toShow = '';
 	var count = 0;
