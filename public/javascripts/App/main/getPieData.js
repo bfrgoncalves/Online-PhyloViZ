@@ -15,6 +15,7 @@ function gatherMetadata(graph, propertyToCheck, metadataFilter, callback){
 
 		checkMetadataInNodes(node, function(){
 			graph.mergedNodes[node.key].forEach(function(mergedNode){
+				console.log(mergedNode);
 				checkMetadataInNodes(mergedNode, function(){});
 			});
 		})
@@ -44,10 +45,10 @@ function gatherMetadata(graph, propertyToCheck, metadataFilter, callback){
 			      } 
 
 			      if (metadataFilter[2].length == 0 || (metadataFilter[1].indexOf(node.key) > -1 && metadataFilter[2].indexOf(String(node.isolates[i][propertyIndex])) > -1)){
-		      		  if(objectOfType[node.key][String(node.isolates[i][propertyIndex])]) objectOfType[node.key][String(node.isolates[i][propertyIndex])] += 1;
+		      		  if(objectOfType[graph.sameNodeHas[node.key]][String(node.isolates[i][propertyIndex])]) objectOfType[graph.sameNodeHas[node.key]][String(node.isolates[i][propertyIndex])] += 1;
 				      else{
 				        numberTypes += 1;
-				        objectOfType[node.key][String(node.isolates[i][propertyIndex])] = 1;
+				        objectOfType[graph.sameNodeHas[node.key]][String(node.isolates[i][propertyIndex])] = 1;
 				      } 
 			      }
 
