@@ -515,6 +515,7 @@ function NLVcollapse(graphObject, value) {
 
         for(n in nodes_to_remove){
             graphGL.removeNode(nodes_to_remove[n]);
+            graphics.releaseNode(nodes_to_remove[n]);
         }
 
         /*for(l in links_to_remove){
@@ -531,7 +532,7 @@ function NLVcollapse(graphObject, value) {
     graphObject.prevNLVvalue = prevValue;
     changeLogScale(graphObject);
 
-    setNewProgram(graphObject, buildCircleNodeShader);
+    //setNewProgram(graphObject, buildCircleNodeShader);
 
 }
 
