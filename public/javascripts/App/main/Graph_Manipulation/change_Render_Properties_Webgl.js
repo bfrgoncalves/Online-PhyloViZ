@@ -477,7 +477,7 @@ function NLVcollapse(graphObject, value) {
 
                 graphGL.forEachLinkedNode(id_to_use, function(linkedNode, link){
                   if(link.data.connectionStrength == value){
-                    nodes_to_remove.push(linkedNode.id);
+                    if(nodes_to_remove.indexOf(linkedNode.id) < 0) nodes_to_remove.push(linkedNode.id);
                     graphGL.forEachLinkedNode(linkedNode.id, function(linkedNode2, link2){
                         if(nodes_to_remove.indexOf(linkedNode2.id) < 0){
                             console.log(nodes_to_remove);
