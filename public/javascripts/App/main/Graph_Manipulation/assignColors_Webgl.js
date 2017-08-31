@@ -91,7 +91,7 @@ var colorAttributes = function(graphObject){
       }
       else{
 
-        changeColorsOfNodes_Schema(graph, propertyToCheck, schemeFilter);
+        changeColorsOfNodes_Schema(graph, schemeFilter);
 
         if (propertyToCheck == 'None'){
           $('#divButtonLegend').css({'display':'none', 'right': '10.5%'});
@@ -123,7 +123,7 @@ var colorAttributes = function(graphObject){
       }
       else{
 
-        changeColorsOfNodes_Metadata(graphObject, propertyToCheck, metadataFilter);
+        changeColorsOfNodes_Metadata(graphObject, metadataFilter);
 
         
       }
@@ -137,7 +137,7 @@ var colorAttributes = function(graphObject){
 
 }
 
-function changeColorsOfNodes_Schema(graphObject, propertyToCheck, schemeFilter){
+function changeColorsOfNodes_Schema(graphObject, schemeFilter){
 
     element = $('#selectByScheme');
       //console.log(element);
@@ -162,7 +162,7 @@ function changeColorsOfNodes_Schema(graphObject, propertyToCheck, schemeFilter){
 
 }
 
-function changeColorsOfNodes_Metadata(graphObject, propertyToCheck, metadataFilter){
+function changeColorsOfNodes_Metadata(graphObject, metadataFilter){
 
   element = $('#selectByMetadata');
   propertyToCheck = element.find(":selected").text();

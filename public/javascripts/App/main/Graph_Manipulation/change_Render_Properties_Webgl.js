@@ -534,10 +534,10 @@ function NLVcollapse(graphObject, value) {
     setNewProgram(graphObject, buildCircleNodeShader);
 
     if(graphObject.linkMethod === 'profiles'){
-        changeNodeUIData(graphObject.objectOfType, graphics, graphObject.property_index, arrayColorsProfiles, renderer, graphObject.graphInput.sameNodeHas);
+        changeColorsOfNodes_Schema(graph, schemeFilter);
     }
     else if(graphObject.linkMethod === 'isolates'){
-        changeNodeUIData(graphObject.objectOfType, graphics, graphObject.property_index, arrayColorsIsolates, renderer, graphObject.graphInput.sameNodeHas);
+        changeColorsOfNodes_Metadata(graphObject, metadataFilter);
     }
 
 }
