@@ -506,6 +506,7 @@ function NLVcollapse(graphObject, value) {
 
         for(k in links_to_add){
             console.log(graph.sameNodeHas[links_to_add[k][0]], graph.sameNodeHas[links_to_add[k][1]])
+            console.log(links_to_add[k][0], links_to_add[k][1])
             graphGL.addLink(links_to_add[k][0], links_to_add[k][1], links_to_add[k][2])
         }
 
