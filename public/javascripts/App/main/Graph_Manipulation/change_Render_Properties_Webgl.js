@@ -479,7 +479,7 @@ function NLVcollapse(graphObject, value) {
                 //to_same_node_as = [];
 
                 graphGL.forEachLinkedNode(id_to_use, function(linkedNode, link){
-                  if(link.data.connectionStrength <= value){
+                  if(link.data.connectionStrength === value){
                     if(nodes_to_remove.indexOf(linkedNode.id) < 0 && already_merged[linkedNode.id] === undefined){
                         nodes_to_remove.push(linkedNode.id);
                         to_same_node_as.push([linkedNode.id, id_to_use]);
@@ -515,13 +515,12 @@ function NLVcollapse(graphObject, value) {
 
         for(n in nodes_to_remove){
             graphGL.removeNode(nodes_to_remove[n]);
+            renderer.rerender();
         }
 
         for(l in links_to_remove){
             graphGL.removeLink(links_to_remove[l]);
         }
-
-        renderer.rerender();
 
         console.log(to_same_node_as);
         console.log(links_to_add);
