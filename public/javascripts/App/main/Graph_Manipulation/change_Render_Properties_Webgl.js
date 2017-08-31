@@ -450,6 +450,9 @@ function NLVcollapse(graphObject, value) {
     var treeLinks = graphObject.treeLinks;
     var renderer = graphObject.renderer;
 
+    var nodes_to_remove = [];
+    var links_to_remove = [];
+
     value = parseFloat(value);
 
     if (value < prevValue){
@@ -468,31 +471,30 @@ function NLVcollapse(graphObject, value) {
         graphGL.forEachNode(function(node){
 
             if(node != undefined && node.id.indexOf('TransitionNode') < 0) {
-                for (i=1; i<graph.distanceMatrix[countNodes].length; i++){
-                    if (graph.distanceMatrix[countNodes][i] <= value && graph.distanceMatrix[countNodes][i] != 0){
+                id_to_use = graph.sameNodeHas[node.id];
 
-                        targetIndex = parseInt(countNodes) + parseInt(i);
-                        
-                        sourceKey = graph.original_position_to_id[String(countNodes)] == undefined ? graph.nodes[countNodes].key : graph.original_position_to_id[String(countNodes)];
-                        targetKey = graph.original_position_to_id[String(targetIndex)] == undefined ? graph.nodes[targetIndex].key : graph.original_position_to_id[String(targetIndex)];
-                        
-                        console.log(targetKey);
-                        graph.sameNodeHas[targetKey] = sourceKey;
+                graphGL.forEachLinkedNode(id_to_use, function(linkedNode, link){
+                  console.log(link); 
+                  if(link.data.connectionStrength == value){
+                    nodes_to_remove.push(linkedNode);
+                    graphGL.forEachLinkedNode(linkedNode.id, function(linkedNode2, link2){
+                        LinkID = id_to_use + "👉 " + linkedNode2.id;
+                    });
+                    links_to_remove.push(link);
+                  }
+                });
 
-                        graphGL.forEachLinkedNode(targetKey, function(linkedNode, link){
-                          console.log(link); 
-                        });
-                        //graphGL.removeNode(targetKey);
 
-                        sourceKey = graph.sameNodeHas[sourceKey];
-                        targetKey = graph.sameNodeHas[targetKey];
-
-                    }
-                }
+                
             }
-
-            if (nodesLength > countNodes+2) countNodes += 1;
         });
+
+        for(n in nodes_to_remove){
+            graphGL.removeNode(nodes_to_remove[n].id)
+        }
+        for(l in links_to_remove){
+            graphGL.removeLink(links_to_remove[l]);
+        }
     }
     prevValue = value;
 
