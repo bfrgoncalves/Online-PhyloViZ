@@ -515,12 +515,13 @@ function NLVcollapse(graphObject, value) {
 
         for(n in nodes_to_remove){
             graphGL.removeNode(nodes_to_remove[n]);
-            renderer.rerender();
         }
 
         for(l in links_to_remove){
             graphGL.removeLink(links_to_remove[l]);
         }
+
+        graphGL.addNode('bah');
 
         console.log(to_same_node_as);
         console.log(links_to_add);
