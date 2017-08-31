@@ -45,13 +45,13 @@ function gatherMetadata(graph, propertyToCheck, metadataFilter, callback){
 			      } 
 
 			      if (metadataFilter[2].length == 0 || (metadataFilter[1].indexOf(node.key) > -1 && metadataFilter[2].indexOf(String(node.isolates[i][propertyIndex])) > -1)){
-		      		  if(objectOfType[graph.sameNodeHas[node.key]][String(node.isolates[i][propertyIndex])]) objectOfType[graph.sameNodeHas[node.key]][String(node.isolates[i][propertyIndex])] += 1;
+		      		  if(objectOfType[node.key][String(node.isolates[i][propertyIndex])]) objectOfType[node.key][String(node.isolates[i][propertyIndex])] += 1;
 				      
 				      else{
 				        numberTypes += 1;
-				        objectOfType[graph.sameNodeHas[node.key]][String(node.isolates[i][propertyIndex])] = 1;
+				        objectOfType[node.key][String(node.isolates[i][propertyIndex])] = 1;
 				      } 
-				      console.log(objectOfType[graph.sameNodeHas[node.key]][String(node.isolates[i][propertyIndex])], String(node.isolates[i][propertyIndex]), graph.sameNodeHas[node.key]);
+				      //console.log(objectOfType[graph.sameNodeHas[node.key]][String(node.isolates[i][propertyIndex])], String(node.isolates[i][propertyIndex]), graph.sameNodeHas[node.key]);
 			      }
 
 			      prevProperty = node.isolates[i][propertyIndex];
@@ -162,6 +162,7 @@ function changeNodeUIData(objectOfType, graphics, propertyIndexes, arrayColors, 
 	    
 	    if(!$.isEmptyObject(objectOfType[k])){
 		    nodeUI.rawData = objectOfType[k];
+		    console.log(nodeUI.rawData);
 		    for (j in objectOfType[k]){
 		      dataToChange.push(objectOfType[k][j]);
 		      indexes.push(arrayColors[propertyIndexes[j]]);
