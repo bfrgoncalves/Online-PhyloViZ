@@ -158,13 +158,9 @@ function changeNodeUIData(objectOfType, graphics, propertyIndexes, arrayColors, 
 	for(k in objectOfType){
 	    var dataToChange = [];
 	    var indexes = [];
-	    try{
-	    	var nodeUI = graphics.getNodeUI(k);
-	    }
-	    catch(e){
-	    	continue;
-	    }
-	    
+
+	    var nodeUI = graphics.getNodeUI(k);
+	    console.log(nodeUI);
 	    if(!$.isEmptyObject(objectOfType[k])){
 		    nodeUI.rawData = objectOfType[k];
 		    console.log(nodeUI.rawData);
