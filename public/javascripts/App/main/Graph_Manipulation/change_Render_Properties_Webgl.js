@@ -506,6 +506,7 @@ function NLVcollapse(graphObject, value) {
             node_to_change = graphGL.getNode(graph.sameNodeHas[to_same_node_as[p][1]]);
             node_to_merge = graphGL.getNode(to_same_node_as[p][0]);
             node_to_change.data.isolates = node_to_change.data.isolates.concat(node_to_merge.data.isolates);
+            graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][1]]] = graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][1]]].concat(node_to_merge);
             console.log(node_to_change, node_to_merge);
         }
 
@@ -527,6 +528,7 @@ function NLVcollapse(graphObject, value) {
         console.log(links_to_remove);
         console.log(nodes_to_remove);
         console.log(graph.sameNodeHas);
+        console.log(graph.mergedNodes);
     }
     prevValue = value;
 
