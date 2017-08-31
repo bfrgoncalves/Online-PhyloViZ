@@ -485,7 +485,7 @@ function NLVcollapse(graphObject, value) {
                         if(nodes_to_remove.indexOf(linkedNode2.id) < 0 && id_to_use != linkedNode2.id){
                             LinkID = id_to_use + "👉 " + linkedNode2.id;
                             console.log(LinkID);
-                            links_to_add.push([id_to_use, linkedNode2.id, { connectionStrength: link2.data.connectionStrength , value: link2.data.connectionStrength, color: "#00ff00"}]);
+                            links_to_add.push([graph.sameNodeHas[id_to_use], graph.sameNodeHas[linkedNode2.id], { connectionStrength: link2.data.connectionStrength , value: link2.data.connectionStrength, color: "#00ff00"}]);
                         }
                     });
                     links_to_remove.push(link);
