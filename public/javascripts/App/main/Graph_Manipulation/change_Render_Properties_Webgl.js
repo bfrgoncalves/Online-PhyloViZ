@@ -479,7 +479,7 @@ function NLVcollapse(graphObject, value) {
                   if(link.data.connectionStrength == value){
                     if(nodes_to_remove.indexOf(linkedNode.id) < 0) nodes_to_remove.push(linkedNode.id);
                     graphGL.forEachLinkedNode(linkedNode.id, function(linkedNode2, link2){
-                        if(nodes_to_remove.indexOf(linkedNode2.id) < 0){
+                        if(nodes_to_remove.indexOf(linkedNode2.id) < 0 && id_to_use != linkedNode2.id){
                             LinkID = id_to_use + "👉 " + linkedNode2.id;
                             console.log(LinkID);
                             links_to_add.push([id_to_use, linkedNode2.id, { connectionStrength: link2.data.connectionStrength , value: link2.data.connectionStrength, color: "#00ff00"}]);
