@@ -474,7 +474,6 @@ function NLVcollapse(graphObject, value) {
 
             if(node != undefined && node.id.indexOf('TransitionNode') < 0) {
                 //id_to_use = graph.sameNodeHas[node.id];
-                console.log(node.id, id_to_use);
                 id_to_use = node.id;
 
                 graphGL.forEachLinkedNode(id_to_use, function(linkedNode, link){
