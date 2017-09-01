@@ -61,8 +61,7 @@ $(document).ready(function(){
     status('Loading input data...');
     
     createInput(datasetID, function(graph){
-      console.log(graph);
-      if(graph.not_ready == true) return;
+      if(graph.not_ready == true) return alert("The tree is not ready yet. Please try again later.");
       
       checkInput(graph, function(graph){
           console.log(graph.positions);

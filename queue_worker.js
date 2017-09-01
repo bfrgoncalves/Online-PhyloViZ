@@ -261,7 +261,7 @@ function loadProfiles(datasetID, userID, callback){
 			var identifier = arr.shift();
 			//arr.reverse();
 			
-			if(existsProfile[String(arr)]) {
+			/*if(existsProfile[String(arr)]) {
 				dupProfiles.push([identifier, String(arr)]);
 				//console.log('Profile already exists');
 				//console.log(identifier);
@@ -270,14 +270,14 @@ function loadProfiles(datasetID, userID, callback){
 				dupIDs.push(identifier);
 				//console.log('Duplicate ID');
 			}
-			else{
-				existsProfile[String(arr)] = true;
-				identifiers[countProfiles] = identifier;
-				existsIdentifiers[identifier] = true;
-				countProfiles += 1; 
-				profileArray.push(arr);
+			else{*/
+			existsProfile[String(arr)] = true;
+			identifiers[countProfiles] = identifier;
+			existsIdentifiers[identifier] = true;
+			countProfiles += 1; 
+			profileArray.push(arr);
 
-			}
+			//}
 		});
 		client.end();
 		callback(profileArray, identifiers, datasetID, dupProfiles, dupIDs, profiles, entries_ids);
