@@ -11,6 +11,7 @@ function loadGraphFunctions(){
 			var countAddedNodes = 0;
 			var maxNodeValue = 0;
 			
+			console.log(graph.nodes);
 			for (i in graph.nodes){
 				//console.log(graph.nodes[i]);
 		        graph.nodes[i].idGL = countAddedNodes;
