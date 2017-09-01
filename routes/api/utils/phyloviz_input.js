@@ -72,14 +72,16 @@ router.get('/nodes', function(req, res, next){
 								});
 							});
 						}
+						//Case not ready
 						else{
-							console.log(dataset);
-							console.log(dataset.nodes.length);
+							console.log("BAG", dataset);
+							console.log("BUH", dataset.nodes.length);
 					      	createPhyloviZInput(dataset, function(graphInput){
 					      		console.log("GRAPH NODES LENGTH", graphInput.nodes.length);
-					      		phyloviz_input_utils.addToFilterTable(graphInput, userID, datasetID, [], function(){
-					      			phyloviz_input_utils.FlushFunction(graphInput, res);
-								});
+					      		graphInput.not_ready = true;
+					      		//phyloviz_input_utils.addToFilterTable(graphInput, userID, datasetID, [], function(){
+					      		phyloviz_input_utils.FlushFunction(graphInput, res);
+								//});
 						      });
 					    }
 				    });
