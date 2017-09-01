@@ -56,6 +56,7 @@ router.get('/nodes', function(req, res, next){
 
 		phyloviz_input_utils.checkIfpublic(datasetID, userID, function(isPublic){
 			phyloviz_input_utils.getFromFilterTable(datasetID, function(graph){
+				console.log("FROM FILTER NODE LENGTH", graph.nodes.length);
 				if(graph.nodes.length != 0 && !update){
 					console.log('From Filters');
 					phyloviz_input_utils.FlushFunction(graph, res);
