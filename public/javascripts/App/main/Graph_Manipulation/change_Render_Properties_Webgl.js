@@ -404,6 +404,8 @@ function NLVgraph(graphObject, value) {
                         sourceKey = graph.sameNodeHas[sourceKey];
                         targetKey = graph.sameNodeHas[targetKey];*/
 
+                        console.log(countNodes, targetIndex);
+
                         sourceKey = graph.nodes[countNodes].key;
                         targetKey = graph.nodes[targetIndex].key;
 
