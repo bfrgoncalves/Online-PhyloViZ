@@ -435,15 +435,22 @@ function loadGraphFunctions(){
 			distanceMatrix = graphObject.graphInput.distanceMatrix;
 			original_position_to_id = graphObject.graphInput.original_position_to_id;
 			
-			for(x in original_position_to_id){
-				distanceMatrix.splice(parseInt(x), 1);
+			array_of_keys = Object.keys(original_position_to_id);
+
+			array_of_keys = array_of_keys.sort(function(a, b){return b-a});
+
+			for(x in array_of_keys){
+				distanceMatrix.splice(parseInt(array_of_keys[x]), 1);
 			}
+			/*for(x in original_position_to_id){
+				distanceMatrix.splice(parseInt(x), 1);
+			}*/
 			count_lines = 0;
 
 			for(y in distanceMatrix){
-				for(z in original_position_to_id){
-					index_to_remove = parseInt(z)-count_lines;
-					if(index_to_remove > 0) distanceMatrix[y].splice(parseInt(z)-count_lines, 1);
+				for(z in array_of_keys){
+					index_to_remove = parseInt(array_of_keys[z])-count_lines;
+					if(index_to_remove > 0) distanceMatrix[y].splice(index_to_remove, 1);
 				}
 				count_lines += 1;
 			}
