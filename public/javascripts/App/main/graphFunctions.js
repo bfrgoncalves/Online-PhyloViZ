@@ -437,9 +437,9 @@ function loadGraphFunctions(){
 			
 			array_of_keys = Object.keys(original_position_to_id);
 
-			array_of_keys = array_of_keys.sort(function(a, b){return a-b});
+			array_of_keys = array_of_keys.sort(function(a, b){return parseInt(a)-parseInt(b)});
 			
-			array_of_keys1 = array_of_keys.sort(function(a, b){return b-a});
+			array_of_keys1 = array_of_keys.sort(function(a, b){return parseInt(b)-parseInt(a)});
 
 			console.log(array_of_keys);
 			console.log(array_of_keys1);
