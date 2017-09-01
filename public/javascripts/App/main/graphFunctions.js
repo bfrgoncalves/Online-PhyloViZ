@@ -453,7 +453,7 @@ function loadGraphFunctions(){
 			}*/
 			count_lines = 0;
 
-			for(y in distanceMatrix){
+			/*for(y in distanceMatrix){
 				countremoved = 0;
 				for(z in array_of_keys){
 					index_to_remove = parseInt(array_of_keys[z])-count_lines-countremoved;
@@ -463,7 +463,7 @@ function loadGraphFunctions(){
 					}
 				}
 				count_lines += 1;
-			}
+			}*/
 
 			graphObject.graphInput.distanceMatrix = distanceMatrix;
 		},
