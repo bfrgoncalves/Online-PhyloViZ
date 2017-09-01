@@ -74,8 +74,6 @@ router.get('/nodes', function(req, res, next){
 						}
 						//Case not ready
 						else{
-							console.log("BAG", dataset);
-							console.log("BUH", dataset.nodes.length);
 					      	createPhyloviZInput(dataset, function(graphInput){
 					      		console.log("GRAPH NODES LENGTH", graphInput.nodes.length);
 					      		graphInput.not_ready = true;
