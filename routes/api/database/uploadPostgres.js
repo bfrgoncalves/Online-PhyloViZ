@@ -218,7 +218,6 @@ function readCSVfile(pathToFile, fileType, dataToDB, callback){
         callback(dataToDB);
       })
       .on("error",function(err){
-        console.log(err);
         dataToDB['hasError'] = true;
         dataToDB['errorMessage'] = err.toString();
         if(callbackLaunched != true){
@@ -362,7 +361,6 @@ function uploadToDatabase(data, callback){
     var links = { links : []};
     //console.log(data.fileNewick);
     var newick = { newick : data.fileNewick[0]};
-    console.log(isolates);
 
     var cipher = crypto.createCipher(config.cipherUser.algorithm, config.cipherUser.pass);
     dataset_id = userID + data.datasetName + getDateTime();
@@ -404,10 +402,8 @@ function uploadToDatabase(data, callback){
 
           client.query(profileQuery, [pTouse[countBatches]], function(err, result) {
             completeBatches += 1;
-            console.log('DONE');
             if(err) {
               data.hasError = true;
-              console.log(err);
               data.errorMessage = 'Could not upload input data. Possible unsupported file type. For information on supported file types click <a href="/index/inputinfo">here</a>.'; //+ err.toString();
               return callback(data);
             }
@@ -421,7 +417,6 @@ function uploadToDatabase(data, callback){
       client.query(isolateQuery, [isolates], function(err, result) {
         if(err) {
           data.hasError = true;
-          console.log(err);
           data.errorMessage = 'Could not upload input data. Possible unsupported file type. For information on supported file types click <a href="/index/inputinfo">here</a>.'; //+ err.toString();
           return callback(data);
         }
@@ -429,12 +424,10 @@ function uploadToDatabase(data, callback){
         client.query(query, function(err, result) {
           if(err) {
             data.hasError = true;
-            console.log(err);
             data.errorMessage = 'Could not upload input data. Possible unsupported file type. For information on supported file types click <a href="/index/inputinfo">here</a>.'; //+ err.toString();
             return callback(data);
           }
           client.end();
-          console.log(completeBatches, countBatches);
           while(completeBatches != countBatches){
             console.log(completeBatches, countBatches);
           }
