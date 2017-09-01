@@ -438,11 +438,12 @@ function loadGraphFunctions(){
 			array_of_keys = Object.keys(original_position_to_id);
 
 			array_of_keys = array_of_keys.sort(function(a, b){return a-b});
+			array_of_keys1 = array_of_keys.sort(function(a, b){return b-a});
 
 			console.log(array_of_keys);
 
-			for(x in array_of_keys){
-				distanceMatrix.splice(parseInt(array_of_keys[x]), 1);
+			for(x in array_of_keys1){
+				distanceMatrix.splice(parseInt(array_of_keys1[x]), 1);
 			}
 			/*for(x in original_position_to_id){
 				distanceMatrix.splice(parseInt(x), 1);
