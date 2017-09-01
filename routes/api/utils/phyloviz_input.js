@@ -73,6 +73,7 @@ router.get('/nodes', function(req, res, next){
 							});
 						}
 						else{
+							console.log(dataset.nodes.length);
 					      	createPhyloviZInput(dataset, function(graphInput){
 					      		console.log("GRAPH NODES LENGTH", graphInput.nodes.length);
 					      		phyloviz_input_utils.addToFilterTable(graphInput, userID, datasetID, [], function(){
