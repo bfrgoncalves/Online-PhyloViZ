@@ -439,6 +439,8 @@ function loadGraphFunctions(){
 
 			array_of_keys = array_of_keys.sort(function(a, b){return b-a});
 
+			console.log(array_of_keys);
+
 			for(x in array_of_keys){
 				distanceMatrix.splice(parseInt(array_of_keys[x]), 1);
 			}
