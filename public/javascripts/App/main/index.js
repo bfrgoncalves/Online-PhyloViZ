@@ -62,6 +62,8 @@ $(document).ready(function(){
     
     createInput(datasetID, function(graph){
       console.log(graph);
+      if(graph.not_ready == true) return;
+      
       checkInput(graph, function(graph){
           console.log(graph.positions);
 
