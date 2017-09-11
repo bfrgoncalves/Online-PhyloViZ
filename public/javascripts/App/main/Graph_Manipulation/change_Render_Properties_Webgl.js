@@ -529,7 +529,7 @@ function NLVcollapse(graphObject, value) {
                                 links_to_add.push([id_to_use, linkedNode2.id, { connectionStrength: link2.data.connectionStrength , value: link2.data.connectionStrength, color: "#00ff00"}, LinkID]);
                             }
                         });
-                        links_id_to_data[link.fromId + "👉 " + link.toId] = { connectionStrength: link2.data.connectionStrength , value: link2.data.connectionStrength, color: "#00ff00"}
+                        links_id_to_data[link.fromId + "👉 " + link.toId] = { connectionStrength: link.data.connectionStrength , value: link.data.connectionStrength, color: "#00ff00"}
                         links_to_remove.push(link);
                     }
                   }
