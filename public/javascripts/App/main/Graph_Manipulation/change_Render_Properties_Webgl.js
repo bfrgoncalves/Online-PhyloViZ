@@ -466,16 +466,18 @@ function NLVcollapse(graphObject, value) {
 
     value = parseFloat(value);
 
-    console.log(nodes_at_distance, links_at_distance);
+    console.log(nodes_at_distance, links_at_distance, prevValue);
 
-    if (value < prevValue && nodes_at_distance[value] != undefined && links_at_distance[value] != undefined){
+    if (value < prevValue && nodes_at_distance[prevValue] != undefined && links_at_distance[prevValue] != undefined){
         
-        
+
         for(k in nodes_at_distance[prevValue]){
-            graph.sameNodeHas[nodes_at_distance[value][k][0].id] = nodes_at_distance[prevValue][k][2].id;
+            graph.sameNodeHas[nodes_at_distance[prevValue][k][0].id] = nodes_at_distance[prevValue][k][2].id;
             var node_to_change = graphGL.getNode(nodes_at_distance[prevValue][k][0].id);
+            graphGL.addNode(nodes_at_distance[value][k][1].id, nodes_at_distance[value][k][1].data)
             node_to_change.data.isolates = nodes_at_distance[prevValue][k][0].data.isolates;
             graph.mergedNodes[graph.sameNodeHas[nodes_at_distance[value][k][1].id]] = nodes_at_distance[prevValue][k][3];
+
 
         }
 
