@@ -491,17 +491,12 @@ function NLVcollapse(graphObject, value) {
 
         countAddedLinks = 0;
         console.log(graph.sameNodeHas);
-        for(k in nodes_at_distance[prevValue]){
-            countAddedLinks += 1;
 
-            console.log(graph.sameNodeHas, graphObject.links_id_to_data, graph.sameNodeHas[nodes_at_distance[prevValue][k][0].id] + "👉 " + graph.sameNodeHas[nodes_at_distance[prevValue][k][1].id], graphObject.links_id_to_data[graph.sameNodeHas[nodes_at_distance[prevValue][k][0].id] + "👉 " + graph.sameNodeHas[nodes_at_distance[prevValue][k][1].id]]);
-            graphGL.addLink(graph.sameNodeHas[nodes_at_distance[prevValue][k][0].id], graph.sameNodeHas[nodes_at_distance[prevValue][k][1].id], graphObject.links_id_to_data[graph.sameNodeHas[nodes_at_distance[prevValue][k][0].id] + "👉 " + graph.sameNodeHas[nodes_at_distance[prevValue][k][1].id]]);
-        }
-        /*countAddedLinks = 0;
+        countAddedLinks = 0;
         for (j in links_at_distance[prevValue]["add"]){
             countAddedLinks += 1;
-            graphGL.addLink(links_at_distance[prevValue]["add"][j].fromId, links_at_distance[prevValue]["add"][j].toId, links_at_distance[prevValue]["add"][j].data);
-        }*/
+            graphGL.addLink(graph.sameNodeHas[links_at_distance[prevValue]["add"][j].fromId], graph.sameNodeHas[links_at_distance[prevValue]["add"][j].toId], links_at_distance[prevValue]["add"][j].data);
+        }
         console.log(countAddedLinks);
     }
     else{
