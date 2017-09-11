@@ -554,6 +554,7 @@ function NLVcollapse(graphObject, value) {
     }
 
     //graphObject.addedLinks = addedLinks;
+    
     graphObject.links_at_distance = links_at_distance;
     graphObject.nodes_at_distance = nodes_at_distance;
 
