@@ -486,11 +486,19 @@ function NLVcollapse(graphObject, value) {
 
         }
         console.log(countAdded);
+
         countAddedLinks = 0;
+        for(k in nodes_at_distance[prevValue]){
+            for(t in nodes_at_distance[prevValue][k].links){
+                countAddedLinks += 1;
+                graphGL.addLink(nodes_at_distance[prevValue][k].links[t].fromId, nodes_at_distance[prevValue][k].links[t].toId, nodes_at_distance[prevValue][k].links[t].data);
+            }
+        }
+        /*countAddedLinks = 0;
         for (j in links_at_distance[prevValue]["add"]){
             countAddedLinks += 1;
             graphGL.addLink(links_at_distance[prevValue]["add"][j].fromId, links_at_distance[prevValue]["add"][j].toId, links_at_distance[prevValue]["add"][j].data);
-        }
+        }*/
         console.log(countAddedLinks);
     }
     else{
