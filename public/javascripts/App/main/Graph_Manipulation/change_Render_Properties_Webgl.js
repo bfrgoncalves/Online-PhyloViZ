@@ -475,7 +475,7 @@ function NLVcollapse(graphObject, value) {
             graphGL.removeLink(link); 
         }
 
-        for(k in nodes_at_distance[prevValue]){
+        /*for(k in nodes_at_distance[prevValue]){
             graph.sameNodeHas[nodes_at_distance[prevValue][k][0].id] = nodes_at_distance[prevValue][k][2].id;
             var node_to_change = graphGL.getNode(nodes_at_distance[prevValue][k][0].id);
             graphGL.addNode(nodes_at_distance[prevValue][k][1].id, nodes_at_distance[prevValue][k][1].data)
@@ -487,7 +487,7 @@ function NLVcollapse(graphObject, value) {
     
         for (j in links_at_distance[prevValue]["add"]){
             graphGL.addLink(links_at_distance[prevValue]["add"][j].fromId, links_at_distance[prevValue]["add"][j].toId, links_at_distance[prevValue]["add"][j].data);
-        }
+        }*/
     }
     else{
 
