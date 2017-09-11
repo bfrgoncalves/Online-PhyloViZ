@@ -486,7 +486,6 @@ function NLVcollapse(graphObject, value) {
             graphGL.removeLink(link); 
         }
         for (i in links_at_distance[prevValue]["add"]){
-            var link = graphGL.getLink(links_at_distance[prevValue]["add"][0], links_at_distance[prevValue]["add"][1]);
             graphGL.addLink(graph.sameNodeHas[links_at_distance[prevValue]["add"][0]], graph.sameNodeHas[links_at_distance[prevValue]["add"][1]], graph.sameNodeHas[links_at_distance[prevValue]["add"][2]]);
         }
     }
