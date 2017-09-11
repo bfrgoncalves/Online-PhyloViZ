@@ -542,11 +542,13 @@ function NLVcollapse(graphObject, value) {
             graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][1]]] = graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][1]]].concat(node_to_merge.data);
         }
 
-        links_at_distance[value] = {"add": links_to_remove, "remove": links_to_add.map(function(x){x[0] = graph.sameNodeHas[x[0]]; x[1] = graph.sameNodeHas[x[1]];})};
-
         for(k in links_to_add){
-            graphGL.addLink(graph.sameNodeHas[links_to_add[k][0]], graph.sameNodeHas[links_to_add[k][1]], links_to_add[k][2])
+            links_to_add[k][0] = graph.sameNodeHas[links_to_add[k][0]];
+            links_to_add[k][1] = graph.sameNodeHas[links_to_add[k][1]];
+            graphGL.addLink(links_to_add[k][0], links_to_add[k][1], links_to_add[k][2])
         }
+
+        links_at_distance[value] = {"add": links_to_remove, "remove": links_to_add};
 
         for(n in nodes_to_remove){
             graphGL.removeNode(nodes_to_remove[n]);
