@@ -451,7 +451,7 @@ function NLVcollapse(graphObject, value) {
     var graph = graphObject.graphInput;
     var graphics = graphObject.graphics;
     var addedLinks = graphObject.addedLinks;
-    var prevValue = graphObject.prevNLVvalue;
+    var prevValue = graphObject.prevNLVCollapsevalue;
     var treeLinks = graphObject.treeLinks;
     var renderer = graphObject.renderer;
 
@@ -466,7 +466,7 @@ function NLVcollapse(graphObject, value) {
 
     value = parseFloat(value);
 
-    if (value < prevValue){
+    if (value < prevValue && nodes_at_distance[value] != undefined && links_at_distance[value] != undefined){
         
         for(k in nodes_at_distance[value]){
             graph.sameNodeHas[nodes_at_distance[value][k][0].id] = nodes_at_distance[value][k][2].id;
@@ -553,8 +553,11 @@ function NLVcollapse(graphObject, value) {
         renderer.rerender();
     }
 
-    graphObject.addedLinks = addedLinks;
-    graphObject.prevNLVvalue = prevValue;
+    //graphObject.addedLinks = addedLinks;
+    graphObject.links_at_distance = links_at_distance;
+    graphObject.nodes_at_distance = nodes_at_distance;
+
+    graphObject.prevNLVCollapsevalue = prevValue;
     changeLogScale(graphObject);
 
     setNewProgram(graphObject, buildCircleNodeShader);
