@@ -470,21 +470,22 @@ function NLVcollapse(graphObject, value) {
 
     if (value < prevValue && nodes_at_distance[value] != undefined && links_at_distance[value] != undefined){
         
-        for(k in nodes_at_distance[value]){
-            graph.sameNodeHas[nodes_at_distance[value][k][0].id] = nodes_at_distance[value][k][2].id;
-            var node_to_change = graphGL.getNode(nodes_at_distance[value][k][0].id);
-            node_to_change.data.isolates = nodes_at_distance[value][k][0].data.isolates;
-            graph.mergedNodes[graph.sameNodeHas[nodes_at_distance[value][k][1].id]] = nodes_at_distance[value][k][3];
+        
+        for(k in nodes_at_distance[prevValue]){
+            graph.sameNodeHas[nodes_at_distance[value][k][0].id] = nodes_at_distance[prevValue][k][2].id;
+            var node_to_change = graphGL.getNode(nodes_at_distance[prevValue][k][0].id);
+            node_to_change.data.isolates = nodes_at_distance[prevValue][k][0].data.isolates;
+            graph.mergedNodes[graph.sameNodeHas[nodes_at_distance[value][k][1].id]] = nodes_at_distance[prevValue][k][3];
 
         }
 
-        for (i in links_at_distance[value]["remove"]){
-            var link = graphGL.getLink(links_at_distance[value]["remove"][0], links_at_distance[value]["remove"][1]);
+        for (i in links_at_distance[prevValue]["remove"]){
+            var link = graphGL.getLink(links_at_distance[prevValue]["remove"][0], links_at_distance[prevValue]["remove"][1]);
             graphGL.removeLink(link); 
         }
-        for (i in links_at_distance[value]["add"]){
-            var link = graphGL.getLink(links_at_distance[value]["add"][0], links_at_distance[value]["add"][1]);
-            graphGL.addLink(graph.sameNodeHas[links_at_distance[value]["add"][0]], graph.sameNodeHas[links_at_distance[value]["add"][1]], graph.sameNodeHas[links_at_distance[value]["add"][2]]);
+        for (i in links_at_distance[prevValue]["add"]){
+            var link = graphGL.getLink(links_at_distance[prevValue]["add"][0], links_at_distance[prevValue]["add"][1]);
+            graphGL.addLink(graph.sameNodeHas[links_at_distance[prevValue]["add"][0]], graph.sameNodeHas[links_at_distance[prevValue]["add"][1]], graph.sameNodeHas[links_at_distance[prevValue]["add"][2]]);
         }
     }
     else{
