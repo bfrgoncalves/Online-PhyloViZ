@@ -526,7 +526,6 @@ function NLVcollapse(graphObject, value) {
         });
 
         //To get the status of links at each level
-        links_at_distance[value] = {"add": links_to_remove, "remove": links_to_add};
         nodes_at_distance[value] = [];
 
 
@@ -542,6 +541,8 @@ function NLVcollapse(graphObject, value) {
             node_to_change.data.isolates = node_to_change.data.isolates.concat(node_to_merge.data.isolates);
             graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][1]]] = graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][1]]].concat(node_to_merge.data);
         }
+
+        links_at_distance[value] = {"add": links_to_remove, "remove": links_to_add.map(function(x){x[0] = graph.sameNodeHas[x[0]]; x[1] = graph.sameNodeHas[x[1]];})};
 
         for(k in links_to_add){
             graphGL.addLink(graph.sameNodeHas[links_to_add[k][0]], graph.sameNodeHas[links_to_add[k][1]], links_to_add[k][2])
