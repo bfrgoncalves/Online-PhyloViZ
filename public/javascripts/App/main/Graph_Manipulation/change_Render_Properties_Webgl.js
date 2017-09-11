@@ -486,9 +486,12 @@ function NLVcollapse(graphObject, value) {
 
         }
         console.log(countAdded);
+        countAddedLinks = 0;
         for (j in links_at_distance[prevValue]["add"]){
+            countAddedLinks += 1;
             graphGL.addLink(links_at_distance[prevValue]["add"][j].fromId, links_at_distance[prevValue]["add"][j].toId, links_at_distance[prevValue]["add"][j].data);
         }
+        console.log(countAddedLinks);
     }
     else{
 
