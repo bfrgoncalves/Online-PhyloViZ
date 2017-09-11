@@ -481,12 +481,13 @@ function NLVcollapse(graphObject, value) {
 
 
         }
-
+        console.log(links_at_distance[prevValue]);
         for (i in links_at_distance[prevValue]["remove"]){
             var link = graphGL.getLink(links_at_distance[prevValue]["remove"][0], links_at_distance[prevValue]["remove"][1]);
             graphGL.removeLink(link); 
         }
-        for (i in links_at_distance[prevValue]["add"]){
+        console.log(links_at_distance[prevValue]["add"]);
+        for (j in links_at_distance[prevValue]["add"]){
             console.log(graph.sameNodeHas[links_at_distance[prevValue]["add"]]);
             graphGL.addLink(graph.sameNodeHas[links_at_distance[prevValue]["add"][0]], graph.sameNodeHas[links_at_distance[prevValue]["add"][1]], graph.sameNodeHas[links_at_distance[prevValue]["add"][2]]);
         }
