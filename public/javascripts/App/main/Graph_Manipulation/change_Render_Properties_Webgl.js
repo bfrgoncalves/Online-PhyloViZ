@@ -466,6 +466,8 @@ function NLVcollapse(graphObject, value) {
 
     value = parseFloat(value);
 
+    console.log(nodes_at_distance, links_at_distance);
+
     if (value < prevValue && nodes_at_distance[value] != undefined && links_at_distance[value] != undefined){
         
         for(k in nodes_at_distance[value]){
