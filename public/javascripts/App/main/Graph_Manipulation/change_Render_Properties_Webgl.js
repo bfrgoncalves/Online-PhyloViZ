@@ -528,6 +528,7 @@ function NLVcollapse(graphObject, value) {
 
         //To get the status of links at each level
         nodes_at_distance[value] = [];
+        console.log(links_to_remove.length);
 
 
         for(p in to_same_node_as){
