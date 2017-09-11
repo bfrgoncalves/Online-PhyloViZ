@@ -455,8 +455,10 @@ function NLVcollapse(graphObject, value) {
     var treeLinks = graphObject.treeLinks;
     var renderer = graphObject.renderer;
 
+
     var nodes_at_distance = graphObject.nodes_at_distance == undefined ? {} : graphObject.nodes_at_distance;
     var links_at_distance = graphObject.links_at_distance == undefined ? {} : graphObject.links_at_distance;
+    var links_id_to_data = graphObject.links_id_to_data == undefined ? {} : graphObject.links_id_to_data;
 
     var nodes_to_remove = [];
     var links_to_remove = [];
@@ -492,7 +494,7 @@ function NLVcollapse(graphObject, value) {
         for(k in nodes_at_distance[prevValue]){
             countAddedLinks += 1;
             console.log(graph.sameNodeHas[nodes_at_distance[prevValue][k][0].id], nodes_at_distance[prevValue][k][0].id, graph.sameNodeHas[nodes_at_distance[prevValue][k][1].id], nodes_at_distance[prevValue][k][1].id);
-            graphGL.addLink(graph.sameNodeHas[nodes_at_distance[prevValue][k][0].id], graph.sameNodeHas[nodes_at_distance[prevValue][k][1].id], nodes_at_distance[prevValue][k][0].links[t].data);
+            graphGL.addLink(graph.sameNodeHas[nodes_at_distance[prevValue][k][0].id], graph.sameNodeHas[nodes_at_distance[prevValue][k][1].id], graph.sameNodeHas[nodes_at_distance[prevValue][k][0].id] + "👉 " + graph.sameNodeHas[nodes_at_distance[prevValue][k][1].id]]);
         }
         /*countAddedLinks = 0;
         for (j in links_at_distance[prevValue]["add"]){
@@ -524,6 +526,7 @@ function NLVcollapse(graphObject, value) {
                         graphGL.forEachLinkedNode(linkedNode.id, function(linkedNode2, link2){
                             if(nodes_to_remove.indexOf(linkedNode2.id) < 0 && id_to_use !== linkedNode2.id){
                                 LinkID = id_to_use + "👉 " + linkedNode2.id;
+                                links_id_to_data[LinkID] = { connectionStrength: link2.data.connectionStrength , value: link2.data.connectionStrength, color: "#00ff00"}
                                 links_to_add.push([id_to_use, linkedNode2.id, { connectionStrength: link2.data.connectionStrength , value: link2.data.connectionStrength, color: "#00ff00"}, LinkID]);
                             }
                         });
@@ -580,6 +583,8 @@ function NLVcollapse(graphObject, value) {
     
     graphObject.links_at_distance = links_at_distance;
     graphObject.nodes_at_distance = nodes_at_distance;
+    graphObject.links_id_to_data = links_id_to_data;
+    
 
     graphObject.prevNLVCollapsevalue = prevValue;
     changeLogScale(graphObject);
