@@ -468,15 +468,15 @@ function NLVcollapse(graphObject, value) {
 
     value = parseFloat(value);
 
-    console.log(nodes_at_distance, links_at_distance, prevValue);
-
     if (value < prevValue && nodes_at_distance[prevValue] != undefined && links_at_distance[prevValue] != undefined){
         
         for (i in links_at_distance[prevValue]["remove"]){
             var link = graphGL.getLink(graph.sameNodeHas[links_at_distance[prevValue]["remove"][i][0]], graph.sameNodeHas[links_at_distance[prevValue]["remove"][i][1]]);
             graphGL.removeLink(link); 
+            var link = graphGL.getLink(graph.sameNodeHas[links_at_distance[prevValue]["remove"][i][0]], graph.sameNodeHas[links_at_distance[prevValue]["remove"][i][1]]);
+            console.log("AQUI", link);
         }
-        console.log(nodes_at_distance[prevValue]);
+
         for(k in nodes_at_distance[prevValue]){
             graph.sameNodeHas[nodes_at_distance[prevValue][k][1].id] = nodes_at_distance[prevValue][k][2];
             var node_to_change = graphGL.getNode(nodes_at_distance[prevValue][k][0].id);
@@ -493,6 +493,8 @@ function NLVcollapse(graphObject, value) {
 
         countNodes = 0;
         nodesLength = graph.nodes.length;
+
+        random_color = '#' + Math.random().toString(16).slice(2, 8).toUpperCase();
 
         graphGL.forEachNode(function(node){
 
@@ -512,7 +514,7 @@ function NLVcollapse(graphObject, value) {
                         graphGL.forEachLinkedNode(linkedNode.id, function(linkedNode2, link2){
                             if(nodes_to_remove.indexOf(linkedNode2.id) < 0 && id_to_use !== linkedNode2.id){
                                 LinkID = id_to_use + "👉 " + linkedNode2.id;
-                                links_to_add.push([id_to_use, linkedNode2.id, { connectionStrength: link2.data.connectionStrength , value: link2.data.connectionStrength, color: '#' + Math.random().toString(16).slice(2, 8).toUpperCase()}, LinkID]);
+                                links_to_add.push([id_to_use, linkedNode2.id, { connectionStrength: link2.data.connectionStrength , value: link2.data.connectionStrength, color: random_color}, LinkID]);
                             }
                         });
                         links_to_remove.push(link);
@@ -589,8 +591,6 @@ function NLVcollapse(graphObject, value) {
     }
 
     $("#scaleNode").trigger("change");
-
-    console.log(links_at_distance);
 
 }
 
