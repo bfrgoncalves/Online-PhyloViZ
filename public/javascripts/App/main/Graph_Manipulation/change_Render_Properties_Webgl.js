@@ -566,7 +566,8 @@ function NLVcollapse(graphObject, value) {
 
         countremoved = 0;
         for(n in nodes_to_remove){
-            graphGL.forEachLinkedNode(nodes_to_remove[n].id, function(linkedNode, link){
+
+            graphGL.forEachLinkedNode(nodes_to_remove[n], function(linkedNode, link){
                 console.log("AQUI");
                 links_at_distance[value]["add"].push(link);
             });
