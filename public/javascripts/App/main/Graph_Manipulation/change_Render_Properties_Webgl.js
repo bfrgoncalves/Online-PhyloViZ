@@ -512,7 +512,7 @@ function NLVcollapse(graphObject, value) {
                         graphGL.forEachLinkedNode(linkedNode.id, function(linkedNode2, link2){
                             if(nodes_to_remove.indexOf(linkedNode2.id) < 0 && id_to_use !== linkedNode2.id){
                                 LinkID = id_to_use + "👉 " + linkedNode2.id;
-                                links_to_add.push([id_to_use, linkedNode2.id, { connectionStrength: link2.data.connectionStrength , value: link2.data.connectionStrength, color: '#'+Math.floor(Math.random()*16777215).toString(16)}, LinkID]);
+                                links_to_add.push([id_to_use, linkedNode2.id, { connectionStrength: link2.data.connectionStrength , value: link2.data.connectionStrength, color: '#' + Math.random().toString(16).slice(2, 8).toUpperCase()}, LinkID]);
                             }
                         });
                         links_to_remove.push(link);
