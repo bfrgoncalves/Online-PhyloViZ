@@ -246,12 +246,12 @@ function scaleLink(newScale, graphObject){
 
     graph.links.forEach(function(link){
 
-            var linkUI = graphGL.getLink(link.source, link.target);
-            var spring = layout.getSpring(link.source, link.target);
-            prevValue = spring.length;
-            spring.length = graphObject.defaultLayoutParams.springLength * (spring.length / prevScale);
+        var linkUI = graphGL.getLink(link.source, link.target);
+        var spring = layout.getSpring(link.source, link.target);
+        prevValue = spring.length;
+        spring.length = graphObject.defaultLayoutParams.springLength * (spring.length / prevScale);
 
-        })
+    })
 
 }
 
@@ -540,8 +540,6 @@ function NLVcollapse(graphObject, value) {
 
             if(merged_at_distance[value][node_to_change.id] == undefined) merged_at_distance[value][node_to_change.id] = [slice_change, slice_isolates];
 
-            console.log("change", slice_change);
-            console.log("merge", slice_merge);
             //To get the status of nodes at each level
             nodes_at_distance[value].push([node_to_change, node_to_merge, prev_sameNode_has, slice_merge, merged_at_distance[value][node_to_change.id][0], merged_at_distance[value][node_to_change.id][1]]);
             
@@ -589,6 +587,8 @@ function NLVcollapse(graphObject, value) {
     else if(graphObject.linkMethod === 'isolates'){
         changeColorsOfNodes_Metadata(graphObject, metadataFilter);
     }
+
+    $("#scaleNode").trigger("change");
 
 }
 

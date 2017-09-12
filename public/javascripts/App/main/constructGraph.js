@@ -76,6 +76,8 @@ function constructGraph(graph, datasetID){
         $('#isLogScaleOn').text('Off');
         $('#isLogScaleNodesOn').text('Off');
 
+        $("#scaleNode").trigger("change");
+
         if(graphObject.graphInput.goeburstprofilesize != undefined){
           $('#goeburstProfileSize').text(graphObject.graphInput.goeburstprofilesize);
           $('#countgoeBURSTProfileSize').text(graphObject.graphInput.goeburstprofilesize);
