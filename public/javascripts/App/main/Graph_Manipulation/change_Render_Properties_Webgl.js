@@ -458,6 +458,7 @@ function NLVcollapse(graphObject, value) {
 
     var nodes_at_distance = graphObject.nodes_at_distance == undefined ? {} : graphObject.nodes_at_distance;
     var links_at_distance = graphObject.links_at_distance == undefined ? {} : graphObject.links_at_distance;
+    var merged_at_distance = graphObject.merged_at_distance == undefined ? {} : graphObject.merged_at_distance;
 
     var nodes_to_remove = [];
     var links_to_remove = [];
@@ -526,7 +527,7 @@ function NLVcollapse(graphObject, value) {
 
         //To get the status of links at each level
         nodes_at_distance[value] = [];
-
+        merged_at_distance[value] = {};
 
         for(p in to_same_node_as){
             prev_sameNode_has = graph.sameNodeHas[to_same_node_as[p][0]];
@@ -535,6 +536,8 @@ function NLVcollapse(graphObject, value) {
             
             slice_merge = graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][0]]].slice(0);
             slice_change = graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][1]]].slice(0);
+
+            if(merged_at_distance[value][node_to_change.id] == undefined) merged_at_distance[value][node_to_change.id] = slice_merge;
 
             console.log("change", slice_change);
             console.log("merge", slice_merge);
@@ -572,6 +575,7 @@ function NLVcollapse(graphObject, value) {
     
     graphObject.links_at_distance = links_at_distance;
     graphObject.nodes_at_distance = nodes_at_distance;
+    graphObject.merged_at_distance = merged_at_distance;
 
     graphObject.prevNLVCollapsevalue = prevValue;
     changeLogScale(graphObject);
