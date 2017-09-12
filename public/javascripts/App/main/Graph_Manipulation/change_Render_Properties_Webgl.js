@@ -471,10 +471,11 @@ function NLVcollapse(graphObject, value) {
     if (value < prevValue && nodes_at_distance[prevValue] != undefined && links_at_distance[prevValue] != undefined){
         
         for (i in links_at_distance[prevValue]["remove"]){
-            var link = graphGL.getLink(graph.sameNodeHas[links_at_distance[prevValue]["remove"][i][0]], graph.sameNodeHas[links_at_distance[prevValue]["remove"][i][1]]);
-            graphGL.removeLink(link); 
-            var link = graphGL.getLink(graph.sameNodeHas[links_at_distance[prevValue]["remove"][i][0]], graph.sameNodeHas[links_at_distance[prevValue]["remove"][i][1]]);
-            console.log("AQUI", link);
+            link = graphGL.getLink(graph.sameNodeHas[links_at_distance[prevValue]["remove"][i][0]], graph.sameNodeHas[links_at_distance[prevValue]["remove"][i][1]]);
+            while(link != null){
+                graphGL.removeLink(link); 
+                link = graphGL.getLink(graph.sameNodeHas[links_at_distance[prevValue]["remove"][i][0]], graph.sameNodeHas[links_at_distance[prevValue]["remove"][i][1]]);
+            }
         }
 
         for(k in nodes_at_distance[prevValue]){
