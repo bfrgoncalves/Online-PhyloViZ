@@ -458,7 +458,6 @@ function NLVcollapse(graphObject, value) {
 
     var nodes_at_distance = graphObject.nodes_at_distance == undefined ? {} : graphObject.nodes_at_distance;
     var links_at_distance = graphObject.links_at_distance == undefined ? {} : graphObject.links_at_distance;
-    var links_id_to_data = graphObject.links_id_to_data == undefined ? {} : graphObject.links_id_to_data;
 
     var nodes_to_remove = [];
     var links_to_remove = [];
@@ -476,30 +475,17 @@ function NLVcollapse(graphObject, value) {
             var link = graphGL.getLink(links_at_distance[prevValue]["remove"][i][0], links_at_distance[prevValue]["remove"][i][1]);
             graphGL.removeLink(link); 
         }
-
-        countAdded = 0;
         console.log(nodes_at_distance[prevValue]);
-        console.log(graph.sameNodeHas);
         for(k in nodes_at_distance[prevValue]){
             graph.sameNodeHas[nodes_at_distance[prevValue][k][1].id] = nodes_at_distance[prevValue][k][2];
             var node_to_change = graphGL.getNode(nodes_at_distance[prevValue][k][0].id);
             graphGL.addNode(graph.sameNodeHas[nodes_at_distance[prevValue][k][1].id], nodes_at_distance[prevValue][k][1].data)
             node_to_change.data.isolates = nodes_at_distance[prevValue][k][0].data.isolates;
             graph.mergedNodes[graph.sameNodeHas[nodes_at_distance[prevValue][k][1].id]] = nodes_at_distance[prevValue][k][3];
-            countAdded += 1;
-
         }
-        console.log(countAdded);
-
-        countAddedLinks = 0;
-        //console.log(graph.sameNodeHas);
-        console.log(links_at_distance[prevValue]["add"]);
-        countAddedLinks = 0;
         for (j in links_at_distance[prevValue]["add"]){
-            countAddedLinks += 1;
             graphGL.addLink(links_at_distance[prevValue]["add"][j].fromId, links_at_distance[prevValue]["add"][j].toId, links_at_distance[prevValue]["add"][j].data);
         }
-        console.log(countAddedLinks);
     }
     else{
 
@@ -527,7 +513,6 @@ function NLVcollapse(graphObject, value) {
                                 links_to_add.push([id_to_use, linkedNode2.id, { connectionStrength: link2.data.connectionStrength , value: link2.data.connectionStrength, color: "#00ff00"}, LinkID]);
                             }
                         });
-                        links_id_to_data[link.fromId + "👉 " + link.toId] = { connectionStrength: link.data.connectionStrength , value: link.data.connectionStrength, color: "#00ff00"}
                         links_to_remove.push(link);
                     }
                   }
@@ -540,7 +525,6 @@ function NLVcollapse(graphObject, value) {
 
         //To get the status of links at each level
         nodes_at_distance[value] = [];
-        console.log(links_to_remove.length);
 
 
         for(p in to_same_node_as){
@@ -564,17 +548,12 @@ function NLVcollapse(graphObject, value) {
 
         links_at_distance[value] = {"add": links_to_remove, "remove": links_to_add};
 
-        countremoved = 0;
         for(n in nodes_to_remove){
-
             graphGL.forEachLinkedNode(nodes_to_remove[n], function(linkedNode, link){
-                console.log("AQUI");
                 links_at_distance[value]["add"].push(link);
             });
             graphGL.removeNode(nodes_to_remove[n]);
-            countremoved += 1;
         }
-        console.log(countremoved); 
     }
     prevValue = value;
 
@@ -586,8 +565,6 @@ function NLVcollapse(graphObject, value) {
     
     graphObject.links_at_distance = links_at_distance;
     graphObject.nodes_at_distance = nodes_at_distance;
-    graphObject.links_id_to_data = links_id_to_data;
-    
 
     graphObject.prevNLVCollapsevalue = prevValue;
     changeLogScale(graphObject);
