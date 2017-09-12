@@ -1,5 +1,5 @@
 
-function showInfo(mergedNodes, graphics, node, e) {
+function showInfo(mergedNodes, sameNodeHas, graphics, node, e) {
 	var nodeUI = graphics.getNodeUI(node.id);
 	rData = nodeUI.rawData;
 	pData = nodeUI.data;
@@ -10,6 +10,8 @@ function showInfo(mergedNodes, graphics, node, e) {
 	toShow = '<b>Key</b>: ' + node.id;
 
   keyToShow = '';
+
+  console.log(node.id, sameNodeHas[node.id]);
 
   mergedNodes[node.id].forEach(function(mergedNode){
     keyToShow += ' and ' + mergedNode.key
