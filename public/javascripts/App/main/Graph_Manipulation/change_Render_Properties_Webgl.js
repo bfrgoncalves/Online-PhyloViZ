@@ -534,7 +534,7 @@ function NLVcollapse(graphObject, value) {
             node_to_merge = graphGL.getNode(graph.sameNodeHas[to_same_node_as[p][0]]);
             
             slice_merge = graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][0]]].slice(0);
-            slice_change = graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][1]]]].slice(0);
+            slice_change = graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][1]]].slice(0);
 
             console.log("change", slice_change);
             console.log("merge", slice_merge);
