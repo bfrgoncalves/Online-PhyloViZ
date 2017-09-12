@@ -529,8 +529,8 @@ function NLVcollapse(graphObject, value) {
         });
 
         //To get the status of links at each level
-        nodes_at_distance[value] = [];
-        merged_at_distance[value] = {};
+        nodes_at_distance[prevValue + 1] = [];
+        merged_at_distance[prevValue + 1] = {};
 
         for(p in to_same_node_as){
             prev_sameNode_has = graph.sameNodeHas[to_same_node_as[p][0]];
@@ -593,7 +593,7 @@ function NLVcollapse(graphObject, value) {
 
     $("#scaleNode").trigger("change");
 
-    if(prevValue + 1 < value) NLVcollapse(graphObject, value)
+    if(prevValue + 1 < value) NLVcollapse(graphObject, value);
 
 
 }
