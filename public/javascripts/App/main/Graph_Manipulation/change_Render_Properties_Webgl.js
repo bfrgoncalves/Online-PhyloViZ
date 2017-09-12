@@ -590,6 +590,8 @@ function NLVcollapse(graphObject, value) {
 
     $("#scaleNode").trigger("change");
 
+    console.log(links_at_distance);
+
 }
 
 function printDiv(graphObject) 
