@@ -404,8 +404,6 @@ function NLVgraph(graphObject, value) {
                         sourceKey = graph.sameNodeHas[sourceKey];
                         targetKey = graph.sameNodeHas[targetKey];*/
 
-                        console.log(countNodes, targetIndex);
-
                         sourceKey = graph.nodes[countNodes].key;
                         targetKey = graph.nodes[targetIndex].key;
 
@@ -451,7 +449,7 @@ function NLVcollapse(graphObject, value) {
     var graph = graphObject.graphInput;
     var graphics = graphObject.graphics;
     var addedLinks = graphObject.addedLinks;
-    var prevValue = graphObject.prevNLVCollapsevalue;
+    var prevValue = graphObject.prevNLVCollapsevalue == undefined ? 0 : graphObject.prevNLVCollapsevalue;
     var treeLinks = graphObject.treeLinks;
     var renderer = graphObject.renderer;
 
@@ -492,95 +490,103 @@ function NLVcollapse(graphObject, value) {
     }
     else{
 
-        countNodes = 0;
-        nodesLength = graph.nodes.length;
+        while(parseInt(prevValue) != parseInt(value)){
 
-        random_color = '#' + Math.random().toString(16).slice(2, 8).toUpperCase();
+            countNodes = 0;
+            nodesLength = graph.nodes.length;
 
-        graphGL.forEachNode(function(node){
+            random_color = "#000";
 
-            if(node != undefined && node.id.indexOf('TransitionNode') < 0) {
-                //id_to_use = graph.sameNodeHas[node.id];
-                id_to_use = node.id;
-                //to_same_node_as = [];
+            //random_color = '#' + Math.random().toString(16).slice(2, 8).toUpperCase();
 
-                graphGL.forEachLinkedNode(id_to_use, function(linkedNode, link){
-                  if(link.data.connectionStrength === value){
+            graphGL.forEachNode(function(node){
 
-                    if(nodes_to_remove.indexOf(linkedNode.id) < 0 && already_merged[linkedNode.id] === undefined){
-                        nodes_to_remove.push(linkedNode.id);
-                        to_same_node_as.push([linkedNode.id, id_to_use]);
-                        already_merged[id_to_use] = true;
-                        
-                        graphGL.forEachLinkedNode(linkedNode.id, function(linkedNode2, link2){
-                            if(nodes_to_remove.indexOf(linkedNode2.id) < 0 && id_to_use !== linkedNode2.id){
-                                LinkID = id_to_use + "👉 " + linkedNode2.id;
-                                links_to_add.push([id_to_use, linkedNode2.id, { connectionStrength: link2.data.connectionStrength , value: link2.data.connectionStrength, color: random_color}, LinkID]);
-                            }
-                        });
-                        links_to_remove.push(link);
-                    }
-                  }
-                });
+                if(node != undefined && node.id.indexOf('TransitionNode') < 0) {
+                    //id_to_use = graph.sameNodeHas[node.id];
+                    id_to_use = node.id;
+                    //to_same_node_as = [];
+
+                    graphGL.forEachLinkedNode(id_to_use, function(linkedNode, link){
+                      if(link.data.connectionStrength === prevValue){
+
+                        if(nodes_to_remove.indexOf(linkedNode.id) < 0 && already_merged[linkedNode.id] === undefined){
+                            nodes_to_remove.push(linkedNode.id);
+                            to_same_node_as.push([linkedNode.id, id_to_use]);
+                            already_merged[id_to_use] = true;
+                            
+                            graphGL.forEachLinkedNode(linkedNode.id, function(linkedNode2, link2){
+                                if(nodes_to_remove.indexOf(linkedNode2.id) < 0 && id_to_use !== linkedNode2.id){
+                                    LinkID = id_to_use + "👉 " + linkedNode2.id;
+                                    links_to_add.push([id_to_use, linkedNode2.id, { connectionStrength: link2.data.connectionStrength , value: link2.data.connectionStrength, color: random_color}, LinkID]);
+                                }
+                            });
+                            links_to_remove.push(link);
+                        }
+                      }
+                    });
 
 
-                
-            }
-        });
-
-        //To get the status of links at each level
-        nodes_at_distance[value] = [];
-        merged_at_distance[value] = {};
-
-        for(p in to_same_node_as){
-            prev_sameNode_has = graph.sameNodeHas[to_same_node_as[p][0]];
-            node_to_change = graphGL.getNode(graph.sameNodeHas[to_same_node_as[p][1]]);
-            node_to_merge = graphGL.getNode(graph.sameNodeHas[to_same_node_as[p][0]]);
-            
-            slice_merge = graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][0]]].slice(0);
-            slice_change = graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][1]]].slice(0);
-            slice_isolates = node_to_change.data.isolates.slice(0);
-
-            if(merged_at_distance[value][node_to_change.id] == undefined) merged_at_distance[value][node_to_change.id] = [slice_change, slice_isolates];
-
-            //To get the status of nodes at each level
-            nodes_at_distance[value].push([node_to_change, node_to_merge, prev_sameNode_has, slice_merge, merged_at_distance[value][node_to_change.id][0], merged_at_distance[value][node_to_change.id][1]]);
-            
-            node_to_change.data.isolates = node_to_change.data.isolates.concat(node_to_merge.data.isolates);
-            
-            graph.sameNodeHas[to_same_node_as[p][0]] = graph.sameNodeHas[to_same_node_as[p][1]];
-            graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][1]]] = graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][1]]].concat(node_to_merge.data);
-        }
-
-        for(k in links_to_add){
-            links_to_add[k][0] = graph.sameNodeHas[links_to_add[k][0]];
-            links_to_add[k][1] = graph.sameNodeHas[links_to_add[k][1]];
-            graphGL.addLink(links_to_add[k][0], links_to_add[k][1], links_to_add[k][2])
-        }
-
-        links_at_distance[value] = {"add": links_to_remove, "remove": links_to_add};
-
-        for(n in nodes_to_remove){
-            graphGL.forEachLinkedNode(nodes_to_remove[n], function(linkedNode, link){
-                links_at_distance[value]["add"].push(link);
+                    
+                }
             });
-            graphGL.removeNode(nodes_to_remove[n]);
+
+            //To get the status of links at each level
+            nodes_at_distance[value] = [];
+            merged_at_distance[value] = {};
+
+            for(p in to_same_node_as){
+                prev_sameNode_has = graph.sameNodeHas[to_same_node_as[p][0]];
+                node_to_change = graphGL.getNode(graph.sameNodeHas[to_same_node_as[p][1]]);
+                node_to_merge = graphGL.getNode(graph.sameNodeHas[to_same_node_as[p][0]]);
+                
+                slice_merge = graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][0]]].slice(0);
+                slice_change = graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][1]]].slice(0);
+                slice_isolates = node_to_change.data.isolates.slice(0);
+
+                if(merged_at_distance[value][node_to_change.id] == undefined) merged_at_distance[value][node_to_change.id] = [slice_change, slice_isolates];
+
+                //To get the status of nodes at each level
+                nodes_at_distance[prevValue].push([node_to_change, node_to_merge, prev_sameNode_has, slice_merge, merged_at_distance[value][node_to_change.id][0], merged_at_distance[value][node_to_change.id][1]]);
+                
+                node_to_change.data.isolates = node_to_change.data.isolates.concat(node_to_merge.data.isolates);
+                
+                graph.sameNodeHas[to_same_node_as[p][0]] = graph.sameNodeHas[to_same_node_as[p][1]];
+                graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][1]]] = graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][1]]].concat(node_to_merge.data);
+            }
+
+            for(k in links_to_add){
+                links_to_add[k][0] = graph.sameNodeHas[links_to_add[k][0]];
+                links_to_add[k][1] = graph.sameNodeHas[links_to_add[k][1]];
+                graphGL.addLink(links_to_add[k][0], links_to_add[k][1], links_to_add[k][2])
+            }
+
+            links_at_distance[value] = {"add": links_to_remove, "remove": links_to_add};
+
+            for(n in nodes_to_remove){
+                graphGL.forEachLinkedNode(nodes_to_remove[n], function(linkedNode, link){
+                    links_at_distance[value]["add"].push(link);
+                });
+                graphGL.removeNode(nodes_to_remove[n]);
+            }
         }
+        prevValue += 1;
+
+        if(graphObject.isLayoutPaused){
+            renderer.rerender();
+        }
+
+        //graphObject.addedLinks = addedLinks;
+        
+        graphObject.links_at_distance = links_at_distance;
+        graphObject.nodes_at_distance = nodes_at_distance;
+        graphObject.merged_at_distance = merged_at_distance;
+
+        graphObject.prevNLVCollapsevalue = prevValue;
+        changeLogScale(graphObject);
+
+
+
     }
-    prevValue = value;
-
-    if(graphObject.isLayoutPaused){
-        renderer.rerender();
-    }
-
-    //graphObject.addedLinks = addedLinks;
-    
-    graphObject.links_at_distance = links_at_distance;
-    graphObject.nodes_at_distance = nodes_at_distance;
-    graphObject.merged_at_distance = merged_at_distance;
-
-    graphObject.prevNLVCollapsevalue = prevValue;
-    changeLogScale(graphObject);
 
     setNewProgram(graphObject, buildCircleNodeShader);
 
