@@ -534,7 +534,7 @@ function NLVcollapse(graphObject, value) {
             node_to_merge = graphGL.getNode(to_same_node_as[p][0]);
             
             //To get the status of nodes at each level
-            nodes_at_distance[value].push([node_to_change, node_to_merge, prev_sameNode_has, graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][0]]], graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][1]]]]);
+            nodes_at_distance[value].push([node_to_change, node_to_merge, prev_sameNode_has, graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][0]]].slice(0), graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][1]]]].slice(0));
             
             node_to_change.data.isolates = node_to_change.data.isolates.concat(node_to_merge.data.isolates);
             
