@@ -481,7 +481,7 @@ function NLVcollapse(graphObject, value) {
             graph.sameNodeHas[nodes_at_distance[prevValue][k][1].id] = nodes_at_distance[prevValue][k][2];
             var node_to_change = graphGL.getNode(nodes_at_distance[prevValue][k][0].id);
             graphGL.addNode(nodes_at_distance[prevValue][k][1].id, nodes_at_distance[prevValue][k][1].data)
-            node_to_change.data.isolates = nodes_at_distance[prevValue][k][0].data.isolates;
+            node_to_change.data.isolates = nodes_at_distance[prevValue][k][5];
             graph.mergedNodes[graph.sameNodeHas[nodes_at_distance[prevValue][k][1].id]] = nodes_at_distance[prevValue][k][3];
             graph.mergedNodes[graph.sameNodeHas[nodes_at_distance[prevValue][k][0].id]] = nodes_at_distance[prevValue][k][4];
         }
@@ -536,13 +536,14 @@ function NLVcollapse(graphObject, value) {
             
             slice_merge = graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][0]]].slice(0);
             slice_change = graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][1]]].slice(0);
+            slice_isolates = node_to_change.data.isolates.slice(0);
 
-            if(merged_at_distance[value][node_to_change.id] == undefined) merged_at_distance[value][node_to_change.id] = slice_change;
+            if(merged_at_distance[value][node_to_change.id] == undefined) merged_at_distance[value][node_to_change.id] = [slice_change, slice_isolates];
 
             console.log("change", slice_change);
             console.log("merge", slice_merge);
             //To get the status of nodes at each level
-            nodes_at_distance[value].push([node_to_change, node_to_merge, prev_sameNode_has, slice_merge, merged_at_distance[value][node_to_change.id]]);
+            nodes_at_distance[value].push([node_to_change, node_to_merge, prev_sameNode_has, slice_merge, merged_at_distance[value][node_to_change.id][0], merged_at_distance[value][node_to_change.id][1]]);
             
             node_to_change.data.isolates = node_to_change.data.isolates.concat(node_to_merge.data.isolates);
             
