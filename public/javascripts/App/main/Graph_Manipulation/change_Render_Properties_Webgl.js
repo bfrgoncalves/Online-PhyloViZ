@@ -473,7 +473,7 @@ function NLVcollapse(graphObject, value) {
     if (value < prevValue && nodes_at_distance[prevValue] != undefined && links_at_distance[prevValue] != undefined){
         
         for (i in links_at_distance[prevValue]["remove"]){
-            var link = graphGL.getLink(links_at_distance[prevValue]["remove"][i][0], links_at_distance[prevValue]["remove"][i][1]);
+            var link = graphGL.getLink(graph.sameNodeHas[links_at_distance[prevValue]["remove"][i][0]], graph.sameNodeHas[links_at_distance[prevValue]["remove"][i][1]]);
             graphGL.removeLink(link); 
         }
         console.log(nodes_at_distance[prevValue]);
