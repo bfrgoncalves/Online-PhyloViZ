@@ -449,7 +449,7 @@ function NLVcollapse(graphObject, value) {
     var graph = graphObject.graphInput;
     var graphics = graphObject.graphics;
     var addedLinks = graphObject.addedLinks;
-    var prevValue = graphObject.prevNLVCollapsevalue == undefined ? 0 : graphObject.prevNLVCollapsevalue;
+    var prevValue = graphObject.prevNLVCollapsevalue == undefined ? 0 : parseInt(graphObject.prevNLVCollapsevalue);
     var treeLinks = graphObject.treeLinks;
     var renderer = graphObject.renderer;
 
@@ -464,7 +464,7 @@ function NLVcollapse(graphObject, value) {
     var to_same_node_as = [];
     var already_merged = {};
 
-    value = parseFloat(value);
+    value = parseInt(value);
 
     if (value < prevValue && nodes_at_distance[prevValue] != undefined && links_at_distance[prevValue] != undefined){
         
