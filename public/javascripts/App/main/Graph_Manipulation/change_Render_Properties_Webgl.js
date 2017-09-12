@@ -479,8 +479,9 @@ function NLVcollapse(graphObject, value) {
 
         countAdded = 0;
         console.log(nodes_at_distance[prevValue]);
+        console.log(graph.sameNodeHas);
         for(k in nodes_at_distance[prevValue]){
-            graph.sameNodeHas[nodes_at_distance[prevValue][k][0].id] = nodes_at_distance[prevValue][k][2];
+            graph.sameNodeHas[nodes_at_distance[prevValue][k][1].id] = nodes_at_distance[prevValue][k][2];
             var node_to_change = graphGL.getNode(nodes_at_distance[prevValue][k][0].id);
             graphGL.addNode(graph.sameNodeHas[nodes_at_distance[prevValue][k][1].id], nodes_at_distance[prevValue][k][1].data)
             node_to_change.data.isolates = nodes_at_distance[prevValue][k][0].data.isolates;
