@@ -505,7 +505,7 @@ function NLVcollapse(graphObject, value) {
                 //to_same_node_as = [];
 
                 graphGL.forEachLinkedNode(id_to_use, function(linkedNode, link){
-                  if(link.data.connectionStrength === value){
+                  if(link.data.connectionStrength === prevValue + 1){
 
                     if(nodes_to_remove.indexOf(linkedNode.id) < 0 && already_merged[linkedNode.id] === undefined){
                         nodes_to_remove.push(linkedNode.id);
@@ -541,10 +541,10 @@ function NLVcollapse(graphObject, value) {
             slice_change = graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][1]]].slice(0);
             slice_isolates = node_to_change.data.isolates.slice(0);
 
-            if(merged_at_distance[value][node_to_change.id] == undefined) merged_at_distance[value][node_to_change.id] = [slice_change, slice_isolates];
+            if(merged_at_distance[prevValue + 1][node_to_change.id] == undefined) merged_at_distance[prevValue + 1][node_to_change.id] = [slice_change, slice_isolates];
 
             //To get the status of nodes at each level
-            nodes_at_distance[value].push([node_to_change, node_to_merge, prev_sameNode_has, slice_merge, merged_at_distance[value][node_to_change.id][0], merged_at_distance[value][node_to_change.id][1]]);
+            nodes_at_distance[prevValue + 1].push([node_to_change, node_to_merge, prev_sameNode_has, slice_merge, merged_at_distance[value][node_to_change.id][0], merged_at_distance[value][node_to_change.id][1]]);
             
             node_to_change.data.isolates = node_to_change.data.isolates.concat(node_to_merge.data.isolates);
             
@@ -558,16 +558,16 @@ function NLVcollapse(graphObject, value) {
             graphGL.addLink(links_to_add[k][0], links_to_add[k][1], links_to_add[k][2])
         }
 
-        links_at_distance[value] = {"add": links_to_remove, "remove": links_to_add};
+        links_at_distance[prevValue + 1] = {"add": links_to_remove, "remove": links_to_add};
 
         for(n in nodes_to_remove){
             graphGL.forEachLinkedNode(nodes_to_remove[n], function(linkedNode, link){
-                links_at_distance[value]["add"].push(link);
+                links_at_distance[prevValue + 1]["add"].push(link);
             });
             graphGL.removeNode(nodes_to_remove[n]);
         }
     }
-    prevValue = value;
+    prevValue += 1;
 
     if(graphObject.isLayoutPaused){
         renderer.rerender();
@@ -592,6 +592,9 @@ function NLVcollapse(graphObject, value) {
     }
 
     $("#scaleNode").trigger("change");
+
+    if(prevValue + 1 < value) NLVcollapse(graphObject, value)
+
 
 }
 
