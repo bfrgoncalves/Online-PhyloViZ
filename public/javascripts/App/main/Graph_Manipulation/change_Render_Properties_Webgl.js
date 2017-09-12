@@ -481,8 +481,8 @@ function NLVcollapse(graphObject, value) {
             var node_to_change = graphGL.getNode(nodes_at_distance[prevValue][k][0].id);
             graphGL.addNode(nodes_at_distance[prevValue][k][1].id, nodes_at_distance[prevValue][k][1].data)
             node_to_change.data.isolates = nodes_at_distance[prevValue][k][0].data.isolates;
-            graph.mergedNodes[nodes_at_distance[prevValue][k][1].id] = nodes_at_distance[prevValue][k][3];
-            graph.mergedNodes[nodes_at_distance[prevValue][k][0].id] = nodes_at_distance[prevValue][k][4];
+            graph.mergedNodes[graph.sameNodeHas[nodes_at_distance[prevValue][k][1].id]] = nodes_at_distance[prevValue][k][3];
+            graph.mergedNodes[graph.sameNodeHas[nodes_at_distance[prevValue][k][0].id]] = nodes_at_distance[prevValue][k][4];
         }
         for (j in links_at_distance[prevValue]["add"]){
             graphGL.addLink(links_at_distance[prevValue]["add"][j].fromId, links_at_distance[prevValue]["add"][j].toId, links_at_distance[prevValue]["add"][j].data);
@@ -530,7 +530,6 @@ function NLVcollapse(graphObject, value) {
 
         for(p in to_same_node_as){
             prev_sameNode_has = graph.sameNodeHas[to_same_node_as[p][0]];
-            graph.sameNodeHas[to_same_node_as[p][0]] = graph.sameNodeHas[to_same_node_as[p][1]];
             node_to_change = graphGL.getNode(graph.sameNodeHas[to_same_node_as[p][1]]);
             node_to_merge = graphGL.getNode(to_same_node_as[p][0]);
             
@@ -539,7 +538,7 @@ function NLVcollapse(graphObject, value) {
             
             node_to_change.data.isolates = node_to_change.data.isolates.concat(node_to_merge.data.isolates);
             
-
+            graph.sameNodeHas[to_same_node_as[p][0]] = graph.sameNodeHas[to_same_node_as[p][1]];
             graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][1]]] = graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][1]]].concat(node_to_merge.data);
         }
 
