@@ -83,7 +83,7 @@ function LabelSize(newSize, graphObject, domLabels, type){
     
 }
 
-function changeLogScale(graphObject){
+function changeLogScale(graphObject, is_refresh){
 
     var renderer = graphObject.renderer;
     var graphGL = graphObject.graphGL;
@@ -100,6 +100,8 @@ function changeLogScale(graphObject){
             var linkUI = graphGL.getLink(link.fromId, link.toId);
 
             var spring = layout.getSpring(link.fromId, link.toId);
+
+            console.log(spring.length, linkUI.data.connectionStrength);
 
             if (graphObject.isLogScale && spring.length > 1) spring.length = Math.log10(spring.length);
             else if(graphObject.isLogScale) spring.length = spring.length;
