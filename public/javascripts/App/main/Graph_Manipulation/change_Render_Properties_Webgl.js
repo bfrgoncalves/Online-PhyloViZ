@@ -465,28 +465,28 @@ function NLVcollapse(graphObject, value) {
 
     value = parseFloat(value);
 
-    //if (value < prevValue && nodes_at_distance[prevValue] != undefined && links_at_distance[prevValue] != undefined){
+    if (nodes_at_distance[prevValue] != undefined && links_at_distance[prevValue] != undefined){
         
-    for (i in links_at_distance[prevValue]["remove"]){
-        link = graphGL.getLink(graph.sameNodeHas[links_at_distance[prevValue]["remove"][i][0]], graph.sameNodeHas[links_at_distance[prevValue]["remove"][i][1]]);
-        while(link != null){
-            graphGL.removeLink(link); 
+        for (i in links_at_distance[prevValue]["remove"]){
             link = graphGL.getLink(graph.sameNodeHas[links_at_distance[prevValue]["remove"][i][0]], graph.sameNodeHas[links_at_distance[prevValue]["remove"][i][1]]);
+            while(link != null){
+                graphGL.removeLink(link); 
+                link = graphGL.getLink(graph.sameNodeHas[links_at_distance[prevValue]["remove"][i][0]], graph.sameNodeHas[links_at_distance[prevValue]["remove"][i][1]]);
+            }
+        }
+
+        for(k in nodes_at_distance[prevValue]){
+            graph.sameNodeHas[nodes_at_distance[prevValue][k][1].id] = nodes_at_distance[prevValue][k][2];
+            var node_to_change = graphGL.getNode(nodes_at_distance[prevValue][k][0].id);
+            graphGL.addNode(nodes_at_distance[prevValue][k][1].id, nodes_at_distance[prevValue][k][1].data)
+            node_to_change.data.isolates = nodes_at_distance[prevValue][k][5];
+            graph.mergedNodes[graph.sameNodeHas[nodes_at_distance[prevValue][k][1].id]] = nodes_at_distance[prevValue][k][3];
+            graph.mergedNodes[graph.sameNodeHas[nodes_at_distance[prevValue][k][0].id]] = nodes_at_distance[prevValue][k][4];
+        }
+        for (j in links_at_distance[prevValue]["add"]){
+            graphGL.addLink(links_at_distance[prevValue]["add"][j].fromId, links_at_distance[prevValue]["add"][j].toId, links_at_distance[prevValue]["add"][j].data);
         }
     }
-
-    for(k in nodes_at_distance[prevValue]){
-        graph.sameNodeHas[nodes_at_distance[prevValue][k][1].id] = nodes_at_distance[prevValue][k][2];
-        var node_to_change = graphGL.getNode(nodes_at_distance[prevValue][k][0].id);
-        graphGL.addNode(nodes_at_distance[prevValue][k][1].id, nodes_at_distance[prevValue][k][1].data)
-        node_to_change.data.isolates = nodes_at_distance[prevValue][k][5];
-        graph.mergedNodes[graph.sameNodeHas[nodes_at_distance[prevValue][k][1].id]] = nodes_at_distance[prevValue][k][3];
-        graph.mergedNodes[graph.sameNodeHas[nodes_at_distance[prevValue][k][0].id]] = nodes_at_distance[prevValue][k][4];
-    }
-    for (j in links_at_distance[prevValue]["add"]){
-        graphGL.addLink(links_at_distance[prevValue]["add"][j].fromId, links_at_distance[prevValue]["add"][j].toId, links_at_distance[prevValue]["add"][j].data);
-    }
-    //}
     //else{
 
     countNodes = 0;
