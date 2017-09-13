@@ -579,7 +579,6 @@ function NLVcollapse(graphObject, value) {
     graphObject.merged_at_distance = merged_at_distance;
 
     graphObject.prevNLVCollapsevalue = prevValue;
-    //changeLogScale(graphObject);
 
     setNewProgram(graphObject, buildCircleNodeShader);
 
@@ -591,6 +590,8 @@ function NLVcollapse(graphObject, value) {
     }
 
     $("#scaleNode").trigger("change");
+
+    changeLogScale(graphObject);
 
 
 }
