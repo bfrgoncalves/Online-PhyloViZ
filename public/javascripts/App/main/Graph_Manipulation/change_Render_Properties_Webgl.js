@@ -83,7 +83,7 @@ function LabelSize(newSize, graphObject, domLabels, type){
     
 }
 
-function changeLogScale(graphObject, is_refresh){
+function changeLogScale(graphObject){
 
     var renderer = graphObject.renderer;
     var graphGL = graphObject.graphGL;
@@ -101,11 +101,17 @@ function changeLogScale(graphObject, is_refresh){
 
             var spring = layout.getSpring(link.fromId, link.toId);
 
-            if (graphObject.isLogScale && spring.length > 1 && linkUI.prevSpring == undefined){
+            if (graphObject.isLogScale && spring.length > 1){
                 spring.length = Math.log10(spring.length);
             }
-            else if(graphObject.isLogScale) spring.length = spring.length;
-            else spring.length = graphObject.defaultLayoutParams.springLength * linkUI.data.connectionStrength;
+            else if(graphObject.isLogScale){
+                spring.length = spring.length;
+                console.log("AQUI1");
+            };
+            else{
+                spring.length = graphObject.defaultLayoutParams.springLength * linkUI.data.connectionStrength;
+                console.log("AQUI2");
+            };
 
         })
 }
