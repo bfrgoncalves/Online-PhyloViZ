@@ -107,11 +107,11 @@ function changeLogScale(graphObject){
             else if(graphObject.isLogScale){
                 spring.length = spring.length;
                 console.log("AQUI1");
-            };
+            }
             else{
                 spring.length = graphObject.defaultLayoutParams.springLength * linkUI.data.connectionStrength;
                 console.log("AQUI2");
-            };
+            }
 
         })
 }
