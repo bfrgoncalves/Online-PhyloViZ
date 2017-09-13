@@ -97,15 +97,17 @@ function changeLogScale(graphObject, is_refresh){
 
     graphGL.forEachLink(function(link){
             
-            var linkUI = graphGL.getLink(link.fromId, link.toId);
+            var linkUI = graphGL.getLink(link.fromId, link.toId); 
 
             var spring = layout.getSpring(link.fromId, link.toId);
 
             console.log(spring.length, linkUI.data.connectionStrength);
 
-            if (graphObject.isLogScale && spring.length > 1) spring.length = Math.log10(spring.length);
+            if (graphObject.isLogScale && spring.length > 1 && linkUI.prevSpring == undefined) spring.length = Math.log10(spring.length);
             else if(graphObject.isLogScale) spring.length = spring.length;
             else spring.length = graphObject.defaultLayoutParams.springLength * linkUI.data.connectionStrength;
+
+            linkUI.prevSpring = true;
 
         })
 }
