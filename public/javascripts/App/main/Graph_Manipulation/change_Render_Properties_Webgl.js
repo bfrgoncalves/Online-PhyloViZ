@@ -101,13 +101,13 @@ function changeLogScale(graphObject){
 
             var spring = layout.getSpring(link.fromId, link.toId);
 
-            if (graphObject.isLogScale){
+            if (graphObject.isLogScale && spring.length > 1){
                 spring.length = Math.log10(spring.length);
             }
-            /*else if(graphObject.isLogScale){
+            else if(graphObject.isLogScale){
                 spring.length = spring.length;
-                console.log("AQUI1");
-            }*/
+                console.log("AQUI1",linkUI, spring.length);
+            }
             else{
                 spring.length = graphObject.defaultLayoutParams.springLength * linkUI.data.connectionStrength;
                 console.log("AQUI2");
