@@ -105,7 +105,7 @@ function changeLogScale(graphObject){
                 spring.length = Math.log10(spring.length);
             }
             else if(graphObject.isLogScale){
-                spring.length = spring.length;
+                //spring.length = spring.length;
                 console.log("AQUI1",linkUI, spring.length);
             }
             else{
