@@ -102,7 +102,7 @@ function changeLogScale(graphObject, is_refresh){
             var spring = layout.getSpring(link.fromId, link.toId);
 
             if (graphObject.isLogScale && spring.length > 1 && linkUI.prevSpring == undefined){
-                console.log(spring.length, linkUI.prevSpring);
+                console.log(spring.length, linkUI.prevSpring, linkUI);
                 spring.length = Math.log10(spring.length);
                 console.log(spring.length);
             }
