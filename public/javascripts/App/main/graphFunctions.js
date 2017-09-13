@@ -235,6 +235,8 @@ function loadGraphFunctions(){
 			var containerPosition = container.getBoundingClientRect();
 			var header_height = $(".tabs_headers").height() + 5;
 
+			$("#labelsDiv").remove();
+
 			var labelsContainer = document.createElement('div');
 			labelsContainer.setAttribute("id", "labelsDiv");
 			labelsContainer.setAttribute("position", "absolute");

@@ -102,10 +102,7 @@ function changeLogScale(graphObject, is_refresh){
             var spring = layout.getSpring(link.fromId, link.toId);
 
             if (graphObject.isLogScale && spring.length > 1 && linkUI.prevSpring == undefined){
-                console.log(spring.length, linkUI.prevSpring, linkUI);
                 spring.length = Math.log10(spring.length);
-                console.log(spring.length);
-                linkUI.prevSpring = true;
             }
             else if(graphObject.isLogScale) spring.length = spring.length;
             else spring.length = graphObject.defaultLayoutParams.springLength * linkUI.data.connectionStrength;
@@ -596,7 +593,10 @@ function NLVcollapse(graphObject, value) {
 
     $("#scaleNode").trigger("change");
 
-    changeLogScale(graphObject);
+    setTimeout(function(){changeLogScale(graphObject);}, 500);
+
+    var graphFunctions = loadGraphFunctions();
+    graphFunctions.generateDOMLabels(graphObject);
 
 
 }
