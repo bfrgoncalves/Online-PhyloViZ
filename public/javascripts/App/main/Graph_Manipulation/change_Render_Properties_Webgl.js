@@ -595,6 +595,11 @@ function NLVcollapse(graphObject, value) {
 
     setTimeout(function(){changeLogScale(graphObject);}, 500);
 
+    if(graphObject.tovisualizeLinkLabels == true){
+        $('.node-label').css('display','block');
+        $('.link-label').css('display','block');
+    }
+
     var graphFunctions = loadGraphFunctions();
     graphFunctions.generateDOMLabels(graphObject);
 

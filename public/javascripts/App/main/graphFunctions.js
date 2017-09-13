@@ -236,6 +236,8 @@ function loadGraphFunctions(){
 			var header_height = $(".tabs_headers").height() + 5;
 
 			$("#labelsDiv").remove();
+			$('.link-label').remove();
+			$('.node-label').remove();
 
 			var labelsContainer = document.createElement('div');
 			labelsContainer.setAttribute("id", "labelsDiv");
