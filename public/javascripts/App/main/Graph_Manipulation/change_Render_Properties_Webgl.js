@@ -105,12 +105,10 @@ function changeLogScale(graphObject){
                 spring.length = Math.log10(spring.length);
             }
             else if(graphObject.isLogScale){
-                //spring.length = spring.length;
-                console.log("AQUI1",linkUI, spring.length);
+
             }
             else{
                 spring.length = graphObject.defaultLayoutParams.springLength * linkUI.data.connectionStrength;
-                console.log("AQUI2");
             }
 
         })
@@ -562,6 +560,7 @@ function NLVcollapse(graphObject, value) {
     for(k in links_to_add){
         links_to_add[k][0] = graph.sameNodeHas[links_to_add[k][0]];
         links_to_add[k][1] = graph.sameNodeHas[links_to_add[k][1]];
+        console.log(links_to_add);
         graphGL.addLink(links_to_add[k][0], links_to_add[k][1], links_to_add[k][2])
     }
 
