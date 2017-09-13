@@ -493,7 +493,7 @@ function NLVcollapse(graphObject, value) {
         for (j in links_at_distance[prevValue]["add"]){
             link_exists = graphGL.getLink(links_at_distance[prevValue]["add"][j].fromId, links_at_distance[prevValue]["add"][j].toId);
             console.log(link_exists);
-            if(link_exists != undefined) graphGL.addLink(links_at_distance[prevValue]["add"][j].fromId, links_at_distance[prevValue]["add"][j].toId, links_at_distance[prevValue]["add"][j].data);
+            if(link_exists != null) graphGL.addLink(links_at_distance[prevValue]["add"][j].fromId, links_at_distance[prevValue]["add"][j].toId, links_at_distance[prevValue]["add"][j].data);
         }
     }
     //else{
