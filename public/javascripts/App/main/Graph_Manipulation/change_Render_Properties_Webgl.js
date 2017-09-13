@@ -491,7 +491,9 @@ function NLVcollapse(graphObject, value) {
             graph.mergedNodes[graph.sameNodeHas[nodes_at_distance[prevValue][k][0].id]] = nodes_at_distance[prevValue][k][4];
         }
         for (j in links_at_distance[prevValue]["add"]){
-            graphGL.addLink(links_at_distance[prevValue]["add"][j].fromId, links_at_distance[prevValue]["add"][j].toId, links_at_distance[prevValue]["add"][j].data);
+            link_exists = graphGL.getLink(links_at_distance[prevValue]["add"][j].fromId, links_at_distance[prevValue]["add"][j].toId);
+            console.log(link_exists);
+            if(link_exists != undefined) graphGL.addLink(links_at_distance[prevValue]["add"][j].fromId, links_at_distance[prevValue]["add"][j].toId, links_at_distance[prevValue]["add"][j].data);
         }
     }
     //else{
@@ -557,10 +559,10 @@ function NLVcollapse(graphObject, value) {
         graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][1]]] = graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][1]]].concat(node_to_merge.data);
     }
 
+    console.log(links_to_add);
     for(k in links_to_add){
         links_to_add[k][0] = graph.sameNodeHas[links_to_add[k][0]];
         links_to_add[k][1] = graph.sameNodeHas[links_to_add[k][1]];
-        console.log(links_to_add);
         graphGL.addLink(links_to_add[k][0], links_to_add[k][1], links_to_add[k][2])
     }
 
