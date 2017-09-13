@@ -105,11 +105,10 @@ function changeLogScale(graphObject, is_refresh){
                 console.log(spring.length, linkUI.prevSpring, linkUI);
                 spring.length = Math.log10(spring.length);
                 console.log(spring.length);
+                linkUI.prevSpring = true;
             }
             else if(graphObject.isLogScale) spring.length = spring.length;
             else spring.length = graphObject.defaultLayoutParams.springLength * linkUI.data.connectionStrength;
-
-            linkUI.prevSpring = true;
 
         })
 }
