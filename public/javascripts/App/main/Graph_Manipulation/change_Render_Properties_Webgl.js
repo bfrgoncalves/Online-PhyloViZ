@@ -465,6 +465,7 @@ function NLVcollapse(graphObject, value) {
 
     value = parseFloat(value);
 
+    //Get back to original state
     if (nodes_at_distance[prevValue] != undefined && links_at_distance[prevValue] != undefined){
         
         for (i in links_at_distance[prevValue]["remove"]){
@@ -496,12 +497,11 @@ function NLVcollapse(graphObject, value) {
 
     //random_color = '#' + Math.random().toString(16).slice(2, 8).toUpperCase();
 
+    //Get nodes to remove and links to remove/add until specific value
     graphGL.forEachNode(function(node){
 
         if(node != undefined && node.id.indexOf('TransitionNode') < 0) {
-            //id_to_use = graph.sameNodeHas[node.id];
             id_to_use = node.id;
-            //to_same_node_as = [];
 
             graphGL.forEachLinkedNode(id_to_use, function(linkedNode, link){
               if(link.data.connectionStrength <= value){
@@ -579,7 +579,7 @@ function NLVcollapse(graphObject, value) {
     graphObject.merged_at_distance = merged_at_distance;
 
     graphObject.prevNLVCollapsevalue = prevValue;
-    changeLogScale(graphObject);
+    //changeLogScale(graphObject);
 
     setNewProgram(graphObject, buildCircleNodeShader);
 
