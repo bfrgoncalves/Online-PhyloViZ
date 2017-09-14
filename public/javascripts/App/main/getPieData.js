@@ -15,7 +15,6 @@ function gatherMetadata(graph, propertyToCheck, metadataFilter, callback){
 
 		checkMetadataInNodes(node, function(){
 			graph.mergedNodes[node.key].forEach(function(mergedNode){
-				console.log(mergedNode);
 				checkMetadataInNodes(mergedNode, function(){});
 			});
 		})

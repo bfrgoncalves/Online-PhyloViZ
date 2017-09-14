@@ -372,6 +372,12 @@ function changeColorToOuterRing(graphObject){
 
 function NLVgraph(graphObject, value) {
 
+    $("#nlvcollapsenumber").prop('disabled', true);
+
+    if(parseInt(value) == 0){
+        $("#nlvcollapsenumber").prop('disabled', false);
+    }
+
     var graphGL = graphObject.graphGL;
     var graph = graphObject.graphInput;
     var graphics = graphObject.graphics;
@@ -452,6 +458,12 @@ function NLVgraph(graphObject, value) {
 
 function NLVcollapse(graphObject, value) {
 
+    $("#NLVnumber").prop('disabled', true);
+
+    if(parseInt(value) == 0){
+        $("#NLVnumber").prop('disabled', false);
+    }
+
     var graphGL = graphObject.graphGL;
     var graph = graphObject.graphInput;
     var graphics = graphObject.graphics;
@@ -459,7 +471,6 @@ function NLVcollapse(graphObject, value) {
     var prevValue = graphObject.prevNLVCollapsevalue == undefined ? 0 : graphObject.prevNLVCollapsevalue;
     var treeLinks = graphObject.treeLinks;
     var renderer = graphObject.renderer;
-
 
     var nodes_at_distance = graphObject.nodes_at_distance == undefined ? {} : graphObject.nodes_at_distance;
     var links_at_distance = graphObject.links_at_distance == undefined ? {} : graphObject.links_at_distance;
