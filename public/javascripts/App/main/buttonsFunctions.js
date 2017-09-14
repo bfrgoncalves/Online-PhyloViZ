@@ -92,7 +92,7 @@ function loadButtonFunctions(){
 				graphObject.renderer.reset();
 				graphObject.renderer.reset();
 				graphObject.adjustLabelPositions();
-				nodePosition=graphObject.layout.getNodePosition(graphObject.TopNode.id);
+				nodePosition=graphObject.layout.getNodePosition(graphObject.graphInput[graphObject.TopNode.id]);
 				//graphObject.layout.setNodePosition(graphObject.TopNode.id, 0, 0);
 				graphObject.renderer.moveTo(nodePosition.x,nodePosition.y);
 				graphObject.graphFunctions.adjustScale(graphObject);
