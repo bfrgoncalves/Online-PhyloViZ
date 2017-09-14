@@ -452,9 +452,9 @@ function loadGraphFunctions(){
 			var distanceMatrix = [];
 			
 	        graphObject.graphInput.original_distance_matrix.map(function(x,i){
-	            graphObject.graphInput.original_distance_matrix.push([]);
+	            distanceMatrix.push([]);
 	            x.map(function(d, j){
-	              graphObject.graphInput.original_distance_matrix[i].push(d);
+	              distanceMatrix[i].push(d);
 	            })
 	        });
 
