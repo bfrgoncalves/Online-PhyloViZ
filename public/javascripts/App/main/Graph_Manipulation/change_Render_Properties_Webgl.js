@@ -513,24 +513,7 @@ function NLVcollapse(graphObject, value) {
               if(link.data.connectionStrength <= value){
 
                 if(nodes_to_remove.indexOf(linkedNode.id) < 0 && already_merged[linkedNode.id] === undefined){
-                    nodes_to_remove.push(linkedNode.id);
-                    to_same_node_as.push([linkedNode.id, id_to_use]);
-                    already_merged[id_to_use] = true;
-                    
-                    graphGL.forEachLinkedNode(linkedNode.id, function(linkedNode2, link2){
-                        if(nodes_to_remove.indexOf(linkedNode2.id) < 0 && id_to_use !== linkedNode2.id && link2.data.connectionStrength != value){
-                            LinkID = id_to_use + "👉 " + linkedNode2.id;
-                            links_to_add.push([id_to_use, linkedNode2.id, { connectionStrength: link2.data.connectionStrength , value: link2.data.connectionStrength, color: random_color}, LinkID]);
-                        }
-                        else if(nodes_to_remove.indexOf(linkedNode2.id) < 0 && id_to_use !== linkedNode2.id && link2.data.connectionStrength == value){
-                            nodes_to_remove.push(linkedNode2.id);
-                            to_same_node_as.push([linkedNode2.id, id_to_use]);
-                            graphGL.forEachLinkedNode(linkedNode2.id, function(linkedNode3, link3){
-                                LinkID = id_to_use + "👉 " + linkedNode3.id;
-                                links_to_add.push([id_to_use, linkedNode3.id, { connectionStrength: link3.data.connectionStrength , value: link3.data.connectionStrength, color: random_color}, LinkID]);
-                            });
-                        }
-                    });
+                    deal_with_links(linkedNode.id);
                     links_to_remove.push(link);
                 }
               }
@@ -540,6 +523,23 @@ function NLVcollapse(graphObject, value) {
             
         }
     });
+
+    function deal_with_links(linkNode_id){
+
+        nodes_to_remove.push(linkedNode.id);
+        to_same_node_as.push([linkedNode.id, id_to_use]);
+        already_merged[id_to_use] = true;
+
+        graphGL.forEachLinkedNode(linkNode_id, function(linkedNode2, link2){
+            if(nodes_to_remove.indexOf(linkedNode2.id) < 0 && id_to_use !== linkedNode2.id && link2.data.connectionStrength != value){
+                LinkID = id_to_use + "👉 " + linkedNode2.id;
+                links_to_add.push([id_to_use, linkedNode2.id, { connectionStrength: link2.data.connectionStrength , value: link2.data.connectionStrength, color: random_color}, LinkID]);
+            }
+            else if(nodes_to_remove.indexOf(linkedNode2.id) < 0 && id_to_use !== linkedNode2.id && link2.data.connectionStrength == value){
+               deal_with_links(linkedNode2.id);
+            }
+        });
+    }
 
     //To get the status of links at each level
     nodes_at_distance[value] = [];
