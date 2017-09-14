@@ -301,11 +301,6 @@ function loadGraphFunctions(){
 		          $('.node-label').css('display','none');
 		          $('.link-label').css('display','none');
 
-		          if(graphObject.tovisualizeLinkLabels == true){
-				        AddLinkLabels(graphObject);
-				  }
-
-
 		          	graphics.placeNode(function(ui, pos) {
                   	  if (graphObject.tovisualizeLabels == false) return false;
 	                  // This callback is called by the renderer before it updates

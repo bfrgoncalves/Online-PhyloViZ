@@ -518,9 +518,17 @@ function NLVcollapse(graphObject, value) {
                     already_merged[id_to_use] = true;
                     
                     graphGL.forEachLinkedNode(linkedNode.id, function(linkedNode2, link2){
-                        if(nodes_to_remove.indexOf(linkedNode2.id) < 0 && id_to_use !== linkedNode2.id){
+                        if(nodes_to_remove.indexOf(linkedNode2.id) < 0 && id_to_use !== linkedNode2.id && link2.data.connectionStrength != value){
                             LinkID = id_to_use + "👉 " + linkedNode2.id;
                             links_to_add.push([id_to_use, linkedNode2.id, { connectionStrength: link2.data.connectionStrength , value: link2.data.connectionStrength, color: random_color}, LinkID]);
+                        }
+                        else if(nodes_to_remove.indexOf(linkedNode2.id) < 0 && id_to_use !== linkedNode2.id && link2.data.connectionStrength == value){
+                            nodes_to_remove.push(linkedNode2.id);
+                            to_same_node_as.push([linkedNode2.id, id_to_use]);
+                            graphGL.forEachLinkedNode(linkedNode2.id, function(linkedNode3, link3){
+                                LinkID = id_to_use + "👉 " + linkedNode3.id;
+                                links_to_add.push([id_to_use, linkedNode3.id, { connectionStrength: link3.data.connectionStrength , value: link3.data.connectionStrength, color: random_color}, LinkID]);
+                            });
                         }
                     });
                     links_to_remove.push(link);
@@ -594,7 +602,7 @@ function NLVcollapse(graphObject, value) {
 
     $("#scaleNode").trigger("change");
 
-    changeLogScale(graphObject);
+    changeLogScale(graphObject); 
 
     var graphFunctions = loadGraphFunctions();
     graphFunctions.generateDOMLabels(graphObject);
