@@ -12,7 +12,6 @@ function loadGraphFunctions(){
 			var maxNodeValue = 0;
 			graph.all_positions_to_id = {};
 			
-			console.log(graph.nodes);
 			for (i in graph.nodes){
 				//console.log(graph.nodes[i]);
 		        graph.nodes[i].idGL = countAddedNodes;
@@ -22,7 +21,6 @@ function loadGraphFunctions(){
 		        graphGL.addNode(graph.nodes[i].key, graph.nodes[i]);
 		        if(graph.mergedNodes[graph.nodes[i].key].length != 0){
 		        	for(z in graph.mergedNodes[graph.nodes[i].key]){
-		        		console.log("BAH", graph.mergedNodes[graph.nodes[i].key][z].position);
 		        		graph.all_positions_to_id[graph.mergedNodes[graph.nodes[i].key][z].key] = graph.mergedNodes[graph.nodes[i].key][z].position;
 		        	}
 		        }
@@ -466,10 +464,6 @@ function loadGraphFunctions(){
 			array_of_keys1 = array_of_keys1.sort(function(a, b){return parseInt(b)-parseInt(a)});
 
 			count_lines = 0;
-
-			console.log(array_of_keys1, array_of_keys1.length);
-
-			//console.log("ORIGINAL", distanceMatrix);
 
 			for(y in distanceMatrix){
 				countremoved = 0;
