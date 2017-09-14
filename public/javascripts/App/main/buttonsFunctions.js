@@ -92,9 +92,9 @@ function loadButtonFunctions(){
 				graphObject.renderer.reset();
 				graphObject.renderer.reset();
 				graphObject.adjustLabelPositions();
-				console.log(graphObject.graphInput.sameNodeHas[graphObject.TopNode.id], graphObject.TopNode.id);
+
 				nodePosition=graphObject.layout.getNodePosition(graphObject.graphInput.sameNodeHas[graphObject.TopNode.id]);
-				//graphObject.layout.setNodePosition(graphObject.TopNode.id, 0, 0);
+
 				graphObject.renderer.moveTo(nodePosition.x,nodePosition.y);
 				graphObject.graphFunctions.adjustScale(graphObject);
 				graphObject.graphFunctions.launchGraphEvents(graphObject);

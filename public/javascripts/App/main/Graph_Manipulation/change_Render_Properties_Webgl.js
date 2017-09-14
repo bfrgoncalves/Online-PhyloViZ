@@ -495,7 +495,6 @@ function NLVcollapse(graphObject, value) {
             if(link_exists == null) graphGL.addLink(links_at_distance[prevValue]["add"][j].fromId, links_at_distance[prevValue]["add"][j].toId, links_at_distance[prevValue]["add"][j].data);
         }
     }
-    //else{
 
     countNodes = 0;
     nodesLength = graph.nodes.length;
@@ -558,7 +557,6 @@ function NLVcollapse(graphObject, value) {
         graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][1]]] = graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][1]]].concat(node_to_merge.data);
     }
 
-    console.log(links_to_add);
     for(k in links_to_add){
         links_to_add[k][0] = graph.sameNodeHas[links_to_add[k][0]];
         links_to_add[k][1] = graph.sameNodeHas[links_to_add[k][1]];
@@ -573,14 +571,11 @@ function NLVcollapse(graphObject, value) {
         });
         graphGL.removeNode(nodes_to_remove[n]);
     }
-    //}
     prevValue = value;
 
     if(graphObject.isLayoutPaused){
         renderer.rerender();
     }
-
-    //graphObject.addedLinks = addedLinks;
     
     graphObject.links_at_distance = links_at_distance;
     graphObject.nodes_at_distance = nodes_at_distance;
@@ -599,7 +594,7 @@ function NLVcollapse(graphObject, value) {
 
     $("#scaleNode").trigger("change");
 
-    setTimeout(function(){changeLogScale(graphObject);}, 500);
+    changeLogScale(graphObject);
 
     if(graphObject.tovisualizeLinkLabels == true){
         $('.node-label').css('display','block');
@@ -608,7 +603,6 @@ function NLVcollapse(graphObject, value) {
 
     var graphFunctions = loadGraphFunctions();
     graphFunctions.generateDOMLabels(graphObject);
-
 
 }
 
