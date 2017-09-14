@@ -447,7 +447,17 @@ function loadGraphFunctions(){
 
 		process_distance_matrix: function(graphObject){
 
-			var distanceMatrix = graphObject.graphInput.original_distance_matrix.slice(0);
+			//var distanceMatrix = graphObject.graphInput.original_distance_matrix.slice(0);
+
+			var distanceMatrix = [];
+			
+	        graphObject.graphInput.original_distance_matrix.map(function(x,i){
+	            graphObject.graphInput.original_distance_matrix.push([]);
+	            x.map(function(d, j){
+	              graphObject.graphInput.original_distance_matrix[i].push(d);
+	            })
+	        });
+
 			original_position_to_id = graphObject.graphInput.original_position_to_id;
 			
 			array_of_keys = Object.keys(original_position_to_id);
