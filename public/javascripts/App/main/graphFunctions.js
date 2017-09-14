@@ -301,6 +301,10 @@ function loadGraphFunctions(){
 		          $('.node-label').css('display','none');
 		          $('.link-label').css('display','none');
 
+		          if(graphObject.tovisualizeLinkLabels == true){
+				        $('.link-label').css('display','block');
+				    }
+
 
 		          	graphics.placeNode(function(ui, pos) {
                   	  if (graphObject.tovisualizeLabels == false) return false;
