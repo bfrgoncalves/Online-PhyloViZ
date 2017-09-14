@@ -447,7 +447,7 @@ function loadGraphFunctions(){
 
 		process_distance_matrix: function(graphObject){
 
-			var distanceMatrix = graphObject.graphInput.original_distance_matrix;
+			var distanceMatrix = graphObject.graphInput.original_distance_matrix.slice(0);
 			original_position_to_id = graphObject.graphInput.original_position_to_id;
 			
 			array_of_keys = Object.keys(original_position_to_id);
