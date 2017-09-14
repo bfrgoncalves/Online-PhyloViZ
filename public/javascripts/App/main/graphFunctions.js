@@ -436,7 +436,6 @@ function loadGraphFunctions(){
 
 			for (x in mergedNodes){
 				for(y in mergedNodes[x]){
-					console.log(graphObject.graphInput.all_positions_to_id, mergedNodes[x][y].key, graphObject.graphInput.all_positions_to_id[mergedNodes[x][y].key]);
 					original_position_to_id[graphObject.graphInput.all_positions_to_id[mergedNodes[x][y].key]] = mergedNodes[x][y].key;
 				}
 			}
