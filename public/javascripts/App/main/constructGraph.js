@@ -57,8 +57,10 @@ function constructGraph(graph, datasetID){
         graphFunctions.searchNodeByID(graphObject, '#nodeid');
 
         graphFunctions.launchGraphEvents(graphObject);
+
+        graphObject.graphInput.original_distance_matrix = graphObject.graphInput.distanceMatrix.slice(0);
+        
         graphFunctions.mergedNode_positions_to_ids(graphObject, function(){
-          graphObject.graphInput.original_distance_matrix = graphObject.graphInput.distanceMatrix.slice(0);
           graphFunctions.process_distance_matrix(graphObject);
         });
 
