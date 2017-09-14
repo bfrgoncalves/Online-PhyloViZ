@@ -394,7 +394,7 @@ function NLVgraph(graphObject, value) {
 
         countNodes = 0;
         nodesLength = graph.nodes.length;
-
+        console.log(graph.distanceMatrix);
         graphGL.forEachNode(function(node){
             console.log(node);
 
