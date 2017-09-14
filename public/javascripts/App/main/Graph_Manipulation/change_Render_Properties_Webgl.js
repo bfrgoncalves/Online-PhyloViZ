@@ -530,7 +530,7 @@ function NLVcollapse(graphObject, value) {
         to_same_node_as.push([linkedNode.id, id_to_use]);
         already_merged[id_to_use] = true;
 
-        graphGL.forEachLinkedNode(linkNode_id, function(linkedNode2, link2){
+        graphGL.forEachLinkedNode(linkedNode.id, function(linkedNode2, link2){
             if(nodes_to_remove.indexOf(linkedNode2.id) < 0 && id_to_use !== linkedNode2.id && link2.data.connectionStrength != value){
                 LinkID = id_to_use + "👉 " + linkedNode2.id;
                 links_to_add.push([id_to_use, linkedNode2.id, { connectionStrength: link2.data.connectionStrength , value: link2.data.connectionStrength, color: random_color}, LinkID]);
