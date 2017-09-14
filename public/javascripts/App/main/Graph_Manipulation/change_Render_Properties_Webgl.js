@@ -410,8 +410,8 @@ function NLVgraph(graphObject, value) {
                         sourceKey = graph.sameNodeHas[sourceKey];
                         targetKey = graph.sameNodeHas[targetKey];*/
 
-                        sourceKey = graph.nodes[countNodes].key;
-                        targetKey = graph.nodes[targetIndex].key;
+                        sourceKey = graph.sameNodeHas[graph.nodes[countNodes].key];
+                        targetKey = graph.sameNodeHas[graph.nodes[targetIndex].key];
 
                         //console.log(countNodes, i, targetIndex, sourceKey, targetKey, graph.original_position_to_id);
                         if(targetKey.indexOf('TransitionNode') < 0){
