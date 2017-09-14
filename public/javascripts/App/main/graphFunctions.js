@@ -10,7 +10,7 @@ function loadGraphFunctions(){
 			var maxLinkValue = 0;
 			var countAddedNodes = 0;
 			var maxNodeValue = 0;
-			graph.all_id_to_position = {};
+			graph.all_positions_to_id = {};
 			
 			console.log(graph.nodes);
 			for (i in graph.nodes){
