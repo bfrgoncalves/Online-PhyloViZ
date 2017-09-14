@@ -513,7 +513,7 @@ function NLVcollapse(graphObject, value) {
               if(link.data.connectionStrength <= value){
 
                 if(nodes_to_remove.indexOf(linkedNode.id) < 0 && already_merged[linkedNode.id] === undefined){
-                    deal_with_links(linkedNode.id);
+                    deal_with_links(linkedNode);
                     links_to_remove.push(link);
                 }
               }
@@ -524,7 +524,7 @@ function NLVcollapse(graphObject, value) {
         }
     });
 
-    function deal_with_links(linkNode_id){
+    function deal_with_links(linkedNode){
 
         nodes_to_remove.push(linkedNode.id);
         to_same_node_as.push([linkedNode.id, id_to_use]);
@@ -536,7 +536,7 @@ function NLVcollapse(graphObject, value) {
                 links_to_add.push([id_to_use, linkedNode2.id, { connectionStrength: link2.data.connectionStrength , value: link2.data.connectionStrength, color: random_color}, LinkID]);
             }
             else if(nodes_to_remove.indexOf(linkedNode2.id) < 0 && id_to_use !== linkedNode2.id && link2.data.connectionStrength == value){
-               deal_with_links(linkedNode2.id);
+               deal_with_links(linkedNode2);
             }
         });
     }
