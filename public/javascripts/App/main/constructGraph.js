@@ -58,6 +58,7 @@ function constructGraph(graph, datasetID){
 
         graphFunctions.launchGraphEvents(graphObject);
 
+        graphObject.graphInput.original_distance_matrix = [];
          graphObject.graphInput.distanceMatrix.map(function(x,i){
             graphObject.graphInput.original_distance_matrix.push([]);
             x.map(function(d, j){
