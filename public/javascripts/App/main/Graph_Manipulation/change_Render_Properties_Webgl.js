@@ -411,6 +411,8 @@ function NLVgraph(graphObject, value) {
                         sourceKey = graph.nodes[countNodes].key;
                         targetKey = graph.nodes[targetIndex].key;
 
+                        console.log(sourceKey, targetKey, graph.sameNodeHas[graph.nodes[countNodes].key], graph.nodes[targetIndex].key, countNodes, targetIndex);
+
                         //console.log(countNodes, i, targetIndex, sourceKey, targetKey, graph.original_position_to_id);
                         if(targetKey.indexOf('TransitionNode') < 0){
 
