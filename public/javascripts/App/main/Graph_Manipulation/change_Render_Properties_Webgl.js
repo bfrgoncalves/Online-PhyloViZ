@@ -603,7 +603,7 @@ function NLVcollapse(graphObject, value) {
     graphFunctions.generateDOMLabels(graphObject);
 
     graphFunctions.mergedNode_positions_to_ids(graphObject, function(){
-      graphObject.graphInput.original_distance_matrix = graphObject.graphInput.distanceMatrix.slice(0);
+      //graphObject.graphInput.original_distance_matrix = graphObject.graphInput.distanceMatrix.slice(0);
       graphFunctions.process_distance_matrix(graphObject);
     });
 
