@@ -1,95 +1,58 @@
-var fs = require('fs');
-//var https = require('https');
-
-var http = require('http');
-
-var cluster = require('cluster');
-var os = require('os');
-
-var compression = require('compression')
-
-//var session = require('express-session');
-
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var expressSession = require('express-session');
-var RedisStore = require('connect-redis')(expressSession);
-// var busboy = require('connect-busboy');
-var restful = require('node-restful')
-
-var passport = require('passport');
-
-var config = require('./config');
-
-var parseGoe = require('goeBURSTparser');
-var flash = require('connect-flash');
-
-var CronJob = require('cron').CronJob;
-var cronFunctions = require('./cronJobs/cronFunctions');
-
-var users = require('./routes/users');
-
-//var Queue = require('bull');
-
-//var queue = Queue("goeBURST queue", 6379, '127.0.0.1');
+const fs = require('fs');
+const http = require('http');
+const cluster = require('cluster');
+const os = require('os');
+const compression = require('compression')
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const expressSession = require('express-session');
+const RedisStore = require('connect-redis')(expressSession);
+const restful = require('node-restful')
+const passport = require('passport');
+const config = require('./config');
+const flash = require('connect-flash');
+const CronJob = require('cron').CronJob;
+const cronFunctions = require('./cronJobs/cronFunctions');
+const users = require('./routes/users');
 
 /*
-Promise.all([
-  queue.clean(0, 'active'),
-  queue.clean(0, 'waiting'),
-  queue.clean(0, 'delayed'),
-  queue.clean(0, 'failed'),
-  queue.clean(0, 'completed')
-]).then(function () {
-  console.log('Empty');
-});
+*
+* PHYLOViZ Online routes
+*
 */
 
-//queue.empty().then(function(){console.log('Empty Queue');});
+const upload = require('./routes/api/database/uploadPostgres');
+const goeBURST = require('./routes/api/algorithms/goeBURST');
+const apiHome = require('./routes/api/index');
+const phylovizInput = require('./routes/api/utils/phyloviz_input');
+const mailer = require('./routes/api/utils/mailer');
+const phyloviztableData = require('./routes/api/utils/tableData');
+const phylovizsubset = require('./routes/api/utils/subset');
+const publicLink = require('./routes/api/utils/publicLink');
+const postgres = require('./routes/api/database/postgres');
+const firstPage = require('./routes/app/firstPage');
+const index = require('./routes/app/index');
+const main = require('./routes/app/main');
 
-var upload = require('./routes/api/database/uploadPostgres');
-//var updateDataset = require('./routes/api/database/modifyDataset');
-var goeBURST = require('./routes/api/algorithms/goeBURST');
-var apiHome = require('./routes/api/index');
-//var mongoSearch = require('./routes/api/database/mongo');
-var phylovizInput = require('./routes/api/utils/phyloviz_input');
-var mailer = require('./routes/api/utils/mailer');
-var phyloviztableData = require('./routes/api/utils/tableData');
-var phylovizsubset = require('./routes/api/utils/subset');
-var publicLink = require('./routes/api/utils/publicLink');
-//var pubmlst = require('./routes/api/database/pubmlst');
+const app = express();
 
-var postgres = require('./routes/api/database/postgres');
-
-//var testAuthentication = require('./routes/app/testAuthentication');
-
-var firstPage = require('./routes/app/firstPage');
-var index = require('./routes/app/index');
-var main = require('./routes/app/main');
-
-var done = false;
-
-var app = express();
-
-// view engine setup
+//Setup of the View engine - Using jade middleware
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-//Redis
-var redis = require('redis');
-var client = redis.createClient();
+//Connect to redis
+const redis = require('redis');
+const client = redis.createClient();
 
 client.on('connect', function() {
     console.log('connected');
 });
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
+//Parser of server requests and setup of cookie system
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({limit: '100mb', extended: false}));
@@ -103,13 +66,16 @@ app.use(expressSession({
 app.use(passport.initialize());
 app.use(passport.session());
 
-//app.use('/api', passport.authenticate('basic', {session: false}));
-
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(flash());
 
 app.use(compression());
 
+/*
+*
+* Define routes
+*
+ */
 
 app.use('/', firstPage);
 app.use('/index', index);
@@ -117,16 +83,12 @@ app.use('/users', users);
 app.use('/main', main);
 app.use('/api', apiHome);
 app.use('/api/db/postgres/upload', upload);
-//app.use('/api/db/datasets/update', updateDataset);
 app.use('/api/algorithms/goeBURST', goeBURST);
 app.use('/api/utils/phylovizInput', phylovizInput);
 app.use('/api/utils/tableData', phyloviztableData);
 app.use('/api/utils/mailer', mailer);
 app.use('/api/utils/publiclink', publicLink);
-//app.use('/api/db', mongoSearch);
 app.use('/api/utils/phylovizsubset', phylovizsubset);
-//app.use('/api/pubmlst', pubmlst);
-
 app.use('/api/db/postgres', postgres);
 
 // catch 404 and forward to error handler
@@ -160,42 +122,22 @@ app.use(function(err, req, res, next) {
   });
 });
 
-/*
-if (cluster.isMaster) {
 
-    for (var i = 0; i < os.cpus().length/2; i++) {
-        cluster.fork();
-    }
-    
-} /*else {
-  if(cluster.worker.id == 1 || cluster.worker.id <= (os.cpus().length/4)){
-    console.log('Worker server');
-    var server = http.createServer(app).listen(3000); //http listen and express app will use all the middlewere
-    server.timeout = 100000000000;
-  }
-}*/
-
-console.log('Worker server');
-var server = http.createServer(app).listen(3000); //http listen and express app will use all the middlewere
+//Launch server
+const server = http.createServer(app).listen(3000); //http listen and express app will use all the middlewere
 server.timeout = 100000000000000;
 
+
 /*
-var server = http.createServer(app); //http listen and express app will use all the middlewere
-server.timeout = 100000000000;
-server.listen(config.port, function(){  //https server is listening
-  console.log('Server Running');
-});
-*/
+*
+* Cron Jobs
+*
+* */
+const cronJobs = cronFunctions();
 
-
-// CODE to generate certificate
-// openssl req -x509 -nodes -days 365 -newkey rsa:1024 -out my.crt -keyout my.key
-
-var cronJobs = cronFunctions();
-
-var job = new CronJob('00 00 00 * * 1-7', function() {
-  var connectionString = "pg://" + config.databaseUserString + "@localhost/"+ config.db;
-  var timeInterval = '24 hours';
+const job = new CronJob('00 00 00 * * 1-7', function() {
+  const connectionString = "pg://" + config.databaseUserString + "@localhost/"+ config.db;
+  const timeInterval = '24 hours';
   cronJobs.deletePublic(connectionString, timeInterval);
   }, function () {
     /* This function is executed when the job stops */

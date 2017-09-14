@@ -1,4 +1,4 @@
-function loadButtonFunctions(){
+const loadButtonFunctions = () => {
 
 	return {
 
