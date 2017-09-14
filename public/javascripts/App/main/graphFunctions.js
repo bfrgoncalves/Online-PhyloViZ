@@ -463,6 +463,8 @@ function loadGraphFunctions(){
 
 			count_lines = 0;
 
+			console.log("ORIGINAL", distanceMatrix);
+
 			for(y in distanceMatrix){
 				countremoved = 0;
 				for(z in array_of_keys){
@@ -484,7 +486,7 @@ function loadGraphFunctions(){
 
 			graphObject.graphInput.distanceMatrix = distanceMatrix;
 
-			console.log(graphObject.graphInput.distanceMatrix);
+			console.log("END", graphObject.graphInput.distanceMatrix);
 		},
 
 		launchGraphEvents: function(graphObject){
