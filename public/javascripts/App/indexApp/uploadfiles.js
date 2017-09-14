@@ -204,7 +204,6 @@ function checkgoeBURSTstatus(jobID, callback){
     contentType: false,
     type: 'GET',
     success: function(data){
-      console.log(data);
       callback(data.status);
     }
 
