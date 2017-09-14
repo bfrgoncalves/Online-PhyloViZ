@@ -170,7 +170,7 @@ function getLinks(data){
         
         setInterval(function(){ 
           var checkI = checkgoeBURSTstatus(data.jobid, function(status){
-            if(status == 'completed'){
+            if(status == 'complete'){
               window.location.replace("/main/dataset/" + datasetID);
               clearInterval(checkI);
             }
