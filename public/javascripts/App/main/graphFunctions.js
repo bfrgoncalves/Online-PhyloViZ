@@ -467,6 +467,8 @@ function loadGraphFunctions(){
 
 			count_lines = 0;
 
+			console.log(array_of_keys1, array_of_keys1.length);
+
 			//console.log("ORIGINAL", distanceMatrix);
 
 			for(y in distanceMatrix){
