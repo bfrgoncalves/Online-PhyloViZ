@@ -432,7 +432,6 @@ function loadGraphFunctions(){
 
 			mergedNodes = graphObject.graphInput.mergedNodes;
 			original_position_to_id = {};
-			console.log(mergedNodes);
 
 			for (x in mergedNodes){
 				for(y in mergedNodes[x]){
@@ -450,7 +449,7 @@ function loadGraphFunctions(){
 			//var distanceMatrix = graphObject.graphInput.original_distance_matrix.slice(0);
 
 			var distanceMatrix = [];
-			
+
 	        graphObject.graphInput.original_distance_matrix.map(function(x,i){
 	            distanceMatrix.push([]);
 	            x.map(function(d, j){
@@ -466,9 +465,6 @@ function loadGraphFunctions(){
 			array_of_keys = array_of_keys.sort(function(a, b){return parseInt(a)-parseInt(b)});
 			
 			array_of_keys1 = array_of_keys1.sort(function(a, b){return parseInt(b)-parseInt(a)});
-
-			console.log(array_of_keys);
-			console.log(array_of_keys1);
 
 			count_lines = 0;
 
@@ -489,9 +485,6 @@ function loadGraphFunctions(){
 			for(x in array_of_keys1){
 				distanceMatrix.splice(parseInt(array_of_keys1[x]), 1);
 			}
-			/*for(x in original_position_to_id){
-				distanceMatrix.splice(parseInt(x), 1);
-			}*/
 
 			graphObject.graphInput.distanceMatrix = distanceMatrix;
 

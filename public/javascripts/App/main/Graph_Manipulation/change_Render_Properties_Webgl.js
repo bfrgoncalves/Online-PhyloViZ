@@ -596,6 +596,8 @@ function NLVcollapse(graphObject, value) {
 
     changeLogScale(graphObject);
 
+    console.log(graphObject.tovisualizeLinkLabels);
+
     if(graphObject.tovisualizeLinkLabels == true){
         $('.node-label').css('display','block');
         $('.link-label').css('display','block');
