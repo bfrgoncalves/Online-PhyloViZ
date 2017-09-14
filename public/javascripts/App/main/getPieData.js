@@ -164,7 +164,6 @@ function changeNodeUIData(objectOfType, graphics, propertyIndexes, arrayColors, 
 
 	    if(!$.isEmptyObject(objectOfType[k])){
 		    nodeUI.rawData = objectOfType[k];
-		    console.log(nodeUI.rawData);
 		    for (j in objectOfType[k]){
 		      dataToChange.push(objectOfType[k][j]);
 		      indexes.push(arrayColors[propertyIndexes[j]]);

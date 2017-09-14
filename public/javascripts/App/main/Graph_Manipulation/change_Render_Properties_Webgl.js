@@ -395,6 +395,8 @@ function NLVgraph(graphObject, value) {
         countNodes = 0;
         nodesLength = graph.nodes.length;
 
+        console.log(graph.distanceMatrix);
+
         graphGL.forEachNode(function(node){
             if(node.id.indexOf('TransitionNode') < 0) {
                 for (i=1; i<graph.distanceMatrix[countNodes].length; i++){
@@ -411,7 +413,7 @@ function NLVgraph(graphObject, value) {
                         sourceKey = graph.sameNodeHas[graph.nodes[countNodes].key];
                         targetKey = graph.sameNodeHas[graph.nodes[targetIndex].key];
 
-                        console.log(sourceKey, targetKey, graph.sameNodeHas[graph.nodes[countNodes].key], graph.sameNodeHas[graph.nodes[targetIndex].key], countNodes, targetIndex);
+                        //console.log(sourceKey, targetKey, graph.sameNodeHas[graph.nodes[countNodes].key], graph.sameNodeHas[graph.nodes[targetIndex].key], countNodes, targetIndex);
 
                         //console.log(countNodes, i, targetIndex, sourceKey, targetKey, graph.original_position_to_id);
                         if(targetKey.indexOf('TransitionNode') < 0){
