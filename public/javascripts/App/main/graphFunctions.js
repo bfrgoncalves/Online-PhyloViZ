@@ -475,6 +475,8 @@ function loadGraphFunctions(){
 			}*/
 
 			graphObject.graphInput.distanceMatrix = distanceMatrix;
+
+			console.log(graphObject.graphInput.distanceMatrix);
 		},
 
 		launchGraphEvents: function(graphObject){
