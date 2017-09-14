@@ -20,7 +20,8 @@ function loadGraphFunctions(){
 		        	maxNodeValue = graph.nodes[i].isolates.length;
 		        }
 		        graphGL.addNode(graph.nodes[i].key, graph.nodes[i]);
-		        graph.all_positions_to_id[graph.nodes[i].key] = graph.nodes[i].position;
+		        graph.all_positions_to_id[graph.nodes[i].key] = i;
+		        console.log(graph.all_positions_to_id);
 		        countAddedNodes++;
 		    }
 
@@ -429,7 +430,7 @@ function loadGraphFunctions(){
 			console.log(mergedNodes);
 
 			for (x in mergedNodes){
-				for(y in mergedNodes[x]) original_position_to_id[mergedNodes[x][y].position] = mergedNodes[x][y].key;
+				for(y in mergedNodes[x]) original_position_to_id[graphObject.graph.all_positions_to_id[mergedNodes[x][y].key]] = mergedNodes[x][y].key;
 			}
 
 			graphObject.graphInput.original_position_to_id = original_position_to_id;

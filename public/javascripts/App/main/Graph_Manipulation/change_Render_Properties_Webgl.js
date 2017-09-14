@@ -544,9 +544,7 @@ function NLVcollapse(graphObject, value) {
         
         slice_merge = graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][0]]].slice(0);
         slice_change = graph.mergedNodes[graph.sameNodeHas[to_same_node_as[p][1]]].slice(0);
-        slice_change.position = graph.all_positions_to_id[slice_change.key];
         slice_isolates = node_to_change.data.isolates.slice(0);
-        console.log(slice_change, graph.all_positions_to_id, slice_change.key);
 
         if(merged_at_distance[value][node_to_change.id] == undefined) merged_at_distance[value][node_to_change.id] = [slice_change, slice_isolates];
 
