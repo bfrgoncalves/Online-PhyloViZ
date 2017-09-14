@@ -10,6 +10,7 @@ function loadGraphFunctions(){
 			var maxLinkValue = 0;
 			var countAddedNodes = 0;
 			var maxNodeValue = 0;
+			graph.all_id_to_position = {};
 			
 			console.log(graph.nodes);
 			for (i in graph.nodes){
@@ -19,6 +20,7 @@ function loadGraphFunctions(){
 		        	maxNodeValue = graph.nodes[i].isolates.length;
 		        }
 		        graphGL.addNode(graph.nodes[i].key, graph.nodes[i]);
+		        graph.all_positions_to_id[graph.nodes[i].key] = graph.nodes[i].position;
 		        countAddedNodes++;
 		    }
 
