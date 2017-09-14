@@ -302,8 +302,8 @@ function loadGraphFunctions(){
 		          $('.link-label').css('display','none');
 
 		          if(graphObject.tovisualizeLinkLabels == true){
-				        $('.link-label').css('display','block');
-				    }
+				        AddLinkLabels(graphObject);
+				  }
 
 
 		          	graphics.placeNode(function(ui, pos) {
