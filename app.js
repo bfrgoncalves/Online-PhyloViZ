@@ -1,3 +1,5 @@
+'use strict'
+
 const fs = require('fs');
 const http = require('http');
 const cluster = require('cluster');
