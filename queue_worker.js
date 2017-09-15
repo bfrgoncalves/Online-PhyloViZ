@@ -71,7 +71,7 @@ console.log('Process queue');
 
 queue.process( 'goeBURST', (job, jobDone) => {
 
-	console.log(job.jobId);
+    console.log("entrou");
 
 	const start = clock(); //Timer
 	let datasetId;
@@ -139,6 +139,8 @@ queue.process( 'goeBURST', (job, jobDone) => {
 
 const loadProfiles = (datasetID, cb) => {
 
+    console.log("load profiles")
+
     let identifiers = {};
     let countProfiles = 0;
     let profileArray = [];
@@ -151,6 +153,8 @@ const loadProfiles = (datasetID, cb) => {
 
 
     const processQueryResults = (result, cb) => {
+
+        console.log("process");
 
         let counter = 0;
         let data_type, schemeGenes = "";
@@ -184,6 +188,8 @@ const loadProfiles = (datasetID, cb) => {
             }
 
             processQueryResults(result, (data_type, schemeGenes) => {
+
+                console.log()
                 let existsProfile = {};
                 let dupProfiles = [];
                 let dupIDs = [];
@@ -194,6 +200,8 @@ const loadProfiles = (datasetID, cb) => {
                 let counter_processed_profiles = 0;
 
                 profiles.forEach( (profile) => {
+
+                    counter_processed_profiles += 1;
 
                     if(data_type === 'fasta') profile = profile.profile;
 
