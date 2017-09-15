@@ -205,7 +205,7 @@ const loadProfiles = (datasetID, cb) => {
 
                     if(data_type === 'fasta') profile = profile.profile;
 
-                    const arr = schemeGenes.map(function(d){ return profile[d]; });
+                    const arr = schemeGenes.map( (d) => { return profile[d]; });
                     const identifier = arr.shift();
 
                     existsProfile[String(arr)] = true;
