@@ -1,3 +1,5 @@
+'use strict'
+
 const goeBURST = require('goeBURST');
 const config = require('./config.js');
 const kue = require('kue');
