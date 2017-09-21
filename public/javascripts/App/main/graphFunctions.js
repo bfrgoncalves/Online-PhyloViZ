@@ -531,6 +531,7 @@ function loadGraphFunctions(){
 	        }).click(function (node, e) {
 
 	            //if (altDown) getLinks(node, graphObject);
+	            console.log("SHIFT is DOWN", shiftDown)
 	            if (shiftDown) SelectNodes(node, graphObject);
 	        });
 
@@ -594,6 +595,7 @@ function loadGraphFunctions(){
 		            
 
 		            if (e.which === 16 && !sdown){
+		              console.log("shift down");
 		              shiftDown = true;
 		              if (!multipleselection ){
 		                for (i in graphObject.selectedNodes){
