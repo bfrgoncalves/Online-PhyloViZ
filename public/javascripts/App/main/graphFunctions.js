@@ -594,7 +594,7 @@ function loadGraphFunctions(){
 		            if (e.which == 83) sdown = true;
 		            
 
-		            if (e.which === 16 && !sdown){
+		            if (e.which === 16 && !shiftDown){
 		              console.log("shift down");
 		              shiftDown = true;
 		              if (!multipleselection ){
