@@ -596,7 +596,6 @@ function loadGraphFunctions(){
 		            
 
 		            if (e.which === 16 && !shiftDown){
-		              console.log("shift down");
 		              shiftDown = true;
 		              if (!multipleselection ){
 		                for (i in graphObject.selectedNodes){
