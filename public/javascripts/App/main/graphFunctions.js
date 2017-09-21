@@ -557,6 +557,7 @@ function loadGraphFunctions(){
 		            
 		            if (shiftDown && e.which != 83) {
 		              multipleselection = false;
+		              console.log("ENTRA AQUI")
 		              for (i in graphObject.selectedNodes){
 		                var nodeToUse = graphics.getNodeUI(graphObject.selectedNodes[i].id);
 		                nodeToUse.colorIndexes = nodeToUse.backupColor;
