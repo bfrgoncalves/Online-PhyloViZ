@@ -531,7 +531,6 @@ function loadGraphFunctions(){
 	        }).click(function (node, e) {
 
 	            //if (altDown) getLinks(node, graphObject);
-	            console.log("SHIFT is DOWN", shiftDown)
 	            is_clicking = true;
 	            if (shiftDown) SelectNodes(node, graphObject);
 	        });

@@ -194,7 +194,6 @@ function destroyLink(property){
 function linkGraphAndTable(property, indexProperty, columnName, key, graphObject){
 
   key = key[0];
-  console.log(indexProperty);
 	
 	var tableToCheck = 'table' + property;
 	
