@@ -605,7 +605,7 @@ function NLVcollapse(graphObject, value) {
     setNewProgram(graphObject, buildCircleNodeShader);
 
     if(graphObject.linkMethod === 'profiles'){
-        changeColorsOfNodes_Schema(graph, schemeFilter);
+        changeColorsOfNodes_Schema(graphObject, schemeFilter);
     }
     else if(graphObject.linkMethod === 'isolates'){
         changeColorsOfNodes_Metadata(graphObject, metadataFilter);
