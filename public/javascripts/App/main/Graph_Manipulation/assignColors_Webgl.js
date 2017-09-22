@@ -91,7 +91,7 @@ var colorAttributes = function(graphObject){
       }
       else{
 
-        changeColorsOfNodes_Schema(graph, schemeFilter);
+        changeColorsOfNodes_Schema(graphObject, schemeFilter);
 
         if (propertyToCheck == 'None'){
           $('#divButtonLegend').css({'display':'none', 'right': '10.5%'});
