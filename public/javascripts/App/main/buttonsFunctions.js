@@ -10,7 +10,7 @@ const loadButtonFunctions = () => {
 
                 dialog_box.empty();
 
-                let toDialog = '<div id="divinfoDataset" style="font-size:95%;">';
+                let toDialog = '<div id="divinfoDataset">';
                 let table = {};
 
                 table.data = {'Data Set Name': graphObject.graphInput.dataset_name, 'Data Set Size': graphObject.graphInput.nodes.length, 'Data Type': graphObject.graphInput.data_type};
@@ -52,7 +52,7 @@ const loadButtonFunctions = () => {
                     table.data['Parent Data Set'] = '<a href="'+url+'">'+url+'</a>';
                 }
                 for(let parameter in table.data){
-                    toDialog += '<p><b>' + parameter + '</b> : ' + table.data[parameter];
+                    toDialog += '<p style="font-size:12px;"><b>' + parameter + '</b> : ' + table.data[parameter];
                 }
 
                 toDialog += '</div>';
