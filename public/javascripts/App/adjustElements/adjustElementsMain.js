@@ -29,7 +29,6 @@ adjustElements = function () {
     //$("a").css('font-size', ButtonfontSize * 1.5);
     $(".login").css({'font-size': '120%'});
     $("i").css({'font-size': '95%'});
-    $("#divinfoDataset").css({'font-size': '95%'});
     
     
     //$(".form-control").css({'font-size': ButtonfontSize, 'height': assignColorHeight, 'padding': 0});

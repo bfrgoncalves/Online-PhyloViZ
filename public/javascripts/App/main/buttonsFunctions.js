@@ -10,7 +10,7 @@ const loadButtonFunctions = () => {
 
                 dialog_box.empty();
 
-                let toDialog = '<div id="divinfoDataset">';
+                let toDialog = '<div id="divinfoDataset" style="font-size:95%;">';
                 let table = {};
 
                 table.data = {'Data Set Name': graphObject.graphInput.dataset_name, 'Data Set Size': graphObject.graphInput.nodes.length, 'Data Type': graphObject.graphInput.data_type};
