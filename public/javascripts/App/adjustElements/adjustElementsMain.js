@@ -20,15 +20,15 @@ adjustElements = function () {
     $('#visual').css({width: width, height: height, position: "relative"});
 
     
-    $("body").css({'font-size': '120%'});
-    $('.btn').css({'font-size': '95%'});
+    $("body").css({'font-size': '125%'});
+    $('.btn').css({'font-size': '100%'});
     
     //$(".collapsebt").css({'font-size': '120%'});
     //$(".datasetInfoButton").css({'font-size': '120%'});
     $("li").css({'font-size': '100%'});
     //$("a").css('font-size', ButtonfontSize * 1.5);
     $(".login").css({'font-size': '120%'});
-    $("i").css({'font-size': '80%'});
+    $("i").css({'font-size': '90%'});
     
     
     //$(".form-control").css({'font-size': ButtonfontSize, 'height': assignColorHeight, 'padding': 0});
