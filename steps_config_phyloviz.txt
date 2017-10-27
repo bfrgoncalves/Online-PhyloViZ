@@ -95,4 +95,6 @@ Load the database structure by going to the next URL in your browser:
 
 https://localhost:(port)/api/db/postgres/init  #launches the db structure. Change (port) by the port used in the config file
 
+CREATE TABLE datasets.filters (id SERIAL PRIMARY KEY, user_id text NOT NULL, dataset_id text NOT NULL, data jsonb, data_timestamp timestamp);
+
 Enjoy
