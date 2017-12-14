@@ -66,8 +66,8 @@ router.get('/dataset/public/:datasetID', function(req, res, next) {
 router.get('/dataset/share/:cipheredDataset', function(req, res, next) {
 
   //console.log(req.params.cipheredDataset);
-  var decipher = crypto.createDecipher(config.cipherUser.algorithm, config.cipherUser.pass);
-  datasetID= decipher.update(req.params.cipheredDataset,'hex','utf8');
+  //var decipher = crypto.createDecipher(config.cipherUser.algorithm, config.cipherUser.pass);
+  //datasetID= decipher.update(req.params.cipheredDataset,'hex','utf8');
   //parts = deciphered.split('/');
   //datasetID = parts[0];
   springLength = 1;
@@ -76,7 +76,7 @@ router.get('/dataset/share/:cipheredDataset', function(req, res, next) {
   if (req.query.precompute != undefined) res.render('main', { 
     title: 'PHYLOViZ Online', 
     precompute: req.query.precompute, 
-    datasetID: datasetID, 
+    datasetID: req.params.cipheredDataset, 
     springLength : springLength,
     isAuthenticated: req.isAuthenticated(), //function given by passport
     user: req.user, //also given by passport. an user object
@@ -85,7 +85,7 @@ router.get('/dataset/share/:cipheredDataset', function(req, res, next) {
   else res.render('main', { 
     title: 'PHYLOViZ Online', 
     precompute: false, 
-    datasetID: datasetID, 
+    datasetID: req.params.cipheredDataset, 
     springLength : springLength,
     isAuthenticated: req.isAuthenticated(), //function given by passport
     user: req.user, //also given by passport. an user object
