@@ -45,6 +45,8 @@ function launchDialog(message, url){
 
 function generateLink(datasetID){
 
+      console.log(datasetID);
+
       $.ajax({
       url: '/api/utils/publiclink',
       type: 'GET',
