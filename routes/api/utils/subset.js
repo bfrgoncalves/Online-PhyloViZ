@@ -44,7 +44,7 @@ router.post('/', function(req, res, next){
 
 		phyloviz_input_utils.checkIfpublic(req.body.parentName, req.user.id, function(isPublic){
 			phyloviz_input_utils.getAux(req.body.parentName, req.user.id, true, function(dataset_aux){
-				dataset_aux[0].schemeGenes = dataset_m[0].schemegenes;
+				dataset_aux[0].schemeGenes = dataset_aux[0].schemegenes;
 				phyloviz_input_utils.getMetadata(req.body.parentName, req.user.id, true, function(dataset_m){
 					dataset_aux[0].metadata = dataset_m[0].metadata;
 					createPhyloviZInput(dataset_aux, function(graphInput_aux){
