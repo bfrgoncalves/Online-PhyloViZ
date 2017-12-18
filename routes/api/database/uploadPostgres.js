@@ -70,7 +70,9 @@ router.post('/', multer({
               uploadToDatabase(dataToDB, function(){
                 if(dataToDB.data_type != 'newick') pLength = dataToDB.fileProfile_headers.length;
                 else pLength = 1;
-                res.send({datasetID: dataToDB.datasetID, hasError: dataToDB.hasError, errorMessage: dataToDB.errorMessage, numberOfProfiles: dataToDB.numberOfProfiles, profileLength: pLength});
+                var to_send = {datasetID: dataToDB.datasetID, hasError: dataToDB.hasError, errorMessage: dataToDB.errorMessage, numberOfProfiles: dataToDB.numberOfProfiles, profileLength: pLength};
+                dataToDB = {};
+                res.send(to_send);
               });
               
           }
@@ -86,7 +88,9 @@ router.post('/', multer({
               dataToDB.errorMessage = "Possible unsupported file type. For information on supported file types click <a href='/index/inputinfo'>here</a>.";
             }
             alreadyError = true;
-            res.send({datasetID: dataToDB.datasetID, hasError: dataToDB.hasError, errorMessage: dataToDB.errorMessage, numberOfProfiles: dataToDB.numberOfProfiles, profileLength: dataToDB.fileProfile_headers.length});
+            var to_send = {datasetID: dataToDB.datasetID, hasError: dataToDB.hasError, errorMessage: dataToDB.errorMessage, numberOfProfiles: dataToDB.numberOfProfiles, profileLength: pLength};
+            dataToDB = {};
+            res.send(to_send);
           }
     });
   }
@@ -191,7 +195,7 @@ function readCSVfile(pathToFile, fileType, dataToDB, callback){
 
     csv.fromStream(stream, {headers : true, delimiter:'\t', quote: null})
       .on("data", function(data){
-       /* if (getHeaders){
+       if (getHeaders){
           for (i in data) headers.push(i);
           identifier = headers[0];
           if (fileType == 'fileProfile'){
@@ -211,7 +215,7 @@ function readCSVfile(pathToFile, fileType, dataToDB, callback){
           getHeaders = false;
         }
         for (i in data) data[i] = data[i].replace(/\'/g, '');
-        dataToDB[fileType].push(data);*/
+        dataToDB[fileType].push(data);
       })
       .on("end", function(){
         console.log("done");
