@@ -131,7 +131,6 @@ router.post('/metadata', multer({
   for (i in req.files){
     console.log(i);
     dataToDB['is_' + i] = true;´
-    return res.send(dataToDB);
     readInputFiles(req.files[i].path, i, dataToDB, function(pathToFile, dataToDB){
           if(dataToDB['hasError'] != true || dataToDB['hasError'] == true && i == 'fileFasta') fs.unlink(pathToFile);
           countProgress += 1;
@@ -353,6 +352,7 @@ function uploadToDatabase(data, callback){
       return callback(data);
     }
     */
+    return callback(data);
     var userID = data.userID;
     //console.log(userID);
     data.numberOfProfiles = data.fileProfile.length;
