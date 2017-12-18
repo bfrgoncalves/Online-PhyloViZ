@@ -191,7 +191,7 @@ function readCSVfile(pathToFile, fileType, dataToDB, callback){
 
     csv.fromStream(stream, {headers : true, delimiter:'\t', quote: null})
       .on("data", function(data){
-        if (getHeaders){
+       /* if (getHeaders){
           for (i in data) headers.push(i);
           identifier = headers[0];
           if (fileType == 'fileProfile'){
@@ -211,7 +211,7 @@ function readCSVfile(pathToFile, fileType, dataToDB, callback){
           getHeaders = false;
         }
         for (i in data) data[i] = data[i].replace(/\'/g, '');
-        dataToDB[fileType].push(data);
+        dataToDB[fileType].push(data);*/
       })
       .on("end", function(){
         console.log("done");
