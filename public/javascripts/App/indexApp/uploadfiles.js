@@ -180,7 +180,7 @@ function getLinks(data){
               clearInterval(checkI);
             }
           }) 
-        }, 3000);
+        }, 10000);
 
       }
       else if(data.dupProfiles.length > 0 || data.dupIDs.length >0){
