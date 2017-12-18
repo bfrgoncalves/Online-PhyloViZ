@@ -71,6 +71,7 @@ router.post('/', multer({
                 if(dataToDB.data_type != 'newick') pLength = dataToDB.fileProfile_headers.length;
                 else pLength = 1;
                 res.send({datasetID: dataToDB.datasetID, hasError: dataToDB.hasError, errorMessage: dataToDB.errorMessage, numberOfProfiles: dataToDB.numberOfProfiles, profileLength: pLength});
+                dataToDB = {};
               });
               
           }
@@ -87,6 +88,7 @@ router.post('/', multer({
             }
             alreadyError = true;
             res.send({datasetID: dataToDB.datasetID, hasError: dataToDB.hasError, errorMessage: dataToDB.errorMessage, numberOfProfiles: dataToDB.numberOfProfiles, profileLength: dataToDB.fileProfile_headers.length});
+            dataToDB = {};
           }
     });
   }
