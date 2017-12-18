@@ -140,9 +140,12 @@ router.get('/', function(req, res, next){
 });
 
 router.get('/status', function(req,res,next){
+	console.log("AQUI");
 	if(req.query.jobid){
+		console.log(req.query.jobid)
 		var status = '';
 		queue.complete(function(err, ids){
+			console.log("ENTROU");
 			ids.forEach( function( job_id ) {
 				if (parseInt(job_id) == parseInt(req.query.jobid)){
 					kue.Job.get(job_id, function(err, job) {
