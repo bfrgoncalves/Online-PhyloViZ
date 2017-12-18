@@ -352,7 +352,6 @@ function uploadToDatabase(data, callback){
       return callback(data);
     }
     */
-    return callback(data);
     var userID = data.userID;
     //console.log(userID);
     data.numberOfProfiles = data.fileProfile.length;
