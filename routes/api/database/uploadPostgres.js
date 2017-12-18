@@ -432,7 +432,7 @@ function uploadToDatabase(data, callback){
             console.log(completeBatches, countBatches);
           }
 
-          callback(data);
+          return callback(data);
         });
       });
 
@@ -440,7 +440,7 @@ function uploadToDatabase(data, callback){
   }
 
   uploadDataset(data, function(dataObject){
-    callback(dataObject);
+    return callback(dataObject);
   })
 
   
