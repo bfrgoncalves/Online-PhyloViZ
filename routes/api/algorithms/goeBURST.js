@@ -145,8 +145,10 @@ router.get('/status', function(req,res,next){
 		console.log(req.query.jobid)
 		var status = '';
 		queue.complete(function(err, ids){
-			console.log("ENTROU");
+			totalids = ids.length;
+			countids = 0;
 			ids.forEach( function( job_id ) {
+				countids += 1;
 				if (parseInt(job_id) == parseInt(req.query.jobid)){
 					kue.Job.get(job_id, function(err, job) {
 						console.log(job_id, job.state())
@@ -160,8 +162,13 @@ router.get('/status', function(req,res,next){
 						else res.send({status: job.state()});
 					});
 				}
+				else if (countids === totalids){
+					res.send({status: "active"});
+				}
 				
 			});
+
+
 			
 		})
 
