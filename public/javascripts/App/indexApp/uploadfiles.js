@@ -169,6 +169,7 @@ function getLinks(data){
         $("#waitingGif").css({'display': 'block'});
         
         setInterval(function(){ 
+          console.log("interval");
           var checkI = checkgoeBURSTstatus(data.jobid, function(status){
             if(status == 'complete'){
               window.location.replace("/main/dataset/" + datasetID);
@@ -204,6 +205,7 @@ function checkgoeBURSTstatus(jobID, callback){
     contentType: false,
     type: 'GET',
     success: function(data){
+      console.log("response");
       callback(data.status);
     }
 
