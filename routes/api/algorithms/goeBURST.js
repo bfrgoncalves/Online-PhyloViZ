@@ -86,8 +86,6 @@ router.get('/', function(req, res, next){
 		var parameters = {datasetID:datasetID, sendEmail:sendEmail, userID:userID, algorithmToUse:algorithmToUse, analysis_method:analysis_method, missings:missings, save:req.query.save, hasmissings:req.query.missings, missing_threshold:missing_threshold, parent_id:parent_id};
 		
 		var job = queue.create('goeBURST', parameters).save(function(err){
-			// Launch garbage collector
-			gc();
 			if(!err) {
 				queue_message = 'Your data set is being processed. You will be redirected to your <a href="'+config.final_root+'/main/dataset/'+datasetID+'">data set URL</a> ';
 				if(sendEmail) queue_message += 'and receive an email ';
