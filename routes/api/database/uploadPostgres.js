@@ -70,7 +70,6 @@ router.post('/', multer({
               uploadToDatabase(dataToDB, function(){
                 if(dataToDB.data_type != 'newick') pLength = dataToDB.fileProfile_headers.length;
                 else pLength = 1;
-                gc();
                 res.send({datasetID: dataToDB.datasetID, hasError: dataToDB.hasError, errorMessage: dataToDB.errorMessage, numberOfProfiles: dataToDB.numberOfProfiles, profileLength: pLength});
               });
               
@@ -87,7 +86,6 @@ router.post('/', multer({
               dataToDB.errorMessage = "Possible unsupported file type. For information on supported file types click <a href='/index/inputinfo'>here</a>.";
             }
             alreadyError = true;
-            gc();
             res.send({datasetID: dataToDB.datasetID, hasError: dataToDB.hasError, errorMessage: dataToDB.errorMessage, numberOfProfiles: dataToDB.numberOfProfiles, profileLength: dataToDB.fileProfile_headers.length});
           }
     });
