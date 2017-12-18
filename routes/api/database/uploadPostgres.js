@@ -130,7 +130,7 @@ router.post('/metadata', multer({
 
   for (i in req.files){
     console.log(i);
-    dataToDB['is_' + i] = true;´
+    dataToDB['is_' + i] = true;
     readInputFiles(req.files[i].path, i, dataToDB, function(pathToFile, dataToDB){
           if(dataToDB['hasError'] != true || dataToDB['hasError'] == true && i == 'fileFasta') fs.unlink(pathToFile);
           countProgress += 1;
