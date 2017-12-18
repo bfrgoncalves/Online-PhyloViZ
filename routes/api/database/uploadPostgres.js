@@ -139,7 +139,7 @@ router.post('/metadata', multer({
               //dataToDB.dataset_description = req.body.dataset_description;
               
               uploadMetadataToDatabase(dataToDB, function(){
-                res.send(dataToDB);
+                return res.send(dataToDB);
               });
               
           }
@@ -151,7 +151,7 @@ router.post('/metadata', multer({
               dataToDB.errorMessage = "Possible unsupported file type. For information on supported file types click <a href='/index/inputinfo'>here</a>."
             }
             alreadyError = true;
-            res.send(dataToDB);
+            return res.send(dataToDB);
           }
     });
   }
@@ -162,17 +162,17 @@ router.post('/metadata', multer({
 function readInputFiles(pathToFile, fileType, dataToDB, callback){
   if (fileType == 'fileNewick') {
     readNewickfile(pathToFile, fileType, dataToDB, function(dataToDB){
-      callback(pathToFile, dataToDB);
+      return callback(pathToFile, dataToDB);
     })
   }
   else if (fileType == 'fileFasta') {
      readFastafile(pathToFile, fileType, dataToDB, function(dataToDB){
-      callback(pathToFile, dataToDB);
+      return callback(pathToFile, dataToDB);
     })
   }
   else {
     readCSVfile(pathToFile, fileType, dataToDB, function(dataToDB){
-      callback(pathToFile, dataToDB);
+      return callback(pathToFile, dataToDB);
     })
   }
 }
@@ -215,14 +215,14 @@ function readCSVfile(pathToFile, fileType, dataToDB, callback){
       })
       .on("end", function(){
         console.log("done");
-        callback(dataToDB);
+        return callback(dataToDB);
       })
       .on("error",function(err){
         dataToDB['hasError'] = true;
         dataToDB['errorMessage'] = err.toString();
         if(callbackLaunched != true){
           callbackLaunched = true;
-          callback(dataToDB);
+          return callback(dataToDB);
         }
       });
 
@@ -238,7 +238,7 @@ function readNewickfile(pathToFile, fileType, dataToDB, callback){
   fs.readFile(pathToFile, 'utf8', function (err,data) {
       dataToDB[fileType].push(data);
       console.log('Newick done');
-      callback(dataToDB);
+      return callback(dataToDB);
   });
 
 }
@@ -321,7 +321,7 @@ function readFastafile(pathToFile, fileType, dataToDB, callback){
       dataToDB['fileProfile_headers'] = headerArray;
 
       console.log('Fasta done');
-      callback(dataToDB);
+      return callback(dataToDB);
   });
 
 }
@@ -474,13 +474,13 @@ function uploadMetadataToDatabase(data, callback){
           return callback(data);
         }
         client.end();
-        callback(data);
+        return callback(data);
       });
     });
   }
 
   uploadDataset(data, function(dataObject){
-    callback(dataObject);
+    return callback(dataObject);
   })
 
   
