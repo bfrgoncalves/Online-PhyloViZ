@@ -71,8 +71,6 @@ console.log('Process queue');
 
 queue.process( 'goeBURST', (job, jobDone) => {
 
-    console.log("entrou");
-
 	const start = clock(); //Timer
 	let datasetId;
     const datasetID = job.data.datasetID;
