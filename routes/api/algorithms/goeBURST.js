@@ -140,9 +140,7 @@ router.get('/', function(req, res, next){
 });
 
 router.get('/status', function(req,res,next){
-	console.log("AQUI");
 	if(req.query.jobid){
-		console.log(req.query.jobid)
 		var status = '';
 		queue.complete(function(err, ids){
 			totalids = ids.length;

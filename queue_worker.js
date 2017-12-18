@@ -107,7 +107,6 @@ queue.process( 'goeBURST', (job, jobDone) => {
 									phyloviz_input_utils.addToFilterTable( graphInput, userID, datasetID, [], () => {
 										saveLinks( datasetID, graphInput.links, missings, () => {
 											console.log('ADDED TO FILTER');
-                                            gc();
 											if(send_email){
 												getEmail( userID, (email) => {
 													mailObject.email = email;
