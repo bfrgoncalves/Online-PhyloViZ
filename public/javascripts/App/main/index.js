@@ -258,11 +258,11 @@ function createInput(datasetID, callback) {
           if (prevMessage != messageKey[0]){
             partTS = messageKey[0];
             count = 1;
+            if(data.hasOwnProperty('size')) totalSize = data.size;
           }
 
           count += 1;
           console.log(data);
-          if(data.hasOwnProperty('size')) totalSize = data.size;
 
           if (messageKey[0] == 'mergedNodes' || messageKey[0] == 'sameNodeHas' || messageKey[0] == 'usedLoci' || messageKey[0] == 'indexesToRemove'){
             status('Loading aditional data ' + String(count)+ ' of ' + totalSize + '...');
