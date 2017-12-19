@@ -262,7 +262,6 @@ function createInput(datasetID, callback) {
           }
 
           count += 1;
-          console.log(data);
 
           if (messageKey[0] == 'mergedNodes' || messageKey[0] == 'sameNodeHas' || messageKey[0] == 'usedLoci' || messageKey[0] == 'indexesToRemove'){
             status('Loading aditional data ' + String(count)+ ' of ' + totalSize + '...');
@@ -299,7 +298,6 @@ function createInput(datasetID, callback) {
     
     NodeStream.onerror = function(e){
       NodeStream.close();
-      console.log(e);
       callback();
     }
   }
