@@ -764,7 +764,6 @@ function dragMultipleNodes(graphObject, offset){
         //graphObject.layout.pinNode(nodeGL, wasPinned);
     }
 
-    //graphObject.renderer.resume();
 }
 
 
