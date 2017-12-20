@@ -765,9 +765,9 @@ function dragMultipleNodes(graphObject, offset){
         else if (offset.y < oldPos.y) diff.y = oldPos.y - Math.abs(oldPos.y - offset.y);
         
         console.log(diff, offset, oldPos);
-        //graphObject.layout.setNodePosition(currentNode.id,
+        /*graphObject.layout.setNodePosition(currentNode.id,
                                diff.x,
-                               diff.y);
+                               diff.y);*/
         
         //graphObject.layout.pinNode(nodeGL, wasPinned);
     }
