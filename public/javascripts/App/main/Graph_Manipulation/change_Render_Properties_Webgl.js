@@ -748,12 +748,10 @@ function dragMultipleNodes(graphObject, offset, whatMoved){
     var scale = String(renderer.zoomIn());
     scale = String(renderer.zoomOut());
     offset = graphObject.graphics.transformClientToGraphCoordinates(offset);
-    console.log("MOUSE", offset);
     var diff = {};
     for(node in selectedNodes) {
         nodeGL = graphObject.graphics.getNodeUI(selectedNodes[node].id);
         currentNode = selectedNodes[node];
-        console.log(node, currentNode, nodeGL);
         //wasPinned = graphObject.layout.isNodePinned(nodeGL.id);
         
         var oldPos = graphObject.layout.getNodePosition(currentNode.id);
@@ -766,27 +764,27 @@ function dragMultipleNodes(graphObject, offset, whatMoved){
 
         diff.x = oldPos.x + whatMoved.x;
 
-        console.log(diff.x, oldPos, whatMoved);
 
         /*if(offset.y > oldPos.y) diff.y = oldPos.y + whatMoved.y;
         else if (offset.y < oldPos.y) diff.y = oldPos.y - whatMoved.y;
         else diff.y = oldPos.y;*/
 
         diff.y = oldPos.y + whatMoved.y;
-        
-        console.log(diff, offset, oldPos);
+
         graphObject.layout.setNodePosition(currentNode.id,
                                diff.x,
                                diff.y);
+
+        graphObject.layout.pinNode(selectedNodes[node], true);
         
         //graphObject.layout.pinNode(nodeGL, wasPinned);
     }
 
-    if (selectedNodes.length > 0){
+    /*if (selectedNodes.length > 0){
         var toPin = graphObject.graphics.getNodeUI(selectedNodes[0].id);
         console.log(toPin);
         graphObject.layout.pinNode(selectedNodes[0], true);
-    }
+    }*/
 
 }
 
