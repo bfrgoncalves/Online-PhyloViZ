@@ -123,7 +123,7 @@ const loadButtonFunctions = () => {
             $('#resetPinButton').click(function() {
 
                 graphObject.graphics.forEachNode((node) => {
-                    graphObject.layout.pinNode(node, false);
+                    graphObject.layout.pinNode(node, true);
                 });
 
             });
