@@ -766,6 +766,7 @@ function dragMultipleNodes(graphObject, offset){
 
     if (selectedNodes.length > 0){
         var toPin = graphObject.graphics.getNodeUI(selectedNodes[0].id);
+        console.log(toPin);
         graphObject.layout.pinNode(toPin, true);
     }
 
