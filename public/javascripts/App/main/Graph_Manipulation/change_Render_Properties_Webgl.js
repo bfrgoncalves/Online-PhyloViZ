@@ -749,7 +749,7 @@ function dragMultipleNodes(graphObject, offset){
     var scale = String(renderer.zoomIn());
     scale = String(renderer.zoomOut());
     for(node in selectedNodes) {
-        nodeGL = graphics.getNodeUI(selectedNodes[node].id);
+        nodeGL = graphObject.graphics.getNodeUI(selectedNodes[node].id);
         currentNode = selectedNodes[node];
         wasPinned = graphObject.layout.isNodePinned(nodeGL);
         console.log(node, currentNode, wasPinned);
