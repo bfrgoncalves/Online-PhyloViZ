@@ -533,10 +533,14 @@ function loadGraphFunctions(){
 	            //if (altDown) getLinks(node, graphObject);
 	            is_clicking = true;
 	            if (shiftDown) SelectNodes(node, graphObject);
-	            if (dragging) dragMultipleNodes(graphObject);
 	        });
 
 	        //var multiSelectOverlay;
+
+	        document.addEventListener('mousemove', function(e){
+	        	console.log("AQUI");
+	        	if (dragging && is_clicking) dragMultipleNodes(graphObject);
+	        });
 
 	          document.addEventListener('mouseup', function(e){
 

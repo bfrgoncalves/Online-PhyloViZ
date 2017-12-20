@@ -747,14 +747,17 @@ function dragMultipleNodes(graphObject){
     console.log(selectedNodes);
     graphObject.renderer.pause();
     for(node in selectedNodes) {
-        wasPinned = graphObject.layout.isNodePinned(node);
         
-        var oldPos = graphObject.layout.getNodePosition(node.id);
-        graphObject.layout.setNodePosition(node,
+        currentNode = selectedNodes[node];
+        wasPinned = graphObject.layout.isNodePinned(currentNode);
+        console.log(node, currentNode);
+        
+        var oldPos = graphObject.layout.getNodePosition(currentNode.id);
+        graphObject.layout.setNodePosition(currentNode,
                                oldPos.x + offset.x / transform.scale,
                                oldPos.y + offset.y / transform.scale);
         
-        graphObject.layout.pinNode(node, wasPinned);
+        graphObject.layout.pinNode(currentNode, wasPinned);
     }
 
     graphObject.renderer.resume();
