@@ -501,7 +501,7 @@ function loadGraphFunctions(){
 			graphObject.multiSelectOverlay;
 
 
-	        var shiftDown = false, altDown = false, remakeSelection = false, multipleselection = false, sdown = false, is_clicking = false;
+	        var shiftDown = false, altDown = false, remakeSelection = false, multipleselection = false, sdown = false, is_clicking = false, dragging = false;
 
 	        events.mouseEnter(function (node, e) {
 	        	var header_height = $(".tabs_headers").height() + 5;
@@ -533,6 +533,7 @@ function loadGraphFunctions(){
 	            //if (altDown) getLinks(node, graphObject);
 	            is_clicking = true;
 	            if (shiftDown) SelectNodes(node, graphObject);
+	            if (dragging) dragMultipleNodes(graphObject);
 	        });
 
 	        //var multiSelectOverlay;
@@ -553,6 +554,8 @@ function loadGraphFunctions(){
 
 		            if (e.which == 18) altDown = true;
 		            if (e.which == 16) shiftDown = true;
+
+		            console.log(e.which);
 		            
 		            
 		            if (shiftDown && e.which != 83 && is_clicking != true) {
