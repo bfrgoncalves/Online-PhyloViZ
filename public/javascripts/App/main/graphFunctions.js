@@ -543,7 +543,7 @@ function loadGraphFunctions(){
 	        	offset.x = e.pageX;
 	        	
 	        	if (dragging){
-	        		var whatMoved = { x: Math.abs(e.pageX - lastPosition.x), y: Math.abs(e.pageY - lastPosition.y)}
+	        		var whatMoved = { x: e.pageX - lastPosition.x, y: e.pageY - lastPosition.y}
 	        		dragMultipleNodes(graphObject, offset, whatMoved);
 	        	}
 

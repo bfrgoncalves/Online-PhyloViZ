@@ -760,15 +760,19 @@ function dragMultipleNodes(graphObject, offset, whatMoved){
         
         diff = {};
 
-        if(offset.x > oldPos.x) diff.x = oldPos.x + whatMoved.x;
+        /*if(offset.x > oldPos.x) diff.x = oldPos.x + whatMoved.x;
         else if (offset.x < oldPos.x) diff.x = oldPos.x - whatMoved.x;
-        else diff.x = oldPos.x;
+        else diff.x = oldPos.x;*/
+
+        diff.x = oldPos.x + whatMoved.x;
 
         console.log(diff.x, oldPos, whatMoved);
 
-        if(offset.y > oldPos.y) diff.y = oldPos.y + whatMoved.y;
+        /*if(offset.y > oldPos.y) diff.y = oldPos.y + whatMoved.y;
         else if (offset.y < oldPos.y) diff.y = oldPos.y - whatMoved.y;
-        else diff.y = oldPos.y;
+        else diff.y = oldPos.y;*/
+
+        diff.y = oldPos.y + whatMoved.y;
         
         console.log(diff, offset, oldPos);
         graphObject.layout.setNodePosition(currentNode.id,
