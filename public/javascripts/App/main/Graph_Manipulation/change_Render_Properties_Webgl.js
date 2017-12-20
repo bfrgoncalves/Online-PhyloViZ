@@ -744,13 +744,13 @@ function printDiv(graphObject)
 
 function dragMultipleNodes(graphObject, offset, whatMoved){
     var selectedNodes = graphObject.selectedNodes;
-    //graphObject.renderer.pause();
+    //dgraphObject.renderer.pause();
     var scale = String(renderer.zoomIn());
     scale = String(renderer.zoomOut());
     offset = graphObject.graphics.transformClientToGraphCoordinates(offset);
     var diff = {};
     for(node in selectedNodes) {
-        nodeGL = graphObject.graphics.getNodeUI(selectedNodes[node].id);
+        nodeUI = graphObject.graphics.getNodeUI(selectedNodes[node].id);
         currentNode = selectedNodes[node];
         //wasPinned = graphObject.layout.isNodePinned(nodeGL.id);
         
@@ -771,11 +771,18 @@ function dragMultipleNodes(graphObject, offset, whatMoved){
 
         diff.y = oldPos.y + whatMoved.y;
 
-        graphObject.layout.setNodePosition(currentNode.id,
-                               diff.x,
-                               diff.y);
+        graphObject.layout.setNodePosition(currentNode.id, diff.x, diff.y);
 
         graphObject.layout.pinNode(selectedNodes[node], true);
+
+        var newColors = [];
+
+        for (i in nodeUI.colorIndexes){
+          var colorsPerQuadrant = [];
+          for (j in nodeUI.colorIndexes[i]) colorsPerQuadrant.push(0xFFA500);
+          newColors.push(colorsPerQuadrant);
+        }
+        nodeUI.colorIndexes = newColors;
         
         //graphObject.layout.pinNode(nodeGL, wasPinned);
     }
