@@ -537,9 +537,9 @@ function loadGraphFunctions(){
 
 	        //var multiSelectOverlay;
 
-	        document.addEventListener('mousemove', function(e){
+	        document.addEventListener('mousemove', function(e, offset){
 	        	console.log("AQUI");
-	        	if (dragging && is_clicking) dragMultipleNodes(graphObject);
+	        	if (dragging && is_clicking) dragMultipleNodes(graphObject, offset);
 	        });
 
 	          document.addEventListener('mouseup', function(e){

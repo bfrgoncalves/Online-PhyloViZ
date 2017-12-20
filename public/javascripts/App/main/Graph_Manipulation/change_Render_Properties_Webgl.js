@@ -742,9 +742,9 @@ function printDiv(graphObject)
 
 }
 
-function dragMultipleNodes(graphObject){
+function dragMultipleNodes(graphObject, offset){
     var selectedNodes = graphObject.selectedNodes;
-    console.log(selectedNodes);
+    console.log(selectedNodes, offset);
     graphObject.renderer.pause();
     for(node in selectedNodes) {
         
