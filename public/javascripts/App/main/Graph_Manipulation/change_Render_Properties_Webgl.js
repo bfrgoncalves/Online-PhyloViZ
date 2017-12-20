@@ -744,7 +744,6 @@ function printDiv(graphObject)
 
 function dragMultipleNodes(graphObject, offset){
     var selectedNodes = graphObject.selectedNodes;
-    console.log(selectedNodes, offset);
     graphObject.renderer.pause();
     var scale = String(renderer.zoomIn());
     scale = String(renderer.zoomOut());
@@ -757,10 +756,10 @@ function dragMultipleNodes(graphObject, offset){
         //wasPinned = graphObject.layout.isNodePinned(nodeGL.id);
         
         var oldPos = graphObject.layout.getNodePosition(currentNode.id);
-        console.log("OLD", oldPos);
+        console.log("OLD", oldPos, "OFFSET", offset);
         graphObject.layout.setNodePosition(currentNode.id,
-                               offset.x,
-                               offset.y);
+                               offset.y,
+                               offset.x);
         
         //graphObject.layout.pinNode(nodeGL, wasPinned);
     }
