@@ -757,9 +757,16 @@ function dragMultipleNodes(graphObject, offset){
         
         var oldPos = graphObject.layout.getNodePosition(currentNode.id);
         console.log("OLD", oldPos, "OFFSET", offset);
+        var diff = {};
+        if(offset.x > oldPos.x) diff.x = oldPos.x + Math.abs(offset.x - oldPos.x);
+        else if (offset.x < oldPos.x) diff.x = oldPos.x - Math.abs(oldPos.x - offset.x);
+
+        if(offset.y > oldPos.y) diff.y = oldPos.y + Math.abs(offset.y - oldPos.y);
+        else if (offset.y < oldPos.y) diff.y = oldPos.y - Math.abs(oldPos.y - offset.y);
+        
         graphObject.layout.setNodePosition(currentNode.id,
-                               oldPos.x + (oldPos.x - offset.x),
-                               oldPos.y + (oldPos.y - offset.y));
+                               diff.x,
+                               diff.y);
         
         //graphObject.layout.pinNode(nodeGL, wasPinned);
     }
