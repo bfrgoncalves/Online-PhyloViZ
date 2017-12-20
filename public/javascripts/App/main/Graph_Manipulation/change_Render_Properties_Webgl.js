@@ -747,7 +747,7 @@ function dragMultipleNodes(graphObject, offset){
     graphObject.renderer.pause();
     var scale = String(renderer.zoomIn());
     scale = String(renderer.zoomOut());
-    //offset = graphObject.graphics.transformGraphToClientCoordinates(offset);
+    offset = graphObject.graphics.transformGraphToClientCoordinates(offset);
     console.log("MOUSE", offset);
     for(node in selectedNodes) {
         nodeGL = graphObject.graphics.getNodeUI(selectedNodes[node].id);
