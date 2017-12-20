@@ -554,8 +554,7 @@ function loadGraphFunctions(){
 
 		            if (e.which == 18) altDown = true;
 		            if (e.which == 16) shiftDown = true;
-
-		            console.log(e.which);
+		            if (e.which == 68) dragging = true;
 		            
 		            
 		            if (shiftDown && e.which != 83 && is_clicking != true) {
@@ -652,6 +651,8 @@ function loadGraphFunctions(){
 		              multipleselection = true;
 
 		            }
+
+		            if (e.which == 68) dragging = false;
 
 		            if (e.which == 16){
 		              shiftDown = false;
