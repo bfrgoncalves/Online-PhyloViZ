@@ -744,7 +744,7 @@ function printDiv(graphObject)
 
 function dragMultipleNodes(graphObject, offset, whatMoved){
     var selectedNodes = graphObject.selectedNodes;
-    graphObject.renderer.pause();
+    //graphObject.renderer.pause();
     var scale = String(renderer.zoomIn());
     scale = String(renderer.zoomOut());
     offset = graphObject.graphics.transformClientToGraphCoordinates(offset);

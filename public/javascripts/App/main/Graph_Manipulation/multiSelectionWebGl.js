@@ -118,6 +118,7 @@ function createOverlay(overlayDom) {
     },
     destroy: function () {
       overlayDom.style.display = 'none';
+      selectionIndicator.style.display = 'none';
       dragndrop.release();
     },
     selectedArea: function(){
