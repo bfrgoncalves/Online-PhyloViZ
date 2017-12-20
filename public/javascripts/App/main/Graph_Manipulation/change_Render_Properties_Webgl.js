@@ -747,18 +747,19 @@ function dragMultipleNodes(graphObject, offset){
     console.log(selectedNodes, offset);
     graphObject.renderer.pause();
     var scale = String(renderer.zoomIn());
+    scale = String(renderer.zoomOut());
     for(node in selectedNodes) {
-        
+        nodeGL = graphics.getNodeUI(selectedNodes[node].id);
         currentNode = selectedNodes[node];
-        wasPinned = graphObject.layout.isNodePinned(currentNode);
-        console.log(node, currentNode);
+        wasPinned = graphObject.layout.isNodePinned(nodeGL);
+        console.log(node, currentNode, wasPinned);
         
-        var oldPos = graphObject.layout.getNodePosition(currentNode.id);
-        graphObject.layout.setNodePosition(currentNode,
+        var oldPos = graphObject.layout.getNodePosition(nodeGL);
+        graphObject.layout.setNodePosition(nodeGL,
                                oldPos.x + offset.x / scale,
                                oldPos.y + offset.y / scale);
         
-        graphObject.layout.pinNode(currentNode, wasPinned);
+        graphObject.layout.pinNode(nodeGL, wasPinned);
     }
 
     graphObject.renderer.resume();
