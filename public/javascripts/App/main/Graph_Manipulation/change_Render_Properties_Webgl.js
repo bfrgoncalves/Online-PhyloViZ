@@ -759,7 +759,7 @@ function dragMultipleNodes(graphObject, offset){
                                oldPos.x + offset.x / scale,
                                oldPos.y + offset.y / scale);
         
-        graphObject.layout.pinNode(nodeGL, wasPinned);
+        //graphObject.layout.pinNode(nodeGL, wasPinned);
     }
 
     graphObject.renderer.resume();
