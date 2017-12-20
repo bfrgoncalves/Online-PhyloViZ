@@ -765,7 +765,8 @@ function dragMultipleNodes(graphObject, offset){
     }
 
     if (selectedNodes.length > 0){
-        graphObject.layout.pinNode(selectedNodes[0].id, true);
+        var toPin = graphObject.graphics.getNodeUI(selectedNodes[0].id);
+        graphObject.layout.pinNode(toPin, true);
     }
 
 }
