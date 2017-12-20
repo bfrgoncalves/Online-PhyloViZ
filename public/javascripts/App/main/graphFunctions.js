@@ -536,12 +536,19 @@ function loadGraphFunctions(){
 	        });
 
 	        //var multiSelectOverlay;
-
+	        var lastPosition = {};
 	        document.addEventListener('mousemove', function(e){
 	        	var offset = {};
 	        	offset.y = e.pageY;
 	        	offset.x = e.pageX;
-	        	if (dragging) dragMultipleNodes(graphObject, offset);
+	        	
+	        	if (dragging){
+	        		var whatMoved = { x: Math.abs(e.pageX - lastPosition.x), y: Math.abs(e.pageY - lastPosition.y)}
+	        		dragMultipleNodes(graphObject, offset, whatMoved);
+	        	}
+
+	        	lastPosition.x = e.pageX;
+	        	lastPosition.y = e.pageY;
 	        });
 
 	          document.addEventListener('mouseup', function(e){

@@ -742,13 +742,14 @@ function printDiv(graphObject)
 
 }
 
-function dragMultipleNodes(graphObject, offset){
+function dragMultipleNodes(graphObject, offset, whatMoved){
     var selectedNodes = graphObject.selectedNodes;
     graphObject.renderer.pause();
     var scale = String(renderer.zoomIn());
     scale = String(renderer.zoomOut());
     offset = graphObject.graphics.transformClientToGraphCoordinates(offset);
     console.log("MOUSE", offset);
+    var diff = {};
     for(node in selectedNodes) {
         nodeGL = graphObject.graphics.getNodeUI(selectedNodes[node].id);
         currentNode = selectedNodes[node];
@@ -757,15 +758,16 @@ function dragMultipleNodes(graphObject, offset){
         
         var oldPos = graphObject.layout.getNodePosition(currentNode.id);
         
-        var diff = {};
-        if(offset.x > oldPos.x) diff.x = oldPos.x + Math.abs(offset.x - oldPos.x);
-        else if (offset.x < oldPos.x) diff.x = oldPos.x - Math.abs(oldPos.x - offset.x);
+        diff = {};
+
+        if(offset.x > oldPos.x) diff.x = oldPos.x + whatMoved;
+        else if (offset.x < oldPos.x) diff.x = oldPos.x - whatMoved;
         else diff.x = oldPos.x;
 
-        console.log(diff.x, oldPos, Math.abs(offset.x - oldPos.x));
+        console.log(diff.x, oldPos, whatMoved);
 
-        if(offset.y > oldPos.y) diff.y = oldPos.y + Math.abs(offset.y - oldPos.y);
-        else if (offset.y < oldPos.y) diff.y = oldPos.y - Math.abs(oldPos.y - offset.y);
+        if(offset.y > oldPos.y) diff.y = oldPos.y + whatMoved;
+        else if (offset.y < oldPos.y) diff.y = oldPos.y - whatMoved;
         else diff.y = oldPos.y;
         
         console.log(diff, offset, oldPos);
