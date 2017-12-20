@@ -759,7 +759,7 @@ function dragMultipleNodes(graphObject, offset){
         console.log("OLD", oldPos, "OFFSET", offset);
         graphObject.layout.setNodePosition(currentNode.id,
                                oldPos.x + (oldPos.x - offset.x),
-                               oldPos.y + (oldPos.y - offset.y);
+                               oldPos.y + (oldPos.y - offset.y));
         
         //graphObject.layout.pinNode(nodeGL, wasPinned);
     }
