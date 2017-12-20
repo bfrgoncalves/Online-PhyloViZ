@@ -122,8 +122,7 @@ const loadButtonFunctions = () => {
         resetPinButton: (graphObject) => {
             $('#resetPinButton').click(function() {
                 graphObject.graphGL.forEachNode((node) => {
-                    console.log(!graphObject.layout.isNodePinned(node));
-                    graphObject.layout.pinNode(node, !graphObject.layout.isNodePinned(node));
+                    graphObject.layout.pinNode(node, false);
                 });
 
             });
