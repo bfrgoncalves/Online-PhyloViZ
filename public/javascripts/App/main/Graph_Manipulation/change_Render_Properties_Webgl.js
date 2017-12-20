@@ -764,6 +764,10 @@ function dragMultipleNodes(graphObject, offset){
         //graphObject.layout.pinNode(nodeGL, wasPinned);
     }
 
+    if (selectedNodes.length > 0){
+        graphObject.layout.pinNode(selectedNodes[0].id, true);
+    }
+
 }
 
 

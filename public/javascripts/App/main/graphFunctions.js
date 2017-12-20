@@ -538,11 +538,10 @@ function loadGraphFunctions(){
 	        //var multiSelectOverlay;
 
 	        document.addEventListener('mousemove', function(e){
-	        	console.log("AQUI");
 	        	var offset = {};
 	        	offset.y = e.pageY;
 	        	offset.x = e.pageX;
-	        	if (dragging && is_clicking) dragMultipleNodes(graphObject, offset);
+	        	if (dragging) dragMultipleNodes(graphObject, offset);
 	        });
 
 	          document.addEventListener('mouseup', function(e){
