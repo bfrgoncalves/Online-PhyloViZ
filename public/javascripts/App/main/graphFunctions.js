@@ -540,8 +540,8 @@ function loadGraphFunctions(){
 	        document.addEventListener('mousemove', function(e){
 	        	console.log("AQUI");
 	        	var offset = {};
-	        	offset.y = $(e.target).offset().top;
-	        	offset.x = $(e.target).offset().left;
+	        	offset.y = e.pageY;
+	        	offset.x = e.pageX;
 	        	if (dragging && is_clicking) dragMultipleNodes(graphObject, offset);
 	        });
 
