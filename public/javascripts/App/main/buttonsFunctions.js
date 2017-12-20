@@ -119,6 +119,16 @@ const loadButtonFunctions = () => {
             });
         },
 
+        resetPinButton: (graphObject) => {
+            $('#resetPinButton').click(function() {
+
+                graphObject.graphGL.forEachNode((node) => {
+                    graphObject.layout.pinNode(node.node, false);
+                });
+
+            });
+        },
+
         pauseButton: (graphObject) => {
 
             const graph = graphObject.graphInput;

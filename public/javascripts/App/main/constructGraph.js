@@ -73,6 +73,7 @@ function constructGraph(graph, datasetID){
         //buttonFunctions.datasetName(graphObject);
         buttonFunctions.datasetInfo(graphObject);
         buttonFunctions.pauseButton(graphObject);
+        buttonFunctions.resetPinButton(graphObject);
         buttonFunctions.graphicButtons(graphObject);
         buttonFunctions.operationsButtons(graphObject);
         buttonFunctions.resetPositionButton(graphObject);
