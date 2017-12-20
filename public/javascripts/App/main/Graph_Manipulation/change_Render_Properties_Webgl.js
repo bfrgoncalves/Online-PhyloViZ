@@ -756,7 +756,6 @@ function dragMultipleNodes(graphObject, offset){
         //wasPinned = graphObject.layout.isNodePinned(nodeGL.id);
         
         var oldPos = graphObject.layout.getNodePosition(currentNode.id);
-        oldPos = graphObject.graphics.transformClientToGraphCoordinates(oldPos);
         console.log("OLD", oldPos, "OFFSET", offset);
         graphObject.layout.setNodePosition(currentNode.id,
                                oldPos.x + offset.x,
