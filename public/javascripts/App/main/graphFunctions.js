@@ -537,8 +537,11 @@ function loadGraphFunctions(){
 
 	        //var multiSelectOverlay;
 
-	        document.addEventListener('mousemove', function(e, offset){
+	        document.addEventListener('mousemove', function(e){
 	        	console.log("AQUI");
+	        	var offset = {};
+	        	offset.y = $(e.currentTarget).offset().top;
+	        	offset.x = $(e.currentTarget).offset().left;
 	        	if (dragging && is_clicking) dragMultipleNodes(graphObject, offset);
 	        });
 
