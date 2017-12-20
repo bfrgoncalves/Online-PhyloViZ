@@ -749,6 +749,7 @@ function dragMultipleNodes(graphObject, offset){
     var scale = String(renderer.zoomIn());
     scale = String(renderer.zoomOut());
     offset = graphObject.graphics.transformClientToGraphCoordinates(offset);
+    console.log("MOUSE", offset);
     for(node in selectedNodes) {
         nodeGL = graphObject.graphics.getNodeUI(selectedNodes[node].id);
         currentNode = selectedNodes[node];
@@ -756,6 +757,7 @@ function dragMultipleNodes(graphObject, offset){
         //wasPinned = graphObject.layout.isNodePinned(nodeGL.id);
         
         var oldPos = graphObject.layout.getNodePosition(currentNode.id);
+        console.log("OLD", oldPos);
         graphObject.layout.setNodePosition(currentNode.id,
                                offset.x / scale,
                                offset.y / scale);
