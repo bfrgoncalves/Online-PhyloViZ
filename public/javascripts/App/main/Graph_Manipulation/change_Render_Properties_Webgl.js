@@ -366,8 +366,32 @@ function changeColorToOuterRing(graphObject){
 
     $( "#cloneLegendPie" ).empty();
     $( "#legendcurrentpiePlace" ).clone().appendTo( "#cloneLegendPie" );
+    $('#buttonRemoveFromOuter').css({display:"block"});
 
     $("#piePlace").css({display:"none"});
+    
+}
+
+function RemoveColorFromOuterRing(graphObject){
+
+     if(graphObject.hasMultipleFields) graphObject.multipleOnOuterRing = true;
+     else graphObject.multipleOnOuterRing = false;
+
+     graphObject.graphInput.nodes.forEach(function(node){
+        var nodeUI = graphObject.graphics.getNodeUI(node.key);
+        
+        nodeUI.outercolorIndexes = nodeUI.colorIndexes;
+        nodeUI.outerdata = nodeUI.data;
+        
+    });
+
+    if(graphObject.isLayoutPaused){
+        renderer.rerender();
+    }
+
+    $( "#cloneLegendPie" ).empty();
+
+    $('#buttonRemoveFromOuter').css({display:"block"});
     
 }
 

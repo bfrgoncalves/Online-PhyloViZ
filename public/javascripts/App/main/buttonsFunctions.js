@@ -158,7 +158,7 @@ const loadButtonFunctions = () => {
                     $("#screenshotMode").toggleClass("btn-default", false);
 
                     const dialog_box = $('#dialog');
-                    
+
                     const toDialog = '<div style="text-align: center;"><label>Screenshot Mode:</label></div>' +
                     '<div text-align:center;">' +
                     '<div>In this mode, only the tree and legend is visible for a better image retrieval. We recomend using browser plugins for the screenshot.</div>' +
@@ -305,6 +305,11 @@ const loadButtonFunctions = () => {
                     graphObject.withcenter = false;
                 }
             });
+
+            $('#buttonRemoveFromOuter').click(function(){
+                removeColorFromOuterRing(graphObject);
+            });
+
 
             $('#resetLayout').on('click', function(){
 
