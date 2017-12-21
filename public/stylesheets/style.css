@@ -736,7 +736,12 @@ div.tutorialsubsections h5{
     background: white;
 }
 
-
+#buttonStuff{
+    position: fixed;
+    bottom: 2%;
+    left: 50%;
+    transform: translateX(-46%);
+}
 
 
     

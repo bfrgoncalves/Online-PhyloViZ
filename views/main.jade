@@ -54,6 +54,19 @@ block normalBody
 		div.tab-content
 			
 			div.tab-pane.active(id="treeContent")
+
+				div(id="buttonStuff")
+					div(class="button-group")
+						div(id='toggleLayout')
+							i.glyphicon.glyphicon-pause(id='iconPauseLayout') 
+							i(id='pauseLayout') Pause Layout
+						div(id='divReset')
+							i.glyphicon.glyphicon-refresh(id='iconResetLayout') 
+							i(id='resetPositionButton') Reset Positions
+						div(id='divResetPin')
+							i.glyphicon.glyphicon-refresh(id='iconResetPin') 
+							i(id='resetPinButton') Unpin Nodes
+
 				div(id="popup_description" style="display: none")
 				div(style="width:30%;margin-top:1%;left:35%;position:absolute;z-index:2;text-align:center;")
 					form.form-inline(id='searchForm')
@@ -63,17 +76,6 @@ block normalBody
 				div(id="col_webgl")
 					div(id="pauseRegion", style="height:20%;overflow-y:auto;")
 						ul.nav.nav-stacked
-							li
-								div(id='toggleLayout')
-									i.glyphicon.glyphicon-pause(id='iconPauseLayout') 
-									i(id='pauseLayout') Pause Layout
-								div(id='divReset')
-									i.glyphicon.glyphicon-refresh(id='iconResetLayout') 
-									i(id='resetPositionButton') Reset Positions
-								div(id='divResetPin')
-									i.glyphicon.glyphicon-refresh(id='iconResetPin') 
-									i(id='resetPinButton') Unpin Nodes
-								br
 							li
 								div(style="width:100%;")
 									div(style="text-align:center;")
