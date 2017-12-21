@@ -54,18 +54,6 @@ block normalBody
 			li(id="FASTATab")
 				a(data-target="#FASTAContent", data-toggle="mainTab") Sequences
 
-		  ul.nav.navbar-nav.navbar-right
-	        if (!user)
-	          li
-	            a(href="/users/login") Login
-	          li
-	            a(href="/users/register") Register
-	        if (user)
-	          li
-	            a Logged in as #{user.name}! 
-	          li
-	            a(href="/users/logout") Logout
-
 	div.tab_Region
 
 		div.tabs_headers
