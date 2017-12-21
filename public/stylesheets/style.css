@@ -432,8 +432,9 @@ td.highlight {
 #col_webgl{
   width:12.5%;
   height: 100%;
+  left:0%;
   text-align: left;
-  position: absolute; 
+  position: fixed; 
   z-index: 2;
   background-color: #eff5ff;
 }
