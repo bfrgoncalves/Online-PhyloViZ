@@ -5,6 +5,7 @@ html{
   padding-right: 1%;
   position: relative;
   min-height: 100%;
+  background-color: #eff5ff;
 }
 body {
   position: relative;
@@ -434,7 +435,7 @@ td.highlight {
 
 #col_webgl{
   width:12.5%;
-  height: 90%;
+  height: 100%;
   text-align: left;
   position: absolute; 
   z-index: 2;
