@@ -1,5 +1,5 @@
 <!-- Fixed navbar -->
-nav.navbar.navbar-default.navbar-fixed-top(style="background-color:rgba(0, 0, 0, 0);z-index:-1;")
+nav.navbar.navbar-default.navbar-fixed-top
   div.container
     div.navbar-header
       button.navbar-toggle.collapsed(type="button",data-toggle="collapse",data-target="#navbar",aria-expanded="false",aria-controls="navbar")
@@ -10,8 +10,19 @@ nav.navbar.navbar-default.navbar-fixed-top(style="background-color:rgba(0, 0, 0,
       a.navbar-brand(href="/") #{title}
     div.navbar-collapse.collapse(id="navbar")
       ul.nav.navbar-nav
+        li.active(id="treeTab")
+          a(data-target="#treeContent", data-toggle="mainTab") Tree
+        li
+          a(data-target="#profileContent", data-toggle="mainTab") Primary Data
+        li
+          a(data-target="#isolateContent", data-toggle="mainTab") Auxiliary Data
+        li(id="distanceTab")
+          a(data-target="#distanceContent", data-toggle="mainTab") Distances
+        li(id="FASTATab")
+          a(data-target="#FASTAContent", data-toggle="mainTab") Sequences
         li
           a(id="buttonHelp", style="width: 100%", data-toggle="offcanvas") Help
+
       ul.nav.navbar-nav.navbar-right
         if (!user)
           li
@@ -23,4 +34,3 @@ nav.navbar.navbar-default.navbar-fixed-top(style="background-color:rgba(0, 0, 0,
             a Welcome, #{user.name}! 
           li
             a(href="/users/logout") Logout
-
