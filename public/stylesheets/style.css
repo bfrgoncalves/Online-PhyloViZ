@@ -436,8 +436,7 @@ td.highlight {
   width:12.5%;
   height: 90%;
   text-align: left;
-  position: absolute;
-  top: 8%; 
+  position: absolute; 
   z-index: 2;
 }
 

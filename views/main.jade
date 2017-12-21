@@ -74,14 +74,14 @@ block normalBody
 
 
 				div(id="popup_description" style="display: none")
-				div(style="margin-top:1%;left:35%;z-index:3;text-align:center;position:fixed;")
+				div(style="margin-top:1%;left:35%;z-index:3;text-align:center;position:fixed;width:100%;")
 					form.form-inline(id='searchForm')
 						div.form-group
 							input.form-control(type='text' id='nodeid' style='color:black' placehorder="Search")
 						button.btn.btn-default(type='submit') Search
 				
 				div(id="col_webgl")
-					div(id="pauseRegion", style="height:12%;overflow-y:auto;")
+					div(id="pauseRegion", style="height:12%;overflow-y:auto;margin-top:2%;")
 						div(onclick="javascript:location.href='/'", style="text-align:center;")
 							img.phylovizImage(src = '/images/logo.png')
 							label.title #{title}
