@@ -135,11 +135,15 @@ const loadButtonFunctions = () => {
                     graphObject.screenshot = true;
                     $("#col_webgl").css({display:"none"});
                     $("#searchForm").css({display:"none"});
+                    $("#screenshotMode").toggleClass("btn-warning", true);
+                    $("#screenshotMode").toggleClass("btn-default", false);
                 }
                 else {
                     graphObject.screenshot = false;
                     $("#col_webgl").css({display:"block"});
                     $("#searchForm").css({display:"block"});
+                    $("#screenshotMode").toggleClass("btn-warning", false);
+                    $("#screenshotMode").toggleClass("btn-default", true);
                 }
             });
             
