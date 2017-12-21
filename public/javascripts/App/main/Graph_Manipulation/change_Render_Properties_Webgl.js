@@ -372,7 +372,7 @@ function changeColorToOuterRing(graphObject){
     
 }
 
-function RemoveColorFromOuterRing(graphObject){
+function removeColorFromOuterRing(graphObject){
 
      if(graphObject.hasMultipleFields) graphObject.multipleOnOuterRing = true;
      else graphObject.multipleOnOuterRing = false;
