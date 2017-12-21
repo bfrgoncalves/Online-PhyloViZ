@@ -168,7 +168,7 @@ function buildCircleNodeShader() {
 
 
                     'delta = fwidth(r);',
-                    'alpha = 0.5 - smoothstep(0.5 - delta, 0.5 + delta, r);',
+                    'alpha = 0.1 - smoothstep(0.1 - delta, 0.1 + delta, r);',
 
 
                     'if (quadrant == 1.0 && gl_PointCoord.y < 0.5 && gl_PointCoord.x > 0.5){',
