@@ -122,7 +122,7 @@ const loadButtonFunctions = () => {
         resetPinButton: (graphObject) => {
             $('#resetPinButton').click(function() {
                 if (graphObject.pinNodes === undefined || graphObject.pinNodes === false){
-                    pinNodes = true;
+                    graphObject.pinNodes = true;
                     $("#resetPinButton").toggleClass("btn-warning", true);
                     $("#resetPinButton").toggleClass("btn-default", false);
                     $("#iconResetPin").toggleClass("fa-thumb-tack", false);
@@ -133,7 +133,7 @@ const loadButtonFunctions = () => {
                     });
                 }
                 else{
-                    pinNodes = false;
+                    graphObject.pinNodes = false;
                     $("#resetPinButton").toggleClass("btn-warning", false);
                     $("#resetPinButton").toggleClass("btn-default", true);
                     $("#iconResetPin").toggleClass("fa-thumb-tack", true);
@@ -198,6 +198,8 @@ const loadButtonFunctions = () => {
                     //$('#pauseLayout')[0].innerHTML = "Resume Layout";
 
                     const icon_pause_layout = $('#iconPauseLayout');
+                    $("#pauseLayout").toggleClass("btn-warning", true);
+                    $("#pauseLayout").toggleClass("btn-default", false);
                     icon_pause_layout.toggleClass('fa fa-pause',false);
                     icon_pause_layout.toggleClass('fa fa-play',true);
                 }
@@ -207,6 +209,8 @@ const loadButtonFunctions = () => {
                     //$('#pauseLayout')[0].innerHTML = "Pause Layout";
 
                     const icon_pause_layout = $('#iconPauseLayout');
+                    $("#pauseLayout").toggleClass("btn-warning", false);
+                    $("#pauseLayout").toggleClass("btn-default", true);
                     icon_pause_layout.toggleClass('fa fa-play',false);
                     icon_pause_layout.toggleClass('fa fa-pause',true);
 
