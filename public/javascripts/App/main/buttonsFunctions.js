@@ -164,11 +164,11 @@ const loadButtonFunctions = () => {
                 else{
                     renderer.resume();
                     graphObject.isLayoutPaused = false;
-                    $('#pauseLayout')[0].innerHTML = "Pause Layout";
+                    //$('#pauseLayout')[0].innerHTML = "Pause Layout";
 
                     const icon_pause_layout = $('#iconPauseLayout');
-                    icon_pause_layout.toggleClass('glyphicon glyphicon-play',false);
-                    icon_pause_layout.toggleClass('glyphicon glyphicon-pause',true);
+                    icon_pause_layout.toggleClass('fa fa-play',false);
+                    icon_pause_layout.toggleClass('fa fa-pause',true);
 
                 }
             });
