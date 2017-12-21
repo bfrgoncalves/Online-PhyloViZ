@@ -26,7 +26,7 @@ function webglCustomLinkProgram(lineWidth) {
                 'float r = 0.01, delta = 0.0, alpha = 1.0;',
                 '#ifdef GL_OES_standard_derivatives',
                     'delta = fwidth(r);',
-                    'alpha = 0.6 - smoothstep(0.2 - delta, 0.2 + delta, r);',
+                    'alpha = 0.6 - smoothstep(0.6 - delta, 0.6 + delta, r);',
                 '#endif',
             '   gl_FragColor = color * alpha;',
             '}'
