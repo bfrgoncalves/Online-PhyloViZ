@@ -453,10 +453,10 @@ td.highlight {
 
 #divButtonLegend{
   position: absolute;
-  top: 4%;
-  right: 15%;
+  top: 5%;
+  right: 13%;
   display:none;
-  z-index: 2;
+  z-index: 6;
 }
 
 #divButtonInfo{
