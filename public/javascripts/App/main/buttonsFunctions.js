@@ -121,9 +121,28 @@ const loadButtonFunctions = () => {
 
         resetPinButton: (graphObject) => {
             $('#resetPinButton').click(function() {
-                graphObject.graphGL.forEachNode((node) => {
-                    graphObject.layout.pinNode(node, false);
-                });
+                if (graphObject.pinNodes === undefined || graphObject.pinNodes === false){
+                    pinNodes = true;
+                    $("#resetPinButton").toggleClass("btn-warning", true);
+                    $("#resetPinButton").toggleClass("btn-default", false);
+                    $("#iconResetPin").toggleClass("fa-thumb-tack", false);
+                    $("#iconResetPin").toggleClass("fa-chain-broken", true);
+                    
+                    graphObject.graphGL.forEachNode((node) => {
+                        graphObject.layout.pinNode(node, true);
+                    });
+                }
+                else{
+                    pinNodes = false;
+                    $("#resetPinButton").toggleClass("btn-warning", false);
+                    $("#resetPinButton").toggleClass("btn-default", true);
+                    $("#iconResetPin").toggleClass("fa-thumb-tack", true);
+                    $("#iconResetPin").toggleClass("fa-chain-broken", false);
+
+                    graphObject.graphGL.forEachNode((node) => {
+                        graphObject.layout.pinNode(node, false);
+                    });
+                }
 
             });
         },
