@@ -38,7 +38,7 @@ adjustElements = function () {
     $(".float_title").css('float', "right");
     $("#header_container").css({'font-size': '120%'});
     $("#home_container").css('margin-top', '0%');
-    $(".phylovizImage").css({'width': '12%'});
+    //$(".phylovizImage").css({'width': '12%'});
     $("#isolateContent").css({"height": heightTab + 'px'});
     $("#profileContent").css({"height": heightTab + 'px'});
     $("#distanceContent").css({"height": heightTab + 'px'});
