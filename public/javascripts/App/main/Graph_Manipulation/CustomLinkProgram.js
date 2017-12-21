@@ -84,7 +84,9 @@ function webglCustomLinkProgram(lineWidth) {
             console.log("AQUI", lineWidth);
             gl = glContext;
             utils = Viva.Graph.webgl(glContext);
-            var extension = gl.getExtension("OES_standard_derivatives");
+            gl.getExtension("OES_standard_derivatives");
+            gl.enable(gl.BLEND)
+            gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
             program = utils.createProgram(linksVS, linksFS);
             gl.useProgram(program);
