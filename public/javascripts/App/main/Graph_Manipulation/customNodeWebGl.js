@@ -4,14 +4,30 @@ function buildSimpleCircleNodeShader() {
     // For each primitive we need 4 attributes: x, y, color and size.
     var ATTRIBUTES_PER_PRIMITIVE = 4,
         nodesFS = [
+        '#ifdef GL_OES_standard_derivatives',
+        '#extension GL_OES_standard_derivatives : enable',
+        '#endif',
+
         'precision highp float;',
         'varying vec4 color;',
+
         'void main(void) {',
-        '   if ((gl_PointCoord.x - 0.5) * (gl_PointCoord.x - 0.5) + (gl_PointCoord.y - 0.5) * (gl_PointCoord.y - 0.5) < 0.25) {',
-        '     gl_FragColor = color;',
-        '   } else {',
-        '     gl_FragColor = vec4(0);',
-        '   }',
+
+            'float r = 0.5, delta = 0.0, alpha = 1.0;',
+
+            'vec2 cxy = 2.0 * gl_PointCoord - 1.0;',
+            'r = dot(cxy, cxy);',
+
+            '#ifdef GL_OES_standard_derivatives',
+                'delta = fwidth(r);',
+                'alpha = 0.5 - smoothstep(0.5 - delta, 0.5 + delta, r);',
+            '#endif',
+
+            '   if ((gl_PointCoord.x - 0.5) * (gl_PointCoord.x - 0.5) + (gl_PointCoord.y - 0.5) * (gl_PointCoord.y - 0.5) < 0.25) {',
+            '     gl_FragColor = color * alpha;',
+            '   } else {',
+            '     gl_FragColor = vec4(0);',
+            '   }',
         '}'].join('\n'),
         nodesVS = [
         'attribute vec2 a_vertexPos;',

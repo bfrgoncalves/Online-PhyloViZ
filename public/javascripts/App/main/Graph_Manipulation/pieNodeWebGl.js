@@ -212,7 +212,7 @@ function buildCircleNodeShader() {
                             '}',
                    '}',
 
-                    /*'if (quadrant == 4.0 && gl_PointCoord.y <= 0.5 && gl_PointCoord.x <= 0.5){',
+                    'if (quadrant == 4.0 && gl_PointCoord.y <= 0.5 && gl_PointCoord.x <= 0.5){',
                             'rad = radians(angle);',
                             'if (angle != 0.0 && totalAngles == 360.0 && (tan(prevAngle) <= (gl_PointCoord.y - 0.5) / (gl_PointCoord.x - 0.5))){',
                                 'gl_FragColor = color * alpha;',
@@ -223,11 +223,11 @@ function buildCircleNodeShader() {
                                     'found = true;',
                             '}',
 
-                    '}',*/
+                    '}',
 
                     
 
-                /*'if (found == false){',
+                'if (found == false){',
                     'if ((gl_PointCoord.x - 0.5) * (gl_PointCoord.x - 0.5) + (gl_PointCoord.y - 0.5) * (gl_PointCoord.y - 0.5) < 0.25){',
                         'gl_FragColor = vec4(0) * alpha;',
                     '}',
@@ -237,7 +237,7 @@ function buildCircleNodeShader() {
                 '}',
                  'else if ((gl_PointCoord.x - 0.5) * (gl_PointCoord.x - 0.5) + (gl_PointCoord.y - 0.5) * (gl_PointCoord.y - 0.5) > 0.25){',
                     ' gl_FragColor = vec4(0) * alpha;',
-                 '}',*/
+                 '}',
                     
                 '}'].join('\n');
 
@@ -315,8 +315,6 @@ function buildCircleNodeShader() {
                     program = webglUtils.createProgram(nodesVS, nodesFS);
                     gl.useProgram(program);
                     locations = webglUtils.getLocations(program, ['a_vertexPos', 'a_quadrant', 'a_anglesAndColor', 'a_totalAngles', 'a_size', 'u_screenSize', 'u_transform']);
-
-                    gl.enable(gl.DEPTH_TEST);
 
                     gl.enableVertexAttribArray(locations.vertexPos);
                     gl.enableVertexAttribArray(locations.quadrant);
