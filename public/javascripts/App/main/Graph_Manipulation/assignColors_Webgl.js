@@ -83,10 +83,12 @@ var colorAttributes = function(graphObject){
         if(propertyToCheck == 'None'){
           $('#divButtonLegend').css({'display':'none', 'right': '10.5%'});
           $('#col_info').css('display', 'none');
+          $('#outerColorLegendDiv').css('display', 'none');
         }
         else{
           $('#divButtonLegend').css('display', 'block');
           $('#col_info').css('display', 'block');
+          $('#outerColorLegendDiv').css('display', 'block');
         }
       }
       else{
@@ -96,6 +98,7 @@ var colorAttributes = function(graphObject){
         if (propertyToCheck == 'None'){
           $('#divButtonLegend').css({'display':'none', 'right': '10.5%'});
           $('#col_info').css('display', 'none');
+          $('#outerColorLegendDiv').css('display', 'none');
         }
       }
 
@@ -115,10 +118,12 @@ var colorAttributes = function(graphObject){
         if(propertyToCheck == 'None'){
           $('#divButtonLegend').css({'display':'none', 'right': '10.5%'});
           $('#col_info').css('display', 'none');
+          $('#outerColorLegendDiv').css('display', 'none');
         }
         else{
           $('#divButtonLegend').css('display', 'block');
           $('#col_info').css('display', 'block');
+          $('#outerColorLegendDiv').css('display', 'block');
         }
       }
       else{
