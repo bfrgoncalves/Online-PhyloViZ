@@ -2,10 +2,7 @@
 html{
   position: relative;
   min-height: 100%;
-  margin-left: 1%;
-  margin-right: 1%;
   margin-top: 1%;
-  margin-right: 1%;
 }
 body {
   position: relative;
@@ -102,7 +99,7 @@ a {
 .user_info {
   position:absolute;
   top: 1%;
-  right: 0%;
+  right: 1%;
   float:right;
   z-index: 2;
 }
