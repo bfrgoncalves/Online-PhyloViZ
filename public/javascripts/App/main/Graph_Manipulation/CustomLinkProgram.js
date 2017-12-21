@@ -23,7 +23,7 @@ function webglCustomLinkProgram(lineWidth) {
             'varying vec4 color;',
 
             'void main(void) {',
-                'float r = 1.0, delta = 0.0, alpha = 1.0;',
+                'float r = 0.1, delta = 0.0, alpha = 1.0;',
                 '#ifdef GL_OES_standard_derivatives',
                     'delta = fwidth(r);',
                     'alpha = 1.0 - smoothstep(1.0 - delta, 1.0 + delta, r);',
