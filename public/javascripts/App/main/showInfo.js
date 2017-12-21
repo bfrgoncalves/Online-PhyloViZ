@@ -55,7 +55,7 @@ $('#clear_info').click(function(){
 });
 
 $('#toggle_col_legend').click(function(){
-  if(this.innerHTML.search('Hide') > -1){
+  if($("#icon_col_legend").hasClass("fa-sign-out")){
     $("#icon_col_legend").toggleClass("fa-sign-out", false);
     $("#icon_col_legend").toggleClass("fa-external-link", true);
 
@@ -80,7 +80,7 @@ $('#toggle_col_legend').click(function(){
       $('#outerColorLegendDiv').toggle(1000);
     }
   }
-  else if (this.innerHTML.search('Show') > -1){
+  else if ($("#icon_col_legend").hasClass("fa-external-link")){
 
     $("#icon_col_legend").toggleClass("fa-sign-out", true);
     $("#icon_col_legend").toggleClass("fa-external-link", false);
