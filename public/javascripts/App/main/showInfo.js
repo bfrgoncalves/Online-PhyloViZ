@@ -86,7 +86,7 @@ $('#toggle_col_legend').click(function(){
     $("#icon_col_legend").toggleClass("fa-external-link", false);
 
     $("#divButtonLegend").animate({
-          right: '10.5%'
+          right: '14%'
           //opacity: 0
       });
 
