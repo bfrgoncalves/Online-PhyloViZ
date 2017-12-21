@@ -128,6 +128,10 @@ const loadButtonFunctions = () => {
             });
         },
 
+        screenshotButton: (graphObject) => {
+
+        },
+
         pauseButton: (graphObject) => {
 
             const graph = graphObject.graphInput;
