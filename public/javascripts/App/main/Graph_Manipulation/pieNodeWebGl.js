@@ -164,14 +164,14 @@ function buildCircleNodeShader() {
                     '}',
                     */
 
-                    'float r = 10, delta = 0.0, alpha = 1.0;',
+                    'float r = 0.5, delta = 0.0, alpha = 1.0;',
 
-                    'vec2 cxy = 2.0 * gl_PointCoord - 1.0;',
-                    'r = dot(cxy, cxy);',
+                    /*'vec2 cxy = 2.0 * gl_PointCoord - 1.0;',
+                    'r = dot(cxy, cxy);',*/
 
                     '#ifdef GL_OES_standard_derivatives',
                         'delta = fwidth(r);',
-                        'alpha = 1.0 - smoothstep(1.0 - delta, 1.0 + delta, r);',
+                        'alpha = 0.5 - smoothstep(0.5 - delta, 0.5 + delta, r);',
                     '#endif',
 
                     'if (quadrant == 1.0 && gl_PointCoord.y < 0.5 && gl_PointCoord.x > 0.5){',
