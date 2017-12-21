@@ -135,6 +135,7 @@ function buildCircleNodeShader() {
             // For each primitive we need 4 attributes: x, y, color and size.
             var ATTRIBUTES_PER_PRIMITIVE = 8,
                 nodesFS = [
+
                 'precision highp float;',
                 'varying float quadrant;',
 
@@ -158,17 +159,20 @@ function buildCircleNodeShader() {
                         'found = true;',
                     '}',
                     */
+
+                    'float r = 0.5, delta = 0.0, alpha = 1.0;',
                     
-                    
+                    'delta = fwidth(r);',
+                    'alpha = 1.0 - smoothstep(1.0 - delta, 1.0 + delta, r);',
 
                     'if (quadrant == 1.0 && gl_PointCoord.y < 0.5 && gl_PointCoord.x > 0.5){',
                             'rad = radians(angle);',
                             'if (totalAngles == 90.0 && tan(prevAngle) <= (- 2.0 * ( 0.5 - gl_PointCoord.x)) / (- 2.0 * (gl_PointCoord.y - 0.5))){',
-                                'gl_FragColor = color;',
+                                'gl_FragColor = color * alpha;',
                                 'found = true;',
                             '}',
                             'else if (tan(rad + prevAngle) >= (- 2.0 * ( 0.5 - gl_PointCoord.x)) / (- 2.0 * (gl_PointCoord.y - 0.5)) && tan(prevAngle) <= (- 2.0 * ( 0.5 - gl_PointCoord.x)) / (- 2.0 * (gl_PointCoord.y - 0.5)) ){',
-                                    'gl_FragColor = color;',
+                                    'gl_FragColor = color * alpha;',
                                     'found = true;',
                             '}',
                     '}',
@@ -177,11 +181,11 @@ function buildCircleNodeShader() {
 
                             'rad = radians(angle);',
                             'if (totalAngles == 180.0 && tan(prevAngle) <= (- 2.0 * ( 0.5 - gl_PointCoord.y)) / (- 2.0 * ( 0.5 - gl_PointCoord.x))){',
-                                'gl_FragColor = color;',
+                                'gl_FragColor = color * alpha;',
                                 'found = true;',
                             '}',
                             'else if (tan(rad + prevAngle) >= (- 2.0 * ( 0.5 - gl_PointCoord.y)) / (- 2.0 * ( 0.5 - gl_PointCoord.x)) && tan(prevAngle) <= (- 2.0 * ( 0.5 - gl_PointCoord.y)) / (- 2.0 * ( 0.5 - gl_PointCoord.x)) ){',
-                                    'gl_FragColor = color;',
+                                    'gl_FragColor = color * alpha;',
                                     'found = true;',
                             '}',
                     '}',
@@ -190,11 +194,11 @@ function buildCircleNodeShader() {
 
                             'rad = radians(angle);',
                             'if (totalAngles == 270.0 && tan(prevAngle) <= (- 2.0 * (gl_PointCoord.x - 0.5)) / (- 2.0 * ( 0.5 - gl_PointCoord.y))){',
-                                'gl_FragColor = color;',
+                                'gl_FragColor = color * alpha;',
                                 'found = true;',
                             '}',
                             'else if (tan((rad + prevAngle)) >= (- 2.0 * (gl_PointCoord.x - 0.5)) / (- 2.0 * ( 0.5 - gl_PointCoord.y)) && tan((prevAngle)) <= (- 2.0 * (gl_PointCoord.x - 0.5)) / (- 2.0 * ( 0.5 - gl_PointCoord.y)) ){',
-                                    'gl_FragColor = color;',
+                                    'gl_FragColor = color * alpha;',
                                     'found = true;',
                             '}',
                    '}',
@@ -202,11 +206,11 @@ function buildCircleNodeShader() {
                     'if (quadrant == 4.0 && gl_PointCoord.y <= 0.5 && gl_PointCoord.x <= 0.5){',
                             'rad = radians(angle);',
                             'if (angle != 0.0 && totalAngles == 360.0 && (tan(prevAngle) <= (gl_PointCoord.y - 0.5) / (gl_PointCoord.x - 0.5))){',
-                                'gl_FragColor = color;',
+                                'gl_FragColor = color * alpha;',
                                 'found = true;',
                             '}',
                             'else if ((tan(rad + prevAngle) >= (gl_PointCoord.y - 0.5) / (gl_PointCoord.x - 0.5)) && (tan(prevAngle) <= (gl_PointCoord.y - 0.5) / (gl_PointCoord.x - 0.5))){',
-                                    'gl_FragColor = color;',
+                                    'gl_FragColor = color * alpha;',
                                     'found = true;',
                             '}',
 
@@ -216,14 +220,14 @@ function buildCircleNodeShader() {
 
                 'if (found == false){',
                     'if ((gl_PointCoord.x - 0.5) * (gl_PointCoord.x - 0.5) + (gl_PointCoord.y - 0.5) * (gl_PointCoord.y - 0.5) < 0.25){',
-                        'gl_FragColor = vec4(0);',
+                        'gl_FragColor = vec4(0) * alpha;',
                     '}',
                     'else{',
-                        'gl_FragColor = vec4(0);',
+                        'gl_FragColor = vec4(0) * alpha;',
                     '}',
                 '}',
                  'else if ((gl_PointCoord.x - 0.5) * (gl_PointCoord.x - 0.5) + (gl_PointCoord.y - 0.5) * (gl_PointCoord.y - 0.5) > 0.25){',
-                    ' gl_FragColor = vec4(0);',
+                    ' gl_FragColor = vec4(0) * alpha;',
                  '}',
                     
                 '}'].join('\n');
