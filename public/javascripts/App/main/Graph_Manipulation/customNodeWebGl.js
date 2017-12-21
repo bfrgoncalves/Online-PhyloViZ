@@ -74,7 +74,7 @@ function buildSimpleCircleNodeShader() {
             webglUtils = Viva.Graph.webgl(glContext);
             program = webglUtils.createProgram(nodesVS, nodesFS);
             gl.useProgram(program);
-            gl.getExtension("GL_OES_standard_derivatives");
+            gl.getExtension("GL_OES_standard_derivatives").loseContext();
             locations = webglUtils.getLocations(program, ['a_vertexPos', 'a_customAttributes', 'u_screenSize', 'u_transform']);
             gl.disableVertexAttribArray(locations.vertexPos);
             gl.disableVertexAttribArray(locations.customAttributes);
