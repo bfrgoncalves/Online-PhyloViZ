@@ -171,7 +171,7 @@ function buildCircleNodeShader() {
 
                     '#ifdef OES_standard_derivatives',
                         'delta = fwidth(r);',
-                        'alpha = 0.5 - smoothstep(0.5 - delta, 0.5 + delta, r);',
+                        'alpha = 1.0 - smoothstep(1.0 - delta, 1.0 + delta, r);',
                     '#endif',
 
                     'if (quadrant == 1.0 && gl_PointCoord.y < 0.5 && gl_PointCoord.x > 0.5){',
@@ -229,14 +229,14 @@ function buildCircleNodeShader() {
 
                 'if (found == false){',
                     'if ((gl_PointCoord.x - 0.5) * (gl_PointCoord.x - 0.5) + (gl_PointCoord.y - 0.5) * (gl_PointCoord.y - 0.5) < 0.25){',
-                        'gl_FragColor = vec4(0) * alpha;',
+                        'gl_FragColor = vec4(0);',
                     '}',
                     'else{',
-                        'gl_FragColor = vec4(0) * alpha;',
+                        'gl_FragColor = vec4(0);',
                     '}',
                 '}',
                  'else if ((gl_PointCoord.x - 0.5) * (gl_PointCoord.x - 0.5) + (gl_PointCoord.y - 0.5) * (gl_PointCoord.y - 0.5) > 0.25){',
-                    ' gl_FragColor = vec4(0) * alpha;',
+                    ' gl_FragColor = vec4(0);',
                  '}',
                     
                 '}'].join('\n');

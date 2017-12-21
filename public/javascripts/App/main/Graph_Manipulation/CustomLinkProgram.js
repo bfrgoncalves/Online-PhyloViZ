@@ -135,7 +135,7 @@ function webglLinkProgram(lineWidth) {
             gl.vertexAttribPointer(locations.vertexPos, 2, gl.FLOAT, false, 3 * Float32Array.BYTES_PER_ELEMENT, 0);
             gl.vertexAttribPointer(locations.color, 4, gl.UNSIGNED_BYTE, true, 3 * Float32Array.BYTES_PER_ELEMENT, 2 * 4);
 
-            gl.lineWidth(lineWidth);
+            gl.lineWidth(50);
 
             gl.drawArrays(gl.LINES, 0, linksCount * 2);
 
