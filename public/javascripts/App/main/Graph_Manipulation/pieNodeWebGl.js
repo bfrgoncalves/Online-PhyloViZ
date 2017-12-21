@@ -212,7 +212,7 @@ function buildCircleNodeShader() {
                             '}',
                    '}',
 
-                    'if (quadrant == 4.0 && gl_PointCoord.y <= 0.5 && gl_PointCoord.x <= 0.5){',
+                    /*'if (quadrant == 4.0 && gl_PointCoord.y <= 0.5 && gl_PointCoord.x <= 0.5){',
                             'rad = radians(angle);',
                             'if (angle != 0.0 && totalAngles == 360.0 && (tan(prevAngle) <= (gl_PointCoord.y - 0.5) / (gl_PointCoord.x - 0.5))){',
                                 'gl_FragColor = color * alpha;',
@@ -223,7 +223,7 @@ function buildCircleNodeShader() {
                                     'found = true;',
                             '}',
 
-                    '}',
+                    '}',*/
 
                     
 
