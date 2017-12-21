@@ -129,16 +129,20 @@ const loadButtonFunctions = () => {
         },
 
         screenshotButton: (graphObject) => {
-            if (graphObject.screenshot === undefined || graphObject.screenshot === false){
-                graphObject.screenshot = true;
-                $("#col_webgl").css({display:"none"});
-                $("#searchForm").css({display:"none"});
-            }
-            else {
-                graphObject.screenshot = false;
-                $("#col_webgl").css({display:"block"});
-                $("#searchForm").css({display:"block"});
-            }
+
+            $("#screenshotMode").off("click").on("click", () => {
+                if (graphObject.screenshot === undefined || graphObject.screenshot === false){
+                    graphObject.screenshot = true;
+                    $("#col_webgl").css({display:"none"});
+                    $("#searchForm").css({display:"none"});
+                }
+                else {
+                    graphObject.screenshot = false;
+                    $("#col_webgl").css({display:"block"});
+                    $("#searchForm").css({display:"block"});
+                }
+            });
+            
         },
 
         pauseButton: (graphObject) => {
