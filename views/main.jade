@@ -79,18 +79,8 @@ block normalBody
 						div.form-group
 							input.form-control(type='text' id='nodeid' style='color:black' placehorder="Search")
 						button.btn.btn-default(type='submit') Search
+				
 				div(id="col_webgl")
-					div(id="pauseRegion", style="height:20%;overflow-y:auto;")
-						ul.nav.nav-stacked
-							li
-								//div(style="width:100%;")
-									if (user && !isPublic)
-										div(style="text-align:center;")
-											button(type='button',id='generatePublicLinkButton', name='publicLink1') Generate Data Set Link
-									else if (!isAuthenticated)
-										div(style="text-align:center;")
-											button(type='button',id='getLinkButton', name='publicLink1') Get Data Set Link
-								br
 					div(id="pauseRegion", style="height:10%;overflow-y:auto;")
 						ul.nav.nav-stacked
 							li
