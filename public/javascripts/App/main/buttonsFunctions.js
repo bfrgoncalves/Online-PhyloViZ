@@ -144,8 +144,8 @@ const loadButtonFunctions = () => {
                     $('#pauseLayout')[0].innerHTML = "Resume Layout";
 
                     const icon_pause_layout = $('#iconPauseLayout');
-                    icon_pause_layout.toggleClass('glyphicon glyphicon-pause',false);
-                    icon_pause_layout.toggleClass('glyphicon glyphicon-play',true);
+                    icon_pause_layout.toggleClass('fa fa-pause',false);
+                    icon_pause_layout.toggleClass('glyphicon fa-play',true);
                 }
 
             }, 500);
@@ -155,11 +155,11 @@ const loadButtonFunctions = () => {
                 if(!graphObject.isLayoutPaused){
                     renderer.pause();
                     graphObject.isLayoutPaused = true;
-                    $('#pauseLayout')[0].innerHTML = "Resume Layout";
+                    //$('#pauseLayout')[0].innerHTML = "Resume Layout";
 
                     const icon_pause_layout = $('#iconPauseLayout');
-                    icon_pause_layout.toggleClass('glyphicon glyphicon-pause',false);
-                    icon_pause_layout.toggleClass('glyphicon glyphicon-play',true);
+                    icon_pause_layout.toggleClass('fa fa-pause',false);
+                    icon_pause_layout.toggleClass('fa fa-play',true);
                 }
                 else{
                     renderer.resume();
