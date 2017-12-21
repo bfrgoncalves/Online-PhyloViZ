@@ -129,6 +129,8 @@ function loadGraphFunctions(){
 			//var circleNode = buildCircleNodeShader();
 			var circleNode = buildSimpleCircleNodeShader();
 	        graphics.setNodeProgram(circleNode);
+	        var linkProgram = webglCustomLinkProgram(30);
+	        graphics.setLinkProgram(linkProgram);
 	        graphObject.currentNodeProgram = 'buildSimpleCircleNodeShader';
 
 	        var DefaultnodeSize = graphObject.DefaultnodeSize;
