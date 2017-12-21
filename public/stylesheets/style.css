@@ -440,7 +440,7 @@ td.highlight {
   z-index: 2;
   background-color: #f8f8f8;
   border-color: #e7e7e7;
-  border: 1px;
+  border: 1px solid;
 }
 
 #col_index{
