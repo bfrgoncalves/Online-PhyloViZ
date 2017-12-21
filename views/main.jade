@@ -57,15 +57,15 @@ block normalBody
 
 				div(id="buttonStuff")
 					div(class="button-group")
-						div(id='toggleLayout')
+						button(id=='pauseLayout', class="btn btn-sm btn-default")
 							i.glyphicon.glyphicon-pause(id='iconPauseLayout') 
-							i(id='pauseLayout') Pause Layout
-						div(id='divReset')
+							//i(id='pauseLayout') Pause Layout
+						button(id='resetPositionButton', class="btn btn-sm btn-default")
 							i.glyphicon.glyphicon-refresh(id='iconResetLayout') 
-							i(id='resetPositionButton') Reset Positions
-						div(id='divResetPin')
+							//i(id='resetPositionButton') Reset Positions
+						button(id='resetPinButton', class="btn btn-sm btn-default")
 							i.glyphicon.glyphicon-refresh(id='iconResetPin') 
-							i(id='resetPinButton') Unpin Nodes
+							//i(id='resetPinButton') Unpin Nodes
 
 				div(id="popup_description" style="display: none")
 				div(style="width:30%;margin-top:1%;left:35%;position:absolute;z-index:2;text-align:center;")
