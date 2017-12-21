@@ -23,7 +23,7 @@ function buildSimpleCircleNodeShader() {
             '   if ((gl_PointCoord.x - 0.5) * (gl_PointCoord.x - 0.5) + (gl_PointCoord.y - 0.5) * (gl_PointCoord.y - 0.5) < 0.25) {',
             '     gl_FragColor = color * alpha;',
             '   } else {',
-            '     gl_FragColor = vec4(0) * alpha;',
+            '     gl_FragColor = vec4(0);',
             '   }',
         '}'].join('\n'),
         nodesVS = [
