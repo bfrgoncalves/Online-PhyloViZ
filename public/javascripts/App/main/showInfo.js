@@ -72,6 +72,12 @@ $('#toggle_col_legend').click(function(){
 
     //      }
     //  });
+
+    $('#col_info').toggle(1000);
+
+    if($("#outerColorLegendDiv").css("display") === "block"){
+      $('#outerColorLegendDiv').toggle(1000);
+    }
   }
   else if (this.innerHTML.search('Show') > -1){
     this.innerHTML = "Hide Legend";
@@ -91,9 +97,14 @@ $('#toggle_col_legend').click(function(){
 
     //      }
     //  });
+
+    $('#col_info').toggle(1000);
+
+    if($("#outerColorLegendDiv").css("display") === "none"){
+      $('#outerColorLegendDiv').toggle(1000);
+    }
   }
-  $('#col_info').toggle(1000);
-  $('#outerColorLegendDiv').toggle(1000);
+  
 });
 
 $('#toggle_col_info').click(function(){
