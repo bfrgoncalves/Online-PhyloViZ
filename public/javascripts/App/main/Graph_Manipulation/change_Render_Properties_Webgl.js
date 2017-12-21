@@ -380,8 +380,8 @@ function removeColorFromOuterRing(graphObject){
      graphObject.graphInput.nodes.forEach(function(node){
         var nodeUI = graphObject.graphics.getNodeUI(node.key);
         
-        nodeUI.outercolorIndexes = nodeUI.colorIndexes;
-        nodeUI.outerdata = nodeUI.data;
+        nodeUI.outercolorIndexes = undefined;
+        nodeUI.outerdata = undefined;
         
     });
 
