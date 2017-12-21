@@ -72,7 +72,7 @@ function buildSimpleCircleNodeShader() {
             isCanvasDirty = true;
             gl = glContext;
             console.log(gl.getSupportedExtensions())
-            var extension = gl.getExtension("GL_OES_standard_derivatives");
+            var extension = gl.getExtension("OES_standard_derivatives");
             console.log(extension);
 
             webglUtils = Viva.Graph.webgl(glContext);

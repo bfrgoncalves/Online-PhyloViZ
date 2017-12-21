@@ -136,8 +136,8 @@ function buildCircleNodeShader() {
             var ATTRIBUTES_PER_PRIMITIVE = 8,
                 nodesFS = [
 
-                '#ifdef GL_OES_standard_derivatives',
-                '#extension GL_OES_standard_derivatives : enable',
+                '#ifdef OES_standard_derivatives',
+                '#extension OES_standard_derivatives : enable',
                 '#endif',
 
                 'precision mediump float;',
@@ -169,7 +169,7 @@ function buildCircleNodeShader() {
                     'vec2 cxy = 2.0 * gl_PointCoord - 1.0;',
                     'r = dot(cxy, cxy);',
 
-                    '#ifdef GL_OES_standard_derivatives',
+                    '#ifdef OES_standard_derivatives',
                         'delta = fwidth(r);',
                         'alpha = 0.5 - smoothstep(0.5 - delta, 0.5 + delta, r);',
                     '#endif',
