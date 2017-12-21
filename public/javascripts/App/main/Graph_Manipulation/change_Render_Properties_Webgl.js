@@ -391,7 +391,7 @@ function removeColorFromOuterRing(graphObject){
 
     $( "#cloneLegendPie" ).empty();
 
-    $('#buttonRemoveFromOuter').css({display:"block"});
+    $('#buttonRemoveFromOuter').css({display:"none"});
     
 }
 
