@@ -438,7 +438,8 @@ td.highlight {
   text-align: left;
   position: fixed; 
   z-index: 2;
-  background-color: #eff5ff;
+  background-color: #f8f8f8;
+  border-color: #e7e7e7;
 }
 
 #col_index{
