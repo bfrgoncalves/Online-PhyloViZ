@@ -16,10 +16,7 @@ block login
 				a(href="/users/logout") Logout
 
 block title
-	div.titleLocation(onclick="javascript:location.href='/'")
-		div.float_title
-			img.phylovizImage(src = '/images/logo.png')
-			label.title #{title}
+	
 
 block normalBody
 
@@ -84,15 +81,9 @@ block normalBody
 				
 				div(id="col_webgl")
 					div(id="pauseRegion", style="height:10%;overflow-y:auto;")
-						ul.nav.nav-stacked
-							li
-								i Links log Scale: <b id="isLogScaleOn"></b>
-							li
-								i Nodes log Scale: <b id="isLogScaleNodesOn"></b>
-							li
-								i goeBURST Profile Size: <b id="goeburstProfileSize"></b>
-							li
-								i(style="display:none", id="i_parent_dataset") Parent Data Set: <b id="parentDataset"></b>
+						div.titleLocation(onclick="javascript:location.href='/'")
+							img.phylovizImage(src = '/images/logo.png')
+							label.title #{title}
 
 					div(id="buttonRegion", style="height:90%;overflow-y:auto;")		
 						ul.nav.nav-stacked
