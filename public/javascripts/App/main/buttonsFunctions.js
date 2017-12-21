@@ -133,15 +133,15 @@ const loadButtonFunctions = () => {
             $("#screenshotMode").off("click").on("click", () => {
                 if (graphObject.screenshot === undefined || graphObject.screenshot === false){
                     graphObject.screenshot = true;
-                    $("#col_webgl").css({display:"none"});
-                    $("#searchForm").css({display:"none"});
+                    $("#col_webgl").css({opacity:0});
+                    $("#searchForm").css({opacity:0});
                     $("#screenshotMode").toggleClass("btn-warning", true);
                     $("#screenshotMode").toggleClass("btn-default", false);
                 }
                 else {
                     graphObject.screenshot = false;
-                    $("#col_webgl").css({display:"block"});
-                    $("#searchForm").css({display:"block"});
+                    $("#col_webgl").css({opacity:1});
+                    $("#searchForm").css({opacity:1});
                     $("#screenshotMode").toggleClass("btn-warning", false);
                     $("#screenshotMode").toggleClass("btn-default", true);
                 }
