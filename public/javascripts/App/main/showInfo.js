@@ -56,7 +56,8 @@ $('#clear_info').click(function(){
 
 $('#toggle_col_legend').click(function(){
   if(this.innerHTML.search('Hide') > -1){
-    this.innerHTML =  "Show Legend";
+    $("#icon_col_legend").toggleClass("fa-sign-out", false);
+    $("#icon_col_legend").toggleClass("fa-external-link", true);
 
     $("#divButtonLegend").animate({
           right: '0%'
@@ -80,7 +81,10 @@ $('#toggle_col_legend').click(function(){
     }
   }
   else if (this.innerHTML.search('Show') > -1){
-    this.innerHTML = "Hide Legend";
+
+    $("#icon_col_legend").toggleClass("fa-sign-out", true);
+    $("#icon_col_legend").toggleClass("fa-external-link", false);
+
     $("#divButtonLegend").animate({
           right: '10.5%'
           //opacity: 0
