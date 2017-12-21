@@ -74,12 +74,11 @@ block normalBody
 
 
 				div(id="popup_description" style="display: none")
-				div(style="width:30%;margin-top:1%;left:35%;position:absolute;z-index:2;text-align:center;")
-					div.input-group
-						form.form-inline(id='searchForm')
-							div.form-group
-								input.form-control(type='text' id='nodeid' style='color:black' placehorder="Search")
-							button.btn.btn-default(type='submit') Search
+				div(style="margin-top:1%;left:35%;z-index:2;text-align:center;")
+					form.form-inline(id='searchForm')
+						div.form-group
+							input.form-control(type='text' id='nodeid' style='color:black' placehorder="Search")
+						button.btn.btn-default(type='submit') Search
 				
 				div(id="col_webgl")
 					div(id="pauseRegion", style="height:10%;overflow-y:auto;")
