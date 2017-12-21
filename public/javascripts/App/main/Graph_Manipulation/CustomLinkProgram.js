@@ -14,10 +14,21 @@ function webglCustomLinkProgram(lineWidth) {
     var ATTRIBUTES_PER_PRIMITIVE = 6, // primitive is Line with two points. Each has x,y and color = 3 * 2 attributes.
         BYTES_PER_LINK = 2 * (2 * Float32Array.BYTES_PER_ELEMENT + Uint32Array.BYTES_PER_ELEMENT), // two nodes * (x, y + color)
         linksFS = [
+
+            '#ifdef OES_standard_derivatives',
+            '#extension OES_standard_derivatives : enable',
+            '#endif',
+
             'precision mediump float;',
             'varying vec4 color;',
+
             'void main(void) {',
-            '   gl_FragColor = color;',
+                'float r = 0.5, delta = 0.0, alpha = 1.0;',
+                '#ifdef OES_standard_derivatives',
+                    'delta = fwidth(r);',
+                    'alpha = 1.0 - smoothstep(1.0 - delta, 1.0 + delta, r);',
+                '#endif',
+            '   gl_FragColor = color * alpha;',
             '}'
         ].join('\n'),
 
@@ -73,6 +84,7 @@ function webglCustomLinkProgram(lineWidth) {
             console.log("AQUI", lineWidth);
             gl = glContext;
             utils = Viva.Graph.webgl(glContext);
+            var extension = gl.getExtension("OES_standard_derivatives");
 
             program = utils.createProgram(linksVS, linksFS);
             gl.useProgram(program);
