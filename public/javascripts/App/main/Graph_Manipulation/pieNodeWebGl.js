@@ -311,7 +311,8 @@ function buildCircleNodeShader() {
                     }
                     gl = glContext;
                     webglUtils = Viva.Graph.webgl(glContext);
-                    var extension = gl.getExtension("OES_standard_derivatives");
+                    gl.getExtension("OES_standard_derivatives");
+                    gl.enable(gl.DEPTH_TEST);
 
                     program = webglUtils.createProgram(nodesVS, nodesFS);
                     gl.useProgram(program);
