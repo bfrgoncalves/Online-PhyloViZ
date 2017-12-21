@@ -160,7 +160,7 @@ function buildCircleNodeShader() {
                     '}',
                     */
 
-                    'float r = 0.5, delta = 0.0, alpha = 1.0;',
+                    'float r = 10, delta = 0.0, alpha = 1.0;',
                     
                     'delta = fwidth(r);',
                     'alpha = 1.0 - smoothstep(1.0 - delta, 1.0 + delta, r);',
