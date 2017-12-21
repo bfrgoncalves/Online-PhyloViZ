@@ -366,6 +366,9 @@ function changeColorToOuterRing(graphObject){
 
     $( "#cloneLegendPie" ).empty();
     $( "#legendcurrentpiePlace" ).clone().appendTo( "#cloneLegendPie" );
+
+    $("#currentpiePlace").empty();
+    $("#legendcurrentpiePlace").empty();
     
 }
 
