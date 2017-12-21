@@ -6,7 +6,7 @@ function buildSimpleCircleNodeShader() {
         nodesFS = [
 
         '#extension GL_OES_standard_derivatives : enable',
-        
+
         'precision highp float;',
         'varying vec4 color;',
 
@@ -74,6 +74,7 @@ function buildSimpleCircleNodeShader() {
             webglUtils = Viva.Graph.webgl(glContext);
             program = webglUtils.createProgram(nodesVS, nodesFS);
             gl.useProgram(program);
+            gl.getExtension("GL_OES_standard_derivatives");
             locations = webglUtils.getLocations(program, ['a_vertexPos', 'a_customAttributes', 'u_screenSize', 'u_transform']);
             gl.disableVertexAttribArray(locations.vertexPos);
             gl.disableVertexAttribArray(locations.customAttributes);
