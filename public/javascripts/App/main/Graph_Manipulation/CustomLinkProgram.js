@@ -70,7 +70,7 @@ function webglCustomLinkProgram(lineWidth) {
     return {
         load : function (glContext) {
 
-            console.log("AQUI");
+            console.log("AQUI", lineWidth);
             gl = glContext;
             utils = Viva.Graph.webgl(glContext);
 
