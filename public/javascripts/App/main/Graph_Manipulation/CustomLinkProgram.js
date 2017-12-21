@@ -15,8 +15,8 @@ function webglCustomLinkProgram(lineWidth) {
         BYTES_PER_LINK = 2 * (2 * Float32Array.BYTES_PER_ELEMENT + Uint32Array.BYTES_PER_ELEMENT), // two nodes * (x, y + color)
         linksFS = [
 
-            '#ifdef OES_standard_derivatives',
-            '#extension OES_standard_derivatives : enable',
+            '#ifdef GL_OES_standard_derivatives',
+            '#extension GL_OES_standard_derivatives : enable',
             '#endif',
 
             'precision mediump float;',
@@ -24,7 +24,7 @@ function webglCustomLinkProgram(lineWidth) {
 
             'void main(void) {',
                 'float r = 0.5, delta = 0.0, alpha = 1.0;',
-                '#ifdef OES_standard_derivatives',
+                '#ifdef GL_OES_standard_derivatives',
                     'delta = fwidth(r);',
                     'alpha = 1.0 - smoothstep(1.0 - delta, 1.0 + delta, r);',
                 '#endif',
