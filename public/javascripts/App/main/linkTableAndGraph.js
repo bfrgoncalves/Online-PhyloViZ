@@ -157,6 +157,7 @@ function createLinkButton(property, columnIndex, columnData, columnName, graphOb
 
 		$('#divButtonLegend').css('display', 'block');
 		$('#col_info').css('display', 'block');
+    $("#piePlace").css({display:"block"});
     $('#outerColorLegendDiv').css('display', 'block');
 
 		var pieHeight = $('#col_info').height();

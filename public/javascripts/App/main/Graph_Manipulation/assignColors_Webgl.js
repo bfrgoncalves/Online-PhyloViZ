@@ -88,6 +88,7 @@ var colorAttributes = function(graphObject){
         else{
           $('#divButtonLegend').css('display', 'block');
           $('#col_info').css('display', 'block');
+          $("#piePlace").css({display:"block"});
           $('#outerColorLegendDiv').css('display', 'block');
         }
       }
@@ -123,7 +124,9 @@ var colorAttributes = function(graphObject){
         else{
           $('#divButtonLegend').css('display', 'block');
           $('#col_info').css('display', 'block');
+          $("#piePlace").css({display:"block"});
           $('#outerColorLegendDiv').css('display', 'block');
+
         }
       }
       else{
