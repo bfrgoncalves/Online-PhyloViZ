@@ -517,7 +517,7 @@ function loadGraphFunctions(){
               // And ask graphics to transform it to DOM coordinates:
               graphics.transformGraphToClientCoordinates(domPos);
 
-              domPos.x = (domPos.x + nodeUI_1.size/2) + 'px';
+              domPos.x = (domPos.x + nodeUI_1.size * 0.2) + 'px';
 		      domPos.y = (domPos.y  +header_height - 30)+ 'px';
 	        	$('#popup_description').empty();
 	        	$('#popup_description').append(showInfo(graphObject.graphInput.mergedNodes, graphObject.graphInput.sameNodeHas, graphics, node, e));
