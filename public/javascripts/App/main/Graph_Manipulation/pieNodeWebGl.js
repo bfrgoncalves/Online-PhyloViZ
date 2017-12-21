@@ -136,6 +136,9 @@ function buildCircleNodeShader() {
             var ATTRIBUTES_PER_PRIMITIVE = 8,
                 nodesFS = [
 
+                '#ifdef GL_OES_standard_derivatives',
+                '#extension GL_OES_standard_derivatives : enable',
+                '#endif',
 
                 'precision mediump float;',
                 'varying float quadrant;',
@@ -163,13 +166,13 @@ function buildCircleNodeShader() {
 
                     'float r = 0.5, delta = 0.0, alpha = 1.0;',
 
-                    /*'vec2 cxy = 2.0 * gl_PointCoord - 1.0;',
-                    'r = dot(cxy, cxy);',*/
+                    'vec2 cxy = 2.0 * gl_PointCoord - 1.0;',
+                    'r = dot(cxy, cxy);',
 
-
-                    'delta = fwidth(r);',
-                    'alpha = 0.1 - smoothstep(0.1 - delta, 0.1 + delta, r);',
-
+                    '#ifdef GL_OES_standard_derivatives',
+                        'delta = fwidth(r);',
+                        'alpha = 0.5 - smoothstep(0.5 - delta, 0.5 + delta, r);',
+                    '#endif',
 
                     'if (quadrant == 1.0 && gl_PointCoord.y < 0.5 && gl_PointCoord.x > 0.5){',
                             'rad = radians(angle);',
@@ -313,6 +316,8 @@ function buildCircleNodeShader() {
                     gl.useProgram(program);
                     locations = webglUtils.getLocations(program, ['a_vertexPos', 'a_quadrant', 'a_anglesAndColor', 'a_totalAngles', 'a_size', 'u_screenSize', 'u_transform']);
 
+                    gl.enable(gl.DEPTH_TEST);
+                    
                     gl.enableVertexAttribArray(locations.vertexPos);
                     gl.enableVertexAttribArray(locations.quadrant);
                     gl.enableVertexAttribArray(locations.anglesAndColor);
