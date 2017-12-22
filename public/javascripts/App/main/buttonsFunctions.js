@@ -182,7 +182,7 @@ const loadButtonFunctions = () => {
 
                     $('.node-label').off("click").on("click", () => {
                         console.log("AQUI");
-                        graphObject.renderer.off("drag", () => {});
+                        graphObject.renderer.off();
                         //$("#canvas").css({"pointer-events":"none"});
                     });
 
