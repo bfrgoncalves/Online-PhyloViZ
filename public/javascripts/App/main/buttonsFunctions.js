@@ -157,8 +157,8 @@ const loadButtonFunctions = () => {
                     $("#screenshotMode").toggleClass("btn-warning", true);
                     $("#screenshotMode").toggleClass("btn-default", false);
 
-                    $( ".node-label" ).draggable();
-                    $( ".link-label" ).draggable();
+                    //$( ".node-label" ).draggable();
+                    //$( ".link-label" ).draggable();
 
                     const dialog_box = $('#dialog');
 
@@ -179,6 +179,11 @@ const loadButtonFunctions = () => {
 
                     graphObject.isLayoutPaused = false;
                     $('#pauseLayout').trigger("click");
+
+                    $('.node-label').off("click").on("click", () => {
+                        console.log("AQUI");
+                        graphObject.renderer.interactive = false;
+                    });
 
                 }
                 else {
