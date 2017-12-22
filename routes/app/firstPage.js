@@ -5,7 +5,7 @@ var config = require('../../config.js');
 
 /* GET home page. */
 router.get(config.root_path + '/', function(req, res, next) {
-  res.redirect('/index');
+  res.redirect(config.root_path + '/index');
 });
 
 /* GET home page. */
