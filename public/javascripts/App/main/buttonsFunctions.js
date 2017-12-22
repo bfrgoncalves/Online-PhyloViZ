@@ -202,7 +202,7 @@ const loadButtonFunctions = () => {
                     $('#AddLabels').prop('checked', true);
                     $("#legendsButton").toggleClass("btn-warning", true);
                     $("#legendsButton").toggleClass("btn-default", true);
-                    $("#draglegendsButton").css({"display":"block"});
+                    $("#draglegendsButton").css({"display":"inline-block"});
                 }
                 else {
                     $('#AddLinkLabels').prop('checked', false);
