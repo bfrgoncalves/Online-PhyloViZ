@@ -566,13 +566,6 @@ function loadGraphFunctions(){
 	        	lastPosition.y = e.pageY;
 	        });
 
-	          document.addEventListener('mouseup', function(e){
-
-	         	/*if(graphics.hasOwnProperty('draggedNode')){
-	         		if(graphObject.TopNode.data.key != graphics.draggedNode.data.key)
-	          			layout.pinNode(graphics.draggedNode, false);
-	         	}*/
-	          });
 
 	          document.addEventListener('keydown', function(e) {
 
