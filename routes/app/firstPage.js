@@ -4,12 +4,12 @@ var router = express.Router();
 var config = require('../../config.js');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.redirect('/index');
+router.get(config.root_path + '/', function(req, res, next) {
+  res.redirect(config.root_path + '/index');
 });
 
 /* GET home page. */
-router.get('/examples', function(req, res, next) {
+router.get(config.root_path + '/examples', function(req, res, next) {
   res.render('downloadPage', {
 		title: 'PHYLOViZ Online',
       	isAuthenticated: req.isAuthenticated(), //function given by passport
