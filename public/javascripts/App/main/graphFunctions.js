@@ -255,6 +255,7 @@ function loadGraphFunctions(){
 			var nodeLabels = Object.create(null);
                   graphGL.forEachNode(function(node) {
                     if (node.id.search('TransitionNode') < 0){
+                      var label_div = document.createElement('div');
                       var label = document.createElement('span');
                       label.classList.add('node-label');
                       if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) label.textContent = node.id;
@@ -262,7 +263,8 @@ function loadGraphFunctions(){
                       var labelStyle = label.style;
             		  labelStyle.fontSize = graphObject.defaultLayoutParams.labelSize + 'px';
                       nodeLabels[node.id] = label;
-                      labelsContainer.appendChild(label);
+                      label_div.appendChild(label);
+                      labelsContainer.appendChild(label_div);
                     }
                     
                   });
@@ -273,6 +275,7 @@ function loadGraphFunctions(){
                   var linkLabels = Object.create(null);
                   graphGL.forEachLink(function(link) {
                       //console.log(link.id);
+                      var label_div = document.createElement('div');
                       var label = document.createElement('span');
                       label.classList.add('link-label');
                       if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) label.textContent = parseFloat(link.data.connectionStrength.toFixed(4));
@@ -282,7 +285,8 @@ function loadGraphFunctions(){
                       treeLinks[link.id] = true;
                       linkLabels[link.id] = label;
                       linkLabels[link.id + 'default'] = parseFloat(link.data.connectionStrength.toFixed(4));
-                      labelsContainer.appendChild(label);
+                      label_div.appendChild(label);
+                      labelsContainer.appendChild(label_div);
                       countLinks += 1;
                     
                     
