@@ -337,7 +337,6 @@ function loadGraphFunctions(){
 
 	                      var newStyle ="display: " + display + ";top: " + top + ";left: " + left + ";color:black;position:fixed;font-size:" + nodeLabels[nodeId].style.fontSize + ";border: 1px solid black; border-radius:2px;background-color: white;";
 	                      
-	                      console.log(graphObject.draggableLegend);
 	                      if (graphObject.draggableLegend === true){
 		                    	newStyle = newStyle + "cursor:pointer;";
 		                    }
