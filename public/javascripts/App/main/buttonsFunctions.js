@@ -151,7 +151,7 @@ const loadButtonFunctions = () => {
 
             $("#screenshotMode").off("click").on("click", () => {
                 if (graphObject.screenshot === undefined || graphObject.screenshot === false){
-                    graphObject.draggableLegend = true;
+                    //graphObject.draggableLegend = true;
                     graphObject.screenshot = true;
                     $("#col_webgl").css({opacity:0});
                     $("#searchForm").css({opacity:0});
@@ -184,7 +184,7 @@ const loadButtonFunctions = () => {
 
                 }
                 else {
-                    graphObject.draggableLegend = false;
+                    //graphObject.draggableLegend = false;
                     graphObject.screenshot = false;
                     graphObject.notShowDescription = true;
                     $("#col_webgl").css({opacity:1});
