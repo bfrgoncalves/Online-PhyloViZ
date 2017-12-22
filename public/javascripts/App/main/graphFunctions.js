@@ -303,6 +303,7 @@ function loadGraphFunctions(){
 
 		          	graphics.placeNode(function(ui, pos) {
                   	  if (graphObject.tovisualizeLabels == false) return false;
+                  	  if (graphObject.draggableLegend === true) return false;
 	                  // This callback is called by the renderer before it updates
 	                  // node coordinate. We can use it to update corresponding DOM
 	                  // label position;
@@ -346,6 +347,7 @@ function loadGraphFunctions(){
 					
 		          	graphics.placeLink(function(ui, pos) {
 		          		  if (graphObject.tovisualizeLinkLabels == false) return false;
+		          		  if (graphObject.draggableLegend === true) return false;
 		                  // This callback is called by the renderer before it updates
 		                  // node coordinate. We can use it to update corresponding DOM
 		                  // label position;
