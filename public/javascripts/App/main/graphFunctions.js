@@ -338,7 +338,7 @@ function loadGraphFunctions(){
 	                      var newStyle ="display: " + display + ";top: " + top + ";left: " + left + ";color:black;position:fixed;font-size:" + nodeLabels[nodeId].style.fontSize + ";border: 1px solid black; border-radius:2px;background-color: white;";
 	                      
 	                      if (graphObject.draggableLegend === true){
-		                    	newStyle += "cursor:pointer;";
+		                    	newStyle = newStyle + "cursor:pointer;";
 		                    }
 	                      nodeLabels[nodeId].setAttribute('style', newStyle);
 	                  }
@@ -384,7 +384,7 @@ function loadGraphFunctions(){
 		                    var newStyle ="display: " + display + ";top: " + top + ";left: " + left + ";color:red;position:fixed;font-size:" + linkLabels[linkId].style.fontSize + ";border: 1px solid black; border-radius:2px;background-color: white;";
 		                    
 		                    if (graphObject.draggableLegend === true){
-		                    	newStyle += "cursor:pointer;";
+		                    	newStyle = newStyle + "cursor:pointer;";
 		                    }
 
 							linkLabels[linkId].setAttribute('style', newStyle);
