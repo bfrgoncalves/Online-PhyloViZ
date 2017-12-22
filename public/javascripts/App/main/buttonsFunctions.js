@@ -185,6 +185,24 @@ const loadButtonFunctions = () => {
             
         },
 
+        legendsButton: (graphObject) => {
+            
+            $("#legendsButton").off("click").on("click", () => {
+                if(tovisualizeLabels === false || tovisualizeLinkLabels === false){
+                    $('#AddLinkLabels').prop('checked', true);
+                    $('#AddLabels').prop('checked', true);
+                    $("#legendsButton").toggleClass("btn-warning", true);
+                    $("#legendsButton").toggleClass("btn-default", true);
+                }
+                else {
+                    $('#AddLinkLabels').prop('checked', false);
+                    $('#AddLabels').prop('checked', false);
+                    $("#legendsButton").toggleClass("btn-warning", false);
+                    $("#legendsButton").toggleClass("btn-default", false);
+                }
+            });
+        },
+
         pauseButton: (graphObject) => {
 
             const graph = graphObject.graphInput;
