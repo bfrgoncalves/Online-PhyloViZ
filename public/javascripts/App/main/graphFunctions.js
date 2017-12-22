@@ -166,8 +166,7 @@ function loadGraphFunctions(){
               {
                   container  : document.getElementById( 'visual' ),
                   layout : graphObject.layout,
-                  graphics : graphObject.graphics,
-                  interactive: false
+                  graphics : graphObject.graphics
 
               });
 
