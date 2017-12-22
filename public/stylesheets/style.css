@@ -737,7 +737,7 @@ div.tutorialsubsections h5{
     bottom: 2%;
     left: 50%;
     transform: translateX(-46%);
-    z-index: 5;
+    z-index: 99;
 }
 
 
