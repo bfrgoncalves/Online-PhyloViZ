@@ -79,19 +79,19 @@ app.use(compression());
 *
  */
 
-app.use(config.root_path + '/', firstPage);
-app.use(config.root_path + '/index', index);
-app.use(config.root_path + '/users', users);
-app.use(config.root_path + '/main', main);
-app.use(config.root_path + '/api', apiHome);
-app.use(config.root_path + '/api/db/postgres/upload', upload);
-app.use(config.root_path + '/api/algorithms/goeBURST', goeBURST);
-app.use(config.root_path + '/api/utils/phylovizInput', phylovizInput);
-app.use(config.root_path + '/api/utils/tableData', phyloviztableData);
-app.use(config.root_path + '/api/utils/mailer', mailer);
-app.use(config.root_path + '/api/utils/publiclink', publicLink);
-app.use(config.root_path + '/api/utils/phylovizsubset', phylovizsubset);
-app.use(config.root_path + '/api/db/postgres', postgres);
+app.use('/', firstPage);
+app.use('/index', index);
+app.use('/users', users);
+app.use('/main', main);
+app.use('/api', apiHome);
+app.use('/api/db/postgres/upload', upload);
+app.use('/api/algorithms/goeBURST', goeBURST);
+app.use('/api/utils/phylovizInput', phylovizInput);
+app.use('/api/utils/tableData', phyloviztableData);
+app.use('/api/utils/mailer', mailer);
+app.use('/api/utils/publiclink', publicLink);
+app.use('/api/utils/phylovizsubset', phylovizsubset);
+app.use('/api/db/postgres', postgres);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
