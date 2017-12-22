@@ -188,17 +188,22 @@ const loadButtonFunctions = () => {
         legendsButton: (graphObject) => {
             
             $("#legendsButton").off("click").on("click", () => {
-                if(tovisualizeLabels === false || tovisualizeLinkLabels === false){
+                if(graphObject.tovisualizeLabels === false || graphObject.tovisualizeLinkLabels === false){
                     $('#AddLinkLabels').prop('checked', true);
                     $('#AddLabels').prop('checked', true);
                     $("#legendsButton").toggleClass("btn-warning", true);
                     $("#legendsButton").toggleClass("btn-default", true);
+                    graphObject.tovisualizeLabels = true;
+                    graphObject.tovisualizeLinkLabels = true;
                 }
                 else {
                     $('#AddLinkLabels').prop('checked', false);
                     $('#AddLabels').prop('checked', false);
                     $("#legendsButton").toggleClass("btn-warning", false);
                     $("#legendsButton").toggleClass("btn-default", false);
+                    graphObject.tovisualizeLabels = false;
+                    graphObject.tovisualizeLinkLabels = false;
+
                 }
             });
         },
