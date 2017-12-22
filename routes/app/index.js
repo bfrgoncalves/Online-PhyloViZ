@@ -19,7 +19,8 @@ router.get('/inputinfo', function(req, res, next) {
   res.render('inputInformation', { 
   	  title: 'PHYLOViZ Online',
       isAuthenticated: req.isAuthenticated(), //function given by passport
-      user: req.user //also given by passport. an user object
+      user: req.user, //also given by passport. an user object
+      root_path: config.root_path
   });
 
 });
@@ -29,7 +30,8 @@ router.get('/tutorial', function(req, res, next) {
   res.render('tutorial/tutorial', { 
       title: 'PHYLOViZ Online',
       isAuthenticated: req.isAuthenticated(), //function given by passport
-      user: req.user //also given by passport. an user object
+      user: req.user, //also given by passport. an user object
+      root_path: config.root_path
   });
 
 });
