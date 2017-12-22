@@ -453,7 +453,7 @@ td.highlight {
 
 #divButtonLegend{
   position: absolute;
-  top: 5%;
+  top: 8%;
   right: 14%;
   display:none;
   z-index: 6;
@@ -576,9 +576,9 @@ select {
 #col_info{
   text-align: center;
   position: absolute;
-  top: 8%;
+  top: 10%;
   right: 1%; 
-  height: 40%;
+  height: 80%;
   width: 15%;
   border-radius: 10px;
   border: 1px solid #e7e7e7;
