@@ -4318,6 +4318,14 @@ function renderer(graph, settings) {
       stopListenToEvents(); // I quit!
     },
 
+    stopEvents: function(){
+      OnlystopListenToEvents()
+    },
+
+    startEvents: function(){
+      listenToEvents();
+    }
+
     on: function(eventName, callback) {
       publicEvents.on(eventName, callback);
       return this;
@@ -4612,6 +4620,19 @@ function renderer(graph, settings) {
 
     releaseGraphEvents();
     graph.on('changed', onGraphChanged);
+  }
+
+  function OnlystartListenToEvents() {
+
+  }
+
+  function OnlystopListenToEvents() {
+    rendererInitialized = false;
+    releaseGraphEvents();
+    releaseContainerDragManager();
+    windowEvents.off('resize', onWindowResized);
+    publicEvents.off();
+    animationTimer.stop();
   }
 
   function stopListenToEvents() {
