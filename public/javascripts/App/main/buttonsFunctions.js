@@ -227,12 +227,14 @@ const loadButtonFunctions = () => {
                     $("#draglegendsButton")
                     graphObject.renderer.stopEvents();
                     graphObject.notShowDescription = true;
+                    graphObject.draggableLegend = true;
                     $("#draglegendsButton").toggleClass("btn-default", false);
                     $("#draglegendsButton").toggleClass("btn-warning", true);
                 }
                 else {
                     graphObject.renderer.startEvents();
                     graphObject.notShowDescription = false;
+                    graphObject.draggableLegend = false;
                     $("#draglegendsButton").toggleClass("btn-default", true);
                     $("#draglegendsButton").toggleClass("btn-warning", false);
                 }
