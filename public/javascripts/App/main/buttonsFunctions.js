@@ -186,7 +186,7 @@ const loadButtonFunctions = () => {
                         //$("#canvas").css({"pointer-events":"none"});
                     });
 
-                    $('.node-label').off("mouseup").on("mousedown", () => {
+                    $('.node-label').off("mouseup").on("mouseup", () => {
                         console.log("AQUI2");
                         graphObject.renderer.startEvents();
                         //$("#canvas").css({"pointer-events":"none"});
