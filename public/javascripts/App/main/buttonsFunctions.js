@@ -348,6 +348,7 @@ const loadButtonFunctions = () => {
 
 
             add_node_labels_button.change(function(){
+                console.log("AQUI");
                 if (this.checked){
                     if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
 
