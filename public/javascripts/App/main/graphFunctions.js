@@ -377,7 +377,7 @@ function loadGraphFunctions(){
 		                      }
 		                      else display = "block";
 
-		                    var newStyle ="display: " + display + ";top: " + top + ";left: " + left + ";color:red;position:fixed;font-size:" + linkLabels[linkId].style.fontSize + ";";
+		                    var newStyle ="display: " + display + ";top: " + top + ";left: " + left + ";color:red;position:fixed;font-size:" + linkLabels[linkId].style.fontSize + ";border: 1px solid black; border-radius:2px;background-color: white;";
 
 							linkLabels[linkId].setAttribute('style', newStyle);
 		                  }
