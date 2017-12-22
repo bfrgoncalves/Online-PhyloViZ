@@ -10,7 +10,7 @@ adjustElements = function () {
 
     var assignColorHeight = $("#assignCol").height();
 
-    var width = $(window).width() - $(window).width() * 0.02,
+    var width = $(window).width() - $(window).width() * 0.05,
     height = $(window).height() - $('#tabs').height() - $(window).width() * 0.02;
     pauseRegionHeight = $("#pauseRegion").height();
     
