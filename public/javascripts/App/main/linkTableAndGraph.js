@@ -171,7 +171,7 @@ function createLinkButton(property, columnIndex, columnData, columnName, graphOb
       	fontSize = ButtonfontSize.replace('px', '');
         fontSize1 = parseFloat(fontSize);
 
-      	legendHeight = $('#col_info').height() - $('#SVcurrentpiePlace').height() - (radious + fontSize1);
+      	legendHeight = $('#col_info').height() - $('#SVcurrentpiePlace').height() - $("#buttononlegend").height();
 
 
         $('#legendcurrentpiePlace').css('height', legendHeight);
