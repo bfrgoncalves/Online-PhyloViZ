@@ -673,6 +673,10 @@ function loadGraphFunctions(){
 
 		            }
 
+		            if (e.which == 68){
+		            	dragging = false;
+		            }
+
 		            if (e.which == 16){
 		              shiftDown = false;
 		              is_clicking = false;
