@@ -4319,7 +4319,8 @@ function renderer(graph, settings) {
     },
 
     stopEvents: function(){
-      OnlystopListenToEvents()
+      console.log("AQUI!!!");
+      OnlystopListenToEvents();
     },
 
     startEvents: function(){
