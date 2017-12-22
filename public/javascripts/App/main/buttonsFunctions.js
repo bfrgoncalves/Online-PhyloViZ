@@ -157,6 +157,9 @@ const loadButtonFunctions = () => {
                     $("#screenshotMode").toggleClass("btn-warning", true);
                     $("#screenshotMode").toggleClass("btn-default", false);
 
+                    $( ".node-label" ).draggable();
+                    $( ".link-label" ).draggable();
+
                     const dialog_box = $('#dialog');
 
                     const toDialog = '<div style="text-align: center;"><label>Screenshot Mode:</label></div>' +
@@ -173,6 +176,10 @@ const loadButtonFunctions = () => {
                         resizable: true,
                         dialogClass: 'no-close success-dialog'
                     });
+
+                    graphObject.isLayoutPaused = false;
+                    $('#pauseLayout').trigger("click");
+
                 }
                 else {
                     graphObject.screenshot = false;
@@ -180,6 +187,8 @@ const loadButtonFunctions = () => {
                     $("#searchForm").css({opacity:1});
                     $("#screenshotMode").toggleClass("btn-warning", false);
                     $("#screenshotMode").toggleClass("btn-default", true);
+                    $( ".node-label" ).draggable("destroy");
+                    $( ".link-label" ).draggable("destroy");
                 }
             });
             
@@ -350,7 +359,6 @@ const loadButtonFunctions = () => {
 
 
             add_node_labels_button.change(function(){
-                console.log("AQUI");
                 if (this.checked){
                     if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
 
