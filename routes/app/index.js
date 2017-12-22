@@ -9,8 +9,7 @@ router.get('/', function(req, res, next) {
   res.render('indexApp', { 
   	  title: 'PHYLOViZ Online',
       isAuthenticated: req.isAuthenticated(), //function given by passport
-      user: req.user, //also given by passport. an user object
-      root_path: config.root_path
+      user: req.user //also given by passport. an user object
   });
 
 });
@@ -19,8 +18,7 @@ router.get('/inputinfo', function(req, res, next) {
   res.render('inputInformation', { 
   	  title: 'PHYLOViZ Online',
       isAuthenticated: req.isAuthenticated(), //function given by passport
-      user: req.user, //also given by passport. an user object
-      root_path: config.root_path
+      user: req.user //also given by passport. an user object
   });
 
 });
@@ -30,8 +28,7 @@ router.get('/tutorial', function(req, res, next) {
   res.render('tutorial/tutorial', { 
       title: 'PHYLOViZ Online',
       isAuthenticated: req.isAuthenticated(), //function given by passport
-      user: req.user, //also given by passport. an user object
-      root_path: config.root_path
+      user: req.user //also given by passport. an user object
   });
 
 });

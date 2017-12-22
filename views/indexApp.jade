@@ -1,8 +1,8 @@
 extends layout
 
 block moreStyle
-	link(rel='stylesheet', href='#{root_path}/stylesheets/indexAppStyle.css')
-	link(rel='stylesheet', href='#{root_path}/stylesheets/offcanvas.css')
+	link(rel='stylesheet', href='/stylesheets/indexAppStyle.css')
+	link(rel='stylesheet', href='/stylesheets/offcanvas.css')
 
 <!--
 div.indexNav
@@ -11,13 +11,13 @@ div.indexNav
 	block login
 		div(id="indexuserLocation")
 			if (!user)
-				a(href="#{root_path}/users/login") Login
+				a(href="/users/login") Login
 				= '	'
-				a(href="#{root_path}/users/register") Register
+				a(href="/users/register") Register
 			if (user)
 				p Welcome, #{user.name}! 
 					= ' '
-					a(href="#{root_path}/users/logout") Logout
+					a(href="/users/logout") Logout
 -->
 block navbar
 	include fixed_navbar
@@ -45,7 +45,7 @@ block normalBody
 			div.col-sm-12
 				div(id="homeDiv", style="display:block;")
 					div.col-md-12
-						img.phylovizImageHome(src = '#{root_path}/images/logo.png')
+						img.phylovizImageHome(src = '/images/logo.png')
 					div.col-md-12(style="text-align:center;")
 						h3 <b>#{title}</b>:  Web-based tool for visualization, phylogenetic inference, analysis and sharing
 					
@@ -55,7 +55,7 @@ block normalBody
 							p <b>The application is freely available to all users and there is no login requirement.</b> All users can upload and perform data analysis. There is the additional possibility of storing data on the application for future access upon registration. 
 					
 					div.col-md-12
-						img(src="#{root_path}/images/trees_index_page.png", style="max-width:100%;max-height:100%;")
+						img(src="/images/trees_index_page.png", style="max-width:100%;max-height:100%;")
 
 					div.row
 						div.col-md-4(style="margin-top:20px;text-align:center;border-top: 1px solid #4f9bf2;")
@@ -64,11 +64,11 @@ block normalBody
 							div.col-md-6
 								a.btn.btn-info(href="//youtu.be/hmbmurFV6ik") Video
 							div.col-md-6
-								a.btn.btn-info(href="#{root_path}/index/tutorial/") Walkthrough
+								a.btn.btn-info(href="/index/tutorial/") Walkthrough
 						div.col-md-4(style="margin-top:20px;text-align:center;border-top: 1px solid #4f9bf2;")
 							h4 Sample Data Sets
-							p <b><a href="#{root_path}/examples">Sample data sets</a> available!</b>
-							p More information on the data formats can be found <a id="inputFormatlink" href="#{root_path}/index/inputinfo">here</a>.
+							p <b><a href="/examples">Sample data sets</a> available!</b>
+							p More information on the data formats can be found <a id="inputFormatlink" href="/index/inputinfo">here</a>.
 						div.col-md-4(style="margin-top:20px;text-align:center;border-top: 1px solid #4f9bf2;")
 							h4 Test PHYLOViZ Online
 							p <b>Try all PHYLOViZ Online different functionalities using:</b>
@@ -83,7 +83,7 @@ block normalBody
 
 				div(id="AboutDiv", style="display:none;")
 					div.col-md-12
-						img.phylovizImageHome(src = '#{root_path}/images/logo.png')
+						img.phylovizImageHome(src = '/images/logo.png')
 					div.col-md-12(style="text-align:center;")
 						h3 #{title}  Web-based tool for visualization, phylogenetic inference, analysis and sharing
 					div.col-md-12(style="margin-top:20px;")
@@ -101,19 +101,19 @@ block normalBody
 							h4(style="text-align:center;") Tables
 							p(style="text-align: justify;") Tables are generated using DataTables JavaScript library, which allows an advanced interaction with your data in a table format.
 							div(style="width:100%;text-align:center;")
-								<img style="width:40px;height:auto;" src="#{root_path}/images/datatables_logo.png"></img><a href="https://www.datatables.net/"> datatables.net</a>
+								<img style="width:40px;height:auto;" src="images/datatables_logo.png"></img><a href="https://www.datatables.net/"> datatables.net</a>
 					div.row
 						div.col-md-6(style="margin-top:20px;")
 							h4(style="text-align:center;") Sequence Visualization
 							p(style="text-align: justify;") Visual representation of multi-sequence alignment for FASTA input les was also implemented using the BioJS MSA Viewer package.
 							div(style="width:100%;text-align:center;")
-								<img style="width:40px;height:auto;" src="#{root_path}/images/biojs_logo.png"></img><a href="//biojs.net">biojs.net</a>
+								<img style="width:40px;height:auto;" src="images/biojs_logo.png"></img><a href="//biojs.net">biojs.net</a>
 
 						div.col-md-6(style="margin-top:20px;")
 							h4(style="text-align:center;") Pie Charts and Distance Matrix
 							p(style="text-align: justify;") Additional visual representations (Pie Charts and Interactive Distance Matrix) are constructed using Data Driven Documents (D3.js).
 							div(style="width:100%;text-align:center;")
-								<img style="width:40px;height:auto;" src="#{root_path}/images/d3_logo.png"></img><a href="//d3js.org/">d3js.org</a>
+								<img style="width:40px;height:auto;" src="images/d3_logo.png"></img><a href="//d3js.org/">d3js.org</a>
 					div.row
 						div.col-md-12(style="margin-top:20px;border-top: 1px solid #4f9bf2;")
 							h4(style="text-align:center;") Support
@@ -124,10 +124,10 @@ block normalBody
 							p(style="text-align: justify;") Any known issues please contact us in our <a href="https://github.com/bfrgoncalves/Online-PhyloViZ/issues">GitHub page</a> or by email
 							div.col-md-12
 								span <b>Bruno Gonçalves (1) - </b>
-									img(id="bfmail" src="#{root_path}/images/bfmail.png" border="0" align="absbottom")
+									img(id="bfmail" src="/images/bfmail.png" border="0" align="absbottom")
 								br
 								span <b>João André Carriço (1) - </b>
-									img(id="jcmail" src="#{root_path}/images/jcmail.png" border="0" align="absbottom")
+									img(id="jcmail" src="/images/jcmail.png" border="0" align="absbottom")
 								br
 								span <b>Alexandre P. Francisco (2,3)</b>
 								br
@@ -163,7 +163,7 @@ block normalBody
 									li Get PHYLOViZ Online input data object
 									li Get table data array
 								p For more information, access to the API documentation 
-									a(href="#{root_path}/api") here!
+									a(href="/api") here!
 
 				div(id="publicDataset", style="display:none;")
 					div.row
@@ -314,20 +314,20 @@ block scripts
 		script(type='text/javascript').
 			var isUser = false;
 	
-	script(type='text/javascript', src='#{root_path}/javascripts/dependencies/jquery-2.1.3.min.js')
-	script(type='text/javascript', src='#{root_path}/javascripts/dependencies/jquery.form.js')
-	script(type='text/javascript', src='#{root_path}/javascripts/dependencies/jquery-ui.min.js')
-	script(type='text/javascript', src='#{root_path}/javascripts/dependencies/bootstrap.js')
-	script(type='text/javascript', src='#{root_path}/javascripts/dependencies/bootstrap-select.js')
-	script(type='text/javascript', src='#{root_path}/javascripts/dependencies/datatables.min.js')
-	script(type='text/javascript', src='#{root_path}/javascripts/dependencies/jquery.dataTables.js')
-	script(type='text/javascript', src='#{root_path}/javascripts/dependencies/union_find.js')
-	script(type='text/javascript', src='#{root_path}/javascripts/dependencies/heap.js')
-	script(type='text/javascript', src='#{root_path}/javascripts/App/adjustElements/adjustElementsIndex.js')
-	script(type='text/javascript', src='#{root_path}/javascripts/App/indexApp/tutorial.js')
-	script(type='text/javascript', src='#{root_path}/javascripts/App/indexApp/checkDatasets.js')
-	script(type='text/javascript', src='#{root_path}/javascripts/App/indexApp/uploadfiles.js')
-	script(type='text/javascript', src='#{root_path}/javascripts/App/indexApp/inputButton.js')
-	script(type='text/javascript', src='#{root_path}/javascripts/App/main/data_Analysis/goeBURST.js')
-	//script(type='text/javascript', src='#{root_path}/javascripts/App/indexApp/statCounter.js')
-	script(type='text/javascript', src='#{root_path}/javascripts/App/indexApp/index.js')
+	script(type='text/javascript', src='/javascripts/dependencies/jquery-2.1.3.min.js')
+	script(type='text/javascript', src='/javascripts/dependencies/jquery.form.js')
+	script(type='text/javascript', src='/javascripts/dependencies/jquery-ui.min.js')
+	script(type='text/javascript', src='/javascripts/dependencies/bootstrap.js')
+	script(type='text/javascript', src='/javascripts/dependencies/bootstrap-select.js')
+	script(type='text/javascript', src='/javascripts/dependencies/datatables.min.js')
+	script(type='text/javascript', src='/javascripts/dependencies/jquery.dataTables.js')
+	script(type='text/javascript', src='/javascripts/dependencies/union_find.js')
+	script(type='text/javascript', src='/javascripts/dependencies/heap.js')
+	script(type='text/javascript', src='/javascripts/App/adjustElements/adjustElementsIndex.js')
+	script(type='text/javascript', src='/javascripts/App/indexApp/tutorial.js')
+	script(type='text/javascript', src='/javascripts/App/indexApp/checkDatasets.js')
+	script(type='text/javascript', src='/javascripts/App/indexApp/uploadfiles.js')
+	script(type='text/javascript', src='/javascripts/App/indexApp/inputButton.js')
+	script(type='text/javascript', src='/javascripts/App/main/data_Analysis/goeBURST.js')
+	//script(type='text/javascript', src='/javascripts/App/indexApp/statCounter.js')
+	script(type='text/javascript', src='/javascripts/App/indexApp/index.js')
