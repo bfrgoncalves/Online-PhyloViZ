@@ -180,13 +180,13 @@ const loadButtonFunctions = () => {
                     graphObject.isLayoutPaused = false;
                     $('#pauseLayout').trigger("click");
 
-                    $('.node-label').off("mousedown").on("click", () => {
+                    $('.node-label').off("mousedown").on("mousedown", () => {
                         console.log("AQUI");
                         graphObject.renderer.stopEvents();
                         //$("#canvas").css({"pointer-events":"none"});
                     });
 
-                    $('.node-label').off("mouseup").on("click", () => {
+                    $('.node-label').off("mouseup").on("mousedown", () => {
                         console.log("AQUI2");
                         graphObject.renderer.startEvents();
                         //$("#canvas").css({"pointer-events":"none"});
