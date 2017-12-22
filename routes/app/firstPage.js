@@ -14,7 +14,7 @@ router.get('/examples', function(req, res, next) {
 		title: 'PHYLOViZ Online',
       	isAuthenticated: req.isAuthenticated(), //function given by passport
       	user: req.user, //also given by passport. an user object,
-      	root_path: root_path
+      	root_path: config.root_path
 	});
 });
 
