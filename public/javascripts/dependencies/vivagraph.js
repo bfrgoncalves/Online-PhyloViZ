@@ -4324,7 +4324,7 @@ function renderer(graph, settings) {
 
     startEvents: function(){
       listenToEvents();
-    }
+    },
 
     on: function(eventName, callback) {
       publicEvents.on(eventName, callback);
