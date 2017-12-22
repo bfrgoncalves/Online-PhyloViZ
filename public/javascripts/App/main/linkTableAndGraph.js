@@ -160,8 +160,8 @@ function createLinkButton(property, columnIndex, columnData, columnName, graphOb
     $("#piePlace").css({display:"block"});
     $('#outerColorLegendDiv').css('display', 'block');
 
-		var pieHeight = $('#col_info').height() * 0.3;
-		var pieWidth = $('#col_info').width() * 0.3;
+		var pieHeight = $('#col_info').height() * 0.5;
+		var pieWidth = $('#col_info').width() * 0.5;
   	  	var radious = pieHeight * 0.14;
   	  	//var legendRectSize = $('#pauseLayout').height();
   	  	var legendRectSize = radious / 5;
@@ -276,8 +276,8 @@ function linkGraphAndTable(property, indexProperty, columnName, key, graphObject
 
 	  	//var pieHeight = $('#col_info').height() * 0.15;
 
-	  	var pieHeight = $('#col_info').height() * 0.3;
-		  var pieWidth = $('#col_info').width() * 0.3;
+	  	var pieHeight = $('#col_info').height() * 0.5;
+		  var pieWidth = $('#col_info').width() * 0.5;
 
   	  	var radious = pieHeight * 0.2;
   	  	//var legendRectSize = $('#pauseLayout').height();
