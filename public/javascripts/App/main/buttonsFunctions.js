@@ -157,8 +157,8 @@ const loadButtonFunctions = () => {
                     $("#screenshotMode").toggleClass("btn-warning", true);
                     $("#screenshotMode").toggleClass("btn-default", false);
 
-                    //$( ".node-label" ).draggable();
-                    //$( ".link-label" ).draggable();
+                    $( ".node-label" ).draggable();
+                    $( ".link-label" ).draggable();
 
                     const dialog_box = $('#dialog');
 
@@ -182,6 +182,7 @@ const loadButtonFunctions = () => {
 
                     $('.node-label').off("click").on("click", () => {
                         console.log("AQUI");
+                        console.log(graphObject.renderer.interactive);
                         graphObject.renderer.interactive = false;
                     });
 
