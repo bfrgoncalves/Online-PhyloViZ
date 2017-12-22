@@ -335,7 +335,7 @@ function loadGraphFunctions(){
 	                      }
 	                      else display = "block";
 
-	                      var newStyle ="display: " + display + ";top: " + top + ";left: " + left + ";color:black;position:fixed;font-size:" + nodeLabels[nodeId].style.fontSize + ";";
+	                      var newStyle ="display: " + display + ";top: " + top + ";left: " + left + ";color:black;position:fixed;font-size:" + nodeLabels[nodeId].style.fontSize + ";border: 1px solid black; border-radius:2px;background-color: white;";
 	                      nodeLabels[nodeId].setAttribute('style', newStyle);
 	                  }
                 	});
