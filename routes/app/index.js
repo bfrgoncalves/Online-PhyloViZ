@@ -9,7 +9,8 @@ router.get('/', function(req, res, next) {
   res.render('indexApp', { 
   	  title: 'PHYLOViZ Online',
       isAuthenticated: req.isAuthenticated(), //function given by passport
-      user: req.user //also given by passport. an user object
+      user: req.user, //also given by passport. an user object
+      root_path: config.root_path
   });
 
 });
