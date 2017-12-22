@@ -506,19 +506,24 @@ function loadGraphFunctions(){
 	        var shiftDown = false, altDown = false, remakeSelection = false, multipleselection = false, sdown = false, is_clicking = false, dragging = false;
 
 	        events.mouseEnter(function (node, e) {
+
+	        	if(graphObject.notShowDescription === true) {
+	        		return;
+	        	}
+
 	        	var header_height = $(".tabs_headers").height() + 5;
 
 	        	nodeUI_1 = graphics.getNodeUI(node.id);
 
 	        	var domPos = {
-                  x: nodeUI_1.position.x,
-                  y: nodeUI_1.position.y
-              };
-              // And ask graphics to transform it to DOM coordinates:
-              graphics.transformGraphToClientCoordinates(domPos);
+	                  x: nodeUI_1.position.x,
+	                  y: nodeUI_1.position.y
+	              };
+                // And ask graphics to transform it to DOM coordinates:
+                graphics.transformGraphToClientCoordinates(domPos);
 
-              domPos.x = (domPos.x + nodeUI_1.size * 0.2) + 'px';
-		      domPos.y = (domPos.y  +header_height - 30)+ 'px';
+                domPos.x = (domPos.x + nodeUI_1.size * 0.2) + 'px';
+		        domPos.y = (domPos.y  +header_height - 30)+ 'px';
 	        	$('#popup_description').empty();
 	        	$('#popup_description').append(showInfo(graphObject.graphInput.mergedNodes, graphObject.graphInput.sameNodeHas, graphics, node, e));
 	        	$('#popup_description').css({'padding': '10px 10px 10px 10px', 'border':'1px solid grey', 'border-radius': '10px', 'background-color':'white','display':'block', 'left':domPos.x, 'top':domPos.y, 'position':'fixed', 'z-index':2});
