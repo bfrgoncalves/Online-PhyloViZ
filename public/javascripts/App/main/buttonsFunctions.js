@@ -188,7 +188,7 @@ const loadButtonFunctions = () => {
         legendsButton: (graphObject) => {
             
             $("#legendsButton").off("click").on("click", () => {
-                if(graphObject.tovisualizeLabels === false || graphObject.tovisualizeLinkLabels === false){
+                if($('#AddLinkLabels').prop('checked') === false || $('#AddLabels').prop('checked') === false){
                     $('#AddLinkLabels').prop('checked', true);
                     $('#AddLabels').prop('checked', true);
                     $("#legendsButton").toggleClass("btn-warning", true);
