@@ -219,6 +219,21 @@ const loadButtonFunctions = () => {
                 $('#AddLinkLabels').trigger("change");
                 $('#AddLabels').trigger("change");
             });
+
+            $("#showborderButton").off("click").on("click", () => {
+                if($("#showborderButton").hasClass("btn-default")){
+                    graphObject.showLegendborder = true;
+                    $("#showborderButton").toggleClass("btn-default", false);
+                    $("#showborderButton").toggleClass("btn-warning", true);
+
+                }
+                else{
+                    graphObject.showLegendborder = true;
+                    $("#showborderButton").toggleClass("btn-default", true);
+                    $("#showborderButton").toggleClass("btn-warning", false);
+
+                }
+            });
         },
 
         draglegendsButton: (graphObject) => {
