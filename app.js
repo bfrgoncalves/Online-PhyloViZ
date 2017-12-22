@@ -68,7 +68,7 @@ app.use(expressSession({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, config.root_path, 'public')));
 app.use(flash());
 
 app.use(compression());
