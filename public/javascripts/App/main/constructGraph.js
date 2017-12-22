@@ -80,6 +80,7 @@ function constructGraph(graph, datasetID){
         buttonFunctions.searchButton(graphObject);
         buttonFunctions.screenshotButton(graphObject);
         buttonFunctions.legendsButton(graphObject);
+        buttonFunctions.draglegendsButton(graphObject);
 
 
         $('#isLogScaleOn').text('Off');

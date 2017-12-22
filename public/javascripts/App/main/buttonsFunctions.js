@@ -180,18 +180,6 @@ const loadButtonFunctions = () => {
                     graphObject.isLayoutPaused = false;
                     $('#pauseLayout').trigger("click");
 
-                    $('.node-label').off("mousedown").on("mousedown", () => {
-                        console.log("AQUI");
-                        graphObject.renderer.stopEvents();
-                        //$("#canvas").css({"pointer-events":"none"});
-                    });
-
-                    $('.node-label').off("mouseup").on("mouseup", () => {
-                        console.log("AQUI2");
-                        graphObject.renderer.startEvents();
-                        //$("#canvas").css({"pointer-events":"none"});
-                    });
-
                 }
                 else {
                     graphObject.screenshot = false;
@@ -214,18 +202,39 @@ const loadButtonFunctions = () => {
                     $('#AddLabels').prop('checked', true);
                     $("#legendsButton").toggleClass("btn-warning", true);
                     $("#legendsButton").toggleClass("btn-default", true);
+                    $("#draglegendsButton").css({"display":"block"});
                 }
                 else {
                     $('#AddLinkLabels').prop('checked', false);
                     $('#AddLabels').prop('checked', false);
                     $("#legendsButton").toggleClass("btn-warning", false);
                     $("#legendsButton").toggleClass("btn-default", true);
+                    $("#draglegendsButton").css({"display":"none"});
 
                 }
                 $('#AddLinkLabels').trigger("change");
                 $('#AddLabels').trigger("change");
             });
         },
+
+        draglegendsButton: (graphObject) => {
+            
+            $("#draglegendsButton").off("click").on("click", () => {
+
+                if($("#draglegendsButton").hasClass("btn-default")){
+                    $("#draglegendsButton")
+                    graphObject.renderer.stopEvents();
+                    $("#draglegendsButton").toggleClass("btn-default", false);
+                    $("#draglegendsButton").toggleClass("btn-warning", true);
+                }
+                else {
+                    graphObject.renderer.startEvents();
+                    $("#draglegendsButton").toggleClass("btn-default", true);
+                    $("#draglegendsButton").toggleClass("btn-warning", false);
+                }
+            });
+        },
+
 
         pauseButton: (graphObject) => {
 
