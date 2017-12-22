@@ -590,7 +590,7 @@ select {
 #outerColorLegendDiv{
   text-align: center;
   position: absolute;
-  border: 1px solid #e7e7e7;
+  border-top: 1px solid #e7e7e7;
   background-color:white;
   z-index: 1;
   display:none;
