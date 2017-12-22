@@ -232,6 +232,10 @@ const loadButtonFunctions = () => {
                     graphObject.draggableLegend = true;
                     $("#draglegendsButton").toggleClass("btn-default", false);
                     $("#draglegendsButton").toggleClass("btn-warning", true);
+
+                    graphObject.pinNodes = false;
+                    $('#resetPinButton').trigger("click");
+
                 }
                 else {
                     graphObject.renderer.startEvents();
