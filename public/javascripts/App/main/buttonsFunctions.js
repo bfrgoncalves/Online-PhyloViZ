@@ -178,11 +178,13 @@ const loadButtonFunctions = () => {
                     });
 
                     graphObject.isLayoutPaused = false;
+                    graphObject.notShowDescription = true;
                     $('#pauseLayout').trigger("click");
 
                 }
                 else {
                     graphObject.screenshot = false;
+                    graphObject.notShowDescription = true;
                     $("#col_webgl").css({opacity:1});
                     $("#searchForm").css({opacity:1});
                     $("#screenshotMode").toggleClass("btn-warning", false);
