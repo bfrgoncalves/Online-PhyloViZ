@@ -10,8 +10,8 @@ adjustElements = function () {
 
     var assignColorHeight = $("#assignCol").height();
 
-    var width = $(window).width() - $(window).width() * 0.05,
-    height = $(window).height() - $('#tabs').height() - $(window).width() * 0.02;
+    var width = $(window).width() - $(window).width() * 0.02,
+    height = $(window).height() - $('#tabs').height() - $(window).width() * 0.05;
     pauseRegionHeight = $("#pauseRegion").height();
     
     //$('#layoutParameters').css({height: height-pauseRegionHeight, "overflow-y": "auto"});
