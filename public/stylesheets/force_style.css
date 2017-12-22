@@ -12,10 +12,12 @@
 	position: fixed;
 	color:black;
 	pointer-events:none;
+	z-index: 10;
 }
 
 .link-label{
 	position: fixed;
 	color:red;
 	pointer-events:none;
+	z-index: 10;
 }
