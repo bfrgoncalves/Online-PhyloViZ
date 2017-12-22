@@ -201,6 +201,8 @@ const loadButtonFunctions = () => {
                     $("#legendsButton").toggleClass("btn-default", true);
 
                 }
+                $('#AddLinkLabels').trigger("change");
+                $('#AddLabels').trigger("change");
             });
         },
 
