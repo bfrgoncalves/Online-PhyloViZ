@@ -340,7 +340,7 @@ function loadGraphFunctions(){
 	                      }
 	                      else display = "block";
 
-	                      var newStyle ="display: " + display + ";top: " + top + ";left: " + left + ";color:black;position:fixed;font-size:" + nodeLabels[nodeId].style.fontSize + ";z-index:10;";
+	                      var newStyle ="display: " + display + ";top: " + top + ";left: " + left + ";color:black;position:fixed;font-size:" + nodeLabels[nodeId].style.fontSize + ";z-index:10;background-color:black;";
 	                      nodeLabels[nodeId].setAttribute('style', newStyle);
 	                  }
                 	});
@@ -382,7 +382,7 @@ function loadGraphFunctions(){
 		                      }
 		                      else display = "block";
 
-		                    var newStyle ="display: " + display + ";top: " + top + ";left: " + left + ";color:red;position:fixed;font-size:" + linkLabels[linkId].style.fontSize + ";z-index:10;";
+		                    var newStyle ="display: " + display + ";top: " + top + ";left: " + left + ";color:red;position:fixed;font-size:" + linkLabels[linkId].style.fontSize + ";z-index:10;background-color:black;";
 
 							linkLabels[linkId].setAttribute('style', newStyle);
 		                  }
