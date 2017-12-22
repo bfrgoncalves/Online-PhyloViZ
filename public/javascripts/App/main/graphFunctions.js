@@ -335,7 +335,7 @@ function loadGraphFunctions(){
 	                      }
 	                      else display = "block";
 
-	                      var newStyle ="display: " + display + ";top: " + top + ";left: " + left + ";color:black;position:fixed;font-size:" + nodeLabels[nodeId].style.fontSize + ";";
+	                      var newStyle ="display: " + display + ";top: " + top + ";left: " + left + ";color:black;position:fixed;font-size:" + nodeLabels[nodeId].style.fontSize + ";z-index:10;";
 	                      nodeLabels[nodeId].setAttribute('style', newStyle);
 	                  }
                 	});
@@ -377,7 +377,7 @@ function loadGraphFunctions(){
 		                      }
 		                      else display = "block";
 
-		                    var newStyle ="display: " + display + ";top: " + top + ";left: " + left + ";color:red;position:fixed;font-size:" + linkLabels[linkId].style.fontSize + ";";
+		                    var newStyle ="display: " + display + ";top: " + top + ";left: " + left + ";color:red;position:fixed;font-size:" + linkLabels[linkId].style.fontSize + ";z-index:10;";
 
 							linkLabels[linkId].setAttribute('style', newStyle);
 		                  }
