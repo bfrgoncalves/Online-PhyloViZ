@@ -1,21 +1,7 @@
 extends layout
 
-block login
-  div(id='userLocation')
-    if (!user)
-      a(href="/users/login") Login
-      = ' '
-      a(href="/users/register") Register
-    if (user)
-      p Welcome, #{user.name}! 
-        = ' '
-        a(href="/users/logout") Logout
-
-block title
-  div.titleLocation(onclick="javascript:location.href='/'")
-    div.float_title
-      img.phylovizImage(src = '/images/logo.png')
-      label.title #{title}
+block navbar
+  include fixed_navbar_login
 
 block sign
   div(id='sign')
