@@ -1,21 +1,7 @@
 extends layout
 
-div.indexNav
-  block title
-    div.indextitleLocation(onclick="javascript:location.href='/'")
-      img.phylovizImage(src = '/images/logo.png')
-      label.title #{title}
-
-  block login
-    div(id="indexuserLocation")
-      if (!user)
-        a(href="/users/login") Login
-        = ' '
-        a(href="/users/register") Register
-      if (user)
-        p Welcome, #{user.name}! 
-          = ' '
-          a(href="/users/logout") Logout
+block navbar
+  include fixed_navbar_login
 
 block sign
   div.bodyContainer
