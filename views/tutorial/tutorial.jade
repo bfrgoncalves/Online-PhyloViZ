@@ -3,14 +3,8 @@ extends ../layout
 block moreStyle
 	link(rel='stylesheet', href='/stylesheets/colorbox.css')
 
-block title
-	div.indextitleLocation(onclick="javascript:location.href='/'")
-		img.phylovizImage(src = '/images/logo.png')
-		label.title #{title}
-
-block login
-	div(id="indexuserLocation")
-		p Tutorial
+block navbar
+  include fixed_navbar_login
 
 block API
 	div.apiBody
