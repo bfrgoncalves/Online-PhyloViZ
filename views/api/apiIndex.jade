@@ -1,29 +1,7 @@
 extends layout
 
 block navbar
-  include navbar_api
-
-block API
-	div.apiBody
-		p Welcome to PHYLOViZ Online API!
-		p Here you can find information about the different methods and services than can be used to interact with the application.
-
-		label(for="#phylovizDataUpload") Data Upload
-		div(id="phylovizDataUpload")
-			li
-				a(href="api/help/upload") Upload data
-			li
-				a(href="api/help/finddata") Find data
-		br
-		label(for="#phylovizUtils") Utils
-		div(id="phylovizUtils")
-			li
-				a(href="api/help/phylovizinput") PHYLOViZ Online input
-			li
-				a(href="api/help/goeBURST") goeBURST algorithm
-			li
-				a(href="api/help/tabledata") Table data
-
+	include navbar_api
 
 block scripts
 	script(type='text/javascript', src='/javascripts/dependencies/jquery-2.1.3.min.js')
