@@ -1,13 +1,7 @@
 extends ../layout
 
-block title
-	div.indextitleLocation(onclick="javascript:location.href='/'")
-		img.phylovizImage(src = '/images/logo.png')
-		label.title #{title}
-
-block login
-	div(id="indexuserLocation")
-		p API
+block navbar
+	include ../fixed_navbar_login
 
 block API
 	div.apiBody
