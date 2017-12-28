@@ -5,16 +5,6 @@ block moreStyle
 	link(rel='stylesheet', href='/stylesheets/offcanvas.css')
 	//link(rel="stylesheet" media="screen" type="text/css" href="/stylesheets/layout.css")
 
-block login
-	div.user_info
-		if (!user)
-			a(href="/users/login") Login
-			= '	'
-			a(href="/users/register") Register
-		if (user)
-			p.login You are logged in as #{user.name}
-				= ' '
-				a(href="/users/logout") Logout
 
 block title
 
