@@ -1,26 +1,34 @@
 extends ../layout
 
-nav.navbar.navbar-default.navbar-fixed-top
-  div.container
-    div.navbar-header
-      button.navbar-toggle.collapsed(type="button",data-toggle="collapse",data-target="#navbar",aria-expanded="false",aria-controls="navbar")
-        span.sr-only Toggle navigation
-        span.icon-bar
-        span.icon-bar
-        span.icon-bar
-      a.navbar-brand(href="/") #{title}
-    div.navbar-collapse.collapse(id="navbar")
-      ul.nav.navbar-nav.navbar-right
-        if (!user)
-          li
-            a(href="/users/login") Login
-          li
-            a(href="/users/register") Register
-        if (user)
-          li
-            a Logged in as #{user.name}! 
-          li
-            a(href="/users/logout") Logout
+block title
+	div.indextitleLocation(onclick="javascript:location.href='/'")
+		img.phylovizImage(src='/images/logo.png')
+		label.title #{title}
+
+block login
+	div(id="indexuserLocation")
+		p API
+
+block API
+	div.apiBody
+		p Welcome to PHYLOViZ Online API!
+		p Here you can find information about the different methods and services than can be used to interact with the application.
+
+		label(for="#phylovizDataUpload") Data Upload
+		div(id="phylovizDataUpload")
+			li
+				a(href="api/help/upload") Upload data
+			li
+				a(href="api/help/finddata") Find data
+		br
+		label(for="#phylovizUtils") Utils
+		div(id="phylovizUtils")
+			li
+				a(href="api/help/phylovizinput") PHYLOViZ Online input
+			li
+				a(href="api/help/goeBURST") goeBURST algorithm
+			li
+				a(href="api/help/tabledata") Table data
 
 
 block scripts
