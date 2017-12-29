@@ -147,7 +147,10 @@ function loadGraphFunctions(){
 	          	node.data.key = node.id;
 	          	node.data.isolates = [];
 	          }
-	          if (node.id.search('TransitionNode') > -1) sizeToUse = 1;
+	          if (node.id.search('TransitionNode') > -1){
+	          	console.log(node.id);
+	          	sizeToUse = 1;
+	          }
 	          else sizeToUse = DefaultnodeSize+(node.data.isolates.length * graphObject.NodeScaleFactor);
 	          return new WebglCircle(sizeToUse, nodeColor, [1], [nodeColor], null);
 	        });
