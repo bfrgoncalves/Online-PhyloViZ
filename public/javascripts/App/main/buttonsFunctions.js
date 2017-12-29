@@ -573,7 +573,7 @@ const loadButtonFunctions = () => {
                     return false;
                 }
 
-                if(graphObject.graphInput.data_type === 'newick') {
+                if(graphObject.graphInput.data_type[0] === 'newick') {
                     getNewickDistances(graphObject);
                 }
                 else {
