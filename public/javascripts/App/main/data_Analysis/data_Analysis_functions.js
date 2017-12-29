@@ -204,7 +204,7 @@ function constructArray(JSONnewick, callback){
 	JSONnewick.visit(function(node) {
 		
 		if(arrayofnodes[i].data.slice(-1) === "!"){
-			node.data = node.data.substring(0, arrayofnodes[i].data.length - 1);
+			node.data = node.data.substring(0, node.data.length - 1);
 		}
 		if(first == true){
 			newickRoot = node;
