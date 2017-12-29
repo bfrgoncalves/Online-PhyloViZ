@@ -200,7 +200,6 @@ function commonAncestor(node1, node2) {
 function constructArray(JSONnewick, callback){
 	var first = true;
 	var objectToOrder = {};
-	console.log(JSONnewick);
 	JSONnewick.visit(function(node) {
 		
 		if(node.data.slice(-1) === "!"){
@@ -226,7 +225,6 @@ function constructArray(JSONnewick, callback){
 	arrayofnodes = Object.keys(objectToOrder).map(function(k){ return objectToOrder[k]; });
 	
 	for(i in arrayofnodes){
-		console.log(arrayofnodes[i]);
 		id_to_index[arrayofnodes[i].data] = i;
 	}
 	callback();
