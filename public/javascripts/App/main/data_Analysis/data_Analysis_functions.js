@@ -203,7 +203,7 @@ function constructArray(JSONnewick, callback){
 	console.log(JSONnewick);
 	JSONnewick.visit(function(node) {
 		
-		if(arrayofnodes[i].data.slice(-1) === "!"){
+		if(node.data.slice(-1) === "!"){
 			node.data = node.data.substring(0, node.data.length - 1);
 		}
 		if(first == true){
