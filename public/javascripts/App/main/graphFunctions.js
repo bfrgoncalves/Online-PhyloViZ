@@ -423,9 +423,12 @@ function loadGraphFunctions(){
 
 			for (var i = 0; i < graph.nodes.length - 1; i++) {
 			    optArray.push(String(graph.nodes[i].key));
-			    graphObject.graphInput.mergedNodes[graph.nodes[i].key].forEach(function(mergedNode){
-					optArray.push(String(mergedNode.key));
-				})
+			    
+			    if (graph.data_type[0] != "newick"){
+			    	graphObject.graphInput.mergedNodes[graph.nodes[i].key].forEach(function(mergedNode){
+						optArray.push(String(mergedNode.key));
+					})
+			    }
 			}
 			optArray = optArray.sort();
 			
