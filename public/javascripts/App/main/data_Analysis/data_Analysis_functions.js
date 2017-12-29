@@ -255,7 +255,6 @@ function getNewickDistances(graphObject){
 			for (var j = 0; j<selectedNodes.length; j++){
 				if(selectedNodes[i].id.indexOf('TransitionNode') > -1) continue;
 				//console.log(selectedNodes[i].id);
-				console.log(arrayofnodes[id_to_index[selectedNodes[i].id]], arrayofnodes[id_to_index[selectedNodes[j].id]]);
 				distance = commonAncestor(arrayofnodes[id_to_index[selectedNodes[i].id]], arrayofnodes[id_to_index[selectedNodes[j].id]]);
 				if(selectedNodes[i].id != selectedNodes[j].id) iDistances[selectedNodes[j].id] = distance;
 				if(distance > maxDistance) maxDistance = distance;
