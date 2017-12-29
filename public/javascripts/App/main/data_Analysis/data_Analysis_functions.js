@@ -167,7 +167,7 @@ function commonAncestor(node1, node2) {
   var distances1 = results1[1];
   var distances2 = results2[1];
   
-  console.log("common", parents1, parents2);
+  console.log("common", node1, node2);
 
   if (parents1[0] != parents2[0]) throw "No common ancestor!"
 
