@@ -166,7 +166,8 @@ function commonAncestor(node1, node2) {
   var parents2 = results2[0];
   var distances1 = results1[1];
   var distances2 = results2[1];
-  //console.log(parents1, parents2);
+  
+  console.log("common", parents1, parents2);
 
   if (parents1[0] != parents2[0]) throw "No common ancestor!"
 
@@ -180,7 +181,7 @@ function commonAncestor(node1, node2) {
     	var dist2 = 0;
     	for (k in newdistances2) dist2 += parseFloat(newdistances2[k]);
 
-    	console.log(newdistances1, newdistances2);
+    	//console.log(newdistances1, newdistances2);
 
     	//console.log(parents1);
     	//console.log([parents1[i - 1], newdistances2 + newdistances1]);
@@ -236,8 +237,6 @@ function getNewickDistances(graphObject){
 	var distanceMatrix = {};
 	var NodesToConstructTable = [];
 	var maxDistance = -1;
-
-	console.log("AQUI", arrayofnodes);
 
 	status('Computing Distances...');
 	$("#waitingGifMain").css({'display': 'block'});
