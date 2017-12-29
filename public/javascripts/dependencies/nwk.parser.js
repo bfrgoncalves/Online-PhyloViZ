@@ -14,8 +14,8 @@ nwk.parser = {
 			';': /;/,
 			',': /,/,
 			'BOOTSTRAP': /\[\d+\.*\d*\]|\[\.\d+\]/,
+			'STRING': /[a-zA-Z_\+\.\\\-\d'\s\[\]\*\/{}#]+\!/, // your mileage with this regex may vary
 			'NUMBER': /\d+\.*\d*|\.\d+/, // optional beginning 0 for decimal numbers
-			'STRING': /[a-zA-Z_\+\.\\\-\d'\s\[\]\*\/{}]+/, // your mileage with this regex may vary
 		};
 		
 		var
