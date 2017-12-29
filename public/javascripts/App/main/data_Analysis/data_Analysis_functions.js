@@ -142,6 +142,7 @@ function parents(node) {
   var distances = [];
   //console.log(node);
   try{
+  	//console.log(node.parent_id);
 
   	while(node.parent_id != null){
 	  	parents.unshift(node.id);
@@ -168,8 +169,6 @@ function commonAncestor(node1, node2) {
   //console.log(parents1, parents2);
 
   if (parents1[0] != parents2[0]) throw "No common ancestor!"
-
-  console.log(results1, results2, distances1, distances2);
 
   for (var i = 0; i < parents1.length; i++) {
     if (parents1[i] != parents2[i]){
@@ -199,7 +198,9 @@ function commonAncestor(node1, node2) {
 function constructArray(JSONnewick, callback){
 	var first = true;
 	var objectToOrder = {};
+	console.log(JSONnewick);
 	JSONnewick.visit(function(node) {
+		console.log(node);
 		if(first == true){
 			newickRoot = node;
 			first = false;
