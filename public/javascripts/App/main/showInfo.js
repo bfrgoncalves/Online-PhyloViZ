@@ -10,9 +10,11 @@ function showInfo(mergedNodes, sameNodeHas, graphics, node, e) {
 
   keyToShow = '';
 
-  mergedNodes[node.id].forEach(function(mergedNode){
-    keyToShow += ' and ' + mergedNode.key
-  });
+  if (graph.data_type[0] != "newick"){
+    mergedNodes[node.id].forEach(function(mergedNode){
+      keyToShow += ' and ' + mergedNode.key
+    });
+  }
 
   keyToShow.substring(0, keyToShow.length - 6);
 
