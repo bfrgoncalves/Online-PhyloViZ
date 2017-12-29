@@ -587,6 +587,7 @@ function loadGraphFunctions(){
 		            
 		            if (shiftDown && e.which != 83 && is_clicking != true) {
 		              multipleselection = false;
+		              console.log(graphObject.selectedNodes);
 		              for (i in graphObject.selectedNodes){
 		                var nodeToUse = graphics.getNodeUI(graphObject.selectedNodes[i].id);
 		                console.log(graphObject.selectedNodes[i].id, nodeToUse, nodeToUse.backupColor)
