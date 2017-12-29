@@ -235,12 +235,13 @@ function getNewickDistances(graphObject){
 	var NodesToConstructTable = [];
 	var maxDistance = -1;
 
-	console.log("AQUI");
+	console.log("AQUI", console.log(arrayofnodes));
 
 	status('Computing Distances...');
 	$("#waitingGifMain").css({'display': 'block'});
 
 	setTimeout(function(){
+
 		constructDistances();
 	}, 100);
 
