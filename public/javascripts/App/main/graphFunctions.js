@@ -148,10 +148,9 @@ function loadGraphFunctions(){
 	          	node.data.isolates = [];
 	          }
 	          if (node.id.search('TransitionNode') > -1){
-	          	sizeToUse = 1;
+	          	sizeToUse = 5;
 	          }
 	          else sizeToUse = DefaultnodeSize+(node.data.isolates.length * graphObject.NodeScaleFactor);
-	          console.log(sizeToUse);
 	          return new WebglCircle(sizeToUse, nodeColor, [1], [nodeColor], null);
 	        });
 
@@ -630,6 +629,7 @@ function loadGraphFunctions(){
 		              if (!multipleselection ){
 		                for (i in graphObject.selectedNodes){
 		                  var nodeToUse = graphics.getNodeUI(graphObject.selectedNodes[i].id);
+		                  console.log(graphObject.selectedNodes[i].id, nodeToUse, nodeToUse.backupColor)
 		                  nodeToUse.colorIndexes = nodeToUse.backupColor;
 		                  //nodeToUse.size = nodeToUse.backupSize;
 		                } 
