@@ -37,6 +37,9 @@ function startMultiSelect(graphObject) {
 
     function higlightIfInside(node) {
       var nodeUI = graphics.getNodeUI(node.id);
+      
+      if(node.id.indexOf('TransitionNode') > -1) return;
+
       if (isInside(node.id, topLeft, bottomRight)) {
 
         var newColors = [];
