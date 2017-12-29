@@ -145,7 +145,6 @@ function parents(node) {
 
   	while(node.parent_id != null){
 	  	parents.unshift(node.id);
-	  	console.log("LENGTH", node.branchlength);
 	  	distances.unshift(node.branchlength);
 	  	node = objectofnodes[node.parent_id];
 
@@ -170,7 +169,7 @@ function commonAncestor(node1, node2) {
 
   if (parents1[0] != parents2[0]) throw "No common ancestor!"
 
-  console.log(results1, results2);
+  console.log(results1, results2, distances1, distances2);
 
   for (var i = 0; i < parents1.length; i++) {
     if (parents1[i] != parents2[i]){
