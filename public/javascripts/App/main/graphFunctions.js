@@ -19,7 +19,7 @@ function loadGraphFunctions(){
 		        	maxNodeValue = graph.nodes[i].isolates.length;
 		        }
 		        graphGL.addNode(graph.nodes[i].key, graph.nodes[i]);
-		        if(graph.mergedNodes[graph.nodes[i].key].length != 0){
+		        if(graph.data_type[0] != "newick" && graph.mergedNodes[graph.nodes[i].key].length != 0){
 		        	for(z in graph.mergedNodes[graph.nodes[i].key]){
 		        		graph.all_positions_to_id[graph.mergedNodes[graph.nodes[i].key][z].key] = graph.mergedNodes[graph.nodes[i].key][z].position;
 		        	}
