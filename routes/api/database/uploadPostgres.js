@@ -239,6 +239,8 @@ function readNewickfile(pathToFile, fileType, dataToDB, callback){
 
   dataToDB[fileType] = [];
 
+  if(dataToDB.key == undefined) dataToDB.key = "phylovizNewickID";
+
   fs.readFile(pathToFile, 'utf8', function (err,data) {
       dataToDB[fileType].push(data);
       console.log('Newick done');
