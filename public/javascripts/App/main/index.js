@@ -316,6 +316,7 @@ function createInput(datasetID, callback) {
             input.JSONnewick = data.JSONnewick;
             input.positions = data.positions;
             input.metadata = data.metadata;
+            console.log(input);
             callback(input);
           });
         }
