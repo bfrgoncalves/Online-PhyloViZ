@@ -301,6 +301,7 @@ function checkLociDifferences(graphObject){
 			var iDistances = {};
 			for (j=0; j<arrayOfNodes.length; j++){
 				//if(graphObject.graphInput.hasOwnProperty('indexesToRemove')){
+				console.log(arrayofNodes);
 				distance = hamming(graphObject.graphInput.subsetProfiles[arrayOfNodes[i].data.idGL].profile, graphObject.graphInput.subsetProfiles[arrayOfNodes[j].data.idGL].profile);
 				//}
 				//else distance = hamming(arrayOfNodes[i].data.profile, arrayOfNodes[j].data.profile);
