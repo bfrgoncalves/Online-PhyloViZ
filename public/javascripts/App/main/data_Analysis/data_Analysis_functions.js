@@ -224,7 +224,7 @@ function constructArray(JSONnewick, callback){
 	for(i in arrayofnodes){
 		console.log(arrayofnodes[i]);
 		if(arrayofnodes[i].data.slice(-1) === "!"){
-			str = arrayofnodes[i].data.substring(0, str.length - 1);
+			str = arrayofnodes[i].data.substring(0, arrayofnodes[i].data.length - 1);
 			id_to_index[str] = i;
 		}
 		else {
