@@ -223,7 +223,13 @@ function constructArray(JSONnewick, callback){
 	
 	for(i in arrayofnodes){
 		console.log(arrayofnodes[i]);
-		id_to_index[arrayofnodes[i].data.id] = i;
+		if(arrayofnodes[i].data.slice(-1) === "!"){
+			str = arrayofnodes[i].data.substring(0, str.length - 1);
+			id_to_index[str] = i;
+		}
+		else {
+			id_to_index[arrayofnodes[i].data] = i;
+		}
 	}
 	callback();
 }
