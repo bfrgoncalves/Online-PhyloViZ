@@ -589,6 +589,7 @@ function loadGraphFunctions(){
 		              multipleselection = false;
 		              for (i in graphObject.selectedNodes){
 		                var nodeToUse = graphics.getNodeUI(graphObject.selectedNodes[i].id);
+		                console.log(graphObject.selectedNodes[i].id, nodeToUse, nodeToUse.backupColor)
 		                nodeToUse.colorIndexes = nodeToUse.backupColor;
 		              } 
 		              graphObject.selectedNodes = [];
