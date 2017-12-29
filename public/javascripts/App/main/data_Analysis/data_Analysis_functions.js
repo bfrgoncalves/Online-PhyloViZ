@@ -166,8 +166,7 @@ function commonAncestor(node1, node2) {
   var parents2 = results2[0];
   var distances1 = results1[1];
   var distances2 = results2[1];
-  
-  console.log("common", node1, node2);
+ 
 
   if (parents1[0] != parents2[0]) throw "No common ancestor!"
 
@@ -203,7 +202,6 @@ function constructArray(JSONnewick, callback){
 	var objectToOrder = {};
 	console.log(JSONnewick);
 	JSONnewick.visit(function(node) {
-		console.log(node);
 		if(first == true){
 			newickRoot = node;
 			first = false;
@@ -255,7 +253,7 @@ function getNewickDistances(graphObject){
 			for (var j = 0; j<selectedNodes.length; j++){
 				if(selectedNodes[i].id.indexOf('TransitionNode') > -1) continue;
 				//console.log(selectedNodes[i].id);
-				//console.log(arrayofnodes[id_to_index[selectedNodes[i].id]]);
+				console.log(arrayofnodes[id_to_index[selectedNodes[i].id]], arrayofnodes[id_to_index[selectedNodes[j].id]]);
 				distance = commonAncestor(arrayofnodes[id_to_index[selectedNodes[i].id]], arrayofnodes[id_to_index[selectedNodes[j].id]]);
 				if(selectedNodes[i].id != selectedNodes[j].id) iDistances[selectedNodes[j].id] = distance;
 				if(distance > maxDistance) maxDistance = distance;
