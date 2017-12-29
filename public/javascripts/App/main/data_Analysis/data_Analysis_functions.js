@@ -180,7 +180,7 @@ function commonAncestor(node1, node2) {
     	var dist2 = 0;
     	for (k in newdistances2) dist2 += parseFloat(newdistances2[k]);
 
-    	console.log(distances1, distances2);
+    	console.log(newdistances1, newdistances2);
 
     	//console.log(parents1);
     	//console.log([parents1[i - 1], newdistances2 + newdistances1]);
