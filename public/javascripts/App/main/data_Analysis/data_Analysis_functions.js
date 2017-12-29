@@ -202,6 +202,10 @@ function constructArray(JSONnewick, callback){
 	var objectToOrder = {};
 	console.log(JSONnewick);
 	JSONnewick.visit(function(node) {
+		
+		if(arrayofnodes[i].data.slice(-1) === "!"){
+			arrayofnodes[i].data = arrayofnodes[i].data.substring(0, arrayofnodes[i].data.length - 1);
+		}
 		if(first == true){
 			newickRoot = node;
 			first = false;
@@ -223,13 +227,7 @@ function constructArray(JSONnewick, callback){
 	
 	for(i in arrayofnodes){
 		console.log(arrayofnodes[i]);
-		if(arrayofnodes[i].data.slice(-1) === "!"){
-			str = arrayofnodes[i].data.substring(0, arrayofnodes[i].data.length - 1);
-			id_to_index[str] = i;
-		}
-		else {
-			id_to_index[arrayofnodes[i].data] = i;
-		}
+		id_to_index[arrayofnodes[i].data] = i;
 	}
 	callback();
 }
