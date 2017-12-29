@@ -440,7 +440,7 @@ function NLVgraph(graphObject, value) {
                         sourceKey = graph.sameNodeHas[sourceKey];
                         targetKey = graph.sameNodeHas[targetKey];*/
 
-                        if(graphObject.graphInput.data_type === "newick"){
+                        if(graphObject.graphInput.data_type[0] === "newick"){
                             sourceKey = graph.nodes[countNodes].key;
                             targetKey = graph.nodes[targetIndex].key;
                         }
