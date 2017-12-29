@@ -886,7 +886,7 @@ const AddLinkLabels = (graphObject) => {
     $('#divselectLabelType').css({"display": "block"});
     $('.link-label').css('display','block');
 
-    if(graphObject.graphInput.data_type !== "newick") {
+    if(graphObject.graphInput.data_type[0] !== "newick") {
         $('#labelType').css({"display": "block"});
 
         if(graphObject.graphInput.missingsInfo[0]){
