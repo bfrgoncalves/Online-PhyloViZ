@@ -541,7 +541,7 @@ function loadGraphFunctions(){
 		        domPos.y = (domPos.y  +header_height - 30)+ 'px';
 	        	$('#popup_description').empty();
 	        	$('#popup_description').append(showInfo(graphObject.graphInput.mergedNodes, graphObject.graphInput.sameNodeHas, graphics, node, e));
-	        	$('#popup_description').css({'padding': '10px 10px 10px 10px', 'border':'1px solid grey', 'border-radius': '10px', 'background-color':'white','display':'block', 'left':domPos.x, 'top':domPos.y, 'position':'fixed', 'z-index':2});
+	        	$('#popup_description').css({'padding': '10px 10px 10px 10px', 'border':'1px solid grey', 'border-radius': '10px', 'background-color':'white','display':'block', 'left':domPos.x, 'top':domPos.y, 'position':'fixed', 'z-index':99});
 	             //console.log('Mouse entered node: ' + node.id);
 	         }).mouseLeave(function (node) {
 	         	$('#popup_description').css({'display':'none'});
