@@ -323,7 +323,7 @@ function createInput(datasetID, callback) {
         else{
           console.log('Nodes');
           getStream('nodes', function(){
-
+            console.log(input.nodes);
             if(input.hasOwnProperty('links')){
                 console.log('Positions');
                 getInputPart('positions', function(data){
