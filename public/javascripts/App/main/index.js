@@ -316,14 +316,13 @@ function createInput(datasetID, callback) {
             input.JSONnewick = data.JSONnewick;
             input.positions = data.positions;
             input.metadata = data.metadata;
-            console.log(input);
             callback(input);
           });
         }
         else{
           console.log('Nodes');
           getStream('nodes', function(){
-            console.log(input.nodes);
+
             if(input.hasOwnProperty('links')){
                 console.log('Positions');
                 getInputPart('positions', function(data){
