@@ -78,7 +78,7 @@ def main():
 
 def login(args, currentRoot): #Required before each of the tasks
 
-	bashCommand = 'curl --cookie-jar jarfile --data username='+ args.u + '&' + 'password=' + args.p + ' ' +currentRoot+'/users/api/login'
+	bashCommand = 'curl -k --cookie-jar jarfile --data username='+ args.u + '&' + 'password=' + args.p + ' ' +currentRoot+'/users/api/login'
 	process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
 	output = process.communicate()[0]
 	if output == 'Unauthorized':
@@ -90,12 +90,12 @@ def checkDatasets(args, currentRoot): #Check if the database name to upload exis
 	print 'Checking if dataset name exists...'
 	if not args.t:
 		login(args, currentRoot)
-		bashCommand = 'curl --cookie jarfile -X GET '+currentRoot+'/api/db/postgres/find/datasets/name?name='+ args.d
+		bashCommand = 'curl -k --cookie jarfile -X GET '+currentRoot+'/api/db/postgres/find/datasets/name?name='+ args.d
 	else:
 		print args.t
 		#with open(cookie_file, 'w') as f:
 			#f.write(args.root+'\tTRUE\t/\tFALSE\t0\t' + args.t.split('=')[0] + '\t' + args.t.split('=')[1])
-		bashCommand = 'curl --cookie '+args.t+' -X GET '+currentRoot+'/api/db/postgres/find/datasets/name?name='+ args.d
+		bashCommand = 'curl -k --cookie '+args.t+' -X GET '+currentRoot+'/api/db/postgres/find/datasets/name?name='+ args.d
 	
 	process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
 	output = process.communicate()[0]
@@ -145,7 +145,7 @@ def remoteUpload(args, currentRoot): #upload the input files to the database
 		makePublic = 'false'
 	
 	if not args.t:
-		bashCommandUpload = 'curl --cookie jarfile \
+		bashCommandUpload = 'curl -k --cookie jarfile \
 					  -F datasetName='+ datasetName +' \
 					  -F dataset_description='+ description +' \
 					  -F makePublic='+ makePublic +' \
@@ -154,7 +154,7 @@ def remoteUpload(args, currentRoot): #upload the input files to the database
 					  -F numberOfFiles='+ str(numberOfFiles) +' \
 					  '+currentRoot+'/api/db/postgres/upload'
 	else:
-		bashCommandUpload = 'curl --cookie '+args.t+' \
+		bashCommandUpload = 'curl -k --cookie '+args.t+' \
 					  -F datasetName='+ datasetName +' \
 					  -F dataset_description='+ description +' \
 					  -F makePublic='+ makePublic +' \
@@ -189,16 +189,16 @@ def rungoeBURST(args, datasetID, currentRoot, onqueue): #run the goeBURST algori
 		login(args, currentRoot)
 		print 'Running goeBURST...'
 		if args.mc == False:
-			bashCommand = 'curl --cookie jarfile -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true&analysis_method=' + args.am + '&onqueue=' + onqueue + '&parent_id=' + parent_id
+			bashCommand = 'curl -k --cookie jarfile -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true&analysis_method=' + args.am + '&onqueue=' + onqueue + '&parent_id=' + parent_id
 		else:
-			bashCommand = 'curl --cookie jarfile -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true&missings=true&missingchar=' + str(args.mc) + '&analysis_method=' + args.am + '&missing_threshold='+str(missing_T)+'&onqueue=' + onqueue + '&parent_id=' + parent_id
+			bashCommand = 'curl -k --cookie jarfile -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true&missings=true&missingchar=' + str(args.mc) + '&analysis_method=' + args.am + '&missing_threshold='+str(missing_T)+'&onqueue=' + onqueue + '&parent_id=' + parent_id
 	else:
 		print 'Running goeBURST...'
 		print 'cookie'
 		if args.mc == False:
-			bashCommand = 'curl --cookie '+args.t+' -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true&analysis_method=' + args.am + '&onqueue=' + onqueue + '&parent_id=' + parent_id
+			bashCommand = 'curl -k --cookie '+args.t+' -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true&analysis_method=' + args.am + '&onqueue=' + onqueue + '&parent_id=' + parent_id
 		else:
-			bashCommand = 'curl --cookie '+args.t+' -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true&missings=true&missingchar=' + str(args.mc) + '&analysis_method=' + args.am + '&missing_threshold='+str(missing_T)+'&onqueue=' + onqueue + '&parent_id=' + parent_id
+			bashCommand = 'curl -k --cookie '+args.t+' -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true&missings=true&missingchar=' + str(args.mc) + '&analysis_method=' + args.am + '&missing_threshold='+str(missing_T)+'&onqueue=' + onqueue + '&parent_id=' + parent_id
 		
 		process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
 		output = json.loads(process.communicate()[0])
@@ -215,9 +215,9 @@ def generatePublicLink(args, datasetID, currentRoot):
 	if not args.t:
 		login(args, currentRoot)
 		#make data set visible	
-		bashCommand = 'curl --cookie jarfile -X PUT -d dataset_id='+ datasetID + ' -d change=true '+currentRoot+'/api/db/postgres/update/all/is_public'
+		bashCommand = 'curl -k --cookie jarfile -X PUT -d dataset_id='+ datasetID + ' -d change=true '+currentRoot+'/api/db/postgres/update/all/is_public'
 	else:
-		bashCommand = 'curl --cookie '+args.t+' -X PUT -d dataset_id='+ datasetID + ' -d change=true '+currentRoot+'/api/db/postgres/update/all/is_public'
+		bashCommand = 'curl -k --cookie '+args.t+' -X PUT -d dataset_id='+ datasetID + ' -d change=true '+currentRoot+'/api/db/postgres/update/all/is_public'
 	
 	process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
 	output = process.communicate()[0]
@@ -225,9 +225,9 @@ def generatePublicLink(args, datasetID, currentRoot):
 	if not args.t:
 		login(args, currentRoot)
 		#get sharable link
-		bashCommand = 'curl --cookie jarfile -X GET '+currentRoot+'/api/utils/publiclink?dataset_id='+ datasetID
+		bashCommand = 'curl -k --cookie jarfile -X GET '+currentRoot+'/api/utils/publiclink?dataset_id='+ datasetID
 	else:
-		bashCommand = 'curl --cookie '+args.t+' -X GET '+currentRoot+'/api/utils/publiclink?dataset_id='+ datasetID
+		bashCommand = 'curl -k --cookie '+args.t+' -X GET '+currentRoot+'/api/utils/publiclink?dataset_id='+ datasetID
 	
 	process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
 	output = json.loads(process.communicate()[0])
