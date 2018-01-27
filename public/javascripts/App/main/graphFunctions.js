@@ -474,7 +474,7 @@ function loadGraphFunctions(){
 	            })
 	        });
 
-	        setTimeout(function() => {
+	        setTimeout(() => {
 
 	        	original_position_to_id = graphObject.graphInput.original_position_to_id;
 			
