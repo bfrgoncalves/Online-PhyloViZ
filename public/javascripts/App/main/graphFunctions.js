@@ -474,36 +474,38 @@ function loadGraphFunctions(){
 	            })
 	        });
 
-			original_position_to_id = graphObject.graphInput.original_position_to_id;
+	        setTimeout(function() => {
+
+	        	original_position_to_id = graphObject.graphInput.original_position_to_id;
 			
-			array_of_keys = Object.keys(original_position_to_id);
-			array_of_keys1 = Object.keys(original_position_to_id);
+				array_of_keys = Object.keys(original_position_to_id);
+				array_of_keys1 = Object.keys(original_position_to_id);
 
-			array_of_keys = array_of_keys.sort(function(a, b){return parseInt(a)-parseInt(b)});
-			
-			array_of_keys1 = array_of_keys1.sort(function(a, b){return parseInt(b)-parseInt(a)});
+				array_of_keys = array_of_keys.sort(function(a, b){return parseInt(a)-parseInt(b)});
+				
+				array_of_keys1 = array_of_keys1.sort(function(a, b){return parseInt(b)-parseInt(a)});
 
-			console.log(array_of_keys1);
+				count_lines = 0;
 
-			count_lines = 0;
-
-			for(y in distanceMatrix){
-				countremoved = 0;
-				for(z in array_of_keys){
-					index_to_remove = parseInt(array_of_keys[z])-count_lines-countremoved;
-					if(index_to_remove > 0){
-						countremoved += 1;
-						distanceMatrix[y].splice(index_to_remove, 1);
+				for(y in distanceMatrix){
+					countremoved = 0;
+					for(z in array_of_keys){
+						index_to_remove = parseInt(array_of_keys[z])-count_lines-countremoved;
+						if(index_to_remove > 0){
+							countremoved += 1;
+							distanceMatrix[y].splice(index_to_remove, 1);
+						}
 					}
+					count_lines += 1;
 				}
-				count_lines += 1;
-			}
 
-			for(x in array_of_keys1){
-				distanceMatrix.splice(parseInt(array_of_keys1[x]), 1);
-			}
+				for(x in array_of_keys1){
+					distanceMatrix.splice(parseInt(array_of_keys1[x]), 1);
+				}
 
-			graphObject.graphInput.distanceMatrix = distanceMatrix;
+				graphObject.graphInput.distanceMatrix = distanceMatrix;
+
+	        }, 1000);
 
 			//console.log("END", graphObject.graphInput.distanceMatrix);
 		},
