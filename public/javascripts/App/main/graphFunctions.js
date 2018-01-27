@@ -480,6 +480,8 @@ function loadGraphFunctions(){
 			
 			array_of_keys1 = array_of_keys1.sort(function(a, b){return parseInt(b)-parseInt(a)});
 
+			console.log(array_of_keys1);
+
 			count_lines = 0;
 
 			for(y in distanceMatrix){
