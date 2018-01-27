@@ -490,7 +490,7 @@ function loadGraphFunctions(){
 			for(y in distanceMatrix){
 				countremoved = 0;
 				for(z in array_of_keys){
-					index_to_remove = parseInt(array_of_keys[z])-1-count_lines-countremoved;
+					index_to_remove = parseInt(array_of_keys[z])-count_lines-countremoved;
 					if(index_to_remove > 0){
 						countremoved += 1;
 						distanceMatrix[y].splice(index_to_remove, 1);
