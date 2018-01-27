@@ -26,7 +26,7 @@ function loadGraphFunctions(){
 		        	}
 		        }
 
-		        graph.all_positions_to_id[graph.nodes[i].key] = i;
+		        graph.all_positions_to_id[graph.nodes[i].key] = graph.nodes[i].position;
 		        console.log(graph.nodes[i].position);
 		        countAddedNodes++;
 		    }
