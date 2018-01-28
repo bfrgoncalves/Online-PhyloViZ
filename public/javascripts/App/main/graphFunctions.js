@@ -505,7 +505,7 @@ function loadGraphFunctions(){
 
 				graphObject.graphInput.distanceMatrix = distanceMatrix;
 
-	        }, 1000);
+	        }, 8000);
 
 			//console.log("END", graphObject.graphInput.distanceMatrix);
 		},
