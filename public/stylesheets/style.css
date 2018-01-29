@@ -389,11 +389,11 @@ td.highlight {
 #col_tutorial_main{
   position:fixed;
   padding: 1%;
-  top: 10%;
-  right:1%;
+  top: 7%;
+  right:0%;
   border-left: 1px solid;
   border-color: black;
-  width: 17%;
+  width: 20%;
   height: 90%;
   z-index:3;
   font-size:90%;
