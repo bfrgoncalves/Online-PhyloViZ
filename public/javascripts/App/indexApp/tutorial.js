@@ -99,7 +99,7 @@ function tutorial(divId){
 								 '</ul>' +
 							'<label style="font-size:100%;color:#FE9128;">Operations - Display Operations:</label>' +
 							'<ul><li><b>Save Positions</b>: Saves the positions of the nodes.</li>' +
-								 '</ul>' +;
+								 '</ul>';
 			$('#' + divId).append(toAppend);
 		},
 		profiles: function(){
