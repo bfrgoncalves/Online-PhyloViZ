@@ -382,6 +382,8 @@ function buildCircleNodeShader() {
                         var interNode = new Float32Array(interNodeSize);
                     }
 
+                    console.log(nodeUI);
+
                     //outercircle piechart
                     if(nodeUI.hasOwnProperty('outerdata')){
 
