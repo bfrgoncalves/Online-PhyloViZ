@@ -96,6 +96,7 @@ function buildSimpleCircleNodeShader() {
         position : function (nodeUI, pos) {
             var idx = nodeUI.id;
 
+            console.log(nodeUI);
             if(nodeUI.hasOwnProperty('outerdata')){
 
                 nodes[idx * ATTRIBUTES_PER_PRIMITIVE*2] = pos.x;
