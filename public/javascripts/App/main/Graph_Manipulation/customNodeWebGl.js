@@ -63,6 +63,7 @@ function buildSimpleCircleNodeShader() {
          */
         load : function (glContext, Nodescount) {
 
+            console.log(Nodescount);
             if (Nodescount){
                 nodesCount = Nodescount;
                 for (i = 0; i<Nodescount;i++){
