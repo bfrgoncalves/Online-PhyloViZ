@@ -110,6 +110,17 @@ function buildSimpleCircleNodeShader() {
                 nodes[idx * ATTRIBUTES_PER_PRIMITIVE*2 + 3] = nodeUI.size + 10;
 
             }
+            else {
+                nodes[idx * ATTRIBUTES_PER_PRIMITIVE*2] = null;
+                nodes[idx * ATTRIBUTES_PER_PRIMITIVE*2 + 1] = null;
+                try{
+                    nodes[idx * ATTRIBUTES_PER_PRIMITIVE*2 + 2] = null;
+                }
+                catch(err){
+                    nodes[idx * ATTRIBUTES_PER_PRIMITIVE*2 + 2] = null;
+                }
+                nodes[idx * ATTRIBUTES_PER_PRIMITIVE*2 + 3] = null;
+            }
 
             nodes[idx * ATTRIBUTES_PER_PRIMITIVE*2 + 4] = pos.x;
             nodes[idx * ATTRIBUTES_PER_PRIMITIVE*2 + 5] = -pos.y;
