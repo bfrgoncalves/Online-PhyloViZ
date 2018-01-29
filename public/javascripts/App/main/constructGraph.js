@@ -188,7 +188,7 @@ function constructGraph(graph, datasetID){
           $('#LinksGraphics').collapse("hide");
         });
 
-        $('#tabs li a').on('click', function(d){
+        $('#navbar li a').on('click', function(d){
 
           console.log($(d.target).text());
 
