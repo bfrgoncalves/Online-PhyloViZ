@@ -373,6 +373,7 @@ function buildCircleNodeShader() {
                     countProperties += ATTRIBUTES_PER_PRIMITIVE;
                     */
                     if(nodeUI.hasOwnProperty('outerdata')){
+                        console.log("OUTERDATA");
                         interNodeSize = (nodeUI.data[0].length + nodeUI.data[1].length + nodeUI.data[2].length +nodeUI.data[3].length + nodeUI.outerdata[0].length + nodeUI.outerdata[1].length + nodeUI.outerdata[2].length +nodeUI.outerdata[3].length) * ATTRIBUTES_PER_PRIMITIVE;
                         var interNode = new Float32Array(interNodeSize);
                     }
