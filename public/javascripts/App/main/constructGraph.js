@@ -190,7 +190,10 @@ function constructGraph(graph, datasetID){
 
         $('#tabs li a').on('click', function(d){
 
+          console.log($(d.target).text());
+
           if($(d.target).text() == 'Auxiliary Data'){
+            console.log("AQUI");
             var tableToUse = $('#tableisolates').DataTable();
             tableToUse.columns.adjust().draw();
             tutorialFunctions.auxiliary();

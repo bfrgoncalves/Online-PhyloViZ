@@ -70,9 +70,9 @@ function tutorial(divId){
 		},
 		tree:function(){
 			$('#' + divId).empty();
-			var toAppend = '<p>This is the <b>Tree visualization</b> tab of the application. On the left side of the screen you have options to search for specific node identifiers or Pause/Reset the tree force layout, and a <b>Features menu</b> that allows <i>color assignment</i>, <i>change graphic properties</i> and other <i>operations</i>.</p>' + 
+			var toAppend = '<p>This is the <b>Tree visualization</b> tab of the application. On the left side of the screen you have a <b>Features menu</b> that allows <i>color assignment</i>, <i>change graphic properties</i> and other <i>operations</i> to be done on the tree. You also have an option to <i>Search</i> for specific nodes on the top and a series of <i>Buttons</i> on the bottom to change some properties of the tree visualization.</p>' + 
 							'<label style="font-size:100%; color:#FE9128;">Node Selection:</label>' + 
-							'<p><b>Single selection</b> is made holding the <i>Ctrl</i> key and clicking on the desired nodes. <b>Multiple selection</b> in made by holding the <i>Shift</i> key and dragging the cursor over the nodes (image on the left).' + 
+							'<p><b>Single selection</b> is made holding the <i>Shift</i> key and clicking on the desired nodes. <b>Multiple selection</b> is made by holding the <i>Shift + S</i> keys and dragging the cursor over the nodes.' + 
 							'<p>To clear all selections, press the <i>Shift</i> key.</p>' +
 							'<label style="font-size:100%;color:#FE9128;">Assigning Colors:</label>' + 
 							'<p>Colors can be assigned using one of the different fields available at the <i>Profile</i> or <i>Auxiliary data</i> file.</p>' +
@@ -86,12 +86,20 @@ function tutorial(divId){
 								'<li><b>Theta</b>: Controls the openning angle used to calculate the force layout. As the Theta value increases, the opening angle is reduced, thus merging the closest nodes with the overall effect of uncluttering the display.</li>' + 
 								'<li><b>Mass Ratio</b>: Bigger values lead to more attraction between nodes.</li></ul>' + 
 							'</p>' + 
-							'<label style="font-size:100%;color:#FE9128;">Operations:</label>' + 
+							'<label style="font-size:100%;color:#FE9128;">Operations - Tree Modifiers:</label>' + 
 							'<ul><li><b>n Locus Variant (nLV)</b>: Creates links between any nodes in the graph with differences up to and including number entered in the box.</li>' +
 								 '<li><b>Tree cut-off</b>: Deletes all links between nodes with profiles with differences above the number selected.</li>' + 
+								 '<li><b>Collapse at distance</b>: Collapse all nodes with differences up to the selected value.</li>' + 
+								 '</ul>' +
+							'<label style="font-size:100%;color:#FE9128;">Operations - Subset Operations:</label>' + 
+							'<ul><li><b>Create subset</b>: Creates a subset of the tree using the selected nodes. It will create a new dataset and remake the profile comparison analysis. Login is required.</li>' +
+								 '<li><b>Find Exclusive Loci</b>: Checks for profile positions that exist only in the selected nodes and not in any other node.</li>' + 
 								 '<li><b>Compute Distances</b>: Computes All vs All distances between selected nodes.</li>' + 
 								 '<li><b>Export Selected Data</b>: Exports profile data and auxiliary data (if exists) from selected nodes.</li>' +
-								 '</ul>';
+								 '</ul>' +
+							'<label style="font-size:100%;color:#FE9128;">Operations - Display Operations:</label>' +
+							'<ul><li><b>Save Positions</b>: Saves the positions of the nodes.</li>' +
+								 '</ul>' +;
 			$('#' + divId).append(toAppend);
 		},
 		profiles: function(){
