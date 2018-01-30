@@ -176,7 +176,7 @@ function changeNodeUIData(objectOfType, graphics, propertyIndexes, arrayColors, 
 	    dataToChange = newValues[0];
 	    indexes = newValues[1];
 	    //if(k == 'Hi-12368') console.log(k, dataToChange, indexes);
-	    console.log(sameNodeHas[k], changedColor[sameNodeHas[k]]);
+	    console.log(sameNodeHas[k], changedColor[sameNodeHas[k]], nodeUI);
 	    if(changedColor[sameNodeHas[k]] != true || nodeUI.colorIndexes[0][0] == noDataColor){
 	    	//if(k == 'Hi-12368' || k == 'Hi-11358') console.log(k, nodeUI);
 		    nodeUI.data = dataToChange;  //Apply data to the nodeUI
