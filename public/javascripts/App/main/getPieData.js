@@ -159,10 +159,10 @@ function changeNodeUIData(objectOfType, graphics, propertyIndexes, arrayColors, 
 	    var dataToChange = [];
 	    var indexes = [];
 
-	    var nodeUI = graphics.getNodeUI(sameNodeHas[k]);
+	    var nodeUI = graphics.getNodeUI(k);
 
 	    console.log(sameNodeHas[k], changedColor[sameNodeHas[k]], nodeUI);
-	    
+
 	    if(nodeUI == undefined) continue;
 
 	    if(!$.isEmptyObject(objectOfType[k])){
