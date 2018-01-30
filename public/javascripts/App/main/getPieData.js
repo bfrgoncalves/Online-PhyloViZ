@@ -161,7 +161,7 @@ function changeNodeUIData(objectOfType, graphics, propertyIndexes, arrayColors, 
 
 	    var nodeUI = graphics.getNodeUI(k);
 
-	    console.log(sameNodeHas[k], changedColor[sameNodeHas[k]], nodeUI);
+	    console.log(k, changedColor[k], nodeUI);
 
 	    if(nodeUI == undefined) continue;
 
@@ -179,13 +179,13 @@ function changeNodeUIData(objectOfType, graphics, propertyIndexes, arrayColors, 
 	    dataToChange = newValues[0];
 	    indexes = newValues[1];
 	    //if(k == 'Hi-12368') console.log(k, dataToChange, indexes);
-	    if(changedColor[sameNodeHas[k]] != true || nodeUI.colorIndexes[0][0] == noDataColor){
+	    if(changedColor[k] != true || nodeUI.colorIndexes[0][0] == noDataColor){
 	    	//if(k == 'Hi-12368' || k == 'Hi-11358') console.log(k, nodeUI);
 		    nodeUI.data = dataToChange;  //Apply data to the nodeUI
 		    nodeUI.colorIndexes = indexes; //Apply data to the nodeUI
 		    //console.log(nodeUI.colorIndexes);
 		    nodeUI.backupColor = indexes;
-		    changedColor[sameNodeHas[k]] = true;
+		    changedColor[k] = true;
 		}
 
   	}
