@@ -19,7 +19,6 @@ function loadGraphFunctions(){
 		        	maxNodeValue = graph.nodes[i].isolates.length;
 		        }
 		        graphGL.addNode(graph.nodes[i].key, graph.nodes[i]);
-		        console.log(graph.nodes[i].key);
 		        
 		        if(graph.data_type[0] != "newick" && graph.mergedNodes[graph.nodes[i].key].length != 0){
 		        	for(z in graph.mergedNodes[graph.nodes[i].key]){
@@ -36,6 +35,8 @@ function loadGraphFunctions(){
 		    	//console.log(graph.links[j].source, graph.links[j].target);
 		        if (maxLinkValue < graph.links[j].value) maxLinkValue = graph.links[j].value;
 		        var toBoot = graph.data_type == 'newick'? graph.links[j].bootstrap : "";
+
+		        console.log(graph.links[j].source, graph.links[j].target);
 		        
 		        if(already_source[graph.links[j].target] != true){
 		        	graphGL.addLink(graph.links[j].source, graph.links[j].target, { connectionStrength: graph.links[j].value , value: graph.links[j].value, color: "#000", bootstrap: toBoot});
