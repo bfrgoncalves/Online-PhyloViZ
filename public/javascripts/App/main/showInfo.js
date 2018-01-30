@@ -1,18 +1,18 @@
 
 function showInfo(mergedNodes, sameNodeHas, graphics, node, e) {
-	var nodeUI = graphics.getNodeUI(node.id);
+	var nodeUI = graphics.getNodeUI(sameNodeHas[node.id]);
 	rData = nodeUI.rawData;
 	pData = nodeUI.data;
 
 	var toShow = '';
 	var count = 0;
-	toShow = '<b>Key</b>: ' + node.id;
+	toShow = '<b>Key</b>: ' + sameNodeHas[node.id];
 
   keyToShow = '';
 
-  console.log(node.id);
-  if (mergedNodes != undefined && mergedNodes[node.id] != undefined){
-    mergedNodes[node.id].forEach(function(mergedNode){
+  console.log(sameNodeHas[node.id]);
+  if (mergedNodes != undefined){
+    mergedNodes[sameNodeHas[node.id]].forEach(function(mergedNode){
       keyToShow += ' and ' + mergedNode.key
     });
   }
