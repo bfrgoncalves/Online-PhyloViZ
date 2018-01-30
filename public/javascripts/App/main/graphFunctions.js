@@ -38,8 +38,8 @@ function loadGraphFunctions(){
 
 		        console.log(graph.links[j].source, graph.links[j].target);
 
-		        if (graph.links[j].value > 0){
-		        	if(already_source[graph.sameNodeHas[graph.links[j].target]] != true){
+		        if (graph.links[j].value != 0){
+		        	if(already_source[graph.links[j].target] != true){
 			        	graphGL.addLink(graph.links[j].source, graph.links[j].target, { connectionStrength: graph.links[j].value , value: graph.links[j].value, color: "#000", bootstrap: toBoot});
 			        	already_source[graph.links[j].target] = true;
 			        }
@@ -47,6 +47,9 @@ function loadGraphFunctions(){
 			        	graphGL.addLink(graph.links[j].target, graph.links[j].source, { connectionStrength: graph.links[j].value , value: graph.links[j].value, color: "#000", bootstrap: toBoot});
 			        	already_source[graph.links[j].source] = true;
 			        }
+		        }
+		        else {
+		        	console.log(graph.links[j].target, graph.links[j].source, graph.links[j].value);
 		        }
 		        
 		    }
