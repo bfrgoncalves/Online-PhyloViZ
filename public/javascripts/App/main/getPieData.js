@@ -161,8 +161,6 @@ function changeNodeUIData(objectOfType, graphics, propertyIndexes, arrayColors, 
 
 	    var nodeUI = graphics.getNodeUI(k);
 
-	    console.log(k, changedColor[k], nodeUI);
-
 	    if(nodeUI == undefined) continue;
 
 	    if(!$.isEmptyObject(objectOfType[k])){

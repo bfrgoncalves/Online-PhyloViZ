@@ -10,9 +10,8 @@ function showInfo(mergedNodes, sameNodeHas, graphics, node, e) {
 
   keyToShow = '';
 
-  console.log(sameNodeHas[node.id]);
-  if (mergedNodes != undefined){
-    mergedNodes[sameNodeHas[node.id]].forEach(function(mergedNode){
+  if (mergedNodes != undefined && mergedNodes[node.id] != undefined){
+    mergedNodes[node.id].forEach(function(mergedNode){
       keyToShow += ' and ' + mergedNode.key
     });
   }
