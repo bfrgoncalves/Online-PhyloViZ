@@ -10,11 +10,12 @@ function gatherMetadata(graph, propertyToCheck, metadataFilter, callback){
 
 	propertyIndex = graph.metadata.indexOf(propertyToCheck);
 	var hasMultipleFields = false;
+	var sameNodeHas = graph.sameNodeHas;
 
 	graph.nodes.forEach(function(node){
 
 		checkMetadataInNodes(node, function(){
-			graph.mergedNodes[node.key].forEach(function(mergedNode){
+			graph.mergedNodes[sameNodeHas[node.key]].forEach(function(mergedNode){
 				checkMetadataInNodes(mergedNode, function(){});
 			});
 		})
@@ -158,7 +159,7 @@ function changeNodeUIData(objectOfType, graphics, propertyIndexes, arrayColors, 
 	    var dataToChange = [];
 	    var indexes = [];
 
-	    var nodeUI = graphics.getNodeUI(k);
+	    var nodeUI = graphics.getNodeUI(sameNodeHas[k]);
 	    if(nodeUI == undefined) continue;
 
 	    if(!$.isEmptyObject(objectOfType[k])){
@@ -175,7 +176,7 @@ function changeNodeUIData(objectOfType, graphics, propertyIndexes, arrayColors, 
 	    dataToChange = newValues[0];
 	    indexes = newValues[1];
 	    //if(k == 'Hi-12368') console.log(k, dataToChange, indexes);
-	    console.log(sameNodeHas);
+	    console.log(sameNodeHas[k], changedColor[sameNodeHas[k]]);
 	    if(changedColor[sameNodeHas[k]] != true || nodeUI.colorIndexes[0][0] == noDataColor){
 	    	//if(k == 'Hi-12368' || k == 'Hi-11358') console.log(k, nodeUI);
 		    nodeUI.data = dataToChange;  //Apply data to the nodeUI
