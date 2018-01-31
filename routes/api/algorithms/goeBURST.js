@@ -149,7 +149,6 @@ router.get('/status', function(req,res,next){
 				countids += 1;
 				if (parseInt(job_id) == parseInt(req.query.jobid)){
 					kue.Job.get(job_id, function(err, job) {
-						console.log(job_id, job.state())
 						if(job.state() == 'complete'){
 							job.remove();
 						}

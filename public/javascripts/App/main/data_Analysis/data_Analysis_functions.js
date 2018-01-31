@@ -329,7 +329,7 @@ function checkLociDifferences(graphObject){
 
         $('#divdistances').append('<div></div>');
 
-		$('.nav-tabs > li.active').removeClass('active');
+		$('.navbar-nav > li.active').removeClass('active');
 	  	$('.tab-pane.active').removeClass('active');
 	  	$('#distanceTab').addClass('active');
 	  	$('#distanceContent').addClass('active');
