@@ -147,6 +147,7 @@ router.get('/status', function(req,res,next){
 			countids = 0;
 			ids.forEach( function( job_id ) {
 				countids += 1;
+				console.log(parseInt(req.query.jobid), parseInt(job_id))
 				if (parseInt(job_id) == parseInt(req.query.jobid)){
 					kue.Job.get(job_id, function(err, job) {
 						console.log(job_id, job.state())
