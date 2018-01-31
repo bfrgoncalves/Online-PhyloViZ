@@ -587,7 +587,7 @@ select {
   border-radius: 10px;
   border: 1px solid #e7e7e7;
   background-color:white;
-  z-index: 1;
+  z-index: 999;
   display:none;
 }
 
