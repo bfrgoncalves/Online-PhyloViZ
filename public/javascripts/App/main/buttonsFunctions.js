@@ -61,10 +61,10 @@ const loadButtonFunctions = () => {
 
                 dialog_box.dialog({
                     height: $(window).height() * 0.40,
-                    width: $(window).width(),
+                    width: $(window).width() * 0.5,
                     modal: true,
                     resizable: true,
-                    dialogClass: 'no-close success-dialog'
+                    dialogClass: 'no-close success-dialog dialog-zindex'
                 });
 
 
@@ -175,7 +175,7 @@ const loadButtonFunctions = () => {
                         width: $(window).width() * 0.2,
                         modal: true,
                         resizable: true,
-                        dialogClass: 'no-close success-dialog'
+                        dialogClass: 'no-close success-dialog dialog-zindex'
                     });
 
                     graphObject.isLayoutPaused = false;
@@ -568,7 +568,7 @@ const loadButtonFunctions = () => {
                         width: $(window).width() * 0.2,
                         modal: true,
                         resizable: true,
-                        dialogClass: 'no-close success-dialog'
+                        dialogClass: 'no-close success-dialog dialog-zindex'
                     });
                     return false;
                 }
@@ -626,7 +626,7 @@ const loadButtonFunctions = () => {
                     width: $(window).width() * 0.50,
                     modal: true,
                     resizable: true,
-                    dialogClass: 'no-close success-dialog'
+                    dialogClass: 'no-close success-dialog dialog-zindex'
                 });
 
                 $('#sel_analysis_method').change(function(){
@@ -745,7 +745,7 @@ const loadButtonFunctions = () => {
                     width: $(window).width() * 0.40,
                     modal: true,
                     resizable: true,
-                    dialogClass: 'no-close success-dialog'
+                    dialogClass: 'no-close success-dialog dialog-zindex'
                 });
             }
 
@@ -769,7 +769,7 @@ const loadButtonFunctions = () => {
                             width: $(window).width() * 0.40,
                             modal: true,
                             resizable: true,
-                            dialogClass: 'no-close success-dialog'
+                            dialogClass: 'no-close success-dialog dialog-zindex'
                         });
                     }
                     else write_exclusive_file(graphObject);
@@ -811,7 +811,7 @@ const loadButtonFunctions = () => {
                     width: $(window).width() * 0.2,
                     modal: true,
                     resizable: true,
-                    dialogClass: 'no-close success-dialog'
+                    dialogClass: 'no-close success-dialog dialog-zindex'
                 });
 
                 $('#okButtonPDF').click(function(){

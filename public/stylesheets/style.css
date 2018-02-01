@@ -744,5 +744,9 @@ div.tutorialsubsections h5{
     z-index: 99;
 }
 
+.dialog-zindex {
+  z-index: 10000;
+}
+
 
     
