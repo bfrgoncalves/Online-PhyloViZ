@@ -88,6 +88,11 @@ function constructGraph(graph, datasetID){
 
         $("#scaleNode").trigger("change");
 
+        ChangeNodeSizeOption(graphObject, "profiles");
+
+        $("#NodeSizeSlider").val(20);
+        $("#scaleNode").val(20);
+
         if(graphObject.graphInput.goeburstprofilesize != undefined){
           $('#goeburstProfileSize').text(graphObject.graphInput.goeburstprofilesize);
           $('#countgoeBURSTProfileSize').text(graphObject.graphInput.goeburstprofilesize);
