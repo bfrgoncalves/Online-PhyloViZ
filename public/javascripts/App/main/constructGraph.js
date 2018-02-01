@@ -86,12 +86,17 @@ function constructGraph(graph, datasetID){
         $('#isLogScaleOn').text('Off');
         $('#isLogScaleNodesOn').text('Off');
 
-        $("#scaleNode").trigger("change");
+        //$("#scaleNode").trigger("change");
 
-        ChangeNodeSizeOption(graphObject, "profiles");
+        //ChangeNodeSizeOption(graphObject, "profiles");
 
-        $("#NodeSizeSlider").val(20);
+        $('#SizeProperty').val("profiles");
+        $('#SizeProperty').trigger("change");
+
+        $("#NodeSizeSlider").val(1);
         $("#scaleNode").val(20);
+
+        $("#scaleNode").trigger("change");
 
         if(graphObject.graphInput.goeburstprofilesize != undefined){
           $('#goeburstProfileSize').text(graphObject.graphInput.goeburstprofilesize);
