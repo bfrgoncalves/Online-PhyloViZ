@@ -409,7 +409,7 @@ td.highlight {
 }
 
 #updateMetadatDiv{
-  position:fixed;
+  position:absolute;
   top: 7%;
 }
 
