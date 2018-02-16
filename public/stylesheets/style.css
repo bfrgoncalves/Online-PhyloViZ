@@ -245,7 +245,7 @@ a {
 }
 
 #divisolates{
-  margin-top: 4%;
+  margin-top: 5%;
   width: 100%;
   overflow-x: auto;
 }
@@ -409,7 +409,8 @@ td.highlight {
 }
 
 #updateMetadatDiv{
-  position:absolute;
+  position:fixed;
+  top:3%;
 }
 
 #col_visual{
