@@ -1,6 +1,5 @@
 var express = require('express'); 
-var router = express.Router(); 
-var util = require("util");
+var router = express.Router();
 var nodemailer = require('nodemailer');
 var crypto = require('crypto');
 
@@ -42,7 +41,6 @@ router.post('/sendpass', function(req, res, next){
                 }
                 req.flash('usermessage', "An e-mail as been sent to your account with the new password");
                 res.redirect("/users/forgotpass");
-                //res.send(true);
             });
         });
 

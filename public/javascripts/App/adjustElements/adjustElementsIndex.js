@@ -23,8 +23,6 @@ fontsize = function () {
     $("body").css('opacity', 1);
 };
 
-//$(window).resize(fontsize);
-//$(document).ready(fontsize);
 $("body").css('opacity', 1);
 
 $(document).ready(function () {

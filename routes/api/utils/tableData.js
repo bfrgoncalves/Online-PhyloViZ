@@ -1,6 +1,5 @@
 var express = require('express'); 
-var router = express.Router(); 
-var util = require("util");
+var router = express.Router();
 var createTable_data = require('phyloviz_TableData');
 
 var config = require('../../../config.js');
@@ -9,7 +8,6 @@ router.get('/', function(req, res, next){
 	
 	if (req.query.dataset_id){
 
-		var dataToGraph = {};
 		var datasetID = req.query.dataset_id;
 
 		if (!req.isAuthenticated()) var userID = "1";
@@ -46,10 +44,7 @@ function checkIfpublic(datasetID, userID, callback){
 	var pg = require("pg");
 	var connectionString = "postgres://" + config.databaseUserString + "@localhost/"+ config.db;
 
-	//var datasetID;
 	var isPublic = false;
-
-	//query = "SELECT id FROM datasets.datasets WHERE dataset_id = '"+datasetID+"' AND user_id=$1;";
 
 	var client = new pg.Client(connectionString);
 		client.connect(function(err) {
@@ -84,19 +79,11 @@ function getDataset(datasetID, userID, isPublic, parameter, callback) {
 	var pg = require("pg");
   	var connectionString = "postgres://" + config.databaseUserString + "@localhost/"+ config.db;
 
-  	//query = "SELECT id FROM datasets.datasets WHERE name='"+datasetName+"' AND user_id=$1;";
-
   	var client = new pg.Client(connectionString);
     client.connect(function(err) {
       if(err) {
         return console.error('could not connect to postgres', err);
       }
-      //client.query(query, [userID], function(err, result) {
-        //if(err) {
-          //return console.error('error running query', err);
-        //}
-        //client.end();
-        //datasetID = result.rows[0].id;
         if(isPublic == true){
         	query = "SELECT data FROM datasets."+parameter+" WHERE dataset_id='"+datasetID+"' LIMIT 1;";
 	        if (parameter == 'isolates') query += " SELECT metadata AS headers FROM datasets.isolates WHERE dataset_id='"+datasetID+"' LIMIT 1;";
@@ -116,7 +103,6 @@ function getDataset(datasetID, userID, isPublic, parameter, callback) {
 	        client.end();
 	        callback(result.rows);
 	    });
-      //});
     });
 }
 

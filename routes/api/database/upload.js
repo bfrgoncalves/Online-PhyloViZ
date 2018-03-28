@@ -1,6 +1,5 @@
 var express = require('express'); 
-var router = express.Router(); 
-var util = require("util"); 
+var router = express.Router();
 var fs = require("fs"); 
 var csv = require("fast-csv");
 var multer = require('multer');
@@ -26,12 +25,10 @@ router.post('/', multer({
   onFileUploadComplete: function (file) {
     console.log(file.fieldname + ' uploaded to  ' + file.path);
     fileNames[file.fieldname] = file.path;
-    //if(numberOfFiles == 2) done = true;
   }
 }), function(req, res) {
   // Here you can check `Object.keys(req.files).length`
   // or for specific fields like `req.files.imageField`
-  //console.log(req.body.numberOfFiles);
   var dataToDB = {};
   countProgress = 0;
   console.log(req.body.datasetName);
@@ -97,8 +94,6 @@ function readCSVfile(pathToFile, fileType, dataToDB, callback){
 }
 
 function readNewickfile(pathToFile, fileType, dataToDB, callback){
-  
-  var stream = fs.createReadStream(pathToFile);
 
   dataToDB[fileType] = [];
 
@@ -112,7 +107,6 @@ function readNewickfile(pathToFile, fileType, dataToDB, callback){
 
 function uploadToDatabase(data, callback){
 
-  //var datasetModel = require('../../../models/datasets');
   if (data.fileMetadata == undefined) data.fileMetadata = [];
   if (data.fileProfile == undefined) data.fileProfile = [];
   if (data.fileNewick == undefined) data.fileNewick = [];
@@ -129,28 +123,11 @@ function uploadToDatabase(data, callback){
       newick: data.fileNewick
   };
 
-  //var instance = new datasetModel({
-  //  name: data.datasetName,
-    //key: data.key,
-    //schemeGenes: data['fileProfile_headers'],
-    //metadata: data['fileMetadata_headers'],
-    //profiles: data.fileProfile,
-    //isolates: data.fileMetadata,
-    //positions: {},
-    //newick: data.fileNewick
-  //});
-
-  //instance.save(function(e){
-    //console.log('saved');
-    //callback();
-  //});
-  
   massive.connect({
     db: "phyloviz"}, function(err, db){
     db.saveDoc("datasets", instance, function(err,res){ console.log('done'); });
     callback();
   });
 }
-
 
 module.exports = router;

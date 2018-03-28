@@ -1,6 +1,5 @@
 var express = require('express'); 
-var router = express.Router(); 
-var util = require("util");
+var router = express.Router();
 var createPhyloviZInput = require('phyloviz_input');
 
 
@@ -12,13 +11,10 @@ router.get('/', function(req, res, next){
 	
 	if (req.query.dataset_id){
 
-		var dataToGraph = {};
 		var datasetID = req.query.dataset_id;
 
 		if (!req.isAuthenticated()) var userID = "1";
 		else var userID = req.user.id;
-
-		var isNewick = false;
 
 		phyloviz_input_utils.checkIfpublic(datasetID, userID, function(isPublic){
 
@@ -41,7 +37,6 @@ router.get('/nodes', function(req, res, next){
 	
 	if (req.query.dataset_id){
 
-		var dataToGraph = {};
 		var datasetID = req.query.dataset_id;
 
 		if (!req.isAuthenticated()) var userID = "1";
@@ -51,8 +46,6 @@ router.get('/nodes', function(req, res, next){
 			update = true;
 		}
 		else update = false;
-
-		var isNewick = false;
 
 		phyloviz_input_utils.checkIfpublic(datasetID, userID, function(isPublic){
 			phyloviz_input_utils.getFromFilterTable(datasetID, function(graph){
@@ -77,9 +70,7 @@ router.get('/nodes', function(req, res, next){
 					      	createPhyloviZInput(dataset, function(graphInput){
 					      		console.log("GRAPH NODES LENGTH", graphInput.nodes.length);
 					      		graphInput.not_ready = true;
-					      		//phyloviz_input_utils.addToFilterTable(graphInput, userID, datasetID, [], function(){
 					      		phyloviz_input_utils.FlushFunction(graphInput, res);
-								//});
 						      });
 					    }
 				    });
@@ -98,13 +89,11 @@ router.get('/links', function(req, res, next){
 	
 	if (req.query.dataset_id){
 
-		var dataToGraph = {};
 		var datasetID = req.query.dataset_id;
 
 		if (!req.isAuthenticated()) var userID = "1";
 		else var userID = req.user.id;
 
-		var isNewick = false;
 		phyloviz_input_utils.checkIfpublic(datasetID, userID, function(isPublic){
 			phyloviz_input_utils.getLinks(datasetID, userID, isPublic, function(dataset){
 				console.log(dataset.links);
@@ -113,7 +102,6 @@ router.get('/links', function(req, res, next){
 		      		var graph = {};
 		      		graph.links = graphInput.links;
 		      		phyloviz_input_utils.FlushFunction(graph, res);
-			      	//res.send(graphInput);
 			      });
 		    });
 
@@ -128,13 +116,10 @@ router.get('/aux', function(req, res, next){
 	
 	if (req.query.dataset_id){
 
-		var dataToGraph = {};
 		var datasetID = req.query.dataset_id;
 
 		if (!req.isAuthenticated()) var userID = "1";
 		else var userID = req.user.id;
-
-		var isNewick = false;
 
 		phyloviz_input_utils.checkIfpublic(datasetID, userID, function(isPublic){
 			phyloviz_input_utils.getAux(datasetID, userID, isPublic, function(dataset){
@@ -154,13 +139,10 @@ router.get('/positions', function(req, res, next){
 	
 	if (req.query.dataset_id){
 
-		var dataToGraph = {};
 		var datasetID = req.query.dataset_id;
 
 		if (!req.isAuthenticated()) var userID = "1";
 		else var userID = req.user.id;
-
-		var isNewick = false;
 
 		phyloviz_input_utils.checkIfpublic(datasetID, userID, function(isPublic){
 			phyloviz_input_utils.getPositions(datasetID, userID, isPublic, function(dataset){
@@ -180,14 +162,11 @@ router.get('/newick', function(req, res, next){
 	
 	if (req.query.dataset_id){
 
-		var dataToGraph = {};
 		var datasetID = req.query.dataset_id;
 		var dataSet = [{}];
 
 		if (!req.isAuthenticated()) var userID = "1";
 		else var userID = req.user.id;
-
-		var isNewick = false;
 
 		phyloviz_input_utils.checkIfpublic(datasetID, userID, function(isPublic){
 			phyloviz_input_utils.getNewick(datasetID, userID, isPublic, function(dataset){
@@ -201,7 +180,6 @@ router.get('/newick', function(req, res, next){
 					catch(err){
 
 					}
-					//console.log(dataSet[0].isolates);
 					phyloviz_input_utils.getPositions(datasetID, userID, isPublic, function(dataset){
 						dataSet[0].positions = dataset[0].positions;
 						createPhyloviZInput(dataSet, function(graphInput){
@@ -222,13 +200,10 @@ router.get('/metadata', function(req, res, next){
 	
 	if (req.query.dataset_id){
 
-		var dataToGraph = {};
 		var datasetID = req.query.dataset_id;
 
 		if (!req.isAuthenticated()) var userID = "1";
 		else var userID = req.user.id;
-
-		var isNewick = false;
 
 		phyloviz_input_utils.checkIfpublic(datasetID, userID, function(isPublic){
 

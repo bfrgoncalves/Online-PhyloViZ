@@ -1,11 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var parseGoe = require('goeBURSTparser');
-var crypto = require('crypto');
-
-var config = require('../../config.js');
-
-var os = require('os');
 
 /* GET home page. */
 router.get('/dataset/:datasetID', function(req, res, next) {
@@ -65,11 +59,6 @@ router.get('/dataset/public/:datasetID', function(req, res, next) {
 /* GET home page. */
 router.get('/dataset/share/:cipheredDataset', function(req, res, next) {
 
-  //console.log(req.params.cipheredDataset);
-  //var decipher = crypto.createDecipher(config.cipherUser.algorithm, config.cipherUser.pass);
-  //datasetID= decipher.update(req.params.cipheredDataset,'hex','utf8');
-  //parts = deciphered.split('/');
-  //datasetID = parts[0];
   springLength = 1;
 
   if (req.query.springLength != undefined) springLength = req.query.springLength;

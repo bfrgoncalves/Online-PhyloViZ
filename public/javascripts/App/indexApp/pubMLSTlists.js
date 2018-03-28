@@ -45,7 +45,6 @@ function createDatabaseBox(data){
 	for(i in data){
 		databaseList.append('<li ref="' + data[i].databases[0].href + '">' + data[i].description + '</li>');
 	}
-	//databaseList.css({'height': '30%', 'overflow-x': 'auto'});
 	databaseDiv.css({'width': '30%', 'height': '200px', 'overflow-y': 'auto'});
 
 	$('#databaseList li').on("click", function (){
@@ -57,10 +56,10 @@ function createDatabaseBox(data){
 
 
 function getpublicIsolates(isolateRef){
-	console.log(isolateRef);
+
 	urlParts = isolateRef.split('/');
 	urlParts = urlParts.slice(3, urlParts.length);
-	console.log(urlParts);
+
 	$.ajax({
 	      url: '/api/pubmlst/',
 	      data: $.param({forwardLink: JSON.stringify(urlParts)}),

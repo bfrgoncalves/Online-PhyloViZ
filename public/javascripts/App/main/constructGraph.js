@@ -69,8 +69,6 @@ function constructGraph(graph, datasetID){
 
         var buttonFunctions = loadButtonFunctions(); //Functions to be applied to the graphObject object. buttonsFunctions.js
 
-        //buttonFunctions.numberOfNodes(graphObject);
-        //buttonFunctions.datasetName(graphObject);
         buttonFunctions.datasetInfo(graphObject);
         buttonFunctions.pauseButton(graphObject);
         buttonFunctions.resetPinButton(graphObject);
@@ -85,10 +83,6 @@ function constructGraph(graph, datasetID){
 
         $('#isLogScaleOn').text('Off');
         $('#isLogScaleNodesOn').text('Off');
-
-        //$("#scaleNode").trigger("change");
-
-        //ChangeNodeSizeOption(graphObject, "profiles");
 
         $('#SizeProperty').val("profiles");
         $('#SizeProperty').trigger("change");
@@ -130,18 +124,13 @@ function constructGraph(graph, datasetID){
         changeDragCoefficient(graphObject.defaultLayoutParams.dragCoeff, 100, graphObject);
 
         colorAttributes(graphObject); //function which links the colors of the pieCharts to the data
-        //graphObject.layout.simulator.gravity(-1000)
-        //console.log(graphObject);
         linkTableAndGraph('isolates', graphObject); //link between operations from the tables and the graph tab
         linkTableAndGraph('profiles', graphObject);
 
         if (graphObject.graphInput.data_type != 'newick' && graphObject.graphInput.schemeGenes.length == 1 && graphObject.graphInput.schemeGenes[0] == 'undefined'){
-          //$("#TreeOperations").css('display', 'none');
-          //$("#computeDistances").css('display', 'none');
+
         }
         else buttonFunctions.profileLength(graphObject);
-
-        console.log(graphObject);
 
         if (graphObject.graphInput.data_type == 'newick'){
           $("#logScaleDiv").css('display', 'none');
@@ -200,10 +189,7 @@ function constructGraph(graph, datasetID){
 
         $('#navbar li a').on('click', function(d){
 
-          console.log($(d.target).text());
-
           if($(d.target).text() == 'Auxiliary Data'){
-            console.log("AQUI");
             var tableToUse = $('#tableisolates').DataTable();
             tableToUse.columns.adjust().draw();
             tutorialFunctions.auxiliary();

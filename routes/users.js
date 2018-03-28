@@ -3,11 +3,8 @@ var crypto = require('crypto');
 var router = express.Router();
 var passport = require('passport');
 var passportLocal = require('passport-local');
-//var passportHttp = require('passport-http');
 
 var config = require('../config.js');
-
-var app = express();
 
 var pg = require("pg");
 var connectionString = "postgres://" + config.databaseUserString + "@localhost/" + config.db;

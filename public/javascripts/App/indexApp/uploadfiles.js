@@ -53,19 +53,13 @@ function uploadFiles(){
 
   status('Uploading files...');
 
-  var img = document.getElementById('GIFimage');
   $("#GIFimage").attr("src", 'images/waitingGIF.gif').attr('width' , '50px').attr('height' , '50px');
   $("#waitingGif").css({'display': 'block'});
 
-
-  //event.preventDefault();
-
-  var form = document.getElementById('inputForm');
   var fileSelectProfile = document.getElementById('uploadProfile');
   var fileSelectMetadata = document.getElementById('uploadMetadata');
   var fileSelectNewick = document.getElementById('uploadNewick');
   var fileSelectFasta = document.getElementById('uploadFasta');
-  var datasetName = document.getElementById('datasetName');
   var makePublic = document.getElementById('makepublic').checked;
 
   countNumberOfFiles = 0;
@@ -120,17 +114,6 @@ function uploadFiles(){
 
 function getLinks(data){
 
-  /*
-  client_goeburst(datasetID, function(data){
-    if(data.dupProfiles.length > 0 || data.dupIDs.length >0){
-        popDialog(data);
-      }
-      else{
-        status('Done!');
-        window.location.replace("/main/dataset/" + data.datasetID);
-      }
-  });
-*/
   var missings = false;
   var missingChar = '';
   try{
@@ -145,7 +128,6 @@ function getLinks(data){
 
   if(data.numberOfProfiles > 300 || data.profileLength > 40) onqueue = true;
 
-  var analysis_method = 'core';
   var missing_threshold = '0';
 
   analysis_method = $('#sel_analysis_method').val();

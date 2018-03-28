@@ -1,9 +1,7 @@
  
 
 var express = require('express'); 
-var router = express.Router(); 
-var util = require("util"); 
-var fs = require("fs");
+var router = express.Router();
 
 var config = require('../../../config.js');
 
@@ -13,17 +11,6 @@ var connectionString = "pg://" + config.databaseUserString + "@localhost/"+ conf
 
 
 router.get('/init', function(req, res, next){ //to change
-
-	var instance = {
-		name: 'init',
-	    key: '',
-	    schemeGenes: [],
-	    metadata: [],
-	    profiles: [],
-	    isolates: [],
-	    positions: {},
-	    newick: []
-	};
 
 	function initDataset(callback){
 
@@ -89,8 +76,6 @@ router.post('/insert/:table', function(req, res, next){
 });
 
 router.get('/find/:table/:field/', function(req, res, next){
-	//console.log('cookies', req.cookies);
-	//console.log('auth', req.isAuthenticated());
 
 	function getusernames(userIDs, callback){
 		
@@ -122,24 +107,26 @@ router.get('/find/:table/:field/', function(req, res, next){
 			if (reqQuery.length != 0){
 
 				query = "SELECT * FROM datasets."+params.table+" WHERE put_public ='true' AND user_id !='"+userID+"'";
+
 				for (i in reqQuery){
 					if(i != 'user_id'){
 						query += " AND ";
 						query += i + " = '" + reqQuery[i] + "'";
 					}
 				}
+
 				query += ';';
 
-				//if (userID != '1'){
-					query += "SELECT * FROM datasets."+params.table+" WHERE user_id='"+userID+"'";
-					for (i in reqQuery){
-						if(i != 'user_id'){
-							query += " AND ";
-							query += i + " = '" + reqQuery[i] + "'";
-						}
+				query += "SELECT * FROM datasets."+params.table+" WHERE user_id='"+userID+"'";
+
+				for (i in reqQuery){
+					if(i != 'user_id'){
+						query += " AND ";
+						query += i + " = '" + reqQuery[i] + "'";
 					}
-					query += ";";
-				//}
+				}
+
+				query += ";";
 
 			} 
 			else{
@@ -159,7 +146,6 @@ router.get('/find/:table/:field/', function(req, res, next){
 					}
 
 				}
-				//query = query.substring(0, query.length - 5);
 				query += ";";
 			}
 
@@ -218,7 +204,7 @@ router.get('/find/:table/:field/', function(req, res, next){
 
 				toSend.userdatasets.push(topass);
 			}
-			//else toSend.userdatasets.push(topass);
+
 			if (doc[i].put_public == true){
 				publicUserIDs.push(doc[i].user_id);
 				toSend.publicdatasets.push(topass);
@@ -238,20 +224,11 @@ router.put('/update/:table/:field/', function(req, res, next){
 
 	function updateJSON(userID, params, reqBody, callback){
 
-		//query = "SELECT dataset_id FROM datasets.datasets WHERE name = $1 AND user_id=$2;";
-
 		var client = new pg.Client(connectionString);
 		client.connect(function(err) {
 		  if(err) {
 		    return console.error('could not connect to postgres', err);
 		  }
-		  //client.query(query, [reqBody.name, userID], function(err, result) {
-		    //if(err) {
-		      //return console.error('error running query', err);
-		    //}
-		    //datasetID = result.rows[0].id;
-
-		    //console.log(reqBody.change, userID, reqBody.dataset_id);
 
 		    if (params.table == 'all'){
 		    	query = "UPDATE datasets.datasets SET "+params.field+" = '"+reqBody.change+"' WHERE user_id = '"+userID+"' AND dataset_id = '"+reqBody.dataset_id+"';" +
@@ -271,7 +248,6 @@ router.put('/update/:table/:field/', function(req, res, next){
 			    callback();
 
 			});
-		  //});
 		});
 
 	}

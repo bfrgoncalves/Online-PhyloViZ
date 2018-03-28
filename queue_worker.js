@@ -137,7 +137,7 @@ queue.process( 'goeBURST', (job, jobDone) => {
 
 const loadProfiles = (datasetID, cb) => {
 
-    console.log("load profiles")
+    console.log("load profiles");
 
     let identifiers = {};
     let countProfiles = 0;

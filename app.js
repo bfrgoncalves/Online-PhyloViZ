@@ -1,19 +1,14 @@
 'use strict'
 
-const fs = require('fs');
 const http = require('http');
-const cluster = require('cluster');
-const os = require('os');
-const compression = require('compression')
+const compression = require('compression');
 const express = require('express');
 const path = require('path');
-const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const expressSession = require('express-session');
 const RedisStore = require('connect-redis')(expressSession);
-const restful = require('node-restful')
 const passport = require('passport');
 const config = require('./config');
 const flash = require('connect-flash');

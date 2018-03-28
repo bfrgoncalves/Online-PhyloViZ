@@ -4,7 +4,6 @@ function checkDatasets(callback){
 
 	$.ajax({
       url: '/api/db/postgres/find/datasets/all',
-      //data: $.param({name: 'name'}),
       processData: false,
       contentType: false,
       type: 'GET',
@@ -233,8 +232,6 @@ function createTable(data, divID, usertype, callback){
         "data": tableData,
         "columns": columns,
         "bSort" : false,
-        //"scrollY":        "200px",
-        //"scrollCollapse": true,
         "paging":         true,
         "pageLength": 5,
         columnDefs: [
@@ -244,7 +241,6 @@ function createTable(data, divID, usertype, callback){
     } );
 
     $('#' + tableToCheck+' tbody').on( 'click', 'tr', function () {
-    	//console.log($(this).find('td').hasClass('dataTables_empty'));
       var table = $('#' + tableToCheck).DataTable();
 
     	if (!$(this).find('td').hasClass('dataTables_empty') ){
@@ -266,12 +262,10 @@ function createTable(data, divID, usertype, callback){
               if(publicvalue==true) $('#buttonPutPublicDataset' + usertype).html('Set as Private');
               else $('#buttonPutPublicDataset' + usertype).html('Set as Public');
 
-	            $('#buttonDeleteDataset' + usertype).css('float', 'right');
-	            $('#buttonDeleteDataset' + usertype).css('display', 'block');
+              $('#buttonDeleteDataset' + usertype).css('float', 'right');
+              $('#buttonDeleteDataset' + usertype).css('display', 'block');
               $('#buttonPutPublicDataset' + usertype).css({'float': 'right'});
               $('#buttonPutPublicDataset' + usertype).css({'display': 'block'});
-              //$('#buttonChangeDescription').css('display', 'block');
-              //$('#buttonChangeDatasetName').css('display', 'block');
 
 	        }
     	}

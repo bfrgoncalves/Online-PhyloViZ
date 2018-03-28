@@ -242,7 +242,6 @@ function createDatasetButtons(onButtons){
         $('#homeDiv').css({"display": "none"});
         $('#APIDiv').css({"display": "none"});
         $('#AboutDiv').css({"display": "none"});
-        //tutorialFunctions.about();
 		onButtons.update = true;
 	});
 

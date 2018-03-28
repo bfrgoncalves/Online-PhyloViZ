@@ -1,5 +1,0 @@
-ST	gki	gtr	murI	mutS	recP	xpt	yqiZ
-A	10	6	6	6	12	13	8
-B	5	4	4	1	2	15	2
-C	5	3	4	1	6	2	1
-D	2	2	4	1	8	7	2

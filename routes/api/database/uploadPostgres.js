@@ -1,6 +1,5 @@
 var express = require('express'); 
-var router = express.Router(); 
-var util = require("util"); 
+var router = express.Router();
 var fs = require("fs"); 
 var csv = require("fast-csv");
 var multer = require('multer');
@@ -8,7 +7,6 @@ var crypto = require('crypto');
 
 var done = true;
 
-//var fileNames = {};
 var countProgress = 0;
 
 var config = require('../../../config.js');
@@ -27,21 +25,14 @@ router.post('/', multer({
   },
   onFileUploadComplete: function (file) {
     console.log(file.fieldname + ' uploaded to  ' + file.path);
-    //fileNames[file.fieldname] = file.path;
-    //if(numberOfFiles == 2) done = true;
   }
 }), function(req, res) {
-  // Here you can check `Object.keys(req.files).length`
-  // or for specific fields like `req.files.imageField`
-  //console.log(req.body.numberOfFiles);
-  //console.log('cookies', req.cookies);
-  //console.log('auth', req.isAuthenticated());
 
   var dataToDB = {};
   countProgress = 0;
   var alreadyError = false;
   var errorAuth = false;
-  //console.log(req.user);
+
   dataToDB.datasetName = req.body.datasetName;
   dataToDB.makePublic = req.body.makePublic;
 
@@ -64,7 +55,6 @@ router.post('/', multer({
           if(dataToDB['hasError'] != true || dataToDB['hasError'] == true && i == 'fileFasta') fs.unlink(pathToFile);
           countProgress += 1;
           if (countProgress == req.body.numberOfFiles && dataToDB['hasError'] != true && alreadyError != true){
-              //console.log(req.user);
               dataToDB.dataset_description = req.body.dataset_description;
               
               uploadToDatabase(dataToDB, function(){
@@ -110,25 +100,15 @@ router.post('/metadata', multer({
   },
   onFileUploadComplete: function (file) {
     console.log(file.fieldname + ' uploaded to  ' + file.path);
-    //fileNames[file.fieldname] = file.path;
-    //if(numberOfFiles == 2) done = true;
   }
 }), function(req, res) {
   // Here you can check `Object.keys(req.files).length`
   // or for specific fields like `req.files.imageField`
-  //console.log(req.body.numberOfFiles);
   var dataToDB = {};
   countProgress = 0;
-  //console.log(req.user);
   dataToDB.datasetID = req.body.datasetID;
   var alreadyError = false;
-  //dataToDB.makePublic = req.body.makePublic;
 
-
-  //if (dataToDB.makePublic == true) dataToDB.is_public = true;
-  //else dataToDB.is_public = false;
-
-  
   if (!req.isAuthenticated()) dataToDB.userID = "1";
   else dataToDB.userID = req.user.id;
 
@@ -139,9 +119,7 @@ router.post('/metadata', multer({
           if(dataToDB['hasError'] != true || dataToDB['hasError'] == true && i == 'fileFasta') fs.unlink(pathToFile);
           countProgress += 1;
           if (countProgress == req.body.numberOfFiles && dataToDB['hasError'] != true){
-              //console.log(req.user);
-              //dataToDB.dataset_description = req.body.dataset_description;
-              
+
               uploadMetadataToDatabase(dataToDB, function(){
                 return res.send(dataToDB);
               });
@@ -234,8 +212,6 @@ function readCSVfile(pathToFile, fileType, dataToDB, callback){
 }
 
 function readNewickfile(pathToFile, fileType, dataToDB, callback){
-  
-  //var stream = fs.createReadStream(pathToFile);
 
   dataToDB[fileType] = [];
 
@@ -250,8 +226,6 @@ function readNewickfile(pathToFile, fileType, dataToDB, callback){
 }
 
 function readFastafile(pathToFile, fileType, dataToDB, callback){
-  
-  var stream = fs.createReadStream(pathToFile);
 
   dataToDB[fileType] = [];
   var fastaIDs = []
@@ -286,8 +260,6 @@ function readFastafile(pathToFile, fileType, dataToDB, callback){
 
       var numberToChar = {};
 
-      var fastaProfiles = new Array(fastaSequences.length);
-
       var fastaProfiles = fastaSequences.map(function(x){
         var newObject = {};
         newObject[dataToDB.key] = '';
@@ -301,7 +273,6 @@ function readFastafile(pathToFile, fileType, dataToDB, callback){
 
       for(var i= 0; i < fastaSequences[0].length; i++){
         numberToChar = {};
-        var currentPosition = [];
         countLetter = 0;
         headers['L' + String(i)] = '';
 
@@ -345,27 +316,13 @@ function uploadToDatabase(data, callback){
 
 
   function uploadDataset(data, callback){
-    //console.log(data);
-    /*
-    if ((data.fileProfile.length*(data.fileProfile.length-1)/2)*data.fileProfile_headers.length > config.maxComparisons){
-      data.hasError = true;
-      data.errorMessage = 'Maximum number of comparisons exceeded.<br><br> (NumberOfProfiles x (NumberOfProfiles - 1) / 2) x ProfileSize > '+String(config.maxComparisons)+' <br><br> For more computationaly demanding operations, please try our <a href="//phyloviz.net/">desktop version</a>.'; //+ err.toString();
-      return callback(data);
-    }
-    else if (data.fileProfile.length > config.maxNumberOfNodes){
-      data.hasError = true;
-      data.errorMessage = 'Number of profiles exceeded. <br> Due to visualization restrictions, please reduce the number of profiles or try our <a href="//phyloviz.net/">desktop version</a>.'; //+ err.toString();
-      return callback(data);
-    }
-    */
+
     var userID = data.userID;
-    //console.log(userID);
     data.numberOfProfiles = data.fileProfile.length;
     var profiles = { profiles : data.fileProfile};
     var isolates = { isolates : data.fileMetadata};
     var positions = {};
     var links = { links : []};
-    //console.log(data.fileNewick);
     var newick = { newick : data.fileNewick[0]};
 
     var cipher = crypto.createCipher(config.cipherUser.algorithm, config.cipherUser.pass);
@@ -378,7 +335,7 @@ function uploadToDatabase(data, callback){
     if (data.data_type != 'newick') data['fileProfile_headers'] = data['fileProfile_headers'].toString().replace(/'/g, '&39').split(',');
     data['fileMetadata_headers'] = data['fileMetadata_headers'].toString().replace(/'/g, '&39').split(',');
 
-    query = "INSERT INTO datasets.datasets (name, key, user_id, dataset_id, data_type, description, put_public, is_public, data_timestamp) VALUES ('"+data.datasetName+"', '"+data.key.replace(/'/g, '&39')+"', '"+userID+"', '"+data.datasetID+"', '"+data.data_type+"', '" + data.dataset_description +"', '"+ data.makePublic +"', '"+ data.is_public + "', NOW());" +
+    let query = "INSERT INTO datasets.datasets (name, key, user_id, dataset_id, data_type, description, put_public, is_public, data_timestamp) VALUES ('"+data.datasetName+"', '"+data.key.replace(/'/g, '&39')+"', '"+userID+"', '"+data.datasetID+"', '"+data.data_type+"', '" + data.dataset_description +"', '"+ data.makePublic +"', '"+ data.is_public + "', NOW());" +
             //"INSERT INTO datasets.profiles (user_id, data, schemeGenes, dataset_id, put_public, is_public, data_timestamp) VALUES ('"+userID+"', '"+JSON.stringify(profiles).replace(/'/g, '&39')+"', '{"+data['fileProfile_headers']+"}', '"+data.datasetID+"', '"+ data.makePublic +"', '"+ data.is_public + "', NOW());" +
             //"INSERT INTO datasets.isolates (user_id, data, metadata, dataset_id, put_public, is_public, data_timestamp) VALUES ('"+userID+"', '"+JSON.stringify(isolates).replace(/'/g, '&39')+"', '{"+data['fileMetadata_headers']+"}', '"+data.datasetID+"', '"+ data.makePublic +"', '"+ data.is_public + "', NOW());" +
             "INSERT INTO datasets.positions (user_id, data, dataset_id, put_public, is_public, data_timestamp) VALUES ('"+userID+"', '"+JSON.stringify(positions)+"', '"+data.datasetID+"', '"+ data.makePublic +"', '"+ data.is_public + "', NOW());" +
@@ -459,17 +416,17 @@ function uploadMetadataToDatabase(data, callback){
 
 
   function uploadDataset(data, callback){
-    userID = data.userID;
-    isolates = { isolates : data.fileMetadata};
+    let userID = data.userID;
+    let isolates = { isolates : data.fileMetadata};
 
-    query = "UPDATE datasets.isolates SET data = '"+JSON.stringify(isolates)+"' WHERE user_id = '"+userID+"' AND dataset_id = '"+data.datasetID+"';" + 
+    let query = "UPDATE datasets.isolates SET data = '"+JSON.stringify(isolates)+"' WHERE user_id = '"+userID+"' AND dataset_id = '"+data.datasetID+"';" +
             "UPDATE datasets.isolates SET metadata = '{"+data['fileMetadata_headers']+"}' WHERE user_id = '"+userID+"' AND dataset_id = '"+data.datasetID+"';";
 
     var client = new pg.Client(connectionString);
     client.connect(function(err) {
       if(err) {
         data.hasError = true;
-        data.errorMessage = 'Could not connect to database.'; //+ err.toString();
+        data.errorMessage = 'Could not connect to database.';
         return callback(data);
       }
       client.query(query, function(err, result) {
