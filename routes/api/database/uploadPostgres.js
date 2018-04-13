@@ -52,6 +52,9 @@ router.post('/', multer({
     dataToDB['is_' + i] = true;
     readInputFiles(req.files[i].path, i, dataToDB, function(pathToFile, dataToDB){
 
+            console.log(dataToDB.errorMessage, dataToDB.hasError);
+
+
           if(dataToDB['hasError'] != true || dataToDB['hasError'] == true && i == 'fileFasta') fs.unlink(pathToFile);
           countProgress += 1;
           if (countProgress == req.body.numberOfFiles && dataToDB['hasError'] != true && alreadyError != true){
@@ -75,6 +78,9 @@ router.post('/', multer({
             }
             else if(errorAuth == true){
               dataToDB.errorMessage = "Login first to put a data set public.";
+            }
+            else if(dataToDB['errorMessage'] != undefined) {
+                dataToDB.errorMessage = dataToDB['errorMessage'];
             }
             else {
               dataToDB.errorMessage = "Possible unsupported file type. For information on supported file types click <a href='/index/inputinfo'>here</a>.";
@@ -202,7 +208,7 @@ function readCSVfile(pathToFile, fileType, dataToDB, callback){
         return callback(dataToDB);
       })
       .on("error",function(err){
-          console.log(err);
+        console.log(err);
         dataToDB['hasError'] = true;
         dataToDB['errorMessage'] = err.toString();
         if(callbackLaunched != true){
