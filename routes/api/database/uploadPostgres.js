@@ -202,6 +202,7 @@ function readCSVfile(pathToFile, fileType, dataToDB, callback){
         return callback(dataToDB);
       })
       .on("error",function(err){
+          console.log(err);
         dataToDB['hasError'] = true;
         dataToDB['errorMessage'] = err.toString();
         if(callbackLaunched != true){
