@@ -1,20 +1,20 @@
 'use strict'
 
-const http = require('http');
-const compression = require('compression');
-const express = require('express');
-const path = require('path');
-const logger = require('morgan');
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
-const expressSession = require('express-session');
-const RedisStore = require('connect-redis')(expressSession);
-const passport = require('passport');
-const config = require('./config');
-const flash = require('connect-flash');
-const CronJob = require('cron').CronJob;
-const cronFunctions = require('./cronJobs/cronFunctions');
-const users = require('./routes/users');
+var http = require('http');
+var compression = require('compression');
+var express = require('express');
+var path = require('path');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var expressSession = require('express-session');
+var RedisStore = require('connect-redis')(expressSession);
+var passport = require('passport');
+var config = require('./config');
+var flash = require('connect-flash');
+var CronJob = require('cron').CronJob;
+var cronFunctions = require('./cronJobs/cronFunctions');
+var users = require('./routes/users');
 
 /*
 *
@@ -35,15 +35,15 @@ var firstPage = require('./routes/app/firstPage');
 var index = require('./routes/app/index');
 var main = require('./routes/app/main');
 
-const app = express();
+var app = express();
 
 //Setup of the View engine - Using jade middleware
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 //Connect to redis
-const redis = require('redis');
-const client = redis.createClient();
+var redis = require('redis');
+var client = redis.createClient();
 
 client.on('connect', function() {
     console.log('connected');
@@ -121,7 +121,7 @@ app.use(function(err, req, res, next) {
 
 
 //Launch server
-const server = http.createServer(app).listen(3000); //http listen and express app will use all the middlewere
+var server = http.createServer(app).listen(3000); //http listen and express app will use all the middlewere
 server.timeout = 100000000000000;
 
 
@@ -130,11 +130,11 @@ server.timeout = 100000000000000;
 * Cron Jobs
 *
 * */
-const cronJobs = cronFunctions();
+var cronJobs = cronFunctions();
 
-const job = new CronJob('00 00 00 * * 1-7', function() {
-  const connectionString = "pg://" + config.databaseUserString + "@localhost/"+ config.db;
-  const timeInterval = '24 hours';
+var job = new CronJob('00 00 00 * * 1-7', function() {
+        var connectionString = "pg://" + config.databaseUserString + "@localhost/"+ config.db;
+        var timeInterval = '24 hours';
   cronJobs.deletePublic(connectionString, timeInterval);
   }, function () {
     /* This function is executed when the job stops */
