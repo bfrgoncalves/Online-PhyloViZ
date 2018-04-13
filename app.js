@@ -22,18 +22,18 @@ const users = require('./routes/users');
 *
 */
 
-const upload = require('./routes/api/database/uploadPostgres');
-const goeBURST = require('./routes/api/algorithms/goeBURST');
-const apiHome = require('./routes/api/index');
-const phylovizInput = require('./routes/api/utils/phyloviz_input');
-const mailer = require('./routes/api/utils/mailer');
-const phyloviztableData = require('./routes/api/utils/tableData');
-const phylovizsubset = require('./routes/api/utils/subset');
-const publicLink = require('./routes/api/utils/publicLink');
-const postgres = require('./routes/api/database/postgres');
-const firstPage = require('./routes/app/firstPage');
-const index = require('./routes/app/index');
-const main = require('./routes/app/main');
+var upload = require('./routes/api/database/uploadPostgres');
+var goeBURST = require('./routes/api/algorithms/goeBURST');
+var apiHome = require('./routes/api/index');
+var phylovizInput = require('./routes/api/utils/phyloviz_input');
+var mailer = require('./routes/api/utils/mailer');
+var phyloviztableData = require('./routes/api/utils/tableData');
+var phylovizsubset = require('./routes/api/utils/subset');
+var publicLink = require('./routes/api/utils/publicLink');
+var postgres = require('./routes/api/database/postgres');
+var firstPage = require('./routes/app/firstPage');
+var index = require('./routes/app/index');
+var main = require('./routes/app/main');
 
 const app = express();
 
