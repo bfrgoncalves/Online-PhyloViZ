@@ -1,19 +1,20 @@
+'use strict'
 
-var http = require('http');
-var compression = require('compression');
-var express = require('express');
-var path = require('path');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var expressSession = require('express-session');
-var RedisStore = require('connect-redis')(expressSession);
-var passport = require('passport');
-var config = require('./config');
-var flash = require('connect-flash');
-var CronJob = require('cron').CronJob;
-var cronFunctions = require('./cronJobs/cronFunctions');
-var users = require('./routes/users');
+const http = require('http');
+const compression = require('compression');
+const express = require('express');
+const path = require('path');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const expressSession = require('express-session');
+const RedisStore = require('connect-redis')(expressSession);
+const passport = require('passport');
+const config = require('./config');
+const flash = require('connect-flash');
+const CronJob = require('cron').CronJob;
+const cronFunctions = require('./cronJobs/cronFunctions');
+const users = require('./routes/users');
 
 /*
 *
@@ -21,28 +22,28 @@ var users = require('./routes/users');
 *
 */
 
-var upload = require('./routes/api/database/uploadPostgres');
-var goeBURST = require('./routes/api/algorithms/goeBURST');
-var apiHome = require('./routes/api/index');
-var phylovizInput = require('./routes/api/utils/phyloviz_input');
-var mailer = require('./routes/api/utils/mailer');
-var phyloviztableData = require('./routes/api/utils/tableData');
-var phylovizsubset = require('./routes/api/utils/subset');
-var publicLink = require('./routes/api/utils/publicLink');
-var postgres = require('./routes/api/database/postgres');
-var firstPage = require('./routes/app/firstPage');
-var index = require('./routes/app/index');
-var main = require('./routes/app/main');
+const upload = require('./routes/api/database/uploadPostgres');
+const goeBURST = require('./routes/api/algorithms/goeBURST');
+const apiHome = require('./routes/api/index');
+const phylovizInput = require('./routes/api/utils/phyloviz_input');
+const mailer = require('./routes/api/utils/mailer');
+const phyloviztableData = require('./routes/api/utils/tableData');
+const phylovizsubset = require('./routes/api/utils/subset');
+const publicLink = require('./routes/api/utils/publicLink');
+const postgres = require('./routes/api/database/postgres');
+const firstPage = require('./routes/app/firstPage');
+const index = require('./routes/app/index');
+const main = require('./routes/app/main');
 
-var app = express();
+const app = express();
 
 //Setup of the View engine - Using jade middleware
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 //Connect to redis
-var redis = require('redis');
-var client = redis.createClient();
+const redis = require('redis');
+const client = redis.createClient();
 
 client.on('connect', function() {
     console.log('connected');
@@ -120,7 +121,7 @@ app.use(function(err, req, res, next) {
 
 
 //Launch server
-var server = http.createServer(app).listen(3000); //http listen and express app will use all the middlewere
+const server = http.createServer(app).listen(3000); //http listen and express app will use all the middlewere
 server.timeout = 100000000000000;
 
 
@@ -129,11 +130,11 @@ server.timeout = 100000000000000;
 * Cron Jobs
 *
 * */
-var cronJobs = cronFunctions();
+const cronJobs = cronFunctions();
 
-var job = new CronJob('00 00 00 * * 1-7', function() {
-        var connectionString = "pg://" + config.databaseUserString + "@localhost/"+ config.db;
-        var timeInterval = '24 hours';
+const job = new CronJob('00 00 00 * * 1-7', function() {
+  const connectionString = "pg://" + config.databaseUserString + "@localhost/"+ config.db;
+  const timeInterval = '24 hours';
   cronJobs.deletePublic(connectionString, timeInterval);
   }, function () {
     /* This function is executed when the job stops */
