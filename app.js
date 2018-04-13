@@ -1,4 +1,3 @@
-'use strict'
 
 var http = require('http');
 var compression = require('compression');
