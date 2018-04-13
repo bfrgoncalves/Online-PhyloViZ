@@ -56,12 +56,14 @@ router.post('/', multer({
           countProgress += 1;
           if (countProgress == req.body.numberOfFiles && dataToDB['hasError'] != true && alreadyError != true){
               dataToDB.dataset_description = req.body.dataset_description;
-              
+              console.log("Uploading");
               uploadToDatabase(dataToDB, function(){
                 if(dataToDB.data_type != 'newick') pLength = dataToDB.fileProfile_headers.length;
                 else pLength = 1;
                 var to_send = {datasetID: dataToDB.datasetID, hasError: dataToDB.hasError, errorMessage: dataToDB.errorMessage, numberOfProfiles: dataToDB.numberOfProfiles, profileLength: pLength};
                 dataToDB = {};
+
+                console.log("Uploaded");
                 res.send(to_send);
               });
               
