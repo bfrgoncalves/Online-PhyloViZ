@@ -52,7 +52,7 @@ router.post('/', multer({
     dataToDB['is_' + i] = true;
     readInputFiles(req.files[i].path, i, dataToDB, function(pathToFile, dataToDB){
 
-            console.log(dataToDB.errorMessage, dataToDB.hasError);
+          console.log(dataToDB.errorMessage, dataToDB.hasError);
 
 
           if(dataToDB['hasError'] != true || dataToDB['hasError'] == true && i == 'fileFasta') fs.unlink(pathToFile);
@@ -86,7 +86,8 @@ router.post('/', multer({
               dataToDB.errorMessage = "Possible unsupported file type. For information on supported file types click <a href='/index/inputinfo'>here</a>.";
             }
             alreadyError = true;
-            var to_send = {datasetID: dataToDB.datasetID, hasError: dataToDB.hasError, errorMessage: dataToDB.errorMessage, numberOfProfiles: dataToDB.numberOfProfiles, profileLength: pLength == undefined ? 0: pLength};
+            pLength = 1;
+            var to_send = {datasetID: dataToDB.datasetID, hasError: dataToDB.hasError, errorMessage: dataToDB.errorMessage, numberOfProfiles: dataToDB.numberOfProfiles, profileLength: pLength};
             dataToDB = {};
             res.send(to_send);
           }
