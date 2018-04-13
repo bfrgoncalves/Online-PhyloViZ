@@ -86,7 +86,7 @@ router.post('/', multer({
               dataToDB.errorMessage = "Possible unsupported file type. For information on supported file types click <a href='/index/inputinfo'>here</a>.";
             }
             alreadyError = true;
-            var to_send = {datasetID: dataToDB.datasetID, hasError: dataToDB.hasError, errorMessage: dataToDB.errorMessage, numberOfProfiles: dataToDB.numberOfProfiles, profileLength: pLength};
+            var to_send = {datasetID: dataToDB.datasetID, hasError: dataToDB.hasError, errorMessage: dataToDB.errorMessage, numberOfProfiles: dataToDB.numberOfProfiles, profileLength: pLength == undefined ? 0: pLength};
             dataToDB = {};
             res.send(to_send);
           }
