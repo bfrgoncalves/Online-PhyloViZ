@@ -418,10 +418,10 @@ function uploadMetadataToDatabase(data, callback){
 
 
   function uploadDataset(data, callback){
-    let userID = data.userID;
-    let isolates = { isolates : data.fileMetadata};
+    var userID = data.userID;
+    var isolates = { isolates : data.fileMetadata};
 
-    let query = "UPDATE datasets.isolates SET data = '"+JSON.stringify(isolates)+"' WHERE user_id = '"+userID+"' AND dataset_id = '"+data.datasetID+"';" +
+    var query = "UPDATE datasets.isolates SET data = '"+JSON.stringify(isolates)+"' WHERE user_id = '"+userID+"' AND dataset_id = '"+data.datasetID+"';" +
             "UPDATE datasets.isolates SET metadata = '{"+data['fileMetadata_headers']+"}' WHERE user_id = '"+userID+"' AND dataset_id = '"+data.datasetID+"';";
 
     var client = new pg.Client(connectionString);
