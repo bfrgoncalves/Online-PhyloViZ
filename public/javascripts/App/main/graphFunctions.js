@@ -529,7 +529,7 @@ function loadGraphFunctions(){
 
 	        var shiftDown = false, altDown = false, remakeSelection = false, multipleselection = false, sdown = false, is_clicking = false, dragging = false;
 
-	        events.mouseEnter(function (node, e) {
+	        events.mouseLeave(function (node, e) {
 
                 $('#popup_description').css({'display': 'none'});
             });
@@ -610,6 +610,7 @@ function loadGraphFunctions(){
 
 	        // Unpin node when it reaches other elements besides canvas
 	        $('canvas').mouseleave(function(){
+	            console.log(lastSelectedNode);
                 layout.pinNode(lastSelectedNode, false);
             });
 
