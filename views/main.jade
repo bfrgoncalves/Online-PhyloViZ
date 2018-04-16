@@ -1,407 +1,407 @@
 extends layout
 
 block moreStyle
-	link(rel="stylesheet" href="/stylesheets/colorpicker.css" type="text/css")
-	link(rel='stylesheet', href='/stylesheets/offcanvas.css')
-	//link(rel="stylesheet" media="screen" type="text/css" href="/stylesheets/layout.css")
+    link(rel="stylesheet" href="/stylesheets/colorpicker.css" type="text/css")
+    link(rel='stylesheet', href='/stylesheets/offcanvas.css')
+    //link(rel="stylesheet" media="screen" type="text/css" href="/stylesheets/layout.css")
 
 
 block title
 
 block navbar
-	include fixed_navbar_main
+    include fixed_navbar_main
 
 block normalBody
 
-	div(id="processingElement")
-	div(id="firefoxversionInfo")
+    div(id="processingElement")
+    div(id="firefoxversionInfo")
 
-	div(id="dialog")
-	div(id="colorpickerdiv", style="top:50%; left:50%;")
+    div(id="dialog")
+    div(id="colorpickerdiv", style="top:50%; left:50%;")
 
-	//div.phylovizNavbar
+    //div.phylovizNavbar
 
-	//div(id="divbuttonHelp")
-		a.btn.btn-warning(id="buttonHelp")
-			i.fa.fa-question
-	div(id="col_tutorial_main", style="display: none")
+    //div(id="divbuttonHelp")
+        a.btn.btn-warning(id="buttonHelp")
+            i.fa.fa-question
+    div(id="col_tutorial_main", style="display: none")
 
-	div.tab_Region
+    div.tab_Region
 
-		div.tab-content
-			
-			div.tab-pane.active(id="treeContent")
+        div.tab-content
 
-				div(id="buttonStuff")
-					div(class="button-group")
-						button(id='pauseLayout', class="btn btn-sm btn-default", title="Pause")
-							i.fa.fa-pause(id='iconPauseLayout') 
-							//i(id='pauseLayout') Pause Layout
-						button(id='resetPositionButton', class="btn btn-sm btn-default", title="Reset Positions")
-							i.glyphicon.glyphicon-refresh(id='iconResetLayout') 
-							//i(id='resetPositionButton') Reset Positions
-						button(id='resetPinButton', class="btn btn-sm btn-default", title="Unpin nodes")
-							i.fa.fa-thumb-tack(id='iconResetPin') 
-							//i(id='resetPinButton') Unpin Nodes
+            div.tab-pane.active(id="treeContent")
 
-						button.btn.btn-default.btn-sm(id="zoomOut", title="Zoom Out")
-							i.fa.fa-search-minus
-						button.btn.btn-default.btn-sm(id="zoomIn", title="Zoom In")
-							i.fa.fa-search-plus
-						button.btn.btn-default.btn-sm(id="screenshotMode", title="Screenshot Mode")
-							i.fa.fa-camera
-						button.btn.btn-default.btn-sm(id="legendsButton", title="Graph Legends")
-							i.fa.fa-comment
-						button.btn.btn-default.btn-sm(id="showborderButton", title="Show/Hide border", style="display:none;")
-							i.fa.fa-edit
-						button.btn.btn-default.btn-sm(id="draglegendsButton", title="Drag Labels", style="display:none;")
-							i.fa.fa-edit
-				
-				div(id="popup_description" style="display: none")
-				div(style="margin-top:3%;text-align:center;position:fixed;text-align:center;width:100%;")
-					form.form-inline(id='searchForm')
-						div.form-group
-							input.form-control(type='text' id='nodeid' style='color:black' placehorder="Search")
-						button.btn.btn-default(type='submit') Search
-				
-				div(id="col_webgl")
-					div(id="pauseRegion", style="height:10%;overflow-y:auto;margin-top:8%;")
-						div(onclick="javascript:location.href='/'", style="text-align:center;")
-							img.phylovizImage(src = '/images/logo.png')
+                div(id="buttonStuff")
+                    div(class="button-group")
+                        button(id='pauseLayout', class="btn btn-sm btn-default", title="Pause")
+                            i.fa.fa-pause(id='iconPauseLayout')
+                            //i(id='pauseLayout') Pause Layout
+                        button(id='resetPositionButton', class="btn btn-sm btn-default", title="Reset Positions")
+                            i.glyphicon.glyphicon-refresh(id='iconResetLayout')
+                            //i(id='resetPositionButton') Reset Positions
+                        button(id='resetPinButton', class="btn btn-sm btn-default", title="Unpin nodes")
+                            i.fa.fa-thumb-tack(id='iconResetPin')
+                            //i(id='resetPinButton') Unpin Nodes
 
-					div(id="buttonRegion", style="height:85%;overflow-y:auto;")		
-						ul.nav.nav-stacked
-							li
-								div
-									a.btn.btn-default.datasetInfoButton(id="datasetInfobt") Data set Info
-									if (user && !isPublic)
-										a.btn.btn-default.datasetInfoButton(id="generatePublicLinkButton") Generate Data Set Link
-									else if (!isAuthenticated)
-										a.btn.btn-default.datasetInfoButton(id="getLinkButton") Get Data Set Link
+                        button.btn.btn-default.btn-sm(id="zoomOut", title="Zoom Out")
+                            i.fa.fa-search-minus
+                        button.btn.btn-default.btn-sm(id="zoomIn", title="Zoom In")
+                            i.fa.fa-search-plus
+                        button.btn.btn-default.btn-sm(id="screenshotMode", title="Screenshot Mode")
+                            i.fa.fa-camera
+                        button.btn.btn-default.btn-sm(id="legendsButton", title="Graph Legends")
+                            i.fa.fa-comment
+                        button.btn.btn-default.btn-sm(id="showborderButton", title="Show/Hide border", style="display:none;")
+                            i.fa.fa-edit
+                        button.btn.btn-default.btn-sm(id="draglegendsButton", title="Drag Labels", style="display:none;")
+                            i.fa.fa-edit
 
-									//p(id='datasetNameDiv') Dataset name:
-									//p(id='numberOfNodes') Dataset size:
-							li(id="assignCol")
-								div
-									a.btn.btn-primary.actionButton.collapsebt(data-toggle='collapse', href='#collapseColor', aria-expanded="false", aria-controls="collapseExample" id="assignc") Assign Colors
-									div.collapse(id='collapseColor')
-										a.btn.btn-primary.actionButton.submenu.collapsebt(data-toggle='collapse', href='#SchemeColor', aria-expanded="false", aria-controls="collapseExample" id="profilec") By Profile
-										div.collapse(id='SchemeColor')
-											div.well(id='colorAttributesScheme')
-										a.btn.btn-primary.actionButton.submenu.collapsebt(data-toggle='collapse', href='#MetadataColor', aria-expanded="false", aria-controls="collapseExample" id="auxc") By Auxiliary Data
-										div.collapse(id='MetadataColor')
-											div.well(id='colorAttributesMetadata')
+                div(id="popup_description" style="display: none")
+                div(style="margin-top:3%;text-align:center;position:fixed;text-align:center;width:100%;")
+                    form.form-inline(id='searchForm')
+                        div.form-group
+                            input.form-control(type='text' id='nodeid' style='color:black' placehorder="Search")
+                        button.btn.btn-default(type='submit') Search
 
-							li
-								div
-									a.btn.btn-primary.actionButton.collapsebt(data-toggle='collapse', href='#GraphicsProperties', aria-expanded="false", aria-controls="collapseExample" id="graphicp") Graphic Properties
-									div.collapse(id="GraphicsProperties")
-										a.btn.btn-primary.actionButton.submenu.collapsebt(data-toggle='collapse', href='#NodesGraphics', aria-expanded="false", aria-controls="collapseExample" id="nodesc") Nodes
-										div.collapse(id='NodesGraphics')
-											div.well(id='NodesSizeAttributes')
-												label Nodes Size
-												input(type='range',id='NodeSizeSlider', name='points1', value = 1, min='1', max='100')
-												label Size By:
-												select(id="SizeProperty")
-													option(value="isolates") By Isolate
-													option(value="profiles") By Profile
-												label Scaling Factor
-												input(type='number',id='scaleNode', name='points10', value = 3, min='1', max='40')
-												div(id="logScaleNodesDiv")
-													label Log Scale
-													input(type='checkbox',id='AddLogScaleNodes')
-												br
-												label Node Labels Size
-												input(type='range',id='NodeLabelSizeSlider', name='points1', value = 10, min='5', max='20')
-												label Add Node Labels
-												input(type='checkbox',id='AddLabels')
-										a.btn.btn-primary.actionButton.submenu.collapsebt(data-toggle='collapse', href='#LinksGraphics', aria-expanded="false", aria-controls="collapseExample" id="linksc") Links
-										div.collapse(id='LinksGraphics')
-											div.well(id='LinksSizeAttributes')
-												label Link Length
-												input(type='range',id='SpringLengthSlider', name='points3', value = 1, min='5', max='100')
-												label Scaling Factor
-												input(type='number',id='scaleLink', name='points10', value = 7, min='1', max='50')
-												div(id="logScaleDiv")
-													label Log Scale
-													input(type='checkbox',id='AddLogScale')
-												br
-												label Link Labels Size
-												input(type='range',id='LinkLabelSizeSlider', name='points1', value = 10, min='5', max='20')
-												label Add Link Labels
-												input(type='checkbox',id='AddLinkLabels')
-												div(id="divselectLabelType" style="display:none")
-													select(id="labelType")
-														option(value="absolute") Absolute Distance
-														option(value="relative") Relative Distance
-														option(value="withmissings") Differences/Missings
-													select(id="labelTypeNewick")
-														option(value="linkLength") Link Length
-														option(value="bootstrap") Bootstrap Values
-										a.btn.btn-primary.actionButton.submenu.collapsebt(data-toggle='collapse', href='#LayoutGraphics', aria-expanded="false", aria-controls="collapseExample" id="layoutc") Layout
-										div.collapse(id='LayoutGraphics')
-											div.well(id='LayoutAttributes')
-												div(id="layoutParameters")
-													label Drag Coefficient
-													input(type='range',id='DragSlider', name='points1', value = 1, min='1', max='100')
-													br
-													label Spring Coefficient
-													input(type='range',id='SpringCoefSlider', name='points1', value = 1, min='1', max='10')
-													label Gravity
-													input(type='range',id='GravitySlider', name='points1', value = -10, min='-200', max='1')
-													label Theta
-													input(type='range',id='ThetaSlider', name='points1', value = 8, min='1', max='100')
-													label Mass Ratio
-													input(type='range',id='MassSlider', name='points1', value = 1, min='1', max='20')
-													br
-												br
-												a.btn.btn-default(type='button',id='resetLayout', name='layout1') Reset
+                div(id="col_webgl")
+                    div(id="pauseRegion", style="height:10%;overflow-y:auto;margin-top:8%;")
+                        div(onclick="javascript:location.href='/'", style="text-align:center;")
+                            img.phylovizImage(src = '/images/logo.png')
 
-							li
-								div
-									a.btn.btn-primary.actionButton.collapsebt(data-toggle='collapse', href='#collapseOperations', aria-expanded="false", aria-controls="collapseExample" id="treeop") Operations
-									div.collapse(id='collapseOperations')
-										a.btn.btn-primary.actionButton.submenu.collapsebt(data-toggle='collapse', href='#TreeOpCol', aria-expanded="false", aria-controls="collapseExample" id="treeopcol") Tree Modifiers
-										div.collapse(id='TreeOpCol')
-											div.well(id='TreeOperations')
-												label Tree cut-off
-												input(type='number',id='SplitTreeSlider', name='points2', value = 7, min='0', max='7')
-												br
-												br
-												div(id="NLVgraph")
-													label(id="nlvgraphLabel") NLV graph
-													input(type='number',id='NLVnumber', name='points2', value = 7, min='0')
-												div(id="NLVcollapse")
-													label(id="nlvcollapselabel") Collapse at distance:
-													input(type='number',id='nlvcollapsenumber', name='points2', value = 7, min='0')
+                    div(id="buttonRegion", style="height:85%;overflow-y:auto;")
+                        ul.nav.nav-stacked
+                            li
+                                div
+                                    a.btn.btn-default.datasetInfoButton(id="datasetInfobt") Data set Info
+                                    if (user && !isPublic)
+                                        a.btn.btn-default.datasetInfoButton(id="generatePublicLinkButton") Generate Data Set Link
+                                    else if (!isAuthenticated)
+                                        a.btn.btn-default.datasetInfoButton(id="getLinkButton") Get Data Set Link
 
-										a.btn.btn-primary.actionButton.submenu.collapsebt(data-toggle='collapse', href='#SelOpCol', aria-expanded="false", aria-controls="collapseExample" id="selopcol") Subset Operations
-										div.collapse(id='SelOpCol')
-											div.well(id='OperationsToMake')
-												div(id="viewSequences")
-													a.btn.btn-default(type='button', style='width:100%;', id='viewSequencesButton', name='saveImage1') View Sequences
-												a.btn.btn-default(type='button',style='width:100%;', id='createSubset1', name='createSubset1') Create Subset
-												a.btn.btn-default(type='button',style='width:100%;', id='exclusiveLoci', name='findex') Find Exclusive Loci
-												div(id="computeDistances")
-													a.btn.btn-default(type='button',style='width:100%;', id='distanceButton', name='distances1') Compute Distances
-													a.btn.btn-default(type='button',style='width:100%;', id='exportSelectedDataButton', name='distances1') Export Selected Data
+                                    //p(id='datasetNameDiv') Dataset name:
+                                    //p(id='numberOfNodes') Dataset size:
+                            li(id="assignCol")
+                                div
+                                    a.btn.btn-primary.actionButton.collapsebt(data-toggle='collapse', href='#collapseColor', aria-expanded="false", aria-controls="collapseExample" id="assignc") Assign Colors
+                                    div.collapse(id='collapseColor')
+                                        a.btn.btn-primary.actionButton.submenu.collapsebt(data-toggle='collapse', href='#SchemeColor', aria-expanded="false", aria-controls="collapseExample" id="profilec") By Profile
+                                        div.collapse(id='SchemeColor')
+                                            div.well(id='colorAttributesScheme')
+                                        a.btn.btn-primary.actionButton.submenu.collapsebt(data-toggle='collapse', href='#MetadataColor', aria-expanded="false", aria-controls="collapseExample" id="auxc") By Auxiliary Data
+                                        div.collapse(id='MetadataColor')
+                                            div.well(id='colorAttributesMetadata')
+
+                            li
+                                div
+                                    a.btn.btn-primary.actionButton.collapsebt(data-toggle='collapse', href='#GraphicsProperties', aria-expanded="false", aria-controls="collapseExample" id="graphicp") Graphic Properties
+                                    div.collapse(id="GraphicsProperties")
+                                        a.btn.btn-primary.actionButton.submenu.collapsebt(data-toggle='collapse', href='#NodesGraphics', aria-expanded="false", aria-controls="collapseExample" id="nodesc") Nodes
+                                        div.collapse(id='NodesGraphics')
+                                            div.well(id='NodesSizeAttributes')
+                                                label Nodes Size
+                                                input(type='range',id='NodeSizeSlider', name='points1', value = 1, min='1', max='100')
+                                                label Size By:
+                                                select(id="SizeProperty")
+                                                    option(value="isolates") By Isolate
+                                                    option(value="profiles") By Profile
+                                                label Scaling Factor
+                                                input(type='number',id='scaleNode', name='points10', value = 3, min='1', max='40')
+                                                div(id="logScaleNodesDiv")
+                                                    label Log Scale
+                                                    input(type='checkbox',id='AddLogScaleNodes')
+                                                br
+                                                label Node Labels Size
+                                                input(type='range',id='NodeLabelSizeSlider', name='points1', value = 10, min='5', max='20')
+                                                label Add Node Labels
+                                                input(type='checkbox',id='AddLabels')
+                                        a.btn.btn-primary.actionButton.submenu.collapsebt(data-toggle='collapse', href='#LinksGraphics', aria-expanded="false", aria-controls="collapseExample" id="linksc") Links
+                                        div.collapse(id='LinksGraphics')
+                                            div.well(id='LinksSizeAttributes')
+                                                label Link Length
+                                                input(type='range',id='SpringLengthSlider', name='points3', value = 1, min='5', max='100')
+                                                label Scaling Factor
+                                                input(type='number',id='scaleLink', name='points10', value = 7, min='1', max='50')
+                                                div(id="logScaleDiv")
+                                                    label Log Scale
+                                                    input(type='checkbox',id='AddLogScale')
+                                                br
+                                                label Link Labels Size
+                                                input(type='range',id='LinkLabelSizeSlider', name='points1', value = 10, min='5', max='20')
+                                                label Add Link Labels
+                                                input(type='checkbox',id='AddLinkLabels')
+                                                div(id="divselectLabelType" style="display:none")
+                                                    select(id="labelType")
+                                                        option(value="absolute") Absolute Distance
+                                                        option(value="relative") Relative Distance
+                                                        option(value="withmissings") Differences/Missings
+                                                    select(id="labelTypeNewick")
+                                                        option(value="linkLength") Link Length
+                                                        option(value="bootstrap") Bootstrap Values
+                                        a.btn.btn-primary.actionButton.submenu.collapsebt(data-toggle='collapse', href='#LayoutGraphics', aria-expanded="false", aria-controls="collapseExample" id="layoutc") Layout
+                                        div.collapse(id='LayoutGraphics')
+                                            div.well(id='LayoutAttributes')
+                                                div(id="layoutParameters")
+                                                    label Drag Coefficient
+                                                    input(type='range',id='DragSlider', name='points1', value = 1, min='1', max='100')
+                                                    br
+                                                    label Spring Coefficient
+                                                    input(type='range',id='SpringCoefSlider', name='points1', value = 1, min='1', max='10')
+                                                    label Gravity
+                                                    input(type='range',id='GravitySlider', name='points1', value = -10, min='-200', max='1')
+                                                    label Theta
+                                                    input(type='range',id='ThetaSlider', name='points1', value = 8, min='1', max='100')
+                                                    label Mass Ratio
+                                                    input(type='range',id='MassSlider', name='points1', value = 1, min='1', max='20')
+                                                    br
+                                                br
+                                                a.btn.btn-default(type='button',id='resetLayout', name='layout1') Reset
+
+                            li
+                                div
+                                    a.btn.btn-primary.actionButton.collapsebt(data-toggle='collapse', href='#collapseOperations', aria-expanded="false", aria-controls="collapseExample" id="treeop") Operations
+                                    div.collapse(id='collapseOperations')
+                                        a.btn.btn-primary.actionButton.submenu.collapsebt(data-toggle='collapse', href='#TreeOpCol', aria-expanded="false", aria-controls="collapseExample" id="treeopcol") Tree Modifiers
+                                        div.collapse(id='TreeOpCol')
+                                            div.well(id='TreeOperations')
+                                                label Tree cut-off
+                                                input(type='number',id='SplitTreeSlider', name='points2', value = 7, min='0', max='7')
+                                                br
+                                                br
+                                                div(id="NLVgraph")
+                                                    label(id="nlvgraphLabel") NLV graph
+                                                    input(type='number',id='NLVnumber', name='points2', value = 7, min='0')
+                                                div(id="NLVcollapse")
+                                                    label(id="nlvcollapselabel") Collapse at distance:
+                                                    input(type='number',id='nlvcollapsenumber', name='points2', value = 7, min='0')
+
+                                        a.btn.btn-primary.actionButton.submenu.collapsebt(data-toggle='collapse', href='#SelOpCol', aria-expanded="false", aria-controls="collapseExample" id="selopcol") Subset Operations
+                                        div.collapse(id='SelOpCol')
+                                            div.well(id='OperationsToMake')
+                                                div(id="viewSequences")
+                                                    a.btn.btn-default(type='button', style='width:100%;', id='viewSequencesButton', name='saveImage1') View Sequences
+                                                a.btn.btn-default(type='button',style='width:100%;', id='createSubset1', name='createSubset1') Create Subset
+                                                a.btn.btn-default(type='button',style='width:100%;', id='exclusiveLoci', name='findex') Find Exclusive Loci
+                                                div(id="computeDistances")
+                                                    a.btn.btn-default(type='button',style='width:100%;', id='distanceButton', name='distances1') Compute Distances
+                                                    a.btn.btn-default(type='button',style='width:100%;', id='exportSelectedDataButton', name='distances1') Export Selected Data
                                                     a.btn.btn-default.down_global_matrix(type='button',style='width:100%;', id='exportGlobalDistances', name='distances1') Export Global Distances
-												div(id='downloadContainer', style='display:none')
+                                                div(id='downloadContainer', style='display:none')
 
-										a.btn.btn-primary.actionButton.submenu.collapsebt(data-toggle='collapse', href='#DispOp', aria-expanded="false", aria-controls="collapseExample" id="dispop") Display Operations
-										div.collapse(id='DispOp')
-											div.well(id='DisplayOperations')
-												if (user && !isPublic)
-													a.btn.btn-default(type='button',style='width:100%;', id='savePositionsButton', name='downloadPositions1') Save Positions
-												//a.btn.btn-default(type='button',style='width:100%;', id='saveImageButton1', name='saveImage1') Save Displayed Image
-
-
-
-				//div(id="col_information")
-					div(id="divButtonInfo")
-						a.btn.btn-md.btn-info(type='button',id='toggle_col_info') Hide Information
-					div(id="divButtonClearInfo")
-						a.btn.btn-md.btn-danger(type='button',id='clear_info') Clear
-					div(id="info_container")
-						div(id="info_place")
-
-				//div(id="divButtonInfoOutside")
-						a.btn.btn-info(type='button',id='toggle_col_in') Show Information
-				
-				div(id="divButtonLegend")
-					a.btn.btn-md.btn-info(type='button',id='toggle_col_legend') 
-						i.fa.fa-sign-out(id="icon_col_legend")
-
-				
-				div(id="col_info")
-					div(id="piePlace")
-						div(id="currentpiePlace")
-						div(id="legendcurrentpiePlace")
-						div(id="buttononlegend", style="text-align:center;margin:1%")
-							button.btn.btn-sm.btn-default(type='button',id='Choosecategories', name='categories1') Choose categories
-							button.btn.btn-sm.btn-default(id="buttonChangeToOuter") Append to outer Ring
-
-						br
-					div(id="outerColorLegendDiv", style="text-align:center;width:100%;")
-						div(style="padding:1px 1px 1px 1px;text-align:center;width:100%;")
-							b Outer Ring Legend
-							div(id="cloneLegendPie", style="margin-top:5%;")
-							div(style="text-align:center;width:100%;margin: 0 auto;")
-								button.btn.btn-md.btn-default(id="buttonRemoveFromOuter", style="display:none;") Remove from outer Ring
-				
-
-				div(id="divtablePercentages" style="display:none;")
-					div(id="tableContainer")
-						table(id="tablePercentages")
-							thead
-							tbody
-
-				div(id='visual')
-					div.graph-overlay
-
-			
-			div.tab-pane(id="isolateContent")
-				div(id="noIsolates", style="width:100%; text-align:center; display:none;font-size:150%;position:absolute; top:20%;")
-					if (user && !isPublic)
-						p There is no information available. To insert auxiliary data, click on <i>Update Auxiliary Data</i>
-					else
-						p There is no information available.
-				if (user && !isPublic)
-					div(id="updateMetadatDiv" style="width: 100%; text-align:center;")
-						div(style="z-index:2;")
-							button.btn.btn-primary.btn-sm(type='button',id='updateMetadata', name='publicLink1') Update Auxiliary Data
-				div(id="divisolates")
-					div(id="exportisolates")
-				br
-				br
-				div.pieRegion
-					//div.numberOfColumns(id='numberOfColumnsisolates')
-					div(id="pieisolates")
-					div(id="legendpieisolates")
-					div(id="divbuttonlinkpieisolates")
-
-			div.tab-pane(id="profileContent")
-				div(id="noProfiles", style="width:100%; text-align:center; display:none;font-size:150%;position:absolute; top:20%;")
-					p There is no information available.
-				div(id="divprofiles")
-					div(id="exportprofiles")
-				br
-				div.col-md-2(id="HideColumnProfiles")
-					b Filter By Profile Position
-					select.selectpicker(id="searchProfileHeaders", data-live-search="true")
-				div.col-md-2
-					button.btn.btn-md.btn-default(id="resetHideColumns") Reset
-				div.col-md-4 Profile Size: <label id="countProfileSize"></label></label>&nbsp<button class="btn btn-md btn-default" id="exportoriginal">Download Original Profiles</button>
-				div.col-md-4 goeBURST Profile Size: <label id="countgoeBURSTProfileSize"></label>&nbsp<button class="btn btn-md btn-default" id="exportgoeBURST">Download goeBURST Profiles</button>
-				br
-				div.pieRegion
-					//div.numberOfColumns(id='numberOfColumnsprofiles')
-					div(id="pieprofiles")
-					div(id="legendpieprofiles")
-					div(id="divbuttonlinkpieprofiles")
-
-			div.tab-pane(id="distanceContent")
-				div(id="noDistances", style="width:100%; text-align:center;display:none;font-size:150%;position:absolute; top:40%;")
-					p To visualize the Distance Matrix, first select some nodes on the <b>Tree tab</b> and select <b>Compute distances</b> located at the <b>Operations</b> section.
-					p You can also <a class="down_global_matrix">Download Global Distance Matrix</a> directly.
-
-				div(id="firstContainer")
-					div(id="distanceMatrix")
-						div(id="divsvg")
-							div(id="divOrder", style="display: none")
-								p Order 
-									select(id="order")
-
-					div(id="distanceUtils")
-						div(id="groupSVG")
-							div(id="divsvgLegend")
-							br
-						div(id="divCheckboxList")
-							label(id="labelcheckbox", for="#divCheckboxList") Select Auxiliary Data
-							br
-							div(id="checkboxListContent")
-						div(id="divClearDistances")
-							button.btn.btn-danger(id="clearDistanceMatrix") Clear Distances
-							br
-							button.btn.btn-info(id="buttonExportMatrix") Export Distance Matrix
-							br
-							button.btn.btn-info(id="buttonSaveImage") Save Image
-						br
-						div(id="countSelectedNodes", style="display:none")
-						div(id="matrixTableInfo", style="display:none")
-						div(id="tableOverMatrix")
-							div(id="divtableMatrix" style ="width:100%;overflow-y: auto;")
-								table(id="tableOver" style="text-align:center;width:100%;")
-									thead
-									tbody
-							div(id="divClearTable")
-								button.btn.btn-info(type='button',id='exportMatrixDataButton', name='distances1') Export Selected Data
-								button.btn.btn-danger(id="clearClickTable") Clear Table
-
-						//div(id="divOverMatrix")
-					br
-				br
-				div(id="secondContainer")
-					div(id="divdistances")
-				
-				div(id="modalDifferentProfile")
-					div(id="tableDifferentProfile")
+                                        a.btn.btn-primary.actionButton.submenu.collapsebt(data-toggle='collapse', href='#DispOp', aria-expanded="false", aria-controls="collapseExample" id="dispop") Display Operations
+                                        div.collapse(id='DispOp')
+                                            div.well(id='DisplayOperations')
+                                                if (user && !isPublic)
+                                                    a.btn.btn-default(type='button',style='width:100%;', id='savePositionsButton', name='downloadPositions1') Save Positions
+                                                //a.btn.btn-default(type='button',style='width:100%;', id='saveImageButton1', name='saveImage1') Save Displayed Image
 
 
-			div.tab-pane(id="FASTAContent")
-				div(id="noSequences", style="width:100%;text-align:center; display:block;font-size:150%;position:absolute; top:50%;")
-					p To visualize the aligned sequences, first select some nodes on the <b>Tree tab</b> and choose the<b>View Sequences</b> option located at the <b>Operations</b> section.
-				div(id="FASTALocation")
-					div(id="clearFASTALocation" style="display:none;")
-						button.btn-md.btn-danger(id="clearFASTA") Clear Sequences
-					div(id="menuLocation")
-					br
-					div(id="alignmentLocation")
+
+                //div(id="col_information")
+                    div(id="divButtonInfo")
+                        a.btn.btn-md.btn-info(type='button',id='toggle_col_info') Hide Information
+                    div(id="divButtonClearInfo")
+                        a.btn.btn-md.btn-danger(type='button',id='clear_info') Clear
+                    div(id="info_container")
+                        div(id="info_place")
+
+                //div(id="divButtonInfoOutside")
+                        a.btn.btn-info(type='button',id='toggle_col_in') Show Information
+
+                div(id="divButtonLegend")
+                    a.btn.btn-md.btn-info(type='button',id='toggle_col_legend')
+                        i.fa.fa-sign-out(id="icon_col_legend")
 
 
-	a(id="imageDownloadLocation" download="phylovizTree.png" style="display:none;")
+                div(id="col_info")
+                    div(id="piePlace")
+                        div(id="currentpiePlace")
+                        div(id="legendcurrentpiePlace")
+                        div(id="buttononlegend", style="text-align:center;margin:1%")
+                            button.btn.btn-sm.btn-default(type='button',id='Choosecategories', name='categories1') Choose categories
+                            button.btn.btn-sm.btn-default(id="buttonChangeToOuter") Append to outer Ring
 
-	div(id = 'waitingGifMain')
-		img.waitingImage(id = 'GIFimage')
-		span(id ='statusMain')
+                        br
+                    div(id="outerColorLegendDiv", style="text-align:center;width:100%;")
+                        div(style="padding:1px 1px 1px 1px;text-align:center;width:100%;")
+                            b Outer Ring Legend
+                            div(id="cloneLegendPie", style="margin-top:5%;")
+                            div(style="text-align:center;width:100%;margin: 0 auto;")
+                                button.btn.btn-md.btn-default(id="buttonRemoveFromOuter", style="display:none;") Remove from outer Ring
+
+
+                div(id="divtablePercentages" style="display:none;")
+                    div(id="tableContainer")
+                        table(id="tablePercentages")
+                            thead
+                            tbody
+
+                div(id='visual')
+                    div.graph-overlay
+
+
+            div.tab-pane(id="isolateContent")
+                div(id="noIsolates", style="width:100%; text-align:center; display:none;font-size:150%;position:absolute; top:20%;")
+                    if (user && !isPublic)
+                        p There is no information available. To insert auxiliary data, click on <i>Update Auxiliary Data</i>
+                    else
+                        p There is no information available.
+                if (user && !isPublic)
+                    div(id="updateMetadatDiv" style="width: 100%; text-align:center;")
+                        div(style="z-index:2;")
+                            button.btn.btn-primary.btn-sm(type='button',id='updateMetadata', name='publicLink1') Update Auxiliary Data
+                div(id="divisolates")
+                    div(id="exportisolates")
+                br
+                br
+                div.pieRegion
+                    //div.numberOfColumns(id='numberOfColumnsisolates')
+                    div(id="pieisolates")
+                    div(id="legendpieisolates")
+                    div(id="divbuttonlinkpieisolates")
+
+            div.tab-pane(id="profileContent")
+                div(id="noProfiles", style="width:100%; text-align:center; display:none;font-size:150%;position:absolute; top:20%;")
+                    p There is no information available.
+                div(id="divprofiles")
+                    div(id="exportprofiles")
+                br
+                div.col-md-2(id="HideColumnProfiles")
+                    b Filter By Profile Position
+                    select.selectpicker(id="searchProfileHeaders", data-live-search="true")
+                div.col-md-2
+                    button.btn.btn-md.btn-default(id="resetHideColumns") Reset
+                div.col-md-4 Profile Size: <label id="countProfileSize"></label></label>&nbsp<button class="btn btn-md btn-default" id="exportoriginal">Download Original Profiles</button>
+                div.col-md-4 goeBURST Profile Size: <label id="countgoeBURSTProfileSize"></label>&nbsp<button class="btn btn-md btn-default" id="exportgoeBURST">Download goeBURST Profiles</button>
+                br
+                div.pieRegion
+                    //div.numberOfColumns(id='numberOfColumnsprofiles')
+                    div(id="pieprofiles")
+                    div(id="legendpieprofiles")
+                    div(id="divbuttonlinkpieprofiles")
+
+            div.tab-pane(id="distanceContent")
+                div(id="noDistances", style="width:100%; text-align:center;display:none;font-size:150%;position:absolute; top:40%;")
+                    p To visualize the Distance Matrix, first select some nodes on the <b>Tree tab</b> and select <b>Compute distances</b> located at the <b>Operations</b> section.
+                    p You can also <a class="down_global_matrix">Download Global Distance Matrix</a> directly.
+
+                div(id="firstContainer")
+                    div(id="distanceMatrix")
+                        div(id="divsvg")
+                            div(id="divOrder", style="display: none")
+                                p Order
+                                    select(id="order")
+
+                    div(id="distanceUtils")
+                        div(id="groupSVG")
+                            div(id="divsvgLegend")
+                            br
+                        div(id="divCheckboxList")
+                            label(id="labelcheckbox", for="#divCheckboxList") Select Auxiliary Data
+                            br
+                            div(id="checkboxListContent")
+                        div(id="divClearDistances")
+                            button.btn.btn-danger(id="clearDistanceMatrix") Clear Distances
+                            br
+                            button.btn.btn-info(id="buttonExportMatrix") Export Distance Matrix
+                            br
+                            button.btn.btn-info(id="buttonSaveImage") Save Image
+                        br
+                        div(id="countSelectedNodes", style="display:none")
+                        div(id="matrixTableInfo", style="display:none")
+                        div(id="tableOverMatrix")
+                            div(id="divtableMatrix" style ="width:100%;overflow-y: auto;")
+                                table(id="tableOver" style="text-align:center;width:100%;")
+                                    thead
+                                    tbody
+                            div(id="divClearTable")
+                                button.btn.btn-info(type='button',id='exportMatrixDataButton', name='distances1') Export Selected Data
+                                button.btn.btn-danger(id="clearClickTable") Clear Table
+
+                        //div(id="divOverMatrix")
+                    br
+                br
+                div(id="secondContainer")
+                    div(id="divdistances")
+
+                div(id="modalDifferentProfile")
+                    div(id="tableDifferentProfile")
+
+
+            div.tab-pane(id="FASTAContent")
+                div(id="noSequences", style="width:100%;text-align:center; display:block;font-size:150%;position:absolute; top:50%;")
+                    p To visualize the aligned sequences, first select some nodes on the <b>Tree tab</b> and choose the<b>View Sequences</b> option located at the <b>Operations</b> section.
+                div(id="FASTALocation")
+                    div(id="clearFASTALocation" style="display:none;")
+                        button.btn-md.btn-danger(id="clearFASTA") Clear Sequences
+                    div(id="menuLocation")
+                    br
+                    div(id="alignmentLocation")
+
+
+    a(id="imageDownloadLocation" download="phylovizTree.png" style="display:none;")
+
+    div(id = 'waitingGifMain')
+        img.waitingImage(id = 'GIFimage')
+        span(id ='statusMain')
 
 
 block scripts
-	script(type='text/javascript').
-		//var compute = !{JSON.stringify(precompute)};
-		var datasetID = !{JSON.stringify(datasetID)};
-		//var ispublic = !{JSON.stringify(isPublic)};
-	script(type='text/javascript', src='/javascripts/dependencies/d3.min.js')
-	script(type='text/javascript', src='/javascripts/dependencies/seedrandom.js')
-	script(type='text/javascript', src='/javascripts/dependencies/vivagraph.js')
-	script(type='text/javascript', src='/javascripts/dependencies/nv.d3.min.js')
-	script(type='text/javascript', src='/javascripts/dependencies/jquery-2.1.3.min.js')
-	script(type='text/javascript', src='/javascripts/dependencies/bootstrap.js')
-	script(type='text/javascript', src='/javascripts/dependencies/bootstrap-select.js')
-	script(type='text/javascript', src='/javascripts/dependencies/jquery-ui.min.js')   
-	script(type='text/javascript', src='/javascripts/dependencies/datatables.min.js')
-	script(type='text/javascript', src='/javascripts/dependencies/jquery.dataTables.js')
-	script(type='text/javascript', src='/javascripts/dependencies/nwk.parser.js')
-	script(type="text/javascript" src="/javascripts/dependencies/colorpicker.js")
-	//script(type="text/javascript" src="/javascripts/dependencies/eye.js")
-	//script(type="text/javascript" src="/javascripts/dependencies/utils.js")
-	//script(type="text/javascript" src="/javascripts/dependencies/layout.js")
-	script(type='text/javascript', src='/javascripts/dependencies/pdfmake.min.js')
-	script(type='text/javascript', src='/javascripts/dependencies/jszip.js')
-	script(type='text/javascript', src='/javascripts/dependencies/msa.min.gz.js')
-	script(type='text/javascript', src='/javascripts/dependencies/vfs_fonts.js')
-	script(type='text/javascript', src="/javascripts/dependencies/topojson.min.js")
-	script(type='text/javascript', src="/javascripts/dependencies/html2canvas.js")
-	script(type='text/javascript', src="/javascripts/dependencies/canvas2image.js")
-	script(type='text/javascript', src="/javascripts/dependencies/clipboard.js")
-	script(type='text/javascript', src="/javascripts/dependencies/dom-to-image.js")
-	//script(type='text/javascript', src='/javascripts/dependencies/datamaps.world.min.js')
-	//script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/customPieChartShader.js')
-	script(type='text/javascript', src='/javascripts/App/adjustElements/adjustElementsMain.js')
-	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/pieNodeWebGl.js')
-	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/customNodeWebGl.js')
-	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/CustomLinkProgram.js')
-	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/searchNodesWebGl.js')
-	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/multiSelectionWebGl.js')
-	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/assignColors_Webgl.js')
-	script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/change_Render_Properties_Webgl.js')
-	script(type='text/javascript', src='/javascripts/App/main/data_Analysis/data_Analysis_functions.js')
-	script(type='text/javascript', src='/javascripts/App/main/data_Analysis/saveTreePositions.js')
-	script(type='text/javascript', src='/javascripts/App/main/data_Analysis/linksToTable.js')
-	script(type='text/javascript', src='/javascripts/App/main/data_Analysis/generatePublicLink.js')
-	script(type='text/javascript', src='/javascripts/App/main/Table/tableFunctions.js')
-	script(type='text/javascript', src='/javascripts/App/main/globalPie/globalPieFunctions.js')
-	script(type='text/javascript', src='/javascripts/App/main/getPieData.js')
-	script(type='text/javascript', src='/javascripts/App/main/linkTableAndGraph.js')
-	script(type='text/javascript', src='/javascripts/App/main/showInfo.js')
-	script(type='text/javascript', src='/javascripts/App/indexApp/tutorial.js')
-	script(type='text/javascript', src='/javascripts/App/main/graphFunctions.js')
-	script(type='text/javascript', src='/javascripts/App/main/buttonsFunctions.js')
-	script(type='text/javascript', src='/javascripts/App/main/constructGraph.js')
-	script(type='text/javascript', src='/javascripts/App/main/msa_tab.js')
-	script(type='text/javascript', src='/javascripts/App/main/globalPie/runColorPicker.js')
-	script(type='text/javascript', src='/javascripts/App/main/globalPie/chooseCategories.js')
-	script(type='text/javascript', src='/javascripts/App/main/updateMetadata.js')
-	//script(type='text/javascript', src='/javascripts/App/main/iterativeGraph.js')
-	script(type='text/javascript', src='/javascripts/App/main/index.js')
+    script(type='text/javascript').
+        //var compute = !{JSON.stringify(precompute)};
+        var datasetID = !{JSON.stringify(datasetID)};
+        //var ispublic = !{JSON.stringify(isPublic)};
+    script(type='text/javascript', src='/javascripts/dependencies/d3.min.js')
+    script(type='text/javascript', src='/javascripts/dependencies/seedrandom.js')
+    script(type='text/javascript', src='/javascripts/dependencies/vivagraph.js')
+    script(type='text/javascript', src='/javascripts/dependencies/nv.d3.min.js')
+    script(type='text/javascript', src='/javascripts/dependencies/jquery-2.1.3.min.js')
+    script(type='text/javascript', src='/javascripts/dependencies/bootstrap.js')
+    script(type='text/javascript', src='/javascripts/dependencies/bootstrap-select.js')
+    script(type='text/javascript', src='/javascripts/dependencies/jquery-ui.min.js')
+    script(type='text/javascript', src='/javascripts/dependencies/datatables.min.js')
+    script(type='text/javascript', src='/javascripts/dependencies/jquery.dataTables.js')
+    script(type='text/javascript', src='/javascripts/dependencies/nwk.parser.js')
+    script(type="text/javascript" src="/javascripts/dependencies/colorpicker.js")
+    //script(type="text/javascript" src="/javascripts/dependencies/eye.js")
+    //script(type="text/javascript" src="/javascripts/dependencies/utils.js")
+    //script(type="text/javascript" src="/javascripts/dependencies/layout.js")
+    script(type='text/javascript', src='/javascripts/dependencies/pdfmake.min.js')
+    script(type='text/javascript', src='/javascripts/dependencies/jszip.js')
+    script(type='text/javascript', src='/javascripts/dependencies/msa.min.gz.js')
+    script(type='text/javascript', src='/javascripts/dependencies/vfs_fonts.js')
+    script(type='text/javascript', src="/javascripts/dependencies/topojson.min.js")
+    script(type='text/javascript', src="/javascripts/dependencies/html2canvas.js")
+    script(type='text/javascript', src="/javascripts/dependencies/canvas2image.js")
+    script(type='text/javascript', src="/javascripts/dependencies/clipboard.js")
+    script(type='text/javascript', src="/javascripts/dependencies/dom-to-image.js")
+    //script(type='text/javascript', src='/javascripts/dependencies/datamaps.world.min.js')
+    //script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/customPieChartShader.js')
+    script(type='text/javascript', src='/javascripts/App/adjustElements/adjustElementsMain.js')
+    script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/pieNodeWebGl.js')
+    script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/customNodeWebGl.js')
+    script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/CustomLinkProgram.js')
+    script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/searchNodesWebGl.js')
+    script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/multiSelectionWebGl.js')
+    script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/assignColors_Webgl.js')
+    script(type='text/javascript', src='/javascripts/App/main/Graph_Manipulation/change_Render_Properties_Webgl.js')
+    script(type='text/javascript', src='/javascripts/App/main/data_Analysis/data_Analysis_functions.js')
+    script(type='text/javascript', src='/javascripts/App/main/data_Analysis/saveTreePositions.js')
+    script(type='text/javascript', src='/javascripts/App/main/data_Analysis/linksToTable.js')
+    script(type='text/javascript', src='/javascripts/App/main/data_Analysis/generatePublicLink.js')
+    script(type='text/javascript', src='/javascripts/App/main/Table/tableFunctions.js')
+    script(type='text/javascript', src='/javascripts/App/main/globalPie/globalPieFunctions.js')
+    script(type='text/javascript', src='/javascripts/App/main/getPieData.js')
+    script(type='text/javascript', src='/javascripts/App/main/linkTableAndGraph.js')
+    script(type='text/javascript', src='/javascripts/App/main/showInfo.js')
+    script(type='text/javascript', src='/javascripts/App/indexApp/tutorial.js')
+    script(type='text/javascript', src='/javascripts/App/main/graphFunctions.js')
+    script(type='text/javascript', src='/javascripts/App/main/buttonsFunctions.js')
+    script(type='text/javascript', src='/javascripts/App/main/constructGraph.js')
+    script(type='text/javascript', src='/javascripts/App/main/msa_tab.js')
+    script(type='text/javascript', src='/javascripts/App/main/globalPie/runColorPicker.js')
+    script(type='text/javascript', src='/javascripts/App/main/globalPie/chooseCategories.js')
+    script(type='text/javascript', src='/javascripts/App/main/updateMetadata.js')
+    //script(type='text/javascript', src='/javascripts/App/main/iterativeGraph.js')
+    script(type='text/javascript', src='/javascripts/App/main/index.js')
 
