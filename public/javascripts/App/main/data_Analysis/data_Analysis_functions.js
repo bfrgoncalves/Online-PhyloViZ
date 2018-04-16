@@ -996,6 +996,56 @@ function exportMatrix(graphObject){
 
 function downloadGlobalDistances(graphObject) {
 	console.log(graphObject);
+	var nodes = graphObject.graphInput.nodes;
+	var distancematrix = graphObject.graphInput.distanceMatrix;
+	var firstLine = true;
+
+	var stringMatrix = "";
+	var countNodes = 0;
+
+	for (i in nodes){
+		if (firstLine) {
+            stringMatrix += graphObject.graphInput.key[0] + '\t';
+
+            for (k in nodes){
+                stringMatrix += nodes[k].key + '\t';
+            }
+
+            stringMatrix = stringMatrix.substring(0, stringMatrix.length-1) + '\n';
+            firstLine = false;
+
+            stringMatrix += nodes[i].key;
+
+            var diagNumber = nodes.length - distancematrix[countNodes].length;
+
+            for (j in distancematrix[countNodes]){
+
+            	for (l=0; l<diagNumber; l++){
+                    stringMatrix += '\t';
+				}
+
+				stringMatrix += '\t' + distancematrix[countNodes][j].join("\t");
+            }
+            stringMatrix += '\n';
+		}
+
+		countNodes += 1;
+
+	}
+
+    csvDataM = new Blob([stringMatrix], { type: 'text/csv' }); //new way
+    var encodedUriM = URL.createObjectURL(csvDataM);
+
+    //var encodedUriMatrix = 'data:text/csv;charset=utf-8,' + encodeURIComponent(stringToMatrix);
+    //var encodedUriMatrix = encodedUriMatrix.replace(/!!!/g, "#");
+
+    var a = $('<p>Download <a id="linkDownloadMatrix">Distance Matrix</a></p>');
+
+    $('#dialog').empty();
+    $('#dialog').append(a);
+    $('#linkDownloadMatrix').attr("href", encodedUriM).attr('download', "distanceMatrix.tab");
+    $('#dialog').dialog();
+
 }
 
 function write_exclusive_file(graphObject){
