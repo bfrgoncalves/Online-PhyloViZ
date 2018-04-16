@@ -553,8 +553,8 @@ function loadGraphFunctions(){
 					'border':'1px solid grey', 'border-radius': '10px',
 					'background-color':'white','display':'block',
 					'left':domPos.x, 'top':domPos.y, 'position':'fixed',
-					'z-index':99, 'max-height': '300px', 'overflow-x': 'hidden'
-                    'overflow-y': 'hidden', 'max-width': '300px',});
+					'z-index':99, 'max-height': '300px', 'overflow-x': 'hidden',
+                    'overflow-y': 'hidden', 'max-width': '300px'});
 	             //console.log('Mouse entered node: ' + node.id);
 	         }).mouseLeave(function (node) {
 	         	$('#popup_description').css({'display':'none'});
