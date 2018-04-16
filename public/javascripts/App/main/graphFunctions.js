@@ -525,48 +525,16 @@ function loadGraphFunctions(){
 			graphObject.nodesToCheckLinks = [], 
 			graphObject.toRemove = "";
 			graphObject.multiSelectOverlay;
+			graphObject.lastSelectedNode;
 
 
 	        var shiftDown = false, altDown = false, remakeSelection = false, multipleselection = false, sdown = false, is_clicking = false, dragging = false;
 
 	        events.mouseLeave(function (node, e) {
-
                 $('#popup_description').css({'display': 'none'});
-            }).mouseEnter(function(node,e) {
-                lastSelectedNode = node;
+            }).mouseEnter(function(node, e) {
+                graphObject.lastSelectedNode = node;
             });
-
-                /*lastSelectedNode = node;
-
-	        	if(graphObject.notShowDescription === true) {
-	        		return;
-	        	}
-
-	        	var header_height = $(".tabs_headers").height() + 5;
-
-	        	nodeUI_1 = graphics.getNodeUI(node.id);
-
-	        	var domPos = {
-	                  x: nodeUI_1.position.x,
-	                  y: nodeUI_1.position.y
-	              };
-
-	        	// And ask graphics to transform it to DOM coordinates:
-                graphics.transformGraphToClientCoordinates(domPos);
-
-                domPos.x = (domPos.x + nodeUI_1.size * 0.2) + 'px';
-		        domPos.y = (domPos.y  +header_height - 30)+ 'px';
-	        	$('#popup_description').empty();
-	        	$('#popup_description').append(showInfo(graphObject.graphInput.mergedNodes, graphObject.graphInput.sameNodeHas, graphics, node, e));
-	        	$('#popup_description').css({'padding': '10px 10px 10px 10px',
-					'border':'1px solid grey', 'border-radius': '10px',
-					'background-color':'white','display':'block',
-					'left':domPos.x, 'top':domPos.y, 'position':'fixed',
-					'z-index':99, 'max-height': '300px', 'overflow-x': 'hidden',
-                    'overflow-y': 'hidden', 'max-width': '300px'});
-	         }).mouseLeave(function (node) {
-	         	$('#popup_description').css({'display':'none'});
-	         });*/
 
 	        events.dblClick(function (node, e) {
 	          //showInfo(graphics, node, e);
@@ -610,8 +578,7 @@ function loadGraphFunctions(){
 
 	        // Unpin node when it reaches other elements besides canvas
 	        $('canvas').mouseleave(function(){
-	            console.log(lastSelectedNode);
-                layout.pinNode(lastSelectedNode, false);
+                layout.pinNode(graphObject.lastSelectedNode, false);
             });
 
 	        //var multiSelectOverlay;
