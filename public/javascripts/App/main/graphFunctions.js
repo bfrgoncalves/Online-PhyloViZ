@@ -532,6 +532,8 @@ function loadGraphFunctions(){
 	        events.mouseLeave(function (node, e) {
 
                 $('#popup_description').css({'display': 'none'});
+            }).mouseEnter(function(node,e) {
+                lastSelectedNode = node;
             });
 
                 /*lastSelectedNode = node;
@@ -575,8 +577,6 @@ function loadGraphFunctions(){
 	            if (shiftDown) SelectNodes(node, graphObject);
 	            else{
                     $('#popup_description').css({'display':'none'});
-
-                    lastSelectedNode = node;
 
                     if(graphObject.notShowDescription === true) {
                         return;
