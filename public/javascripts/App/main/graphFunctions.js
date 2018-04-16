@@ -561,9 +561,10 @@ function loadGraphFunctions(){
 	             //console.log('Mouse left node: ' + node.id);
 	         });
 
-	        events.mouseUp( (node, e) => {
+	        events.mouseUp( function (node, e) {
 	            console.log("NODE UP", node, e);
             });
+
 	        events.dblClick(function (node, e) {
 	          //showInfo(graphics, node, e);
 	          //
