@@ -247,12 +247,10 @@ function createInput(datasetID, callback) {
       if(!e){
         console.log('End of Connection');
         NodeStream.close();
-        //callback('bah');
       }
       else{
         try{
           var data = JSON.parse(e.data);
-          //console.log('parsed');
           var messageKey = Object.keys(data);
           
           if (prevMessage != messageKey[0]){
@@ -260,8 +258,6 @@ function createInput(datasetID, callback) {
             count = 1;
             if(data.hasOwnProperty('size')) totalSize = data.size;
           }
-
-          console.log(messageKey[0], data , totalSize);
 
           count += 1;
 
@@ -271,7 +267,6 @@ function createInput(datasetID, callback) {
           else status('Loading ' + partTS + ' ' + String(count)+ ' of ' + totalSize + '...');
           
           if(messageKey[0] == 'nodes' || messageKey[0] == 'subsetProfiles' || messageKey[0] == 'links' || messageKey[0] == 'distanceMatrix'){
-            //console.log(messageKey[0]);
             if(input.hasOwnProperty(messageKey[0])) input[messageKey[0]].push(data[messageKey[0]][0]);
             else{
               input[messageKey[0]] = [];
@@ -279,8 +274,7 @@ function createInput(datasetID, callback) {
             }
           }
           else if (messageKey[0] == 'mergedNodes' || messageKey[0] == 'sameNodeHas' || messageKey[0] == 'usedLoci' || messageKey[0] == 'indexesToRemove'){
-            
-            //console.log(messageKey[0]);
+
             if(!input.hasOwnProperty(messageKey[0])) input[messageKey[0]] = {};
             var obkey = Object.keys(data[messageKey[0]])[0];
             input[messageKey[0]][obkey] = data[messageKey[0]][obkey];

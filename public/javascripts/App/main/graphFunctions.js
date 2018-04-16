@@ -578,7 +578,12 @@ function loadGraphFunctions(){
 
 	        // Unpin node when it reaches other elements besides canvas
 	        $('canvas').mouseleave(function(){
-                layout.pinNode(graphObject.lastSelectedNode, false);
+	            try{
+                    layout.pinNode(graphObject.lastSelectedNode, false);
+                }
+                catch (err) {
+	                return;
+                }
             });
 
 	        //var multiSelectOverlay;
