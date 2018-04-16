@@ -533,8 +533,6 @@ function loadGraphFunctions(){
 
                 lastSelectedNode = node;
 
-                console.log(graphObject.notShowDescription);
-
 	        	if(graphObject.notShowDescription === true) {
 	        		return;
 	        	}
@@ -547,7 +545,8 @@ function loadGraphFunctions(){
 	                  x: nodeUI_1.position.x,
 	                  y: nodeUI_1.position.y
 	              };
-                // And ask graphics to transform it to DOM coordinates:
+
+	        	// And ask graphics to transform it to DOM coordinates:
                 graphics.transformGraphToClientCoordinates(domPos);
 
                 domPos.x = (domPos.x + nodeUI_1.size * 0.2) + 'px';
@@ -560,18 +559,14 @@ function loadGraphFunctions(){
 					'left':domPos.x, 'top':domPos.y, 'position':'fixed',
 					'z-index':99, 'max-height': '300px', 'overflow-x': 'hidden',
                     'overflow-y': 'hidden', 'max-width': '300px'});
-	             //console.log('Mouse entered node: ' + node.id);
 	         }).mouseLeave(function (node) {
 	         	$('#popup_description').css({'display':'none'});
-	             //console.log('Mouse left node: ' + node.id);
 	         });
 
 	        events.dblClick(function (node, e) {
 	          //showInfo(graphics, node, e);
 	          //
 	        }).click(function (node, e) {
-
-	            //if (altDown) getLinks(node, graphObject);
 	            is_clicking = true;
 	            if (shiftDown) SelectNodes(node, graphObject);
 	        });
@@ -580,12 +575,12 @@ function loadGraphFunctions(){
 	        $('canvas').mouseleave(function(){
                 console.log(lastSelectedNode);
                 layout.pinNode(lastSelectedNode, false);
-                $('#popup_description').css({'display':'none'});
                 graphObject.notShowDescription = false;
             });
 
 	        //var multiSelectOverlay;
 	        var lastPosition = {};
+
 	        document.addEventListener('mousemove', function(e){
 	        	var offset = {};
 	        	offset.y = e.pageY;
