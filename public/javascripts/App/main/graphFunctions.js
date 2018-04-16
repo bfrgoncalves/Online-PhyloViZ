@@ -576,7 +576,7 @@ function loadGraphFunctions(){
 
 	        $('canvas').mouseleave(function(){
                 console.log(lastSelectedNode);
-                layout.pinNode(node, false);
+                layout.pinNode(lastSelectedNode, false);
             });
 
 	        //var multiSelectOverlay;
