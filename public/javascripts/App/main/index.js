@@ -64,7 +64,6 @@ $(document).ready(function(){
       if(graph.not_ready == true) return alert("The tree is not ready yet. Please try again later.");
       
       checkInput(graph, function(graph){
-          console.log(graph.positions);
 
           if(graph.data_type != 'fasta'){
             $("#FASTATab").css('display', 'none');

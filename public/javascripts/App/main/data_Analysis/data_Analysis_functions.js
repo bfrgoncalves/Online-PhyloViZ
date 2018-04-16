@@ -994,6 +994,10 @@ function exportMatrix(graphObject){
 	$('#dialog').dialog();
 }
 
+function downloadGlobalDistances(graphObject) {
+	console.log(graphObject);
+}
+
 function write_exclusive_file(graphObject){
 
 	var ToFile = '';
