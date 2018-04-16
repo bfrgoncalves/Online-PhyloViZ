@@ -261,7 +261,7 @@ function createInput(datasetID, callback) {
             if(data.hasOwnProperty('size')) totalSize = data.size;
           }
 
-          console.log(messageKey[0]);
+          console.log(messageKey[0], data , totalSize);
 
           count += 1;
 
