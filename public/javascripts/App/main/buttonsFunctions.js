@@ -719,6 +719,10 @@ const loadButtonFunctions = () => {
                 createMSA(graphObject);
             });
 
+            $("#down_global_matrix").click(function(){
+                downloadGlobalDistances(graphObject);
+            });
+
             let showExclusiveInfo = true;
 
             if(graphObject.graphInput.nodes[0].profile.length > 2000 && graphObject.graphInput.nodes.length > 3000){
