@@ -185,6 +185,7 @@ block normalBody
 												div(id="computeDistances")
 													a.btn.btn-default(type='button',style='width:100%;', id='distanceButton', name='distances1') Compute Distances
 													a.btn.btn-default(type='button',style='width:100%;', id='exportSelectedDataButton', name='distances1') Export Selected Data
+                                                    a.btn.btn-default.down_global_matrix(type='button',style='width:100%;', id='exportGlobalDistances', name='distances1') Export Global Distances
 												div(id='downloadContainer', style='display:none')
 
 										a.btn.btn-primary.actionButton.submenu.collapsebt(data-toggle='collapse', href='#DispOp', aria-expanded="false", aria-controls="collapseExample" id="dispop") Display Operations
@@ -282,7 +283,7 @@ block normalBody
 			div.tab-pane(id="distanceContent")
 				div(id="noDistances", style="width:100%; text-align:center;display:none;font-size:150%;position:absolute; top:40%;")
 					p To visualize the Distance Matrix, first select some nodes on the <b>Tree tab</b> and select <b>Compute distances</b> located at the <b>Operations</b> section.
-					p You can also <a id="down_global_matrix">Download Global Distance Matrix</a> directly.
+					p You can also <a class="down_global_matrix">Download Global Distance Matrix</a> directly.
 
 				div(id="firstContainer")
 					div(id="distanceMatrix")

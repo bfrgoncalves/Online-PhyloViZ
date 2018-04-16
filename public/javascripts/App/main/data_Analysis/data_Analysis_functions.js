@@ -1018,8 +1018,6 @@ function downloadGlobalDistances(graphObject) {
 
         stringMatrix += nodes[i].key;
 
-		console.log(nodes, distancematrix, countNodes);
-
 		try{
             var diagNumber = nodes.length - distancematrix[countNodes].length;
 
@@ -1034,7 +1032,7 @@ function downloadGlobalDistances(graphObject) {
 		}
 		catch (err) {
 			// Last index of distance matrix
-            var diagNumber = nodes.length - 1;
+            var diagNumber = nodes.length;
 
             for (l=0; l<diagNumber; l++){
                 stringMatrix += '\t';

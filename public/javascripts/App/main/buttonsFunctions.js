@@ -719,7 +719,7 @@ const loadButtonFunctions = () => {
                 createMSA(graphObject);
             });
 
-            $("#down_global_matrix").click(function(){
+            $(".down_global_matrix").click(function(){
                 downloadGlobalDistances(graphObject);
             });
 
