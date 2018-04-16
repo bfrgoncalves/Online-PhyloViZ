@@ -261,6 +261,8 @@ function createInput(datasetID, callback) {
             if(data.hasOwnProperty('size')) totalSize = data.size;
           }
 
+          console.log(messageKey[0]);
+
           count += 1;
 
           if (messageKey[0] == 'mergedNodes' || messageKey[0] == 'sameNodeHas' || messageKey[0] == 'usedLoci' || messageKey[0] == 'indexesToRemove'){
