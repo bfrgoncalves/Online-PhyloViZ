@@ -574,9 +574,11 @@ function loadGraphFunctions(){
 	            if (shiftDown) SelectNodes(node, graphObject);
 	        });
 
+	        // Unpin node when it reaches other elements besides canvas
 	        $('canvas').mouseleave(function(){
                 console.log(lastSelectedNode);
                 layout.pinNode(lastSelectedNode, false);
+                $('#popup_description').css({'display':'none'});
             });
 
 	        //var multiSelectOverlay;
