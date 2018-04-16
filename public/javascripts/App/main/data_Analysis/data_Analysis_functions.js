@@ -1024,7 +1024,7 @@ function downloadGlobalDistances(graphObject) {
                     stringMatrix += '\t';
 				}
 
-				stringMatrix += '\t' + distancematrix[countNodes][j].join("\t");
+				stringMatrix += '\t' + distancematrix[countNodes][j];
             }
             stringMatrix += '\n';
 		}
