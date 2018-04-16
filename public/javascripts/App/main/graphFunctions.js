@@ -533,6 +533,8 @@ function loadGraphFunctions(){
 
                 lastSelectedNode = node;
 
+                console.log(graphObject.notShowDescription);
+
 	        	if(graphObject.notShowDescription === true) {
 	        		return;
 	        	}
@@ -579,6 +581,7 @@ function loadGraphFunctions(){
                 console.log(lastSelectedNode);
                 layout.pinNode(lastSelectedNode, false);
                 $('#popup_description').css({'display':'none'});
+                graphObject.notShowDescription = false;
             });
 
 	        //var multiSelectOverlay;
