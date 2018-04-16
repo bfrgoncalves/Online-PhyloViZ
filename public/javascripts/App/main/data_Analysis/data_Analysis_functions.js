@@ -1014,20 +1014,21 @@ function downloadGlobalDistances(graphObject) {
             stringMatrix = stringMatrix.substring(0, stringMatrix.length-1) + '\n';
             firstLine = false;
 
-            stringMatrix += nodes[i].key;
-
-            var diagNumber = nodes.length - distancematrix[countNodes].length;
-
-            for (j in distancematrix[countNodes]){
-
-            	for (l=0; l<diagNumber; l++){
-                    stringMatrix += '\t';
-				}
-
-				stringMatrix += '\t' + distancematrix[countNodes][j];
-            }
-            stringMatrix += '\n';
 		}
+
+        stringMatrix += nodes[i].key;
+
+        var diagNumber = nodes.length - distancematrix[countNodes].length;
+
+        for (j in distancematrix[countNodes]){
+
+            for (l=0; l<diagNumber; l++){
+                stringMatrix += '\t';
+            }
+
+            stringMatrix += '\t' + distancematrix[countNodes][j];
+        }
+        stringMatrix += '\n';
 
 		countNodes += 1;
 
