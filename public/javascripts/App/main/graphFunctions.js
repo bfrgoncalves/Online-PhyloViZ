@@ -531,7 +531,8 @@ function loadGraphFunctions(){
 
 	        events.mouseEnter(function (node, e) {
 
-                $('#popup_description').css({'display':'none'});
+                $('#popup_description').css({'display': 'none'});
+            });
 
                 /*lastSelectedNode = node;
 
