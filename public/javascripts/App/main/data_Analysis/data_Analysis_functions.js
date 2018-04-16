@@ -1018,16 +1018,32 @@ function downloadGlobalDistances(graphObject) {
 
         stringMatrix += nodes[i].key;
 
-        var diagNumber = nodes.length - distancematrix[countNodes].length;
+		console.log(nodes, distancematrix, countNodes);
 
-        for (j in distancematrix[countNodes]){
+		try{
+            var diagNumber = nodes.length - distancematrix[countNodes].length;
 
             for (l=0; l<diagNumber; l++){
                 stringMatrix += '\t';
             }
 
-            stringMatrix += '\t' + distancematrix[countNodes][j];
-        }
+            for (j in distancematrix[countNodes]){
+
+                stringMatrix += '\t' + distancematrix[countNodes][j];
+            }
+		}
+		catch (err) {
+			// Last index of distance matrix
+            var diagNumber = nodes.length - 1;
+
+            for (l=0; l<diagNumber; l++){
+                stringMatrix += '\t';
+            }
+
+            stringMatrix += 0;
+
+		}
+
         stringMatrix += '\n';
 
 		countNodes += 1;
