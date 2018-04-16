@@ -517,6 +517,7 @@ function loadGraphFunctions(){
 			var graphics = graphObject.graphics;
 			var layout = graphObject.layout;
 			var renderer = graphObject.renderer;
+			var lastSelectedNode;
 
 			var events = Viva.Graph.webglInputEvents(graphics, graphGL);
 
@@ -529,6 +530,8 @@ function loadGraphFunctions(){
 	        var shiftDown = false, altDown = false, remakeSelection = false, multipleselection = false, sdown = false, is_clicking = false, dragging = false;
 
 	        events.mouseEnter(function (node, e) {
+
+                lastSelectedNode = node;
 
 	        	if(graphObject.notShowDescription === true) {
 	        		return;
@@ -561,10 +564,6 @@ function loadGraphFunctions(){
 	             //console.log('Mouse left node: ' + node.id);
 	         });
 
-	        events.mouseUp( function (node, e) {
-	            console.log("NODE UP", node, e);
-            });
-
 	        events.dblClick(function (node, e) {
 	          //showInfo(graphics, node, e);
 	          //
@@ -574,6 +573,11 @@ function loadGraphFunctions(){
 	            is_clicking = true;
 	            if (shiftDown) SelectNodes(node, graphObject);
 	        });
+
+	        $('canvas').mouseleave(function(){
+                console.log(lastSelectedNode);
+                layout.pinNode(node, false);
+            });
 
 	        //var multiSelectOverlay;
 	        var lastPosition = {};
