@@ -572,10 +572,9 @@ function loadGraphFunctions(){
 	        });
 
 	        // Unpin node when it reaches other elements besides canvas
-	        $('canvas').mouseleave(function(){
-                console.log(lastSelectedNode);
+	        $('canvas').not("#popup_description").mouseleave(function(){
                 layout.pinNode(lastSelectedNode, false);
-                graphObject.notShowDescription = false;
+                $('#popup_description').css({'display':'none'});
             });
 
 	        //var multiSelectOverlay;
@@ -617,28 +616,12 @@ function loadGraphFunctions(){
 
 		              if(graphObject.isLayoutPaused){
 				        renderer.rerender();
-				        //setTimeout(function(){ renderer.pause();}, 2);
 				      }
 		            }
 		          
 		            if (e.which === 83 && shiftDown && (!graphObject.multiSelectOverlay || !sdown)) { // shift key
 		              multipleselection = false;
-		              /*
-		              for (i in graphObject.selectedNodes){
-		                var nodeToUse = graphics.getNodeUI(graphObject.selectedNodes[i].id);
-		                nodeToUse.colorIndexes = nodeToUse.backupColor;
-		              } 
-
-		              graphObject.selectedNodes = [];
-		              */
-		              /*
-		              if(graphObject.isLayoutPaused){
-				        renderer.resume();
-				        setTimeout(function(){ renderer.pause();}, 5);
-				      }
-				      */
 				      graphObject.sdown = true;
-		              
 		              graphObject.multiSelectOverlay = startMultiSelect(graphObject);
 		            }
 		            else graphObject.sdown = false;
