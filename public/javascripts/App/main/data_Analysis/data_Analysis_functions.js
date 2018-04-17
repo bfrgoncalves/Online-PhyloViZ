@@ -978,20 +978,23 @@ function exportMatrix(graphObject){
 	    }
 	    stringToMatrix += '\n';
 	}
-	//console.log(stringToMatrix);
 
 	csvDataM = new Blob([stringToMatrix], { type: 'text/csv' }); //new way
-    var encodedUriM = URL.createObjectURL(csvDataM);
-	
-	//var encodedUriMatrix = 'data:text/csv;charset=utf-8,' + encodeURIComponent(stringToMatrix);
-	//var encodedUriMatrix = encodedUriMatrix.replace(/!!!/g, "#");
+
+	var encodedUriM = URL.createObjectURL(csvDataM);
 
 	var a = $('<p>Download <a id="linkDownloadMatrix">Distance Matrix</a></p>');
 
 	$('#dialog').empty();
 	$('#dialog').append(a);
 	$('#linkDownloadMatrix').attr("href", encodedUriM).attr('download', "distanceMatrix.tab");
-	$('#dialog').dialog();
+	$('#dialog').dialog({
+        height: $(window).height() * 0.10,
+        width: $(window).width() * 0.10,
+        modal: true,
+        resizable: true,
+        dialogClass: 'no-close success-dialog'
+    });
 }
 
 function downloadGlobalDistances(graphObject) {
@@ -1059,7 +1062,13 @@ function downloadGlobalDistances(graphObject) {
     $('#dialog').empty();
     $('#dialog').append(a);
     $('#linkDownloadMatrix').attr("href", encodedUriM).attr('download', "distanceMatrix.tab");
-    $('#dialog').dialog();
+    $('#dialog').dialog({
+        height: $(window).height() * 0.10,
+        width: $(window).width() * 0.10,
+        modal: true,
+        resizable: true,
+        dialogClass: 'no-close success-dialog'
+    });
 
 }
 
