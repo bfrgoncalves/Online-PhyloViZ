@@ -38,15 +38,19 @@ function loadGraphFunctions(){
 
 		        console.log(graph.links[j].source, graph.links[j].target, graph.links[j]);
 
-		        if(graph.links[j].value > 0){
+		        if(graph.links[j].value > 0 || graph.links[j].missings !== undefined){
 		        	if(already_source[graph.sameNodeHas[graph.links[j].target]] != true){
 		        	    console.log("LINK:", graph.sameNodeHas[graph.links[j].source], graph.sameNodeHas[graph.links[j].target]);
-			        	graphGL.addLink(graph.sameNodeHas[graph.links[j].source], graph.sameNodeHas[graph.links[j].target], { connectionStrength: graph.links[j].value , value: graph.links[j].value, color: "#000", bootstrap: toBoot});
+			        	graphGL.addLink(graph.sameNodeHas[graph.links[j].source],
+                            graph.sameNodeHas[graph.links[j].target],
+                            { connectionStrength: graph.links[j].value , value: graph.links[j].value, color: "#000", bootstrap: toBoot, missings: graph.links[j].missings});
 			        	already_source[graph.sameNodeHas[graph.links[j].target]] = true;
 			        }
 			        else{
                         console.log("LINK:", graph.sameNodeHas[graph.links[j].target], graph.sameNodeHas[graph.links[j].source]);
-			        	graphGL.addLink(graph.sameNodeHas[graph.links[j].target], graph.sameNodeHas[graph.links[j].source], { connectionStrength: graph.links[j].value , value: graph.links[j].value, color: "#000", bootstrap: toBoot});
+			        	graphGL.addLink(graph.sameNodeHas[graph.links[j].target],
+                            graph.sameNodeHas[graph.links[j].source],
+                            { connectionStrength: graph.links[j].value , value: graph.links[j].value, color: "#000", bootstrap: toBoot, missings: graph.links[j].missings});
 			        	already_source[graph.sameNodeHas[graph.links[j].source]] = true;
 			        }
 		        }
@@ -292,8 +296,15 @@ function loadGraphFunctions(){
                       //console.log(link.id);
                       var label = document.createElement('div');
                       label.classList.add('link-label');
-                      if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) label.textContent = parseFloat(link.data.connectionStrength.toFixed(4));
-                      else label.innerText = parseFloat(link.data.connectionStrength.toFixed(4));
+
+                      if(link.data.missings !== undefined) {
+                          var textToUse = String(parseFloat(link.data.connectionStrength.toFixed(4))) + " ( " + String(link.data.missings) + " )"
+                      }
+                      else {
+                          var textToUse = parseFloat(link.data.connectionStrength.toFixed(4))
+                      }
+                      if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) label.textContent = textToUse;
+                      else label.innerText = textToUse;
                       var labelStyle = label.style;
             		  labelStyle.fontSize = graphObject.defaultLayoutParams.labelSize + 'px';
                       treeLinks[link.id] = true;
