@@ -100,18 +100,20 @@ function loadGraphFunctions(){
 
 			graphObject.TopNode = TopNode;
 
+			if (TopNode !== '') {
 
-			if (Object.keys(graph.positions).length == 0){
+			    if (Object.keys(graph.positions).length == 0){
 
-				graphObject.layout.setNodePosition(graphObject.graphInput.nodes[0].key, 20, -20);
-		    	
-		    	graphObject.layout.setNodePosition(graphObject.TopNode.id, 0, 0);
-		    	graphObject.layout.pinNode(TopNode, true);
-		    }
-		    else{
-		    	graphObject.layout.pinNode(TopNode, true);
-		    }
+                    graphObject.layout.setNodePosition(graphObject.graphInput.nodes[0].key, 20, -20);
 
+                    graphObject.layout.setNodePosition(graphObject.TopNode.id, 0, 0);
+                    graphObject.layout.pinNode(TopNode, true);
+                }
+                else{
+                    graphObject.layout.pinNode(TopNode, true);
+                }
+
+            }
 
 		},
 
