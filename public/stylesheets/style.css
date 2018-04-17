@@ -459,7 +459,7 @@ td.highlight {
   top: 7%;
   right: 14%;
   display:none;
-  z-index: 6;
+  z-index: 1000;
 }
 
 #divButtonInfo{
