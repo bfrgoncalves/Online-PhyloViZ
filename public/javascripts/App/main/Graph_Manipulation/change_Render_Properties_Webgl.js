@@ -774,6 +774,41 @@ function printDiv(graphObject)
 
 }
 
+function takeHighResScreenshot() {
+
+    var srcEl = document.getElementById("canvas");
+    var destIMG = document.getElementById("screenshot-img");
+
+    // Save original size of element
+    var originalWidth = srcEl.offsetWidth;
+    var originalHeight = srcEl.offsetHeight;
+    // Force px size (no %, EMs, etc)
+    srcEl.style.width = originalWidth + "px";
+    srcEl.style.height = originalHeight + "px";
+
+    // Position the element at the top left of the document because of bugs in html2canvas. The bug exists when supplying a custom canvas, and offsets the rendering on the custom canvas based on the offset of the source element on the page; thus the source element MUST be at 0, 0.
+    // See html2canvas issues #790, #820, #893, #922
+    srcEl.style.position = "absolute";
+    srcEl.style.top = "0";
+    srcEl.style.left = "0";
+
+    // Create scaled canvas
+    var scaledCanvas = document.createElement("canvas");
+    scaledCanvas.width = originalWidth * 2; // * scaleFactor
+    scaledCanvas.height = originalHeight * 2;
+    scaledCanvas.style.width = originalWidth + "px";
+    scaledCanvas.style.height = originalHeight + "px";
+    var scaledContext = scaledCanvas.getContext("2d");
+    scaledContext.scale(2, 2);
+
+    html2canvas(srcEl, { canvas: scaledCanvas })
+        .then(function(canvas) {
+            destIMG.src = canvas.toDataURL("image/png");
+            //srcEl.style.display = "none";
+        });
+
+};
+
 function dragMultipleNodes(graphObject, offset, whatMoved){
     var selectedNodes = graphObject.selectedNodes;
     //dgraphObject.renderer.pause();

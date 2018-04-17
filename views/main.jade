@@ -193,6 +193,8 @@ block normalBody
                                             div.well(id='DisplayOperations')
                                                 if (user && !isPublic)
                                                     a.btn.btn-default(type='button',style='width:100%;', id='savePositionsButton', name='downloadPositions1') Save Positions
+                                                    a.btn.btn-default(type='button',style='width:100%;', id='takeHighResScreenshot', onclick='takeHighResScreenshot()') Screenshot
+                                                    takeHighResScreenshot
                                                 //a.btn.btn-default(type='button',style='width:100%;', id='saveImageButton1', name='saveImage1') Save Displayed Image
 
 
@@ -238,6 +240,7 @@ block normalBody
 
                 div(id='visual')
                     div.graph-overlay
+                    img(id="screenshot-img")
 
 
             div.tab-pane(id="isolateContent")
