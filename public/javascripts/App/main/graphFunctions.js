@@ -36,7 +36,7 @@ function loadGraphFunctions(){
 		        if (maxLinkValue < graph.links[j].value) maxLinkValue = graph.links[j].value;
 		        var toBoot = graph.data_type == 'newick'? graph.links[j].bootstrap : "";
 
-		        console.log(graph.links[j].source, graph.links[j].target);
+		        console.log(graph.links[j].source, graph.links[j].target, graph.links[j]);
 
 		        if(graph.links[j].value > 0){
 		        	if(already_source[graph.sameNodeHas[graph.links[j].target]] != true){
