@@ -35,7 +35,9 @@ function loadGraphFunctions(){
 		    	//console.log(graph.links[j].source, graph.links[j].target);
 		        if (maxLinkValue < graph.links[j].value) maxLinkValue = graph.links[j].value;
 		        var toBoot = graph.data_type == 'newick'? graph.links[j].bootstrap : "";
-		        
+
+		        console.log(graph.links[j].source, graph.links[j].target);
+
 		        if(graph.links[j].value > 0){
 		        	if(already_source[graph.sameNodeHas[graph.links[j].target]] != true){
 			        	graphGL.addLink(graph.sameNodeHas[graph.links[j].source], graph.sameNodeHas[graph.links[j].target], { connectionStrength: graph.links[j].value , value: graph.links[j].value, color: "#000", bootstrap: toBoot});
