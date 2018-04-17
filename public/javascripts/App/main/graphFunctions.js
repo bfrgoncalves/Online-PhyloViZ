@@ -40,10 +40,12 @@ function loadGraphFunctions(){
 
 		        if(graph.links[j].value > 0){
 		        	if(already_source[graph.sameNodeHas[graph.links[j].target]] != true){
+		        	    console.log("LINK:", graph.sameNodeHas[graph.links[j].source], graph.sameNodeHas[graph.links[j].target]);
 			        	graphGL.addLink(graph.sameNodeHas[graph.links[j].source], graph.sameNodeHas[graph.links[j].target], { connectionStrength: graph.links[j].value , value: graph.links[j].value, color: "#000", bootstrap: toBoot});
 			        	already_source[graph.sameNodeHas[graph.links[j].target]] = true;
 			        }
 			        else{
+                        console.log("LINK:", graph.sameNodeHas[graph.links[j].target], graph.sameNodeHas[graph.links[j].source]);
 			        	graphGL.addLink(graph.sameNodeHas[graph.links[j].target], graph.sameNodeHas[graph.links[j].source], { connectionStrength: graph.links[j].value , value: graph.links[j].value, color: "#000", bootstrap: toBoot});
 			        	already_source[graph.sameNodeHas[graph.links[j].source]] = true;
 			        }
@@ -189,6 +191,7 @@ function loadGraphFunctions(){
 			var graph = graphObject.graphInput;
 			var layout = graphObject.layout;
 
+
 			//var graphSpace = graphObject.layout.getGraphRect();
 
 			//var cx = (graphSpace.x2 + graphSpace.x1) / 2;
@@ -205,6 +208,10 @@ function loadGraphFunctions(){
 		          layout.setNodePosition(nodeLocation, nodeX, nodeY);
 		        }
 		    }
+
+		    if (graphObject.TopNode == ''){
+			    return;
+            }
 
 		    nodePosition=graphObject.layout.getNodePosition(graphObject.TopNode.id);
 			//graphObject.layout.setNodePosition(graphObject.TopNode.id, 0, 0);
