@@ -5,7 +5,7 @@ const config = require('./config.js');
 const kue = require('kue');
 const queue = kue.createQueue();
 const pg = require("pg");
-const connectionString = "postgres://" + config.databaseUserString + "@localhost/"+ config.db;
+const connectionString = "postgres://" + config.databaseUserString + "@"+config.postgresHost+"/"+ config.db;
 const nodemailer = require('nodemailer');
 const smtpTransport = require('nodemailer-smtp-transport');
 
@@ -146,7 +146,7 @@ const loadProfiles = (datasetID, cb) => {
     let entries_ids = [];
 
     const pg = require("pg");
-    const connectionString = "pg://" + config.databaseUserString + "@localhost/"+ config.db;
+    const connectionString = "pg://" + config.databaseUserString + "@"+config.postgresHost+"/"+ config.db;
     const client = new pg.Client(connectionString);
 
 
@@ -228,7 +228,7 @@ const loadProfiles = (datasetID, cb) => {
 const saveLinks = (datasetID, links, missings, cb) => {
 
     const pg = require("pg");
-    const connectionString = "pg://" + config.databaseUserString + "@localhost/"+ config.db;
+    const connectionString = "pg://" + config.databaseUserString + "@"+config.postgresHost+"/"+ config.db;
     const client = new pg.Client(connectionString);
 
     const linksToUse = { links: links, missings: missings };
@@ -252,7 +252,7 @@ const saveLinks = (datasetID, links, missings, cb) => {
 const save_profiles = (profilegoeBURST, profiles, datasetID, indexesToRemove, entries_ids, analysis_method, missing_threshold, goeburst_timer, parent_id, cb) => {
 
     const pg = require("pg");
-    const connectionString = "pg://" + config.databaseUserString + "@localhost/"+ config.db;
+    const connectionString = "pg://" + config.databaseUserString + "@"+config.postgresHost+"/"+ config.db;
     const client = new pg.Client(connectionString);
 
     const profilesToUse = { profiles: profiles, indexestoremove: indexesToRemove, profilesize: profilegoeBURST[0].length };
