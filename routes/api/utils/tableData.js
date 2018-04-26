@@ -42,7 +42,7 @@ router.get('/', function(req, res, next){
 function checkIfpublic(datasetID, userID, callback){
 
 	var pg = require("pg");
-	var connectionString = "postgres://" + config.databaseUserString + "@localhost/"+ config.db;
+	var connectionString = "postgres://" + config.databaseUserString + "@"+config.postgresHost+"/"+ config.db;
 
 	var isPublic = false;
 
