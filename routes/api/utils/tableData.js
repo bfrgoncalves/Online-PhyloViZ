@@ -77,7 +77,7 @@ function checkIfpublic(datasetID, userID, callback){
 function getDataset(datasetID, userID, isPublic, parameter, callback) {
 
 	var pg = require("pg");
-  	var connectionString = "postgres://" + config.databaseUserString + "@localhost/"+ config.db;
+  	var connectionString = "postgres://" + config.databaseUserString + "@"+config.postgresHost+"/"+ config.db;
 
   	var client = new pg.Client(connectionString);
     client.connect(function(err) {

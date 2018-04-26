@@ -7,7 +7,7 @@ var config = require('../../../config.js');
 
 
 var pg = require("pg");
-var connectionString = "pg://" + config.databaseUserString + "@localhost/"+ config.db;
+var connectionString = "pg://" + config.databaseUserString + "@"+config.postgresHost+"/"+ config.db;
 
 
 router.get('/init', function(req, res, next){ //to change
