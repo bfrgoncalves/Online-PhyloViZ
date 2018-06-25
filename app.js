@@ -121,7 +121,8 @@ app.use(function(err, req, res, next) {
 
 
 //Launch server
-const server = http.createServer(app).listen(3000); //http listen and express app will use all the middlewere
+const server = http.createServer(app).listen(config.port); //http listen and
+// express app will use all the middlewere
 server.timeout = 100000000000000;
 
 
