@@ -6,7 +6,7 @@ function showInfo(mergedNodes, sameNodeHas, graphics, node, e) {
 
 	var toShow = '';
 	var count = 0;
-	toShow = '<b>Key</b>:<br>- ' + sameNodeHas[node.id];
+	toShow = '<div><b>Key</b>:<br>- ' + sameNodeHas[node.id];
 
   keyToShow = '';
 
@@ -33,6 +33,7 @@ function showInfo(mergedNodes, sameNodeHas, graphics, node, e) {
 
   //var objDiv = document.getElementById("info_place");
   //objDiv.scrollTop = objDiv.scrollHeight;
+  toShow += "</div>";
 
   return toShow;
 }
