@@ -55,7 +55,7 @@ router.post('/', multer({
           console.log(dataToDB.errorMessage, dataToDB.hasError);
 
 
-          if(dataToDB['hasError'] != true || dataToDB['hasError'] == true && i == 'fileFasta') fs.unlink(pathToFile);
+          if(dataToDB['hasError'] != true || dataToDB['hasError'] == true && i == 'fileFasta') fs.unlink(pathToFile, err => { if (err) console.log(err) });
           countProgress += 1;
           if (countProgress == req.body.numberOfFiles && dataToDB['hasError'] != true && alreadyError != true){
               dataToDB.dataset_description = req.body.dataset_description;
@@ -125,7 +125,7 @@ router.post('/metadata', multer({
     console.log(i);
     dataToDB['is_' + i] = true;
     readInputFiles(req.files[i].path, i, dataToDB, function(pathToFile, dataToDB){
-          if(dataToDB['hasError'] != true || dataToDB['hasError'] == true && i == 'fileFasta') fs.unlink(pathToFile);
+          if(dataToDB['hasError'] != true || dataToDB['hasError'] == true && i == 'fileFasta') fs.unlink(pathToFile, err => { if (err) console.log(err) });
           countProgress += 1;
           if (countProgress == req.body.numberOfFiles && dataToDB['hasError'] != true){
 
