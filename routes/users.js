@@ -65,7 +65,7 @@ function verifyCredentials(username, password, done){
               salt = result.rows[0].salt;
 
               client.end();
-              crypto.pbkdf2(password, salt, 7000, 256, 
+              crypto.pbkdf2(password, salt, 7000, 256, 'sha1',
                  function (err, hash) {
                       hash = new Buffer(hash).toString('hex');
                       if (hash == pass){
@@ -136,7 +136,7 @@ router.post('/register', function(req, res, next){
       }
       else pass = req.body.password;
       salt = new Buffer(salt).toString('hex');
-      crypto.pbkdf2(pass, salt, 7000, 256, 
+      crypto.pbkdf2(pass, salt, 7000, 256, 'sha1',
         function (err, hash) {
           hash= new Buffer(hash).toString('hex');
           if (err) { throw err; }
