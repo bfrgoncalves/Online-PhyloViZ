@@ -11,6 +11,7 @@ function loadGraphFunctions(){
 			var countAddedNodes = 0;
 			var maxNodeValue = 0;
 			graph.all_positions_to_id = {};
+			graph.all_ids_to_positions = {};
 			
 			for (i in graph.nodes){
 				//console.log(graph.nodes[i]);
@@ -23,10 +24,12 @@ function loadGraphFunctions(){
 		        if(graph.data_type[0] != "newick" && graph.mergedNodes[graph.nodes[i].key].length != 0){
 		        	for(z in graph.mergedNodes[graph.nodes[i].key]){
 		        		graph.all_positions_to_id[graph.mergedNodes[graph.nodes[i].key][z].key] = graph.mergedNodes[graph.nodes[i].key][z].position;
+		        		graph.all_ids_to_positions[graph.mergedNodes[graph.nodes[i].key][z].position] = graph.mergedNodes[graph.nodes[i].key][z].key;
 		        	}
 		        }
 
 		        graph.all_positions_to_id[graph.nodes[i].key] = graph.nodes[i].position;
+		        graph.all_ids_to_positions[graph.nodes[i].position] = graph.nodes[i].key;
 		        countAddedNodes++;
 		    }
 
@@ -139,7 +142,7 @@ function loadGraphFunctions(){
 			//var circleNode = buildCircleNodeShader();
 			var circleNode = buildSimpleCircleNodeShader();
 	        graphics.setNodeProgram(circleNode);
-	        var linkProgram = webglCustomLinkProgram(30);
+	        var linkProgram = webglCustomLinkProgram(10);
 	        graphics.setLinkProgram(linkProgram);
 	        graphObject.currentNodeProgram = 'buildSimpleCircleNodeShader';
 
@@ -506,13 +509,15 @@ function loadGraphFunctions(){
 
 				count_lines = 0;
 
-				for(y in distanceMatrix){
+				var newDIstance = distanceMatrix.slice(0);
+
+				/*for(y in distanceMatrix){
 					countremoved = 0;
 					for(z in array_of_keys){
 						index_to_remove = parseInt(array_of_keys[z])-count_lines-countremoved;
 						if(index_to_remove > 0){
 							countremoved += 1;
-							distanceMatrix[y].splice(index_to_remove, 1);
+							var x = distanceMatrix[y].splice(index_to_remove, 1);
 						}
 					}
 					count_lines += 1;
@@ -520,13 +525,12 @@ function loadGraphFunctions(){
 
 				for(x in array_of_keys1){
 					distanceMatrix.splice(parseInt(array_of_keys1[x]), 1);
-				}
+				}*/
 
 				graphObject.graphInput.distanceMatrix = distanceMatrix;
 
 	        }, 8000);
 
-			//console.log("END", graphObject.graphInput.distanceMatrix);
 		},
 
 		launchGraphEvents: function(graphObject){

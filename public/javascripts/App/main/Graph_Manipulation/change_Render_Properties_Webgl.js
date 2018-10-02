@@ -436,17 +436,22 @@ function NLVgraph(graphObject, value) {
                         
                         /*sourceKey = graph.original_position_to_id[String(countNodes)] == undefined ? graph.nodes[countNodes].key : graph.original_position_to_id[String(countNodes)];
                         targetKey = graph.original_position_to_id[String(targetIndex)] == undefined ? graph.nodes[targetIndex].key : graph.original_position_to_id[String(targetIndex)]
-                        
+
                         sourceKey = graph.sameNodeHas[sourceKey];
                         targetKey = graph.sameNodeHas[targetKey];*/
+
 
                         if(graphObject.graphInput.data_type[0] === "newick"){
                             sourceKey = graph.nodes[countNodes].key;
                             targetKey = graph.nodes[targetIndex].key;
                         }
                         else{
-                            sourceKey = graph.sameNodeHas[graph.nodes[countNodes].key];
-                            targetKey = graph.sameNodeHas[graph.nodes[targetIndex].key];
+
+                            var real_name_source = graph.all_ids_to_positions[String(countNodes)];
+                            var real_name_target = graph.all_ids_to_positions[String(targetIndex)];
+
+                            sourceKey = graph.sameNodeHas[real_name_source];
+                            targetKey = graph.sameNodeHas[real_name_target];
                         }
 
                         //console.log(sourceKey, targetKey, graph.sameNodeHas[graph.nodes[countNodes].key], graph.sameNodeHas[graph.nodes[targetIndex].key], countNodes, targetIndex);

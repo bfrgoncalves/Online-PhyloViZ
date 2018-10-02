@@ -14,7 +14,7 @@ adjustElements = function () {
 
     $('#buttonRegion').css({"overflow-y": "auto"});
     $('#labelsDiv').css({width: width, position: "absolute"});
-    $('#visual').css({width: width, height: height, position: "relative"});
+    //$('#visual').css({width: width, height: height, position: "relative"});
     
     $("body").css({'font-size': '125%'});
     $('.btn').css({'font-size': '100%'});
