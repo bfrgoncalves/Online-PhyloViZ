@@ -286,14 +286,14 @@ function readFastafile(pathToFile, fileType, dataToDB, callback){
         //countLetter = 0;
         headers['L' + String(i)] = '';
 
-        //for(j in fastaSequences){
+        for(j in fastaSequences){
         //  if (numberToChar.hasOwnProperty(fastaSequences[j][i])) fastaProfiles[j]['L' + String(i)] = String(numberToChar[fastaSequences[j][String(i)]]);
         //  else{
         //    countLetter += 1;
         //    numberToChar[fastaSequences[j][i]] = countLetter;
-        fastaProfiles[j]['L' + String(i)] = String(fastaSequences[j][i]);
+            fastaProfiles[j]['L' + String(i)] = String(fastaSequences[j][i]);
         //  }
-        //}
+        }
       }
 
       for(i in fastaProfiles){
