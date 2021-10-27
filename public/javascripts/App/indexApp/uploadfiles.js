@@ -81,14 +81,16 @@ function uploadFiles(){
     contentType: false,
     type: 'POST',
     success: function(data){
-      //console.log(datasetName);
-      console.log(data);
+
       if(data.hasError == true){
         $("#dialog").empty();
         $("#dialog").append('<p>' + data.errorMessage + '</p>');
         status('');
         $("#waitingGif").css({'display': 'none'});
-        $("#dialog").dialog();
+        $("#dialog").dialog({
+          width: 500,
+          height: 300
+        });
       }
       else{
         if (fileSelectNewick.files[0] != undefined) window.location.replace("/main/dataset/" + data.datasetID);
@@ -104,6 +106,19 @@ function uploadFiles(){
 
 function getLinks(datasetID){
 
+  /*
+  client_goeburst(datasetID, function(data){
+    if(data.dupProfiles.length > 0 || data.dupIDs.length >0){
+        popDialog(data);
+      }
+      else{
+        status('Done!');
+        window.location.replace("/main/dataset/" + data.datasetID);
+      }
+  });
+*/
+
+  
   $.ajax({
     url: '/api/algorithms/goeBURST',
     data: $.param({dataset_id: datasetID, save: true}),

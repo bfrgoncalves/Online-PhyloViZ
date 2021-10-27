@@ -6,7 +6,6 @@ var goeBURST = require('goeBURST');
 
 var config = require('../../../config.js');
 
-
 router.get('/', function(req, res, next){
 	
 	if (req.query.dataset_id){
@@ -26,7 +25,7 @@ router.get('/', function(req, res, next){
 			
 			goeBURST(profileArray, identifiers, algorithmToUse, function(links, distanceMatrix){
 				if(req.query.save){
-					saveLinks(datasetID, links, distanceMatrix, function(){
+					saveLinks(datasetID, links, function(){
 						res.send({datasetID: req.query.dataset_id, links: links, distanceMatrix: distanceMatrix, dupProfiles: dupProfiles, dupIDs: dupIDs});
 					});
 				}
@@ -42,6 +41,25 @@ router.get('/', function(req, res, next){
 	
 });
 
+
+router.post('/save', function(req, res, next){
+	console.log(req.body);
+	
+	if (req.body.dataset_id){
+		console.log('AQUI');
+
+		var datasetID = req.body.dataset_id;
+
+		if (!req.isAuthenticated()) var userID = "1";
+		else var userID = req.user.id;
+
+		saveLinks(datasetID, req.body.links, function(){
+			res.send({datasetID: req.body.dataset_id, status: true});
+		});
+	}
+
+});
+
 function loadProfiles(datasetID, userID, callback){
 
 	var profiles;
@@ -53,22 +71,12 @@ function loadProfiles(datasetID, userID, callback){
 	var pg = require("pg");
 	var connectionString = "pg://" + config.databaseUserString + "@localhost/"+ config.db;
 
-	//query = "SELECT id FROM datasets.datasets WHERE dataset_id = '"+datasetID+"' AND user_id= '"+userID+"';";
-
-	//console.log(query);
-
 	var client = new pg.Client(connectionString);
 		
 	client.connect(function(err) {
 	  if(err) {
 	    return console.error('could not connect to postgres', err);
 	  }
-	  //client.query(query, function(err, result) {
-	    //if(err) {
-	    //  return console.error('error running query', err);
-	    //}
-	    //else{
-	    	//datasetID = result.rows[0].id;
 
 		query = "SELECT data_type FROM datasets.datasets WHERE dataset_id = '"+datasetID+"';" +
 				"SELECT data FROM datasets.profiles WHERE dataset_id = '"+datasetID+"';" +
@@ -93,22 +101,21 @@ function loadProfiles(datasetID, userID, callback){
 
 			if(data_type == 'fasta') var profile = profile.profile;
 			
-			var arr = [];
-			for (i in schemeGenes) arr.push(profile[schemeGenes[i]]);
+			var arr = schemeGenes.map(function(d){ return profile[d]; });
+			//for (i in schemeGenes) arr.push(profile[schemeGenes[i]]);
 			//var arr = Object.keys(profile).map(function(k) { return profile[k] });
 			var identifier = arr.shift();
 			//arr.reverse();
 			
 			if(existsProfile[String(arr)]) {
 				dupProfiles.push([identifier, String(arr)]);
-				console.log('Profile already exists');
+				//console.log('Profile already exists');
 				//console.log(identifier);
 			}
 			else if(existsIdentifiers[identifier]){
 				dupIDs.push(identifier);
-				console.log('Duplicate ID');
+				//console.log('Duplicate ID');
 			}
-			
 			else{
 				existsProfile[String(arr)] = true;
 				identifiers[countProfiles] = identifier;
@@ -130,14 +137,14 @@ function loadProfiles(datasetID, userID, callback){
 
 }
 
-function saveLinks(datasetID, links, distanceMatrix, callback){
+function saveLinks(datasetID, links, callback){
 
 	//var datasetModel = require('../../../models/datasets');
 
 	var pg = require("pg");
 	var connectionString = "pg://" + config.databaseUserString + "@localhost/"+ config.db;
 	var linksToUse = { links: links };
-	var distanceMatrixToUse =  { distanceMatrix: distanceMatrix };
+	//var distanceMatrixToUse =  { distanceMatrix: distanceMatrix };
 	//distanceMatrixToUse = {distanceMatrix: []};
 
 	var client = new pg.Client(connectionString);

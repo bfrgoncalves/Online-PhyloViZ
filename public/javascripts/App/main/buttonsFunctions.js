@@ -26,7 +26,7 @@ function loadButtonFunctions(){
 				}
 
 				
-				constructTable(table, 'infoDataset', function(){
+				constructTable(graphObject.graphInput, table, 'infoDataset', function(){
 					$('#tableinfoDataset tfoot').remove();
 				});
 
@@ -340,6 +340,35 @@ function loadButtonFunctions(){
 	            saveTreePositions(graphObject);
 	        });
 
+	        $('#createSubset1').click(function(e){
+
+	        	var toDialog = '<div style="text-align: center;"><label>Subset information:</label></div>' + 
+	        					'<h5>Dataset Name</h5>' +
+								'<input class="form-control input-sm" id="datasetNameSubset" type="text" placeholder="Select a name for the dataset" required/>'+
+								'<h5>Dataset Description</h5>' +
+								'<input class="form-control input-sm" id="dataset_description_Subset" type="text" placeholder="Description"/>' + 
+								'<br>'+ 
+								'<div style="width:20%;float:center";><button id="okButtonsubset" class="btn btn-primary btn-md">OK</button></div>'+
+	        					'</div>';
+
+	        	$('#dialog').empty();
+				$('#dialog').append(toDialog);
+				$('#dialog').dialog({
+			              height: $(window).height() * 0.30,
+			              width: $(window).width() * 0.40,
+			              modal: true,
+			              resizable: true,
+			              dialogClass: 'no-close success-dialog'
+			          });
+
+				$('#okButtonsubset').click(function(){
+					var datasetN = $('#datasetNameSubset').val();
+					var descriptionS = $('#dataset_description_Subset').val();
+					toFiles = selectedDataToString(graphObject);
+	            	createSubset(toFiles, datasetN, descriptionS);
+				});
+	        });
+
 	        $('#viewSequences').click(function(e){
 	            createMSA(graphObject);
 	        });
@@ -437,7 +466,7 @@ function AddLinkLabels(graphObject){
   	$('#labelTypeNewick').css({"display": "block"});
   }
   for (i in graphObject.removedLinks){
-    var labelStyle = linkLabels[graphObject.removedLinks[i].id].style;
+    var labelStyle = graphObject.linkLabels[graphObject.removedLinks[i].id].style;
     labelStyle.display = "none";
   }
   graphObject.tovisualizeLinkLabels = true;

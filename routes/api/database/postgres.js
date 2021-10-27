@@ -116,12 +116,38 @@ router.get('/find/:table/:field/', function(req, res, next){
 	function findOnTable(userID, params, reqQuery, callback){
 
 		if (params.field == 'all'){
-			query = "SELECT * FROM datasets."+params.table+" WHERE put_public ='true' AND user_id !='"+userID+"';";
-			if (userID != '1') query += "SELECT * FROM datasets."+params.table+" WHERE user_id='"+userID+"';";
+
+			if (reqQuery.length != 0){
+
+				query = "SELECT * FROM datasets."+params.table+" WHERE put_public ='true' AND user_id !='"+userID+"'";
+				for (i in reqQuery){
+					if(i != 'user_id'){
+						query += " AND ";
+						query += i + " = '" + reqQuery[i] + "'";
+					}
+				}
+				query += ';';
+
+				//if (userID != '1'){
+					query += "SELECT * FROM datasets."+params.table+" WHERE user_id='"+userID+"'";
+					for (i in reqQuery){
+						if(i != 'user_id'){
+							query += " AND ";
+							query += i + " = '" + reqQuery[i] + "'";
+						}
+					}
+					query += ";";
+				//}
+
+			} 
+			else{
+				query = "SELECT * FROM datasets."+params.table+" WHERE put_public ='true' AND user_id !='"+userID+"';";
+				if (userID != '1') query += "SELECT * FROM datasets."+params.table+" WHERE user_id='"+userID+"';";
+			}
 
 		}
 		else{
-			query = "SELECT "+req.params.field+", user_id, put_public FROM datasets."+params.table+" WHERE put_public ='true' AND user_id !='"+userID+"'";
+			query = "SELECT "+req.params.field+",user_id,put_public FROM datasets."+params.table+" WHERE put_public ='true' AND user_id !='"+userID+"'";
 			if (Object.keys(reqQuery).length == 0) query+=";";
 			else{
 				for (i in reqQuery){
@@ -136,7 +162,7 @@ router.get('/find/:table/:field/', function(req, res, next){
 			}
 
 			if (userID != '1'){
-				query += "SELECT "+req.params.field+", user_id, put_public FROM datasets."+params.table+" WHERE user_id='"+userID+"'";
+				query += "SELECT "+req.params.field+",user_id,put_public FROM datasets."+params.table+" WHERE user_id='"+userID+"'";
 				if (Object.keys(reqQuery).length == 0) query+=";";
 				else{
 					for (i in reqQuery){
@@ -184,7 +210,10 @@ router.get('/find/:table/:field/', function(req, res, next){
 			if (req.params.field == 'all') topass = doc[i];
 			else topass = doc[i][req.params.field];
 			if (doc[i].user_id == user_id){
-				topass.owner = req.user.name;
+
+				if(user_id == '1')topass.owner = 'public';
+				else topass.owner = req.user.name;
+
 				toSend.userdatasets.push(topass);
 			}
 			//else toSend.userdatasets.push(topass);

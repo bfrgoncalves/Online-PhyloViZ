@@ -151,7 +151,15 @@ function buildCircleNodeShader() {
                     'float prevTotal = 0.0;',
 
                     'vec4 parts = vec4(22.5);',
-
+                    
+                    /*
+                    'if (quadrant == 5.0){',
+                        'gl_FragColor = color;',
+                        'found = true;',
+                    '}',
+                    */
+                    
+                    
 
                     'if (quadrant == 1.0 && gl_PointCoord.y < 0.5 && gl_PointCoord.x > 0.5){',
                             'rad = radians(angle);',
@@ -325,10 +333,28 @@ function buildCircleNodeShader() {
                     allNodesNumberAttr[idx] = 0;
 
                     interNodeSize = (nodeUI.data[0].length + nodeUI.data[1].length + nodeUI.data[2].length +nodeUI.data[3].length) * ATTRIBUTES_PER_PRIMITIVE;
+                    //interNodeSize = (nodeUI.data[0].length + nodeUI.data[1].length + nodeUI.data[2].length +nodeUI.data[3].length + 1) * ATTRIBUTES_PER_PRIMITIVE;
 
                     var interNode = new Float32Array(interNodeSize);
 
                     var countProperties = 0;
+
+                    //Test outer circle
+                    /*
+                    interNode[countProperties] = pos.x;
+                    interNode[countProperties+1] = -pos.y;
+                    interNode[countProperties+2] = 5; //quadrant
+                    interNode[countProperties+3] = 233; //angle
+                    interNode[countProperties+4] = 0xa5a5a5; //color
+                    interNode[countProperties+5] = 232; //prevAngle
+                    interNode[countProperties+6] = 234; //total Angles
+                    interNode[countProperties+7] = nodeUI.size + 30; //total Angles
+                    
+                    allNodesNumberAttr[idx] += 1;
+
+                    countProperties += ATTRIBUTES_PER_PRIMITIVE;
+                    */
+                    
 
                     for (x=0; x < nodeUI.data.length;x++){
 
@@ -338,10 +364,9 @@ function buildCircleNodeShader() {
 
                         var colors = nodeUI.colorIndexes[x];
                         //var interNode = new Float32Array(numberOfAngles*ATTRIBUTES_PER_PRIMITIVE);
-                        //var countProp = 0;
+                        //var countProp = 0;                        
                         
                         allNodesNumberAttr[idx] += numberOfAngles;
-
 
                         for (i = 0; i < numberOfAngles; i++){
 

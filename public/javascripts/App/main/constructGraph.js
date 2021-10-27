@@ -17,6 +17,8 @@ function constructGraph(graph, datasetID){
     
     } 
 
+    global_object = graphObject;
+
     	var arrayOfNodesID = [], 
           metadataFilter = {},
           schemeFilter = {};
@@ -39,7 +41,6 @@ function constructGraph(graph, datasetID){
       }
       else afterPrecompute();
 
-      
 
       function afterPrecompute(){
 

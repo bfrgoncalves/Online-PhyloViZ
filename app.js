@@ -34,6 +34,7 @@ var mongoSearch = require('./routes/api/database/mongo');
 var phylovizInput = require('./routes/api/utils/phyloviz_input');
 var mailer = require('./routes/api/utils/mailer');
 var phyloviztableData = require('./routes/api/utils/tableData');
+var phylovizsubset = require('./routes/api/utils/subset');
 var publicLink = require('./routes/api/utils/publicLink');
 //var pubmlst = require('./routes/api/database/pubmlst');
 
@@ -51,7 +52,7 @@ var app = express();
 
 
 var server = http.createServer(app); //http listen and express app will use all the middlewere
-
+//server.timeout = 100000000000;
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -89,6 +90,7 @@ app.use('/api/utils/tableData', phyloviztableData);
 app.use('/api/utils/mailer', mailer);
 app.use('/api/utils/publiclink', publicLink);
 app.use('/api/db', mongoSearch);
+app.use('/api/utils/phylovizsubset', phylovizsubset);
 //app.use('/api/pubmlst', pubmlst);
 
 app.use('/api/db/postgres', postgres);

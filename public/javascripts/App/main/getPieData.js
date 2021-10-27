@@ -1,6 +1,6 @@
 
 
-function gatherMetadata(graph, propertyIndex, metadataFilter, callback){
+function gatherMetadata(graph, propertyToCheck, metadataFilter, callback){
 
 	var objectOfTotal = {};
 	var objectOfType = {};
@@ -97,10 +97,14 @@ function gatherSchemeData(graph, propertyToCheck, schemeFilter, callback){
 
 function changeNodeUIData(objectOfType, graphics, propertyIndexes, arrayColors, renderer){
 
+
 	for(i in objectOfType){
 	    var dataToChange = [];
 	    var indexes = [];
 	    var nodeUI = graphics.getNodeUI(i);
+	    //console.log(nodeUI);
+
+
 	    
 	    if(!$.isEmptyObject(objectOfType[i])){
 
@@ -111,6 +115,7 @@ function changeNodeUIData(objectOfType, graphics, propertyIndexes, arrayColors, 
 		    }
 		}
 		noDataColor = 0xa5a5a5; //Color to use when there is no associated data to the nodes
+
 	    if (dataToChange.length < 1) newValues = assignQuadrant(getDataPercentage([1]), [noDataColor]);
 	    else newValues = assignQuadrant(getDataPercentage(dataToChange), indexes);
 	    

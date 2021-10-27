@@ -21,6 +21,8 @@ var arrayColorsProfiles = [];
 var property_IndexProfiles = {};
 var changeFromTable = false;
 var loaded = false;
+
+var global_object = {};
 //var lauchEventsFunction = '';
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -69,11 +71,22 @@ $(document).ready(function(){
             
           }
 
+          graph.increment = 499;
+          graph.maxColumns = 500;
+          graph.minColumns = 1;
+
+          if(graph.increment+1 > graph.nodes[0].profile.length){
+            graph.increment = graph.nodes.length - 1;
+            graph.maxColumns = graph.nodes.length;
+          }
+
+          graph.firstshownColumn = graph.minColumns;
+
           status('Computing Distance Matrix...');
           calculateDistanceMatrix(graph, function(graph){
 
             status('Loading tables...');
-            createTable(datasetID, 'isolates', function(){
+            createTable(graph, datasetID, 'isolates', function(){
 
               if (graph.data_type == 'fasta'){
                 status('Loading tree...');
@@ -82,7 +95,7 @@ $(document).ready(function(){
                 });
               }
               else{
-                createTable(datasetID, 'profiles', function(){
+                createTable(graph, datasetID, 'profiles', function(){
                   status('Loading tree...');
                   getPublicInfo(graph, datasetID, function(graph){
                     constructGraph(graph, datasetID);

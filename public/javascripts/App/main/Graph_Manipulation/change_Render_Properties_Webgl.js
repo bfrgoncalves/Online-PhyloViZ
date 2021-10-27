@@ -394,7 +394,7 @@ function NLVgraph(graphObject, value) {
 
             if(node.id.indexOf('TransitionNode') < 0) {
 
-                for (i=1; i<graph.distanceMatrix[countNodes].length-1; i++){
+                for (i=1; i<graph.distanceMatrix[countNodes].length; i++){
                     if (graph.distanceMatrix[countNodes][i] <= value && graph.distanceMatrix[countNodes][i] != 0){
                         //console.log(graph.distanceMatrix[countNodes][i]);
                         targetIndex = parseInt(countNodes) + parseInt(i);

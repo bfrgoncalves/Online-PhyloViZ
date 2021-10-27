@@ -5,7 +5,7 @@ var firstTimeFilterProfiles = true;
 
 function linkTableAndGraph(property, graphObject){
 
-	key = graphObject.graphInput.key;
+	key = graphObject.graphInput.key[0];
 
 	var divToCheck = 'div' + property;
 	var tableToCheck = 'table' + property;
@@ -171,7 +171,7 @@ function createLinkButton(property, columnIndex, columnData, columnName, graphOb
 
 
         $('#legendcurrentpiePlace').css('height', legendHeight);
-		
+
 		if (property =='isolates'){
 	      	$("#selectByMetadata").val(String(columnIndex+2));
 	      	$("#selectByMetadata").trigger("change");
@@ -190,6 +190,8 @@ function destroyLink(property){
 }
 
 function linkGraphAndTable(property, indexProperty, columnName, key, graphObject){
+
+  key = key[0];
 	
 	var tableToCheck = 'table' + property;
 	
@@ -221,14 +223,14 @@ function linkGraphAndTable(property, indexProperty, columnName, key, graphObject
 	  	firstTimeFilterProfiles = false;
 	  }
 
-	if (indexProperty == -1){
+	if (columnName == 'None'){
 
 		destroyPie('pie' + property);
 		destroyPie('currentpiePlace');
 		destroyLink(property);
 
 		if (property =='isolates') $("#selectByMetadata").trigger("change"); 
-	    else $("#selectByScheme").trigger("change");
+	  else $("#selectByScheme").trigger("change");
 	}
 	else{
 	
